@@ -1,0 +1,13 @@
+# NODE_ENV = "production"
+NODE_ENV = "development"
+BODY_SIZE_LIMIT=Infinity
+ORIGIN=http://localhost:3000
+#ORIGIN=http://209.222.17.220
+PROTOCOL_HEADER=x-forwarded-proto
+HOST_HEADER=x-forwarded-host
+NODE_NO_WARNINGS=1
+# Database
+DB_HOST = "localhost"
+DB_USER = "root"
+DB_PASSWORD = "coffeelake"
+DB_NAME = "hms"

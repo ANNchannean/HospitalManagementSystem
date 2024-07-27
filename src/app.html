@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/logo.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="%sveltekit.assets%/plugins/fontawesome-free/css/all.min.css" />
+		<link href="%sveltekit.assets%/css/styles.css" rel="stylesheet" />
+		<link href="%sveltekit.assets%/plugins/summernote/summernote-lite.min.css" rel="stylesheet" />
+		<link href="%sveltekit.assets%/css/custome.css" rel="stylesheet" />
+
+		%sveltekit.head%
+	</head>
+
+	<body class="sb-nav-fixed" data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+		<!-- <script src="%sveltekit.assets%/js/scripts.js"></script> -->
+		<script src="%sveltekit.assets%/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+		<script src="%sveltekit.assets%/plugins/jquery/jquery.min.js"></script>
+		<script src="%sveltekit.assets%/plugins/summernote/summernote-lite.min.js"></script>
+
+		<script>
+			window.addEventListener('DOMContentLoaded', (event) => {
+				// Toggle the side navigation
+				const sidebarToggle = document.body.querySelector('#sidebarToggle');
+				if (sidebarToggle) {
+					// Uncomment Below to persist sidebar toggle between refreshes
+					// if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+					//     document.body.classList.toggle('sb-sidenav-toggled');
+					// }
+					sidebarToggle.addEventListener('click', (event) => {
+						event.preventDefault();
+						document.body.classList.toggle('sb-sidenav-toggled');
+						localStorage.setItem(
+							'sb|sidebar-toggle',
+							document.body.classList.contains('sb-sidenav-toggled')
+						);
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

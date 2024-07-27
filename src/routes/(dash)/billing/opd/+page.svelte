@@ -1,0 +1,119 @@
+<script lang="ts">
+	import type { EventHandler } from 'svelte/elements';
+	import type { PageServerData } from './$types';
+	import { inerHight } from '$lib/store';
+	export let data: PageServerData;
+	$: ({ get_billings } = data);
+
+	let timeout: number | NodeJS.Timeout;
+	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
+		clearTimeout(timeout);
+		const form = currentTarget?.form;
+		if (!form) return;
+		timeout = setTimeout(() => {
+			form.requestSubmit();
+		}, 400);
+	};
+</script>
+
+<div class="row">
+	<div class="col-sm-6">
+		<h2>Billing IPD</h2>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb justify-content-end">
+			<li class="breadcrumb-item">
+				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
+					><i class="fas fa-tachometer-alt"></i>
+					Home
+				</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href={'#'} class="btn btn-link p-0 text-secondary"
+					><i class="fas fa-money-bills"></i>
+					Billing
+				</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href={'#'} class="btn btn-link p-0 text-secondary"
+					><i class="fas fa-stethoscope"></i>
+					OPD
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<!-- <h3 class="card-title">Fixed Header Table</h3> -->
+				<div class="row">
+					<div class="col">
+						<input
+							type="text"
+							name="table_search"
+							class="form-control float-right"
+							placeholder="Search"
+						/>
+					</div>
+				</div>
+			</div>
+			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
+				<table class="table table-hover">
+					<thead class="sticky-top bg-light table-active">
+						<tr class="text-center">
+							<th style="width: 5%;">N</th>
+							<th style="width: 10%;">Dates</th>
+							<th style="width: 5%;">#</th>
+							<th style="width: 10%;">Patient</th>
+							<th style="width: 10%;">Status</th>
+							<th style="width: 10%;">Pay</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each get_billings as item, index}
+							<tr class="text-center">
+								<td>
+									{item.id}
+								</td>
+
+								<td
+									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
+										.format(new Date(item.visit?.date_checkup ?? ''))
+										.split('/')
+										.join('-')} <br />
+									{new Intl.DateTimeFormat('en-GB', {
+										timeStyle: 'short',
+										hour12: true
+									}).format(new Date(item.visit?.date_checkup ?? ''))}
+								</td>
+								<td>
+									{item.visit?.patient_id}
+								</td>
+								<td>
+									<a href="/opd/{item.id}/subjective">
+										<span class="">
+											{item.visit?.patient?.name_khmer}
+										</span>
+										<br />
+										<span class="badge text-bg-primary">
+											{item.visit?.patient?.name_latin}
+										</span>
+									</a>
+								</td>
+
+								<td>
+									{item.status ?? ''}
+								</td>
+								<td>
+									<a class="btn btn-link" href="/billing/opd/{item.id}">Go Pay</a>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,281 @@
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	import ConfirmeModal from '$lib/components/ConfirmeModal.svelte';
+	import Select from '$lib/components/Select.svelte';
+	import SendToIpd from '$lib/components/SendToIPD.svelte';
+	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import { inerHight } from '$lib/store';
+
+	import type { PageServerData } from './$types';
+	export let data: PageServerData;
+	let visit_lenght: number;
+	$: ({ get_visits, get_departments, get_staffs } = data);
+	let editEtiology = false;
+	let editDepartment = false;
+	let editDoctor = false;
+	let visit_id = 0;
+	let billing_id = 0;
+</script>
+
+<ConfirmeModal action="?/process_billing" id={billing_id} />
+<SendToIpd action="?/send_to_ipd" id={get_visits[visit_lenght]?.id} />
+<div class="modal fade" id="modal-visite">
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="submit" class="btn btn-success btn-lg p-4"
+					><i class=" fas fa-stethoscope fa-3x"></i></button
+				>
+				<button type="submit" class="btn btn-danger btn-lg p-4"
+					><i class=" fas fa-procedures fa-3x"></i></button
+				>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm-6">
+		<h2>OPD</h2>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb justify-content-end">
+			<li class="breadcrumb-item">
+				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
+					><i class="fas fa-tachometer-alt"></i>
+					Home
+				</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href="/patient/all" class="btn btn-link p-0 text-secondary"
+					><i class="nav-icon fas fa-stethoscope"></i>
+					Patient OPD
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<!-- <h3 class="card-title">Fixed Header Table</h3> -->
+				<div class="row">
+					<div class="col">
+						<input
+							type="text"
+							name="table_search"
+							class="form-control float-right"
+							placeholder="Search"
+						/>
+					</div>
+				</div>
+			</div>
+			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
+				<table class="table table-hover text-nowrap table-valign-middle table-bordered">
+					<thead class="sticky-top bg-light table-active">
+						<tr class="text-center">
+							<th style="width: 3%;">ID</th>
+							<th style="width: 7%;">Dates</th>
+							<th style="width: 5%;">Patient ID</th>
+							<th style="width: 10%;">Patient</th>
+							<th style="width: 20%;">Etiology</th>
+							<th style="width: 20%;">Department</th>
+							<th style="width: 10%;">Doctor</th>
+							<th style="width: 10%;">Doc</th>
+							<th style="width: 5%;">Visit</th>
+							<th style="width: 5%;">Pay</th>
+							<th style="width: 5%;">send to IPD</th>
+						</tr>
+					</thead>
+					<tbody class="table-sm">
+						{#each get_visits as item (item.id)}
+							<tr class="text-center">
+								<td class="text-left">{item.id}</td>
+								<td
+									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
+										.format(new Date(item.date_checkup ?? ''))
+										.split('/')
+										.join('-')} <br />
+									{new Intl.DateTimeFormat('en-GB', {
+										timeStyle: 'short',
+										hour12: true
+									}).format(new Date(item.date_checkup ?? ''))}
+								</td>
+								<td>{item.patient_id ?? ''}</td>
+								<td>
+									<a href="/opd/{item.id}/subjective">
+										<span class="">
+											{item.patient?.name_khmer}
+										</span>
+										<br />
+										<span class="badge text-bg-primary">
+											{item.patient?.name_latin}
+										</span>
+									</a>
+								</td>
+
+								<td>
+									{#if editEtiology && item.id === visit_id}
+										<form
+											data-sveltekit-keepfocus
+											use:enhance={() => {
+												return async ({ update, result }) => {
+													await update({ reset: false });
+													editDepartment = false;
+													editEtiology = false;
+													editDoctor = false;
+												};
+											}}
+											method="post"
+											action="?/update_etiology"
+											on:change={(e) => {
+												e.currentTarget.requestSubmit();
+												editEtiology = false;
+											}}
+										>
+											<input
+												name="etiology"
+												class="bg-info form-control text-center"
+												value={item.etiology}
+												type="text"
+											/>
+											<input type="hidden" name="id" value={item.id} />
+										</form>
+									{:else}
+										<button
+											class="btn"
+											on:click={() => {
+												editEtiology = true;
+												editDepartment = false;
+												editDoctor = false;
+												visit_id = item.id;
+											}}>{item.etiology ?? ''}</button
+										>
+									{/if}
+								</td>
+								<td>
+									{#if editDepartment && visit_id === item.id}
+										<form
+											data-sveltekit-keepfocus
+											use:enhance={() => {
+												return async ({ update, result }) => {
+													await update({ reset: false });
+													editDepartment = false;
+													editEtiology = false;
+													editDoctor = false;
+												};
+											}}
+											method="post"
+											action="?/update_department"
+											on:change={(e) => {
+												e.currentTarget.requestSubmit();
+												editDepartment = false;
+											}}
+										>
+											<select
+												class="form-control text-center bg-info"
+												name="department_id"
+												id="department_id"
+											>
+												{#each get_departments as iitem}
+													<option selected={item.department_id === iitem.id} value={iitem.id}
+														>{iitem.department}</option
+													>
+												{/each}
+											</select>
+											<input type="hidden" name="id" value={item.id} />
+										</form>
+									{:else}
+										<button
+											class="btn"
+											on:click={(e) => {
+												if (e.target) editDepartment = true;
+												editEtiology = false;
+												editDoctor = false;
+												visit_id = item.id;
+											}}>{item.department?.department ?? ''}</button
+										>
+									{/if}
+								</td>
+								<td>
+									{#if editDoctor && visit_id === item.id}
+										<form
+											data-sveltekit-keepfocus
+											use:enhance={() => {
+												return async ({ update, result }) => {
+													await update({ reset: false });
+													editDepartment = false;
+													editEtiology = false;
+													editDoctor = false;
+												};
+											}}
+											method="post"
+											action="?/update_staff"
+											on:change={(e) => {
+												e.currentTarget.requestSubmit();
+												editDepartment = false;
+												editDoctor = false;
+												editEtiology = false;
+											}}
+										>
+											<select
+												class="form-control text-center bg-info"
+												name="staff_id"
+												id="staff_id"
+											>
+												{#each get_staffs as iitem}
+													<option selected={item.staff_id === iitem.id} value={iitem.id}
+														>{iitem.name}</option
+													>
+												{/each}
+											</select>
+											<input type="hidden" name="id" value={item.id} />
+										</form>
+									{:else}
+										<button
+											class="btn"
+											on:click={() => {
+												editDepartment = false;
+												editEtiology = false;
+												editDoctor = true;
+												visit_id = item.id;
+											}}>{item.staff?.name ?? ''}</button
+										>
+									{/if}
+								</td>
+								<td></td>
+								<td>
+									{item.checkin_type ?? ''}
+								</td>
+								<td>
+									{#if item.billing?.status === 'active'}
+										<button
+											on:click={() => {
+												billing_id = 0;
+												billing_id = Number(item?.billing?.id);
+											}}
+											data-bs-toggle="modal"
+											data-bs-target="#confirme_modal"
+											class="btn btn-primary btn-sm">Active</button
+										>
+									{:else}
+										<button type="button" class=" btn btn-danger bg-s btn-sm">Desactive</button>
+									{/if}
+								</td>
+								<td class="">
+									<a
+										class="btn btn-secondary btn-sm"
+										data-bs-toggle="modal"
+										data-bs-target="#send_to_ipd"
+										href={'#'}>Send to IPD</a
+									>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
