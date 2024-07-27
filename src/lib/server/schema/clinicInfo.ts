@@ -3,11 +3,11 @@ import { int, mysqlTable, text } from 'drizzle-orm/mysql-core';
 import { fileOrPicture } from './fileOrPicture';
 export const clinicinfo = mysqlTable('clinicinfo', {
 	id: int('id').primaryKey().autoincrement(),
-	title_khm: text('title_khmer'),
-	title_eng: text('title_english'),
-	address: text('address'),
-	detail: text('detail'),
-	contact: text('contact')
+	title_khm: text('title_khmer').notNull(),
+	title_eng: text('title_english').notNull(),
+	address: text('address').notNull(),
+	detail: text('detail').notNull(),
+	contact: text('contact').notNull()
 });
 
 export const clinicinfoRelations = relations(clinicinfo, ({ one }) => ({

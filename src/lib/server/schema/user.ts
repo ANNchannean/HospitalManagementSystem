@@ -8,8 +8,8 @@ export const user = mysqlTable('user', {
 	password_hash: text('password_hash'),
 	role: varchar('role', { length: 255 })
 		.$type<'ADMIN' | 'DOCTOR' | 'PHARMACIST' | 'NURSE' | 'LABO_TECHICAL' | 'RADIOGRAPHY'>()
-		.default('DOCTOR'),
-	image: varchar('image', { length: 255 }).notNull(),
+		.default('DOCTOR').notNull(),
+	image: varchar('image', { length: 255 }),
 	limitview: int('limit_view').notNull().default(20),
 	lang: varchar('lang', { length: 255 }).notNull().default('ko'),
 	staff_id: int('staff_id').references(() => staff.id, { onDelete: 'no action' })

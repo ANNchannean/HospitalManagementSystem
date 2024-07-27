@@ -21,22 +21,23 @@ export const billing = mysqlTable('billing', {
 	visit_id: int('visit_id')
 		.references(() => visit.id, { onDelete: 'cascade' })
 		.unique(),
-	discount: float('discount').default(0),
-	sub_total: float('sub_total').default(0),
-	total: float('total').default(0),
-	total_after_tax: float('total_after_tax').default(0),
-	total_after_vat: float('total_after_vat').default(0),
-	paid: float('paid').default(0),
-	tax: float('tax').default(0),
-	vat: float('vat').default(0),
+	discount: varchar('discount', { length: 255 }).notNull().default('0'),
+	sub_total: float('sub_total').default(0).notNull(),
+	total: float('total').default(0).notNull(),
+	total_after_tax: float('total_after_tax').default(0).notNull(),
+	total_after_vat: float('total_after_vat').default(0).notNull(),
+	paid: float('paid').default(0).notNull(),
+	tax: float('tax').default(0).notNull(),
+	vat: float('vat').default(0).notNull(),
 	balance: float('balance').default(0),
 	status: varchar('status', { length: 255 })
-		.$type<'paid' | 'partial' | 'due' | 'active' | 'process' >()
-		.default('active'),
+		.$type<'paid' | 'partial' | 'due' | 'active' | 'process'>()
+		.default('active')
+		.notNull(),
 	checkin_type: varchar('checkin_type', { length: 255 }).notNull().$type<'IPD' | 'OPD'>(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	note: text('note'),
-	exchang:int('exchang').default(4000)
+	exchang: int('exchang').default(4000).notNull()
 });
 
 export const charge = mysqlTable('charge', {
@@ -53,10 +54,10 @@ export const charge = mysqlTable('charge', {
 export const productOrder = mysqlTable('product_order', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	price: float('price').default(0),
-	qty: int('qty').default(1),
-	discount: float('discount').default(0),
-	total: float('total').default(0),
+	price: float('price').default(0).notNull(),
+	qty: int('qty').default(1).notNull(),
+	discount: varchar('discount', { length: 255 }).notNull().default('0'),
+	total: float('total').default(0).notNull(),
 	product_id: int('product_id').references(() => product.id, { onDelete: 'set null' }),
 	charge_id: int('charge_id').references(() => charge.id, { onDelete: 'cascade' })
 });
@@ -93,5 +94,5 @@ export const billingRelations = relations(billing, ({ one, many }) => ({
 export const tax = mysqlTable('tax', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	value: float('value').default(0)
+	value: float('value').default(0).notNull()
 });

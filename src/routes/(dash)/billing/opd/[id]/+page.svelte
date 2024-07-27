@@ -56,8 +56,8 @@
 	$: return_or_credit = (Number(bank_pay) + Number(cash_pay) - final_disc).toFixed(2);
 </script>
 
-{#if form?.same_product}
-	<Toast message="ផលិតផលបានបញ្ជូលក្នុងកន្លែងគិតលុយរូចហើយ!" />
+{#if form?.disc}
+	<Toast message="ការបញ្ជុះតម្លៃត្រូវតែជា (10% ឫ 10 )" />
 {/if}
 {#if form?.errProductOrder}
 	<Toast message="សូមជ្រើសរើសឈ្មោះអ្នកជំងឺ!" />
@@ -211,11 +211,7 @@
 												value={item?.discount}
 											/></td
 										>
-										<td
-											>{Intl.NumberFormat('en-US')
-												.format(item.total ?? 0)
-												.concat(' \u17DB')}</td
-										>
+										<td>{Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(item.total ?? 0)}</td>
 										<td> </td>
 									</tr>
 								{/each}
@@ -384,7 +380,7 @@
 										<td>
 											<input
 												class="border-0 bg-light w-100 text-center text-primary"
-												type="number"
+												type="text"
 												step="any"
 												min="0"
 												name="disc"
@@ -392,9 +388,9 @@
 											/></td
 										>
 										<td
-											>{Intl.NumberFormat('en-US')
+											>{Intl.NumberFormat('en-US',{style:'currency',currency:'USD'})
 												.format(item.total ?? 0)
-												.concat(' \u17DB')}</td
+												}</td
 										>
 										<td>
 											<form

@@ -27,9 +27,18 @@ export const fileOrPicture = mysqlTable('file_or_picture', {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
 	}),
-	payment_type_id:int('payment_type_id').references(() => paymentType.id,{onDelete:'cascade',onUpdate:'cascade'} ),
-	billing_id:int('billing_id').references(() => billing.id,{onDelete:'cascade',onUpdate:'cascade'} ),
-	product_id:int('product_id').references(() => product.id,{onDelete:'cascade',onUpdate:'cascade'} ),
+	payment_type_id: int('payment_type_id').references(() => paymentType.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
+	billing_id: int('billing_id').references(() => billing.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
+	product_id: int('product_id').references(() => product.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	})
 });
 
 export const fileOrPictureRelations = relations(fileOrPicture, ({ one }) => ({

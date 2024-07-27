@@ -171,10 +171,11 @@ export const actions: Actions = {
 		for (let index = 0; index < product_order_id.length; index++) {
 			const product_order_id_ = product_order_id[index];
 			const qty_ = qty[index];
-			const disc_ = disc[index];
+			const disc_ = disc[index].toString();
 			const price_ = price[index];
+			if (isNaN(+disc_) && !disc_.toString().includes('%')) return fail(400, { disc: true });
 			await updateProductOrder({
-				disc: +disc_,
+				disc: disc_,
 				price: +price_,
 				product_order_id: +product_order_id_,
 				qty: +qty_
@@ -190,12 +191,10 @@ export const actions: Actions = {
 			where: like(paymentType.by, '%CASH%')
 		});
 		const body = await request.formData();
-		const bank_pay = body.get('bank_pay') ?? '';
-		const cash_pay = body.get('cash_pay') ?? '';
-		const payment_type_id = body.get('payment_type_id') ?? '';
-		const disc_value = body.get('disc_value') ?? '';
-		const note = body.get('note') ?? '';
-		const tax = body.get('tax') ?? '';
+
+		const { bank_pay, cash_pay, payment_type_id, disc_value, note, tax } = Object.fromEntries(
+			body
+		) as Record<string, string>;
 		const file = body.get('image') as File;
 		const validErr = {
 			payment: false
@@ -220,15 +219,17 @@ export const actions: Actions = {
 				value: +cash_pay
 			});
 		}
-		await db.insert(fileOrPicture).values({
-			billing_id: +billing_id,
-			filename: await uploadFile(file),
-			size: file.size,
-			mimeType: file.type
-		});
+		if (file.size) {
+			await db.insert(fileOrPicture).values({
+				billing_id: +billing_id,
+				filename: await uploadFile(file),
+				size: file.size,
+				mimeType: file.type
+			});
+		}
 		await billingProcess({
 			billing_id: +billing_id,
-			disc: +disc_value || 0,
+			disc: disc_value,
 			tax: +tax || 0,
 			note: note.toString()
 		});

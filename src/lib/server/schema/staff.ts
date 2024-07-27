@@ -9,7 +9,7 @@ export const staff = mysqlTable('staff', {
 	name: varchar('name', { length: 255 }).notNull(),
 	staff_type: varchar('staff_type', { length: 255 })
 		.$type<'ADMIN' | 'DOCTOR' | 'PHARMACIST' | 'NURSE' | 'LABO_TECHICAL' | 'RADIOGRAPHY'>()
-		.default('DOCTOR'),
+		.default('DOCTOR').notNull(),
 	gender: varchar('gender', { length: 255 }).notNull(),
 	specific: varchar('specific', { length: 255 })
 });

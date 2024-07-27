@@ -9,7 +9,7 @@ export const parameter = mysqlTable('parameter', {
 	parameter: varchar('parameter', { length: 255 }),
 	description: longtext('description'),
 	gender: varchar('gender', { length: 255 }),
-	sign: varchar('sign', { length: 255 }).default('-'),
+	sign: varchar('sign', { length: 255 }).default('-').notNull(),
 	unit_id: int('unit_id').references(() => unit.id),
 	mini: float('mini'),
 	maxi: float('maxi'),

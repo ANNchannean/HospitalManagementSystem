@@ -26,10 +26,13 @@ export const createProductOrder = async ({
 	});
 	const get_product_order = get_charge?.productOrder.find((e) => e.product_id === product_id);
 	if (get_product_order) {
+		let calulator_disc = get_product_order!.discount!.includes('%')
+			? price - (price * Number(get_product_order!.discount!.replace('%', ''))) / 100
+			: price - Number(get_product_order.discount);
 		await db
 			.update(productOrder)
 			.set({
-				total: Number(get_product_order.price) * (Number(get_product_order.qty) + 1),
+				total: Number(calulator_disc) * (Number(get_product_order.qty) + 1),
 				qty: Number(get_product_order.qty) + 1
 			})
 			.where(eq(productOrder.id, get_product_order.id));
@@ -54,7 +57,7 @@ export const updateProductOrder = async ({
 	product_order_id: number;
 	qty: number;
 	price: number;
-	disc: number;
+	disc: string;
 }) => {
 	const get_product_order = await db.query.productOrder.findFirst({
 		where: eq(productOrder.id, product_order_id),
@@ -64,13 +67,16 @@ export const updateProductOrder = async ({
 		}
 	});
 	if (get_product_order) {
+		let calulator_disc = disc.includes('%')
+			? price - (price * Number(disc.replace('%', ''))) / 100
+			: price - Number(disc);
 		await db
 			.update(productOrder)
 			.set({
 				price: +price,
-				discount: +disc,
+				discount: disc,
 				qty: +qty,
-				total: +price * +qty - disc
+				total: calulator_disc * +qty
 			})
 			.where(eq(productOrder.id, product_order_id));
 	}
@@ -141,7 +147,7 @@ export const billingProcess = async ({
 }: {
 	billing_id: number;
 	tax: number;
-	disc: number;
+	disc: string;
 	note: string;
 }) => {
 	const get_billing = await db.query.billing.findFirst({
@@ -150,7 +156,12 @@ export const billingProcess = async ({
 			payment: true
 		}
 	});
-	const total = Number(get_billing?.sub_total) - disc;
+	const sub_total = Number(get_billing?.sub_total);
+	let price = sub_total;
+	let total = disc.includes('%')
+		? price - (price * Number(disc.replace('%', ''))) / 100
+		: price - Number(disc);
+
 	const total_payment = get_billing?.payment.reduce((s, e) => s + Number(e.value), 0) || 0;
 	const total_after_tax = total - (total * tax) / 100;
 	if (total_payment === 0) {
@@ -164,7 +175,7 @@ export const billingProcess = async ({
 				tax: tax,
 				status: 'due',
 				note: note,
-				total_after_tax:total_after_tax,
+				total_after_tax: total_after_tax,
 				date: now_datetime().slice(0, 10),
 				time: now_datetime().slice(11, 19)
 			})
@@ -183,7 +194,7 @@ export const billingProcess = async ({
 				tax: tax,
 				status: 'paid',
 				note: note,
-				total_after_tax:total_after_tax,
+				total_after_tax: total_after_tax,
 				date: now_datetime().slice(0, 10),
 				time: now_datetime().slice(11, 19)
 			})
@@ -200,7 +211,7 @@ export const billingProcess = async ({
 				paid: total_payment,
 				tax: tax,
 				status: 'partial',
-				total_after_tax:total_after_tax,
+				total_after_tax: total_after_tax,
 				note: note,
 				date: now_datetime().slice(0, 10),
 				time: now_datetime().slice(11, 19)
