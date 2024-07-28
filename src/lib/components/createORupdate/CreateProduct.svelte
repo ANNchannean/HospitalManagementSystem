@@ -156,7 +156,7 @@
 								{/if}
 							</div>
 						</div>
-					
+
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="picture">Picture</label>

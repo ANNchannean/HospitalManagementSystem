@@ -26,10 +26,8 @@
 >
 	{#each get_laboratory_group as item (item.id)}
 		<div class="card">
-			<div class="card-header">
-				<h4 class="">
-					<span>{item.laboratory_group}</span>
-				</h4>
+			<div class="card-header fs-4">
+				<span>{item.laboratory_group}</span>
 			</div>
 			<div class="form-horizontal">
 				<div class="card-body">

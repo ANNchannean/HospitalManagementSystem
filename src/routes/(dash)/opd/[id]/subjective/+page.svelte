@@ -73,10 +73,8 @@
 </script>
 
 <div class="card">
-	<div class="card-header">
-		<h4>
-			<span># Subjective</span>
-		</h4>
+	<div class="card-header fs-4">
+		<span># Subjective</span>
 	</div>
 	<form
 		enctype="multipart/form-data"

@@ -98,6 +98,7 @@
 		}}
 	>
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
+		<input type="hidden" name="bmi" value={bmi?.number.toFixed(1) || ''} />
 		<div class="card-body">
 			<div class="">
 				<div class="form-group row pb-3">

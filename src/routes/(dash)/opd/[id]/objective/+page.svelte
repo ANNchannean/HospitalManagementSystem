@@ -16,13 +16,10 @@
 <!-- VitalSign  -->
 
 <div class="card">
-	<div class="card-header">
+	<div class="card-header fs-4">
 		<div class="row">
 			<div class="col">
-				<h4 class="">
-					<span># Vital Sign</span>
-					<span></span>
-				</h4>
+				<span># Vital Sign</span>
 			</div>
 			<div class="col-auto">
 				<button
@@ -82,10 +79,10 @@
 <!-- physical  -->
 <br />
 <div class="card card-info">
-	<div class="card-header">
-		<h4 class="">
+	<div class="card-header fs-4">
+	
 			<span># Physical Exam</span>
-		</h4>
+	
 		<!-- Default dropleft button -->
 	</div>
 

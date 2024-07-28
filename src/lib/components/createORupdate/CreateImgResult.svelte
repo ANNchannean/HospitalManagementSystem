@@ -84,7 +84,7 @@
 					<div class="row">
 						<div class="col-12 pb-2">
 							<div class="card-body alert alert-info border p-0">
-								<table class="table fs-5  table-borderless table-responsive">
+								<table class="table fs-5 table-borderless table-responsive">
 									<thead class="text-bold">
 										<tr class="">
 											<td>#Patient</td>

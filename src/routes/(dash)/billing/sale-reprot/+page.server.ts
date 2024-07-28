@@ -1,11 +1,14 @@
 import { db } from '$lib/server/db';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { billing } from '$lib/server/schema';
 
 export const load: PageServerLoad = async ({ url }) => {
 	const get_billings = await db.query.billing.findMany({
-		where: eq(billing.checkin_type, 'OPD'),
+		where: and(
+			eq(billing.checkin_type, 'OPD'),
+			or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
+		),
 		with: {
 			visit: {
 				with: {

@@ -79,7 +79,10 @@
 										value={find_prescription?.product_id}
 										items={filter_product_medicine.map((e) => ({
 											id: e.id,
-											name: e.products.concat(" (").concat(` ${e.generic_name ?? ''}`).concat(")")
+											name: e.products
+												.concat(' (')
+												.concat(` ${e.generic_name ?? ''}`)
+												.concat(')')
 										}))}
 									/>
 								</div>

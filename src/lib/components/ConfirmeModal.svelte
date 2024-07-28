@@ -37,9 +37,9 @@
 				>
 				<button type="submit" class="btn btn-danger">
 					{#if loading}
-					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 					{:else}
-					<i class="fa-solid fa-square-check"></i>
+						<i class="fa-solid fa-square-check"></i>
 					{/if}
 					{$t('common.yes')}</button
 				>

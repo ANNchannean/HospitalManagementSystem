@@ -78,10 +78,8 @@
 </div>
 
 <div class="card">
-	<div class="card-header bg-info">
-		<h4 class="card-title">
-			<span>Parameter Group ID#{get_product_labo?.id ?? ''} </span>
-		</h4>
+	<div class="card-header fs-4">
+		<span>Parameter Group ID#{get_product_labo?.id ?? ''} </span>
 	</div>
 	<div class="form-horizontal">
 		<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">

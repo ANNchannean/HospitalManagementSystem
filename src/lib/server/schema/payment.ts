@@ -1,4 +1,4 @@
-import { datetime, decimal,  int, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
+import { datetime, decimal, int, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
 import { billing } from './billing';
 import { relations } from 'drizzle-orm';
 
@@ -28,5 +28,5 @@ export const paymentRelations = relations(payment, ({ one }) => ({
 	billing: one(billing, {
 		fields: [payment.billing_id],
 		references: [billing.id]
-	}),
+	})
 }));

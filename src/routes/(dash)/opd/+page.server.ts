@@ -34,13 +34,23 @@ export const actions: Actions = {
 		const body = await request.formData();
 		const created_at = now_datetime();
 		const get_tax = await db.query.tax.findFirst();
-		const { pulse, t, sp02, height, weight, bmi, sbp, dbp, rr, asign_vitalsing } =
-			Object.fromEntries(body) as Record<string, string>;
-		const { patient_id, staff_id, department_id, etiology } = Object.fromEntries(body) as Record<
-			string,
-			string
-		>;
-
+		const {
+			patient_id,
+			staff_id,
+			department_id,
+			etiology,
+			pulse,
+			t,
+			sp02,
+			height,
+			weight,
+			bmi,
+			sbp,
+			dbp,
+			rr,
+			asign_vitalsing
+		} = Object.fromEntries(body) as Record<string, string>;
+		if (!bmi) return fail(400, { bmi: true });
 		await db
 			.insert(visit)
 			.values({

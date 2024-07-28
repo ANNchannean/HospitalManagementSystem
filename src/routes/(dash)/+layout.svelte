@@ -126,7 +126,7 @@
 		</div>
 	</ul>
 </nav>
-<div  id="layoutSidenav">
+<div id="layoutSidenav">
 	<div class=" border-end" id="layoutSidenav_nav">
 		<nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
 			<div class="sb-sidenav-menu">
@@ -194,7 +194,7 @@
 								href="/billing/sale-reprot"
 								class="nav-link"
 							>
-							<i class="fa-solid fa-sack-dollar"></i>&nbsp;
+								<i class="fa-solid fa-sack-dollar"></i>&nbsp;
 								{$t('common.sale_reprot')}
 							</a>
 						</nav>

@@ -239,12 +239,10 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card bg-light">
-			<div class="card-header bg-info">
+			<div class="card-header fs-4">
 				<div class="row">
 					<div class="col">
-						<h4 class="">
-							<span># {get_ward?.ward ?? ''} </span>
-						</h4>
+						<span># {get_ward?.ward ?? ''} </span>
 					</div>
 					<div class="col-auto">
 						<button

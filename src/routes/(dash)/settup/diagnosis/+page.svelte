@@ -95,7 +95,7 @@
 											href={'#'}
 											on:click={() => {}}
 											type="button"
-											class="btn btn-info btn-sm"
+											class="btn btn-primary btn-sm"
 											data-bs-toggle="modal"
 											data-bs-target="#create-medicine"
 											><i class="fa-solid fa-file-pen"></i>

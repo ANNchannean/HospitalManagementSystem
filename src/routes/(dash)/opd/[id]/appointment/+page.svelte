@@ -15,10 +15,8 @@
 
 <DeleteModal action="?/delete_appointment" id={get_appointment?.id} />
 <div class="card">
-	<div class="card-header">
-		<h4 class="">
-			<span># Appointment</span>
-		</h4>
+	<div class="card-header fs-4">
+		<span># Appointment</span>
 	</div>
 	<form
 		use:enhance={() => {

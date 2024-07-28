@@ -46,10 +46,10 @@
 <DeleteModal action="?/delete_remark" id={get_remark?.id} />
 
 <div class="card">
-	<div class="card-header">
-		<h4 class="card-title">
+	<div class="card-header fs-4">
+		
 			<span># Remark</span>
-		</h4>
+	
 	</div>
 	<form
 		enctype="multipart/form-data"

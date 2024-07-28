@@ -1,8 +1,8 @@
 {
 	"version": "5",
 	"dialect": "mysql",
-	"id": "92c72876-afdd-45ba-8dce-1c7ce68dc496",
-	"prevId": "00000000-0000-0000-0000-000000000000",
+	"id": "eebe9d47-904c-4b6e-bbc4-82e69ae7a712",
+	"prevId": "92c72876-afdd-45ba-8dce-1c7ce68dc496",
 	"tables": {
 		"commune": {
 			"name": "commune",
@@ -3495,7 +3495,7 @@
 				},
 				"decimal": {
 					"name": "decimal",
-					"type": "decimal(2,2)",
+					"type": "decimal(4,2)",
 					"primaryKey": false,
 					"notNull": false,
 					"autoincrement": false

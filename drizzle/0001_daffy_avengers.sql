@@ -1,0 +1,1 @@
+ALTER TABLE `test` MODIFY COLUMN `decimal` decimal(4,2);

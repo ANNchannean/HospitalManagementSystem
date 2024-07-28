@@ -94,15 +94,13 @@
 								</td>
 
 								<td>
-									<a href="/opd/{item.id}/subjective">
-										<span class="">
-											{item.visit?.patient?.name_khmer}
-										</span>
-										<br />
-										<span class="badge text-bg-primary">
-											{item.visit?.patient?.name_latin}
-										</span>
-									</a>
+									<span class="">
+										{item.visit?.patient?.name_khmer}
+									</span>
+									<br />
+									<span class="">
+										{item.visit?.patient?.name_latin}
+									</span>
 								</td>
 								<td>{item.visit?.patient?.telephone ?? ''}</td>
 								<td>{item.visit?.patient?.age ?? ''}</td>
@@ -122,7 +120,15 @@
 										item.sub_total
 									)}</td
 								>
-								<td>{item.discount}</td>
+								<td>
+									{#if item.discount.includes('%')}
+										{item.discount}
+									{:else if Number(item.discount) > 0}
+										{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+											Number(item.discount)
+										)}
+									{/if}
+								</td>
 								<td
 									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
 										item.total
@@ -145,7 +151,13 @@
 									)}</td
 								>
 								<td>
-									<span class="badge text-bg-success">{item.status ?? ''}</span>
+									{#if item.status === 'paid'}
+										<span class="badge text-bg-success">{item.status ?? ''}</span>
+									{:else if item.status === 'partial'}
+										<span class="badge text-bg-warning">{item.status ?? ''}</span>
+									{:else if item.status === 'due'}
+										<span class="badge text-bg-danger">{item.status ?? ''}</span>
+									{/if}
 								</td>
 								<td></td>
 							</tr>

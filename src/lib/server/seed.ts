@@ -1,5 +1,5 @@
 import { db } from './db';
-import { product, user } from './schema';
+import { product, test, user } from './schema';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
 import { eq } from 'drizzle-orm';
@@ -29,6 +29,9 @@ async function main() {
 	// 		price: Number(price.toFixed(2))
 	// 	}).where(eq(product.id,e.id))
 	// }
+	await db.insert(test).values({
+		decimal: 12.1155555
+	});
 	process.exit(0);
 }
 

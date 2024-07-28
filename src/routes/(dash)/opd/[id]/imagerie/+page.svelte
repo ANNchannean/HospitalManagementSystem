@@ -23,10 +23,8 @@
 	{#each get_imageerie_groups as item}
 		{@const products = item.product}
 		<div class="card">
-			<div class="card-header">
-				<h4 class="">
-					<span>{item.imagerie_group}</span>
-				</h4>
+			<div class="card-header fs-4">
+				<span>{item.imagerie_group}</span>
 			</div>
 			<div class="form-horizontal">
 				<div class="card-body">
@@ -57,7 +55,9 @@
 	<div class="card-footer row bg-light p-2 sticky-bottom">
 		<div class="col text-end">
 			<button class="btn btn-warning"
-				>Total Imagerie {Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(total_imagerie))}
+				>Total Imagerie {Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+					Number(total_imagerie)
+				)}
 			</button>
 		</div>
 

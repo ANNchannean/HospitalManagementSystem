@@ -5,7 +5,6 @@
 	$: ({ picture } = data);
 </script>
 
-
 <form use:enhance enctype="multipart/form-data" action="?/img" method="post">
 	<input class="form-control" name="file" type="file" alt="" />
 	<button type="submit">Submit</button>

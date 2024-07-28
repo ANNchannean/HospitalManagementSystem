@@ -26,11 +26,8 @@
 </script>
 
 <div class="card">
-	<div class="card-header">
-		<h4 class="">
-			<span># Assessment</span>
-			<span></span>
-		</h4>
+	<div class="card-header fs-4">
+		<span># Assessment</span>
 	</div>
 	<form
 		use:enhance={() => {
