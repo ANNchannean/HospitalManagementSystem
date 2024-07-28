@@ -9,7 +9,14 @@ export const load: PageServerLoad = async ({ url }) => {
 		with: {
 			visit: {
 				with: {
-					patient: true,
+					patient: {
+						with: {
+							commune: true,
+							district: true,
+							provice: true,
+							village: true
+						}
+					},
 					staff: true,
 					department: true
 				}

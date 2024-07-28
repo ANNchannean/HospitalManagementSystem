@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { int, float, mysqlTable, text, datetime } from 'drizzle-orm/mysql-core';
+import { int, mysqlTable, text, datetime, decimal } from 'drizzle-orm/mysql-core';
 import { productGroupType } from './productGroupType';
 import { laboratoryGroup } from './laboratory';
 import { imagerieGroup } from './imagerie';
@@ -15,9 +15,9 @@ export const product = mysqlTable('product', {
 	group_type_id: int('group_type_id').references(() => productGroupType.id),
 	laboratory_group_id: int('laboratory_group_id').references(() => laboratoryGroup.id),
 	imagerie_group_id: int('imagerie_group_id').references(() => imagerieGroup.id),
-	price: float('price').notNull(),
+	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	unit_id: int('unit_id').references(() => unit.id),
-	create_at: datetime('create_at',{mode:'string'})
+	create_at: datetime('create_at', { mode: 'string' })
 });
 export const productRelations = relations(product, ({ one, many }) => ({
 	unit: one(unit, {
@@ -38,5 +38,5 @@ export const productRelations = relations(product, ({ one, many }) => ({
 	}),
 	parameter: many(parameter),
 	laboratoryRequest: many(laboratoryRequest),
-	fileOrPicture:one(fileOrPicture)
+	fileOrPicture: one(fileOrPicture)
 }));

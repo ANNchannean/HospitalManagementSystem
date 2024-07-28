@@ -112,9 +112,9 @@ export const actions: Actions = {
 				});
 				await db.insert(productOrder).values({
 					created_at: now_datetime(),
-					charge_id: charge_on_laboratory?.id,
+					charge_id: charge_on_laboratory!.id,
 					product_id: +e,
-					price: get_product?.price
+					price: get_product!.price
 				});
 				if (get_visit?.laboratory?.id) {
 					await db

@@ -62,40 +62,76 @@ export const actions: Actions = {
 		if (!get_visit) return fail(400, { visit_id: true });
 		if (get_visit) {
 			// doing billing
-			await db.insert(billing).values({
-				created_at: created_at,
-				visit_id: get_visit?.id,
-				checkin_type: 'OPD',
-				tax: get_tax?.value || 0
-			});
+			await db
+				.insert(billing)
+				.values({
+					created_at: created_at,
+					visit_id: get_visit?.id,
+					checkin_type: 'OPD',
+					tax: get_tax?.value || 0
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
 			const get_billing = await db.query.billing.findFirst({
 				where: eq(billing.created_at, created_at)
 			});
-			await db.insert(charge).values({
-				billing_id: get_billing?.id,
-				charge_on: 'general',
-				created_at: created_at
-			});
-			await db.insert(charge).values({
-				billing_id: get_billing?.id,
-				charge_on: 'imagerie',
-				created_at: created_at
-			});
-			await db.insert(charge).values({
-				billing_id: get_billing?.id,
-				charge_on: 'laboratory',
-				created_at: created_at
-			});
-			await db.insert(charge).values({
-				billing_id: get_billing?.id,
-				charge_on: 'prescription',
-				created_at: created_at
-			});
-			await db.insert(charge).values({
-				billing_id: get_billing?.id,
-				charge_on: 'service',
-				created_at: created_at
-			});
+			await db
+				.insert(charge)
+				.values({
+					billing_id: get_billing!.id,
+					charge_on: 'general',
+					created_at: created_at
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
+			await db
+				.insert(charge)
+				.values({
+					billing_id: get_billing!.id,
+					charge_on: 'imagerie',
+					created_at: created_at
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
+			await db
+				.insert(charge)
+				.values({
+					billing_id: get_billing!.id,
+					charge_on: 'laboratory',
+					created_at: created_at
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
+			await db
+				.insert(charge)
+				.values({
+					billing_id: get_billing!.id,
+					charge_on: 'prescription',
+					created_at: created_at
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
+			await db
+				.insert(charge)
+				.values({
+					billing_id: get_billing!.id,
+					charge_on: 'service',
+					created_at: created_at
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
 
 			// creae vital sign
 			if (asign_vitalsing === 'on') {

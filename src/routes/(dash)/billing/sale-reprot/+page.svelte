@@ -64,9 +64,9 @@
 							<th>Age</th>
 							<th>Address</th>
 							<th>Seller</th>
-							<th>Total</th>
+							<th>Sub Total</th>
 							<th>Disc</th>
-							<th>Net Total</th>
+							<th>Total</th>
 							<th>Tax</th>
 							<th>Grad Total</th>
 							<th>Paid</th>
@@ -92,9 +92,7 @@
 										hour12: true
 									}).format(new Date(item.visit?.date_checkup ?? ''))}
 								</td>
-								<td>
-									{item.visit?.patient_id}
-								</td>
+
 								<td>
 									<a href="/opd/{item.id}/subjective">
 										<span class="">
@@ -106,13 +104,50 @@
 										</span>
 									</a>
 								</td>
-
+								<td>{item.visit?.patient?.telephone ?? ''}</td>
+								<td>{item.visit?.patient?.age ?? ''}</td>
 								<td>
-									{item.status ?? ''}
+									{item.visit?.patient?.village?.type ?? ''}
+									{item.visit?.patient?.village?.name_khmer.concat(',') ?? ''}
+									{item.visit?.patient?.commune?.type ?? ''}
+									{item.visit?.patient?.commune?.name_khmer.concat(',') ?? ''}
+									{item.visit?.patient?.district?.type ?? ''}
+									{item.visit?.patient?.district?.name_khmer.concat(',') ?? ''}
+									{item.visit?.patient?.provice?.type ?? ''}
+									{item.visit?.patient?.provice?.name_khmer ?? ''}
 								</td>
+								<td></td>
+								<td
+									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+										item.sub_total
+									)}</td
+								>
+								<td>{item.discount}</td>
+								<td
+									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+										item.total
+									)}</td
+								>
+								<td>{item.tax}</td>
+								<td
+									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+										item.total_after_tax
+									)}</td
+								>
+								<td
+									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+										item.paid
+									)}</td
+								>
+								<td
+									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+										item.balance
+									)}</td
+								>
 								<td>
-									<a class="btn btn-link" href="/billing/opd/{item.id}">Go Pay</a>
+									<span class="badge text-bg-success">{item.status ?? ''}</span>
 								</td>
+								<td></td>
 							</tr>
 						{/each}
 					</tbody>

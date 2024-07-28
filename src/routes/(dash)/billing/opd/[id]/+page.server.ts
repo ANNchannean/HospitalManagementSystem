@@ -192,13 +192,15 @@ export const actions: Actions = {
 		});
 		const body = await request.formData();
 
-		const { bank_pay, cash_pay, payment_type_id, disc_value, note, tax } = Object.fromEntries(
+		const { bank_pay, cash_pay, payment_type_id, disc, note, tax } = Object.fromEntries(
 			body
 		) as Record<string, string>;
 		const file = body.get('image') as File;
 		const validErr = {
-			payment: false
+			payment: false,
+			billing_disc: false
 		};
+		if (isNaN(+disc) && !disc.includes('%')) validErr.billing_disc = true;
 		if (!bank_pay && !cash_pay) validErr.payment = true;
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
@@ -229,7 +231,7 @@ export const actions: Actions = {
 		}
 		await billingProcess({
 			billing_id: +billing_id,
-			disc: disc_value,
+			disc: disc,
 			tax: +tax || 0,
 			note: note.toString()
 		});

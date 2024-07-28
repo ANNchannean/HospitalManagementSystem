@@ -1,13 +1,13 @@
 {
-	"version": "6",
-	"dialect": "mysql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1718506714234,
-			"tag": "0000_hesitant_leech",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1722154594833,
+      "tag": "0000_jittery_violations",
+      "breakpoints": true
+    }
+  ]
 }

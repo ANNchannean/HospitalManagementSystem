@@ -62,15 +62,21 @@ CREATE TABLE `file_or_picture` (
 	`size` float,
 	`patient_id` int,
 	`imagerie_request_id` int,
-	`laboratory_request_id` int,
+	`clinicinfo_id` int,
+	`laboratory_id` int,
+	`payment_type_id` int,
+	`billing_id` int,
+	`product_id` int,
 	CONSTRAINT `file_or_picture_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `laboratory` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`visit_id` int,
+	`doctor_comment` text,
+	`finish_datetime` datetime,
+	`sample` varchar(255),
 	`status` boolean DEFAULT false,
-	`created_at` datetime,
+	`visit_id` int,
 	CONSTRAINT `laboratory_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -83,8 +89,7 @@ CREATE TABLE `laboratory_group` (
 CREATE TABLE `laboratory_request` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`product_id` int,
-	`laboratory` int,
-	`status` boolean DEFAULT false,
+	`visit_id` int,
 	CONSTRAINT `laboratory_request_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -93,7 +98,6 @@ CREATE TABLE `laboratory_result` (
 	`laboratory_request_id` int,
 	`parameter_id` int,
 	`result` varchar(255),
-	`comment` text,
 	CONSTRAINT `laboratory_result_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -102,7 +106,7 @@ CREATE TABLE `parameter` (
 	`parameter` varchar(255),
 	`description` longtext,
 	`gender` varchar(255),
-	`sign` varchar(255) DEFAULT '-',
+	`sign` varchar(255) NOT NULL DEFAULT '-',
 	`unit_id` int,
 	`mini` float,
 	`maxi` float,
@@ -117,7 +121,7 @@ CREATE TABLE `patient` (
 	`gender` varchar(255) NOT NULL,
 	`dob` date NOT NULL,
 	`age` int NOT NULL,
-	`telephone` varchar(255) NOT NULL,
+	`telephone` varchar(255),
 	`other` text,
 	`village_id` int,
 	`commune_id` int,
@@ -151,11 +155,13 @@ CREATE TABLE `physical_exam` (
 CREATE TABLE `product` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`products` text NOT NULL,
+	`generic_name` text,
 	`group_type_id` int,
 	`laboratory_group_id` int,
 	`imagerie_group_id` int,
-	`price` float NOT NULL,
+	`price` decimal(10,2) NOT NULL DEFAULT 0,
 	`unit_id` int,
+	`create_at` datetime,
 	CONSTRAINT `product_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -175,7 +181,7 @@ CREATE TABLE `session` (
 CREATE TABLE `staff` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(255) NOT NULL,
-	`staff_type` varchar(255) DEFAULT 'DOCTOR',
+	`staff_type` varchar(255) NOT NULL DEFAULT 'DOCTOR',
 	`gender` varchar(255) NOT NULL,
 	`specific` varchar(255),
 	CONSTRAINT `staff_id` PRIMARY KEY(`id`)
@@ -205,11 +211,12 @@ CREATE TABLE `template` (
 CREATE TABLE `user` (
 	`id` varchar(255) NOT NULL,
 	`username` varchar(255) NOT NULL,
-	`hashed_password` text,
-	`role` text NOT NULL,
-	`image` varchar(255) NOT NULL,
+	`password_hash` text,
+	`role` varchar(255) NOT NULL DEFAULT 'DOCTOR',
+	`image` varchar(255),
 	`limit_view` int NOT NULL DEFAULT 20,
 	`lang` varchar(255) NOT NULL DEFAULT 'ko',
+	`staff_id` int,
 	CONSTRAINT `user_id` PRIMARY KEY(`id`),
 	CONSTRAINT `user_username_unique` UNIQUE(`username`)
 );
@@ -235,6 +242,18 @@ CREATE TABLE `vaccine_type` (
 	CONSTRAINT `vaccine_type_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `nursing_process` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`datetime` datetime,
+	`accessment` varchar(255),
+	`health_problems` text,
+	`actions` varchar(255),
+	`evolution` varchar(255),
+	`nursing_sign` int,
+	`progress_note_id` int,
+	CONSTRAINT `nursing_process_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `progress_note` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`date_checkup` datetime,
@@ -257,25 +276,29 @@ CREATE TABLE `visit` (
 --> statement-breakpoint
 CREATE TABLE `vital_sign` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`bp` int,
-	`dbp` int,
-	`sbp` int,
-	`pulse` int,
-	`t` int,
-	`sp02` int,
-	`height` int,
-	`weight` int,
-	`bmi` int,
+	`dbp` float,
+	`sbp` float,
+	`pulse` float,
+	`t` float,
+	`sp02` float,
+	`height` float,
+	`weight` float,
+	`rr` float,
+	`bmi` float,
+	`visit_id` int,
+	`datetime` datetime,
+	`stool` varchar(255),
+	`urine` varchar(255),
 	`note` text,
-	`visit_id` int,
+	`piv` int,
+	`drink` int,
+	`nasogastric_tube_in` int,
+	`nasogastric_tube_out` int,
+	`fluid_out` int,
+	`vomiting` int,
+	`by` int,
+	`progress_note_id` int,
 	CONSTRAINT `vital_sign_id` PRIMARY KEY(`id`)
-);
---> statement-breakpoint
-CREATE TABLE `imagerie` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`visit_id` int,
-	`created_at` datetime,
-	CONSTRAINT `imagerie_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `imagerie_group` (
@@ -287,9 +310,10 @@ CREATE TABLE `imagerie_group` (
 CREATE TABLE `imagerie_request` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`product_id` int,
-	`imagerie_id` int,
+	`visit_id` int,
 	`text` text,
 	`status` boolean DEFAULT false,
+	`finish_datetime` datetime,
 	CONSTRAINT `imagerie_request_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -304,9 +328,14 @@ CREATE TABLE `presrciption` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`visit_id` int,
 	`product_id` int,
-	`use_id` int,
-	`duration_id` int,
+	`use` varchar(255),
+	`duration` varchar(255),
 	`amount` float,
+	`morning` float,
+	`noon` float,
+	`afternoon` float,
+	`evening` float,
+	`night` float,
 	CONSTRAINT `presrciption_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -314,12 +343,6 @@ CREATE TABLE `use` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`description` varchar(255),
 	CONSTRAINT `use_id` PRIMARY KEY(`id`)
-);
---> statement-breakpoint
-CREATE TABLE `use_time` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`description` varchar(255),
-	CONSTRAINT `use_time_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `duration` (
@@ -397,63 +420,161 @@ CREATE TABLE `ward` (
 	CONSTRAINT `ward_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
-CREATE TABLE `backup` (
+CREATE TABLE `accessment` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`date_checkup` datetime NOT NULL,
-	`name_backup` varchar(255) NOT NULL,
-	CONSTRAINT `backup_id` PRIMARY KEY(`id`)
+	`visit_id` int,
+	`diagnosis_or_problem` text,
+	`differential_diagnosis` text,
+	CONSTRAINT `accessment_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `clinicinfo` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`title_khmer` text NOT NULL,
+	`title_english` text NOT NULL,
+	`address` text NOT NULL,
+	`detail` text NOT NULL,
+	`contact` text NOT NULL,
+	CONSTRAINT `clinicinfo_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `billing` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`date` date,
+	`time` time,
+	`visit_id` int NOT NULL,
+	`discount` varchar(50) NOT NULL DEFAULT '0',
+	`sub_total` decimal(10,2) NOT NULL DEFAULT 0,
+	`total` decimal(10,2) NOT NULL DEFAULT 0,
+	`total_after_tax` decimal(10,2) NOT NULL DEFAULT 0,
+	`total_after_vat` decimal(10,2) NOT NULL DEFAULT 0,
+	`paid` decimal(10,2) NOT NULL DEFAULT 0,
+	`tax` float NOT NULL DEFAULT 0,
+	`vat` float NOT NULL DEFAULT 0,
+	`balance` decimal(10,2) NOT NULL DEFAULT 0,
+	`status` varchar(255) NOT NULL DEFAULT 'active',
+	`checkin_type` varchar(255) NOT NULL,
+	`created_at` datetime,
+	`note` text,
+	`exchang` int NOT NULL DEFAULT 4000,
+	CONSTRAINT `billing_id` PRIMARY KEY(`id`),
+	CONSTRAINT `billing_visit_id_unique` UNIQUE(`visit_id`)
+);
+--> statement-breakpoint
+CREATE TABLE `charge` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`created_at` datetime,
+	`price` decimal(10,2) NOT NULL DEFAULT 0,
+	`status` varchar(255) DEFAULT 'active',
+	`charge_on` varchar(255),
+	`billing_id` int NOT NULL,
+	CONSTRAINT `charge_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `product_order` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`created_at` datetime,
+	`price` decimal(10,2) NOT NULL DEFAULT 0,
+	`total` decimal(10,2) NOT NULL DEFAULT 0,
+	`qty` int NOT NULL DEFAULT 1,
+	`discount` varchar(50) NOT NULL DEFAULT '0',
+	`product_id` int NOT NULL,
+	`charge_id` int NOT NULL,
+	CONSTRAINT `product_order_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `tax` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`created_at` datetime,
+	`value` float NOT NULL DEFAULT 0,
+	CONSTRAINT `tax_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `payment` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`value` decimal(10,2) NOT NULL DEFAULT 0,
+	`payment_type_id` int,
+	`billing_id` int,
+	`datetime` datetime,
+	CONSTRAINT `payment_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `payment_type` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`by` varchar(255),
+	CONSTRAINT `payment_type_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `test` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`float` float,
+	`decimal` decimal(2,2),
+	CONSTRAINT `test_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 ALTER TABLE `commune` ADD CONSTRAINT `commune_district_id_district_district_id_fk` FOREIGN KEY (`district_id`) REFERENCES `district`(`district_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `district` ADD CONSTRAINT `district_province_id_provice_provice_id_fk` FOREIGN KEY (`province_id`) REFERENCES `provice`(`provice_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `village` ADD CONSTRAINT `village_commune_id_commune_commune_id_fk` FOREIGN KEY (`commune_id`) REFERENCES `commune`(`commune_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `diagnosis` ADD CONSTRAINT `diagnosis_diagnosis_type_id_diagnosis_type_id_fk` FOREIGN KEY (`diagnosis_type_id`) REFERENCES `diagnosis_type`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_imagerie_request_id_imagerie_request_id_fk` FOREIGN KEY (`imagerie_request_id`) REFERENCES `imagerie_request`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_laboratory_request_id_laboratory_request_id_fk` FOREIGN KEY (`laboratory_request_id`) REFERENCES `laboratory_request`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `laboratory` ADD CONSTRAINT `laboratory_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `laboratory_request` ADD CONSTRAINT `laboratory_request_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `laboratory_request` ADD CONSTRAINT `laboratory_request_laboratory_laboratory_id_fk` FOREIGN KEY (`laboratory`) REFERENCES `laboratory`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `laboratory_result` ADD CONSTRAINT `laboratory_result_laboratory_request_id_laboratory_request_id_fk` FOREIGN KEY (`laboratory_request_id`) REFERENCES `laboratory_request`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `laboratory_result` ADD CONSTRAINT `laboratory_result_parameter_id_parameter_id_fk` FOREIGN KEY (`parameter_id`) REFERENCES `parameter`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_imagerie_request_id_imagerie_request_id_fk` FOREIGN KEY (`imagerie_request_id`) REFERENCES `imagerie_request`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_clinicinfo_id_clinicinfo_id_fk` FOREIGN KEY (`clinicinfo_id`) REFERENCES `clinicinfo`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_laboratory_id_laboratory_id_fk` FOREIGN KEY (`laboratory_id`) REFERENCES `laboratory`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_payment_type_id_payment_type_id_fk` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_billing_id_billing_id_fk` FOREIGN KEY (`billing_id`) REFERENCES `billing`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `file_or_picture` ADD CONSTRAINT `file_or_picture_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `laboratory` ADD CONSTRAINT `laboratory_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `laboratory_request` ADD CONSTRAINT `laboratory_request_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `laboratory_request` ADD CONSTRAINT `laboratory_request_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `laboratory_result` ADD CONSTRAINT `laboratory_result_laboratory_request_id_laboratory_request_id_fk` FOREIGN KEY (`laboratory_request_id`) REFERENCES `laboratory_request`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `laboratory_result` ADD CONSTRAINT `laboratory_result_parameter_id_parameter_id_fk` FOREIGN KEY (`parameter_id`) REFERENCES `parameter`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `parameter` ADD CONSTRAINT `parameter_unit_id_unit_id_fk` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `parameter` ADD CONSTRAINT `parameter_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `parameter` ADD CONSTRAINT `parameter_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `patient` ADD CONSTRAINT `patient_village_id_village_village_id_fk` FOREIGN KEY (`village_id`) REFERENCES `village`(`village_id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `patient` ADD CONSTRAINT `patient_commune_id_commune_commune_id_fk` FOREIGN KEY (`commune_id`) REFERENCES `commune`(`commune_id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `patient` ADD CONSTRAINT `patient_district_id_district_district_id_fk` FOREIGN KEY (`district_id`) REFERENCES `district`(`district_id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `patient` ADD CONSTRAINT `patient_province_id_provice_provice_id_fk` FOREIGN KEY (`province_id`) REFERENCES `provice`(`provice_id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `physical` ADD CONSTRAINT `physical_exam_id_exam_id_fk` FOREIGN KEY (`exam_id`) REFERENCES `exam`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `physical_exam` ADD CONSTRAINT `physical_exam_physical_id_physical_id_fk` FOREIGN KEY (`physical_id`) REFERENCES `physical`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `physical_exam` ADD CONSTRAINT `physical_exam_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `physical` ADD CONSTRAINT `physical_exam_id_exam_id_fk` FOREIGN KEY (`exam_id`) REFERENCES `exam`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `physical_exam` ADD CONSTRAINT `physical_exam_physical_id_physical_id_fk` FOREIGN KEY (`physical_id`) REFERENCES `physical`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `physical_exam` ADD CONSTRAINT `physical_exam_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `product` ADD CONSTRAINT `product_group_type_id_product_group_type_id_fk` FOREIGN KEY (`group_type_id`) REFERENCES `product_group_type`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `product` ADD CONSTRAINT `product_laboratory_group_id_laboratory_group_id_fk` FOREIGN KEY (`laboratory_group_id`) REFERENCES `laboratory_group`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `product` ADD CONSTRAINT `product_imagerie_group_id_imagerie_group_id_fk` FOREIGN KEY (`imagerie_group_id`) REFERENCES `imagerie_group`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `product` ADD CONSTRAINT `product_unit_id_unit_id_fk` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `session` ADD CONSTRAINT `session_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `subjective` ADD CONSTRAINT `subjective_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `subjective` ADD CONSTRAINT `subjective_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `user` ADD CONSTRAINT `user_staff_id_staff_id_fk` FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `unit` ADD CONSTRAINT `unit_product_group_type_id_product_group_type_id_fk` FOREIGN KEY (`product_group_type_id`) REFERENCES `product_group_type`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `vaccine` ADD CONSTRAINT `vaccine_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `vaccine` ADD CONSTRAINT `vaccine_vaccine_type_id_vaccine_type_id_fk` FOREIGN KEY (`vaccine_type_id`) REFERENCES `vaccine_type`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `progress_note` ADD CONSTRAINT `progress_note_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `nursing_process` ADD CONSTRAINT `nursing_process_nursing_sign_staff_id_fk` FOREIGN KEY (`nursing_sign`) REFERENCES `staff`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `nursing_process` ADD CONSTRAINT `nursing_process_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `progress_note` ADD CONSTRAINT `progress_note_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `visit` ADD CONSTRAINT `visit_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `visit` ADD CONSTRAINT `visit_department_id_department_id_fk` FOREIGN KEY (`department_id`) REFERENCES `department`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `visit` ADD CONSTRAINT `visit_staff_id_staff_id_fk` FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `visit` ADD CONSTRAINT `visit_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `vital_sign` ADD CONSTRAINT `vital_sign_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `imagerie` ADD CONSTRAINT `imagerie_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `vital_sign` ADD CONSTRAINT `vital_sign_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `vital_sign` ADD CONSTRAINT `vital_sign_by_staff_id_fk` FOREIGN KEY (`by`) REFERENCES `staff`(`id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `vital_sign` ADD CONSTRAINT `vital_sign_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `imagerie_request` ADD CONSTRAINT `imagerie_request_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `imagerie_request` ADD CONSTRAINT `imagerie_request_imagerie_id_imagerie_id_fk` FOREIGN KEY (`imagerie_id`) REFERENCES `imagerie`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `advice_teaching` ADD CONSTRAINT `advice_teaching_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `imagerie_request` ADD CONSTRAINT `imagerie_request_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `advice_teaching` ADD CONSTRAINT `advice_teaching_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_use_id_use_id_fk` FOREIGN KEY (`use_id`) REFERENCES `use`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_duration_id_duration_id_fk` FOREIGN KEY (`duration_id`) REFERENCES `duration`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `appointment` ADD CONSTRAINT `appointment_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `remark` ADD CONSTRAINT `remark_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `service` ADD CONSTRAINT `service_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `appointment` ADD CONSTRAINT `appointment_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `remark` ADD CONSTRAINT `remark_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `service` ADD CONSTRAINT `service_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `service` ADD CONSTRAINT `service_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `operation_protocol` ADD CONSTRAINT `operation_protocol_service_id_service_id_fk` FOREIGN KEY (`service_id`) REFERENCES `service`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `operation_protocol` ADD CONSTRAINT `operation_protocol_service_id_service_id_fk` FOREIGN KEY (`service_id`) REFERENCES `service`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `bed` ADD CONSTRAINT `bed_room_id_room_id_fk` FOREIGN KEY (`room_id`) REFERENCES `room`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `bed` ADD CONSTRAINT `bed_ward_id_ward_id_fk` FOREIGN KEY (`ward_id`) REFERENCES `ward`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `room` ADD CONSTRAINT `room_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `room` ADD CONSTRAINT `room_ward_id_ward_id_fk` FOREIGN KEY (`ward_id`) REFERENCES `ward`(`id`) ON DELETE cascade ON UPDATE cascade;
+ALTER TABLE `room` ADD CONSTRAINT `room_ward_id_ward_id_fk` FOREIGN KEY (`ward_id`) REFERENCES `ward`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `accessment` ADD CONSTRAINT `accessment_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `billing` ADD CONSTRAINT `billing_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `charge` ADD CONSTRAINT `charge_billing_id_billing_id_fk` FOREIGN KEY (`billing_id`) REFERENCES `billing`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `product_order` ADD CONSTRAINT `product_order_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `product_order` ADD CONSTRAINT `product_order_charge_id_charge_id_fk` FOREIGN KEY (`charge_id`) REFERENCES `charge`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `payment` ADD CONSTRAINT `payment_payment_type_id_payment_type_id_fk` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type`(`id`) ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `payment` ADD CONSTRAINT `payment_billing_id_billing_id_fk` FOREIGN KEY (`billing_id`) REFERENCES `billing`(`id`) ON DELETE cascade ON UPDATE cascade;

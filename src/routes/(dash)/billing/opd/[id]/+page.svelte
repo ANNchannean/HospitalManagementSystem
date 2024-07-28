@@ -204,14 +204,17 @@
 										<td>
 											<input
 												class="border-0 bg-light w-100 text-center text-primary"
-												type="number"
-												step="any"
-												min="0"
+												type="text"
+												pattern="[0-9]+%?"
 												name="disc"
 												value={item?.discount}
 											/></td
 										>
-										<td>{Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(item.total ?? 0)}</td>
+										<td
+											>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+												item.total ?? 0
+											)}</td
+										>
 										<td> </td>
 									</tr>
 								{/each}
@@ -284,9 +287,8 @@
 										<td>
 											<input
 												class="border-0 bg-light w-100 text-center text-primary"
-												type="number"
-												step="any"
-												min="0"
+												type="text"
+												pattern="[0-9]+%?"
 												name="disc"
 												value={item?.discount}
 											/></td
@@ -332,9 +334,8 @@
 										<td>
 											<input
 												class="border-0 bg-light w-100 text-center text-primary"
-												type="number"
-												step="any"
-												min="0"
+												type="text"
+												pattern="[0-9]+%?"
 												name="disc"
 												value={item?.discount}
 											/></td
@@ -381,16 +382,15 @@
 											<input
 												class="border-0 bg-light w-100 text-center text-primary"
 												type="text"
-												step="any"
-												min="0"
+												pattern="[0-9]+%?"
 												name="disc"
 												value={item?.discount}
 											/></td
 										>
 										<td
-											>{Intl.NumberFormat('en-US',{style:'currency',currency:'USD'})
-												.format(item.total ?? 0)
-												}</td
+											>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+												item.total ?? 0
+											)}</td
 										>
 										<td>
 											<form
@@ -533,7 +533,7 @@
 						class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 border m-2 p-2 btn btn-light"
 					>
 						<input type="hidden" name="product_id" value={item.id} />
-						<input type="hidden" name="price" value={item.price.toFixed(2)} />
+						<input type="hidden" name="price" value={item.price} />
 						<button type="button" class="position-relative text-wrap btn m-0 p-0">
 							<img class="img-thumbnail" src="/no-image.jpg" alt="" />
 							<span
@@ -576,7 +576,6 @@
 			action="?/update_billing"
 			class="modal-content"
 		>
-			<input type="hidden" value={Number(get_billing?.sub_total) - final_disc} name="disc_value" />
 			<div class="modal-header">
 				<h1 class="modal-title fs-5" id="billing">ការទូទាត់ប្រាក់</h1>
 				<button
@@ -611,7 +610,13 @@
 							<span class="fs-5">បញ្ជុះតម្លៃ</span>
 						</div>
 						<div class="col">
-							<input autocomplete="off" bind:value={disc} class="form-control" type="text" />
+							<input
+								name="disc"
+								pattern="[0-9]+%?"
+								bind:value={disc}
+								class="form-control"
+								type="text"
+							/>
 						</div>
 					</div>
 					<div class="row pb-2">

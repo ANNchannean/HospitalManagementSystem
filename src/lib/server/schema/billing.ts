@@ -1,6 +1,7 @@
 import {
 	date,
 	datetime,
+	decimal,
 	float,
 	int,
 	mysqlTable,
@@ -20,16 +21,23 @@ export const billing = mysqlTable('billing', {
 	time: time('time'),
 	visit_id: int('visit_id')
 		.references(() => visit.id, { onDelete: 'cascade' })
-		.unique(),
-	discount: varchar('discount', { length: 255 }).notNull().default('0'),
-	sub_total: float('sub_total').default(0).notNull(),
-	total: float('total').default(0).notNull(),
-	total_after_tax: float('total_after_tax').default(0).notNull(),
-	total_after_vat: float('total_after_vat').default(0).notNull(),
-	paid: float('paid').default(0).notNull(),
+		.unique()
+		.notNull(),
+	discount: varchar('discount', { length: 50 }).notNull().default('0'),
+	sub_total: decimal('sub_total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	total: decimal('total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	total_after_tax: decimal('total_after_tax', { precision: 10, scale: 2 })
+		.notNull()
+		.$type<number>()
+		.default(0),
+	total_after_vat: decimal('total_after_vat', { precision: 10, scale: 2 })
+		.notNull()
+		.$type<number>()
+		.default(0),
+	paid: decimal('paid', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	tax: float('tax').default(0).notNull(),
 	vat: float('vat').default(0).notNull(),
-	balance: float('balance').default(0),
+	balance: decimal('balance', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 255 })
 		.$type<'paid' | 'partial' | 'due' | 'active' | 'process'>()
 		.default('active')
@@ -43,26 +51,32 @@ export const billing = mysqlTable('billing', {
 export const charge = mysqlTable('charge', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	price: float('price').default(0),
+	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 255 }).$type<'active' | 'desactive'>().default('active'),
 	charge_on: varchar('charge_on', { length: 255 }).$type<
 		'imagerie' | 'laboratory' | 'service' | 'prescription' | 'general'
 	>(),
-	billing_id: int('billing_id').references(() => billing.id, { onDelete: 'cascade' })
+	billing_id: int('billing_id')
+		.references(() => billing.id, { onDelete: 'cascade' })
+		.notNull()
 });
 
 export const productOrder = mysqlTable('product_order', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	price: float('price').default(0).notNull(),
+	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	total: decimal('total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	qty: int('qty').default(1).notNull(),
-	discount: varchar('discount', { length: 255 }).notNull().default('0'),
-	total: float('total').default(0).notNull(),
-	product_id: int('product_id').references(() => product.id, { onDelete: 'set null' }),
-	charge_id: int('charge_id').references(() => charge.id, { onDelete: 'cascade' })
+	discount: varchar('discount', { length: 50 }).notNull().default('0'),
+	product_id: int('product_id')
+		.references(() => product.id)
+		.notNull(),
+	charge_id: int('charge_id')
+		.references(() => charge.id, { onDelete: 'cascade' })
+		.notNull()
 });
 
-export const productOrderRelations = relations(productOrder, ({ one, many }) => ({
+export const productOrderRelations = relations(productOrder, ({ one }) => ({
 	product: one(product, {
 		references: [product.id],
 		fields: [productOrder.product_id]

@@ -70,11 +70,14 @@ export const actions: Actions = {
 			visit_id: visti_id
 		});
 		await db.insert(productOrder).values({
-			charge_id: charge_on_service?.id,
-			product_id: get_product?.id,
+			charge_id: charge_on_service!.id,
+			product_id: get_product!.id,
 			price: get_product?.price,
 			total: get_product?.price,
 			created_at: now_datetime()
+		}).catch((e) => {
+			console.log(e);
+			return fail(500, { serverError: true });
 		});
 	},
 	delete_service: async ({ request, params }) => {
@@ -116,7 +119,7 @@ export const actions: Actions = {
 		}
 		await db.delete(service).where(eq(service.id, +id));
 	},
-	create_protocol: async ({ request, params }) => {
+	create_protocol: async ({ request }) => {
 		const body = await request.formData();
 		const {
 			surgeon,
@@ -189,7 +192,6 @@ export const actions: Actions = {
 					surgeon: surgeon,
 					type_anesthesia: type_anesthesia
 				})
-
 				.catch((e) => {
 					console.log(e);
 					return fail(500, { serverError: true });

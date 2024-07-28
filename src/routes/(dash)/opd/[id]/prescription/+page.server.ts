@@ -99,7 +99,7 @@ export const actions: Actions = {
 			(e) => e.charge_on === 'prescription'
 		);
 		await db.insert(productOrder).values({
-			charge_id: charge_on_prescription?.id,
+			charge_id: charge_on_prescription!.id,
 			product_id: +product_id,
 			created_at: now_datetime(),
 			price: get_product?.price,
