@@ -7,8 +7,13 @@ import { eq } from 'drizzle-orm';
 import { user } from '$lib/server/schema';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	if (locals.session) redirect(307, `/dashboard`);
-	return {};
+	// if (locals.session) redirect(307, `/dashboard`);
+	const get_clinichinfo = await db.query.clinicinfo.findFirst({
+		with:{
+			fileOrPicture:true
+		}
+	})
+	return {get_clinichinfo};
 };
 
 export const actions: Actions = {

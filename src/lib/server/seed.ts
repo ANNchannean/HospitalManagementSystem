@@ -32,9 +32,6 @@ async function main() {
 	await db.insert(test).values({
 		decimal: 12.1155555
 	});
-	await db.update(test).set({
-		decimal: 1.2
-	});
 	process.exit(0);
 }
 
