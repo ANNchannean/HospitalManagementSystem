@@ -3,9 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
-	import { t } from '$lib/translations';
 	import type { PageServerData } from '../../../routes/(dash)/imagerie/$types';
-	import ImagePreview from '../ImagePreview.svelte';
 	import Select from '../Select.svelte';
 	import SubmitButton from '../SubmitButton.svelte';
 	export let imagerie_request_id: number;

@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { fileOrPicture, product, productGroupType } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { and, asc, desc, eq, like, or } from 'drizzle-orm';
+import { and, asc, eq, like, or } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
 

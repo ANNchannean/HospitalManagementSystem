@@ -3,9 +3,7 @@ import { visit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
-	const get_departments = await db.query.department.findMany();
-	const get_staffs = await db.query.staff.findMany();
+export const load = (async () => {
 	const get_pregress_notes = await db.query.progressNote.findMany({
 		with: {
 			patient: true,

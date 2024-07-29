@@ -1,6 +1,6 @@
-import { db } from './db';
-import { sql } from 'drizzle-orm';
-import * as schemas from './schema';
+// import { db } from './db';
+// import { sql } from 'drizzle-orm';
+// import * as schemas from './schema';
 const main = async () => {
 	console.log('Earasing');
 

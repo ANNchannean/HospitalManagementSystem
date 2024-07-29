@@ -40,7 +40,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body table-responsive p-0">
-				{#each removeDuplicateDate || [] as { date_checkup }, index}
+				{#each removeDuplicateDate || [] as { date_checkup }}
 					{@const f_date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
 						new Date(date_checkup ?? '')
 					)}

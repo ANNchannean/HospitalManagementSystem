@@ -5,8 +5,8 @@ import { eq } from 'drizzle-orm';
 import { fileOrPicture } from '$lib/server/schema';
 import fs from 'fs';
 import path from 'path';
-export const GET: RequestHandler = async ({ params, setHeaders }) => {
-	let dirname = process.cwd();
+export const GET: RequestHandler = async ({ params }) => {
+	const dirname = process.cwd();
 	if (!params.file) {
 		error(404, {
 			message: 'File or Image not found'
@@ -22,7 +22,7 @@ export const GET: RequestHandler = async ({ params, setHeaders }) => {
 			message: 'File or Image not found'
 		});
 	}
-	let file = fs.readFileSync(path.join(dirname, 'files', get_file.filename));
+	const file = fs.readFileSync(path.join(dirname, 'files', get_file.filename));
 	// setHeaders({
 	// 	'Content-Type': get_file?.mimeType ?? '',
 	// 	'Content-Length': get_file?.size?.toString() ?? '',

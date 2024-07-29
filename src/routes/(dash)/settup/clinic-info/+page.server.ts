@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db';
-import { updateFile, uploadFile } from '$lib/server/fileHandle';
+import { updateFile } from '$lib/server/fileHandle';
 import { clinicinfo, fileOrPicture } from '$lib/server/schema';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
-export const load: PageServerLoad = async ({}) => {
+export const load: PageServerLoad = async () => {
 	const get_clinic_info = await db.query.clinicinfo.findFirst({
 		with: {
 			fileOrPicture: true
@@ -22,14 +22,18 @@ export const actions: Actions = {
 			body
 		) as Record<string, string>;
 		const file = body.get('file') as File;
+		const fineclinichinfo = await db.query.clinicinfo.findFirst();
 		if (id) {
-			await db.update(clinicinfo).set({
-				address: address,
-				detail: detail,
-				contact: contact,
-				title_eng: title_eng,
-				title_khm: title_khm
-			});
+			await db
+				.update(clinicinfo)
+				.set({
+					address: address,
+					detail: detail,
+					contact: contact,
+					title_eng: title_eng,
+					title_khm: title_khm
+				})
+				.where(eq(clinicinfo.id, fineclinichinfo!.id));
 		}
 		if (!id) {
 			await db.insert(clinicinfo).values({

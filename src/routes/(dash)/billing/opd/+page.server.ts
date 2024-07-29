@@ -1,9 +1,9 @@
 import { db } from '$lib/server/db';
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { billing } from '$lib/server/schema';
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async () => {
 	const get_billings = await db.query.billing.findMany({
 		where: eq(billing.status, 'process'),
 		with: {

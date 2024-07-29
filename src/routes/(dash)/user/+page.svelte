@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import { inerHight } from '$lib/store';
 	import CreateUser from '$lib/components/createORupdate/CreateUser.svelte';
@@ -89,7 +89,7 @@
 						</tr>
 					</thead>
 					<tbody class="table-sm">
-						{#each get_users as item, index}
+						{#each get_users as item}
 							<tr>
 								<td>{item.id ?? ''}</td>
 								<td>{item.username ?? ''} </td>

@@ -1,10 +1,9 @@
 import { db } from '$lib/server/db';
-import { bed, department, product, productGroupType, room, ward } from '$lib/server/schema';
-import { fail } from '@sveltejs/kit';
+import { bed, product, productGroupType, room, ward } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_product_type = await db.query.productGroupType.findFirst({
 		where: eq(productGroupType.group_type, 'Room')
 	});

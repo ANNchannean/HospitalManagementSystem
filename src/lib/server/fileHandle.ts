@@ -2,17 +2,13 @@ import * as fs from 'fs/promises';
 import { now_datetime_number } from './utils';
 import { generateId } from 'lucia';
 import path from 'path';
-let location = 'files';
+const location = 'files';
 import sharp from 'sharp';
-const config = {
-	jpeg: { quality: 80 },
-	webp: { quality: 80 },
-	png: { compressionLevel: 8 }
-};
+
 export const uploadFile = async (file: File) => {
 	if (file?.size) {
 		try {
-			let uid = generateId(10);
+			const uid = generateId(10);
 			const date_number = now_datetime_number().concat('-').concat(uid);
 			const filePath = path.join(
 				process.cwd(),
@@ -37,7 +33,7 @@ export const updateFile = async (file: File, fileName: string) => {
 	if (file.size) {
 		try {
 			if (fileName.length) await fs.unlink(`${location}/${fileName}`);
-			let uid = generateId(10);
+			const uid = generateId(10);
 			const date_number = now_datetime_number().concat('-').concat(uid);
 			const filePath = path.join(
 				process.cwd(),
@@ -69,14 +65,14 @@ export const deleteFile = async (fileName: string) => {
 	}
 };
 
-const fileDelete = async (fileName: string) => {
-	if (!fileName) return;
-	try {
-		await fs.unlink(`${location}/${fileName}`);
-	} catch (error) {
-		console.log(error);
-	}
-};
+// const fileDelete = async (fileName: string) => {
+// 	if (!fileName) return;
+// 	try {
+// 		await fs.unlink(`${location}/${fileName}`);
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
 
 export const getBuffer = async (file: File) => {
 	const arrayBuffer = await file.arrayBuffer();

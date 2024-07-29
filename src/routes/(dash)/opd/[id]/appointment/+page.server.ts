@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db';
-import { appointment, visit } from '$lib/server/schema';
+import { appointment } from '$lib/server/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
-export const load = (async ({ url, params }) => {
+export const load = (async ({ params }) => {
 	const visit_id = parseInt(params.id);
 	const get_appointment = await db.query.appointment.findFirst({
 		where: eq(appointment.visit_id, visit_id)

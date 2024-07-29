@@ -1,9 +1,8 @@
 <script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
-	import { t } from '$lib/translations';
 	import { inerHight } from '$lib/store';
 	export let data: PageServerData;
 	let ward_id: number;
@@ -254,7 +253,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each wards as { bed, room, ward, id }, index}
+						{#each wards as { room, ward, id }, index}
 							<tr>
 								<td class="text-center">{index + 1}</td>
 								<td>{ward}</td>

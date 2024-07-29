@@ -8,7 +8,7 @@ import { vitalSign } from './vitalSign';
 import { physicalExam } from './physicaleExam';
 import { laboratory, laboratoryRequest } from './laboratory';
 import { imagerieRequest } from './imagerie';
-import { billing, charge } from './billing';
+import { billing } from './billing';
 import { presrciption } from './presrciption';
 import { service } from './service';
 

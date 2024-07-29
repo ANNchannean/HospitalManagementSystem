@@ -21,7 +21,7 @@
 	<form
 		use:enhance={() => {
 			loading = true;
-			return async ({ update, result }) => {
+			return async ({ update }) => {
 				await update();
 				loading = false;
 			};

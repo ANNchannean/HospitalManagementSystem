@@ -1,10 +1,9 @@
 import { db } from '$lib/server/db';
 import { vaccine } from '$lib/server/schema';
-import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { eq, lte } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_vaccins = await db.query.vaccine.findMany({});
 	const get_vaccin_types = await db.query.vaccineType.findMany({});
 	return {

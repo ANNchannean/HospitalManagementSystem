@@ -124,9 +124,7 @@
 							<div class="col-12 py-3">
 								<div class="card">
 									<div class="card-header fs-4">
-										
-											<span>#{item.product?.products ?? ''}</span>
-									
+										<span>#{item.product?.products ?? ''}</span>
 									</div>
 									<div class="card-body table-responsive p-0">
 										<table class="table">

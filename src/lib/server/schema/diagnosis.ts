@@ -8,7 +8,7 @@ export const diagnosis = mysqlTable('diagnosis', {
 	diagnosis_type_id: int('diagnosis_type_id').references(() => diagnosisType.id)
 });
 
-export const diagnosisRelations = relations(diagnosis, ({ one, many }) => ({
+export const diagnosisRelations = relations(diagnosis, ({ one }) => ({
 	diagnosisType: one(diagnosisType, {
 		fields: [diagnosis.diagnosis_type_id],
 		references: [diagnosisType.id]

@@ -7,7 +7,7 @@ import { fail } from '@sveltejs/kit';
 import child from 'child_process';
 import util from 'util';
 const exec = util.promisify(child.exec);
-export const load: PageServerLoad = async ({}) => {
+export const load: PageServerLoad = async () => {
 	const filePath = path.join(process.cwd(), 'sql-backup');
 	const file_list = (await fs.readdir(filePath)).reverse();
 	return {
@@ -17,7 +17,7 @@ export const load: PageServerLoad = async ({}) => {
 
 export const actions: Actions = {
 	backup: async () => {
-		let date = now_datetime();
+		const date = now_datetime();
 		const name_backup = date.split(' ').join('_').split(':').join('.').concat('.sql');
 		const filePath = path.join(process.cwd(), 'sql-backup');
 		try {

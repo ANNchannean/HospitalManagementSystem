@@ -45,7 +45,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			}
 		}
 	});
-	let removeDuplicateDate = get_progress_note?.visit.filter(
+	const removeDuplicateDate = get_progress_note?.visit.filter(
 		(value, index, selt) =>
 			index ===
 			selt.findIndex(
@@ -85,10 +85,8 @@ export const actions: Actions = {
 				return fail(500, { serverError: true });
 			});
 	},
-	delete_visit_ipd: async ({ request, params }) => {
-		const progress_note_id = params.progress_note_id;
+	delete_visit_ipd: async ({ request }) => {
 		const body = await request.formData();
-		const created_at = now_datetime();
 		const { id } = Object.fromEntries(body) as Record<string, string>;
 		await db
 			.delete(visit)

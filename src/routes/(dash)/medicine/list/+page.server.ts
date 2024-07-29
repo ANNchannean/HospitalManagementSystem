@@ -4,7 +4,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_product_type = await db.query.productGroupType.findFirst({
 		where: like(productGroupType.group_type, 'Medicine')
 	});

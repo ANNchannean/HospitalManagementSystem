@@ -45,7 +45,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 			}
 		}
 	});
-	let removeDuplicateName = get_visit?.laboratoryRequest.filter(
+	const removeDuplicateName = get_visit?.laboratoryRequest.filter(
 		(value, index, selt) =>
 			index ===
 			selt.findIndex((t) => t.product?.laboratory_group_id === value.product?.laboratory_group_id)

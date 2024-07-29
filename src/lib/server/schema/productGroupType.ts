@@ -7,7 +7,7 @@ export const productGroupType = mysqlTable('product_group_type', {
 	id: int('id').primaryKey().autoincrement(),
 	group_type: varchar('group_type', { length: 255 }).notNull()
 });
-export const productGroupTypeRelations = relations(productGroupType, ({ one, many }) => ({
+export const productGroupTypeRelations = relations(productGroupType, ({ many }) => ({
 	product: many(product),
 	unit: many(unit)
 }));

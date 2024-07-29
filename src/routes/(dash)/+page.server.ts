@@ -9,12 +9,10 @@ export const load = (async ({ cookies }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	lang_en: async ({ cookies, request }) => {
-		const body = await request.formData();
+	lang_en: async ({ cookies }) => {
 		cookies.set('lang', `en`, { path: '/', secure: !dev, sameSite: 'strict' });
 	},
-	lang_ko: async ({ cookies, request }) => {
-		const body = await request.formData();
+	lang_ko: async ({ cookies }) => {
 		cookies.set('lang', `ko`, { path: '/', secure: !dev, sameSite: 'strict' });
 	}
 };

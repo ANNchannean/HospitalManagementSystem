@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { int, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
+import { int, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
 import { visit } from './visit';
 import { vitalSign } from './vitalSign';
 import { user } from './user';

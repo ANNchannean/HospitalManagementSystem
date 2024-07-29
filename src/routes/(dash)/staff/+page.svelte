@@ -91,7 +91,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_staffs as item, index}
+						{#each get_staffs as item}
 							<tr>
 								<td class="text-center">{item.id ?? ''}</td>
 								<td>{item.name ?? ''} </td>

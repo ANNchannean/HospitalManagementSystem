@@ -2,13 +2,11 @@
 	import type { LayoutServerData } from './$types';
 	export let data: LayoutServerData;
 	import { page, navigating } from '$app/stores';
-	import { t, locales, locale } from '$lib/translations';
-	import { onNavigate } from '$app/navigation';
+	import { t, locale } from '$lib/translations';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { inerHight, globalLoading } from '$lib/store';
-	import { browser } from '$app/environment';
-	$: ({ user, get_clinich_info } = data);
+	$: ({ get_clinich_info } = data);
 	// onNavigate((navigation) => {
 	// 	if (!document.startViewTransition) return;
 	// 	return new Promise((resolve) => {

@@ -47,9 +47,7 @@
 
 <div class="card">
 	<div class="card-header fs-4">
-		
-			<span># Remark</span>
-	
+		<span># Remark</span>
 	</div>
 	<form
 		enctype="multipart/form-data"

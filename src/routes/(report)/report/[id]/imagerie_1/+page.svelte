@@ -2,7 +2,6 @@
 	import '$lib/style.css';
 	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
-	import { browser } from '$app/environment';
 	import { dobToAge } from '$lib/helper';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);

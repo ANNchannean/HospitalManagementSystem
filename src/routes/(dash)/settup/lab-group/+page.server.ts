@@ -2,9 +2,9 @@ import { db } from '$lib/server/db';
 import { laboratoryGroup } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { eq, lte } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_lab_groups = await db.query.laboratoryGroup.findMany({});
 	return {
 		get_lab_groups

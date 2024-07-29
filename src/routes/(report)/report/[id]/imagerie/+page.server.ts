@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db';
-import { asc, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import QRCode from 'qrcode';
-import { fileOrPicture, imagerieRequest, parameter, visit } from '$lib/server/schema';
+import { imagerieRequest } from '$lib/server/schema';
 export const load: PageServerLoad = async ({ params, url }) => {
 	const imagerie_request_id = params.id;
 	const get_imagerie_request = await db.query.imagerieRequest.findFirst({

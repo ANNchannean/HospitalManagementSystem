@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ params }) => {
 export const actions: Actions = {
 	create_vital_sign_ipd: async ({ request, params }) => {
 		const body = await request.formData();
-		let progress_note_id = params.progress_note_id;
+		const progress_note_id = params.progress_note_id;
 		const {
 			sbp,
 			dbp,

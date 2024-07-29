@@ -4,7 +4,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_departments = await db.query.department.findMany();
 	const get_staffs = await db.query.staff.findMany();
 	const get_visits = await db.query.visit.findMany({

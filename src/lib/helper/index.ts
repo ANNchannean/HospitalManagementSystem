@@ -1,9 +1,9 @@
 export function dobToAge({ d, m, y, date }: { d: number; m: number; y: number; date: Date }) {
-	let now = date;
+	const now = date;
 	let now_d = now.getDate();
 	let now_m = now.getMonth() + 1;
 	let now_y = now.getFullYear();
-	let daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
+	const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
 	if (d > now_d) {
 		now_d = now_d + daysInMonth(now_y, now_m);
 		now_m = now_m - 1;

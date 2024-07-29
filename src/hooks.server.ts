@@ -1,5 +1,5 @@
 import { lucia } from '$lib/server/lucia';
-import { error, type Handle } from '@sveltejs/kit';
+import { type Handle } from '@sveltejs/kit';
 export const handle: Handle = async ({ event, resolve }) => {
 	// @ Auth Lucaia
 	const lang = event.cookies.get('lang') ?? '';

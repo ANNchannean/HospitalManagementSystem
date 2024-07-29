@@ -2,12 +2,11 @@ import { db } from '$lib/server/db';
 import { department, staff, patient, visit, progressNote } from '$lib/server/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, eq, lte } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 
 export const load = (async ({ url }) => {
 	const patient_id = url.searchParams.get('patient_id');
-	const visit_id = url.searchParams.get('visit_id');
 	const get_departments = await db.query.department.findMany({
 		orderBy: asc(department.department)
 	});

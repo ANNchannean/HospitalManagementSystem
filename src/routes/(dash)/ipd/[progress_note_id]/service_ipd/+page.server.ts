@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { operationProtocol, product, productGroupType, service } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 
@@ -44,13 +44,13 @@ export const actions: Actions = {
 			visit_id: visti_id
 		});
 	},
-	delete_service: async ({ request, params }) => {
+	delete_service: async ({ request }) => {
 		const body = await request.formData();
 
 		const { id } = Object.fromEntries(body) as Record<string, string>;
 		await db.delete(service).where(eq(service.id, +id));
 	},
-	create_protocol: async ({ request, params }) => {
+	create_protocol: async ({ request }) => {
 		const body = await request.formData();
 		const {
 			surgeon,

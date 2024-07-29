@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { parameter, product } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, desc, eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 
 export const load = (async ({ params }) => {
 	const [get_lab_groups, get_units, get_parameters, get_product_labo] = await Promise.all([

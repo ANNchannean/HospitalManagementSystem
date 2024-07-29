@@ -12,10 +12,6 @@ declare global {
 			session: import('lucia').Session | null;
 			lang: string;
 		}
-		interface PageState {
-			data: any;
-			modal: boolean;
-		}
 	}
 	interface ViewTransition {
 		updateCallbackDone: Promise<void>;

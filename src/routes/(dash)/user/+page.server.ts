@@ -2,10 +2,10 @@ import { db } from '$lib/server/db';
 import { user } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { eq, lte } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_staffs = await db.query.staff.findMany({});
 	const get_users = await db.query.user.findMany({});
 	return {

@@ -1,13 +1,10 @@
 <script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
-	import { t } from '$lib/translations';
 	import { page } from '$app/stores';
 	export let data: PageServerData;
 	let ward_id: number;
-	let bed_id: number;
 	let room_id: number;
 	let loading = false;
 	$: ({ get_ward, get_products, get_wards } = data);
@@ -262,7 +259,7 @@
 
 <div class="row">
 	<div data-bs-sveltekit-noscroll class="col-sm-12">
-		{#each get_ward?.room || [] as { description, id, room, product }}
+		{#each get_ward?.room || [] as { id, room, product }}
 			{@const active = id === room_id ? true : false}
 			<div class="btn-group me-3 mt-3">
 				<button
@@ -302,7 +299,7 @@
 
 <div class="row">
 	<div class="col-sm-6">
-		{#each find_room?.bed || [] as { bed, id }}
+		{#each find_room?.bed || [] as { bed }}
 			<button class="btn btn-success m-2">
 				<i class="fa-solid fa-bed fa-6x"></i> <br />
 				<h3>{bed ?? ''}</h3>

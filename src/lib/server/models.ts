@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from './db';
-import { billing, charge, payment, productOrder } from './schema';
+import { billing, charge, productOrder } from './schema';
 import { now_datetime } from './utils';
 
 export const deleteProductOrder = async (product_order_id: number) => {
@@ -26,7 +26,7 @@ export const createProductOrder = async ({
 	});
 	const get_product_order = get_charge?.productOrder.find((e) => e.product_id === product_id);
 	if (get_product_order) {
-		let calulator_disc = get_product_order!.discount!.includes('%')
+		const calulator_disc = get_product_order!.discount!.includes('%')
 			? price - (price * Number(get_product_order!.discount!.replace('%', ''))) / 100
 			: price - Number(get_product_order.discount);
 		await db
@@ -67,7 +67,7 @@ export const updateProductOrder = async ({
 		}
 	});
 	if (get_product_order) {
-		let calulator_disc = disc.includes('%')
+		const calulator_disc = disc.includes('%')
 			? price - (price * Number(disc.replace('%', ''))) / 100
 			: price - Number(disc);
 		await db
@@ -100,8 +100,8 @@ export const updateCharge = async (charge_id: number) => {
 		where: eq(billing.id, get_charge?.billing_id || 0),
 		with: { charge: true }
 	});
-	let sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0);
-	let total = Number(sub_total) - Number(get_billing?.discount);
+	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0);
+	const total = Number(sub_total) - Number(get_billing?.discount);
 	await db
 		.update(billing)
 		.set({
@@ -128,8 +128,8 @@ export const updatChargeByValue = async (charge_id: number, total_charge: number
 		where: eq(billing.id, get_charge?.billing_id || 0),
 		with: { charge: true }
 	});
-	let sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0);
-	let total = Number(sub_total) - Number(get_billing?.discount);
+	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0);
+	const total = Number(sub_total) - Number(get_billing?.discount);
 	await db
 		.update(billing)
 		.set({
@@ -157,8 +157,8 @@ export const billingProcess = async ({
 		}
 	});
 	const sub_total = Number(get_billing?.sub_total);
-	let price = sub_total;
-	let total = disc.includes('%')
+	const price = sub_total;
+	const total = disc.includes('%')
 		? price - (price * Number(disc.replace('%', ''))) / 100
 		: price - Number(disc);
 

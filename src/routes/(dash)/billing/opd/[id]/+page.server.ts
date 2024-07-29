@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { and, asc, desc, eq, like, notIlike, notLike, or } from 'drizzle-orm';
+import { and, asc, eq, like, notLike, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schema';
 import {
@@ -149,7 +149,7 @@ export const actions: Actions = {
 			product_id: +product_id
 		});
 	},
-	remove_product_order: async ({ request, url }) => {
+	remove_product_order: async ({ request }) => {
 		const body = await request.formData();
 		const { product_order_id } = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {

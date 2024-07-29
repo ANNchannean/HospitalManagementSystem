@@ -24,8 +24,6 @@
 							<div class="col-12">
 								<div class="row">
 									<div class="col-auto text-center">
-										<!-- svelte-ignore a11y-click-events-have-key-events -->
-										<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 										<img
 											id="imgp1"
 											height="150px"

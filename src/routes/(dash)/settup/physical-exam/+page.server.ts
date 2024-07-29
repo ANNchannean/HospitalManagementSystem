@@ -4,7 +4,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_physical = await db.query.physical.findMany();
 	const get_exams = await db.query.exam.findMany({
 		orderBy: asc(exam.id),

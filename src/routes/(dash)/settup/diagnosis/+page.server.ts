@@ -1,7 +1,6 @@
 import { db } from '$lib/server/db';
-import { diagnosis, product, unit } from '$lib/server/schema';
-import { fail } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
+import { diagnosis } from '$lib/server/schema';
+import type { PageServerLoad } from './$types';
 import { and, eq, like, or } from 'drizzle-orm';
 
 export const load = (async ({ url }) => {

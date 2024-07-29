@@ -4,7 +4,7 @@
 	import type { PageServerData } from './$types';
 	import Select from '$lib/components/Select.svelte';
 	export let data: PageServerData;
-	$: ({ get_diagnosis, get_diagnosisTypes, get_accessment } = data);
+	$: ({ get_diagnosis, get_diagnosisTypes } = data);
 	let diagnosis_type_id: number;
 	$: find_diagnosis = get_diagnosis.filter(
 		(e) => e.diagnosis_type_id === Number(diagnosis_type_id)

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/SubmitButton.svelte';

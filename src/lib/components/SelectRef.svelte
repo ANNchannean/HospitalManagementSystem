@@ -32,7 +32,7 @@
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 
 		<span
-			on:click={(e) => {
+			on:click={() => {
 				value = '';
 				goto(`${mainParams}=${chailParams}`, { keepFocus: true, noScroll: true });
 			}}

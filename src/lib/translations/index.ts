@@ -5,6 +5,7 @@ import type { Config } from '@sveltekit-i18n/parser-icu';
 
 import lang from './lang.json';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 const config: Config<{
 	/* Translation payload props */
 }> = {

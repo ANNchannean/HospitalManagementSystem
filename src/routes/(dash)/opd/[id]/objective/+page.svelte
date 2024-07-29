@@ -80,9 +80,8 @@
 <br />
 <div class="card card-info">
 	<div class="card-header fs-4">
-	
-			<span># Physical Exam</span>
-	
+		<span># Physical Exam</span>
+
 		<!-- Default dropleft button -->
 	</div>
 

@@ -1,10 +1,7 @@
 import { db } from '$lib/server/db';
-import { adviceTeaching, presrciption, product, unit, use, visit } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
-import { eq } from 'drizzle-orm';
+import type { PageServerLoad } from './$types';
 
-export const load = (async ({ url, params }) => {
+export const load = (async () => {
 	const get_prescriptions = await db.query.presrciption.findMany({
 		with: {
 			product: true,

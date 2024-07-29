@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db';
-import { remark, visit } from '$lib/server/schema';
+import { remark } from '$lib/server/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
-export const load = (async ({ url, params }) => {
+export const load = (async ({ params }) => {
 	const visit_id = parseInt(params.id);
 	const get_remark = await db.query.remark.findFirst({
 		where: eq(remark.visit_id, visit_id)

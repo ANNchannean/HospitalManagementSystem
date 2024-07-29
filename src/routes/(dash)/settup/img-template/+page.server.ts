@@ -2,9 +2,9 @@ import { db } from '$lib/server/db';
 import { template } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, eq, like } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_templates = await db.query.template.findMany({
 		orderBy: asc(template.diagnosis)
 	});

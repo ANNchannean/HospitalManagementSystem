@@ -1,8 +1,8 @@
 import { db } from './db';
-import { product, test, user } from './schema';
-import { generateIdFromEntropySize } from 'lucia';
-import { hash } from '@node-rs/argon2';
-import { eq } from 'drizzle-orm';
+import { test } from './schema';
+// import { generateIdFromEntropySize } from 'lucia';
+// import { hash } from '@node-rs/argon2';
+// import { eq } from 'drizzle-orm';
 async function main() {
 	console.log('Seed start');
 	// const userId = generateIdFromEntropySize(10);
@@ -31,6 +31,9 @@ async function main() {
 	// }
 	await db.insert(test).values({
 		decimal: 12.1155555
+	});
+	await db.update(test).set({
+		decimal: 1.2
 	});
 	process.exit(0);
 }

@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { physicalExam, visit, vitalSign } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 

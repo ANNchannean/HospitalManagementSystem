@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { inerHight } from '$lib/store';
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	$: ({ get_clinic_info } = data);
 	let edit = false;
 	let loading = false;
 	let file1: any;
-	let file2: any;
 </script>
 
 <div class="row">

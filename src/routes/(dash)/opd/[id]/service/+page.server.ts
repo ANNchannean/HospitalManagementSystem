@@ -7,7 +7,7 @@ import {
 	service,
 	visit
 } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';

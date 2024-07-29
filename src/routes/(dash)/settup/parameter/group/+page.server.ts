@@ -4,7 +4,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, like } from 'drizzle-orm';
 
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	const get_lab_groups = await db.query.laboratoryGroup.findMany({});
 	const get_units = await db.query.unit.findMany({});
 	const get_product_type = await db.query.productGroupType.findFirst({

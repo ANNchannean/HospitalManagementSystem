@@ -10,9 +10,8 @@ import {
 	productOrder,
 	visit
 } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, desc, eq, isNotNull } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 export const load = (async ({ url }) => {
@@ -69,7 +68,7 @@ export const load = (async ({ url }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	update_laboratory_request: async ({ request, url }) => {
+	update_laboratory_request: async ({ request }) => {
 		const body = await request.formData();
 		const visit_id = body.get('visit_id') ?? '';
 		const product_id = body.getAll('product_id');
@@ -101,7 +100,7 @@ export const actions: Actions = {
 			(e) => e.charge_on === 'laboratory'
 		);
 		for (const e of product_id) {
-			let is_created = get_visit?.laboratoryRequest.find((ee) => ee.product_id === +e);
+			const is_created = get_visit?.laboratoryRequest.find((ee) => ee.product_id === +e);
 			if (!is_created) {
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
@@ -134,7 +133,7 @@ export const actions: Actions = {
 			}
 		}
 		for (const e of get_visit!.laboratoryRequest) {
-			let is_created = product_id.find((ee) => +ee === e.product_id);
+			const is_created = product_id.find((ee) => +ee === e.product_id);
 			if (!is_created) {
 				const product_order_ = charge_on_laboratory?.productOrder.find(
 					(ee) => ee.product_id === e.product_id
@@ -165,7 +164,7 @@ export const actions: Actions = {
 			})
 			.where(eq(charge.id, charge_on_laboratory!.id));
 	},
-	create_laboratory_result: async ({ request, url }) => {
+	create_laboratory_result: async ({ request }) => {
 		const body = await request.formData();
 		const laboratory_result = body.getAll('laboratory_result') as string[];
 		const parameter_id = body.getAll('parameter_id') as string[];
@@ -238,7 +237,7 @@ export const actions: Actions = {
 		}
 		for (const e of file) {
 			if (e.size) {
-				let filename = await uploadFile(e);
+				const filename = await uploadFile(e);
 				await db.insert(fileOrPicture).values({
 					filename: filename,
 					lastModified: e.lastModified,

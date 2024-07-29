@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { fileOrPicture, patient } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, desc, eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 
@@ -164,7 +164,7 @@ export const actions: Actions = {
 					.where(eq(fileOrPicture.patient_id, +patient_id))
 					.catch((e) => console.log(e));
 				if (old_image !== '') {
-					let filename = (await updateFile(image, old_image)) ?? '';
+					const filename = (await updateFile(image, old_image)) ?? '';
 					await db.insert(fileOrPicture).values({
 						filename: filename,
 						mimeType: image.type,
@@ -174,7 +174,7 @@ export const actions: Actions = {
 					});
 				}
 				if (old_image === '') {
-					let filename = (await uploadFile(image)) ?? '';
+					const filename = (await uploadFile(image)) ?? '';
 					await db.insert(fileOrPicture).values({
 						filename: filename,
 						mimeType: image.type,

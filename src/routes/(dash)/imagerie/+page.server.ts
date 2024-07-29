@@ -59,7 +59,7 @@ export const actions: Actions = {
 
 		if (get_visit) {
 			for (const e of product_id) {
-				let is_created = get_visit.imagerieRequest.find((ee) => ee.product_id === +e);
+				const is_created = get_visit.imagerieRequest.find((ee) => ee.product_id === +e);
 				if (!is_created) {
 					await db.insert(imagerieRequest).values({
 						product_id: +e,
@@ -69,7 +69,7 @@ export const actions: Actions = {
 			}
 		}
 		for (const e of get_visit!.imagerieRequest) {
-			let is_created = product_id.find((ee) => +ee === e.product_id);
+			const is_created = product_id.find((ee) => +ee === e.product_id);
 			if (!is_created) {
 				await db.delete(imagerieRequest).where(eq(imagerieRequest.id, e.id));
 			}
@@ -89,7 +89,7 @@ export const actions: Actions = {
 
 		for (const e of file) {
 			if (e.size) {
-				let filename = await uploadFile(e);
+				const filename = await uploadFile(e);
 				await db.insert(fileOrPicture).values({
 					filename: filename,
 					lastModified: e.lastModified,

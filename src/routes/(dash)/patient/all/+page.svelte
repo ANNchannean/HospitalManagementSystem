@@ -134,7 +134,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_patients as item, index}
+						{#each get_patients as item}
 							<tr>
 								<td class="text-center">{item.id}</td>
 								<td>

@@ -1,10 +1,10 @@
 import { db } from '$lib/server/db';
-import { parameter, patient, visit } from '$lib/server/schema';
+import { parameter, visit } from '$lib/server/schema';
 import { asc, eq } from 'drizzle-orm';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ params, url }) => {
-	let visit_id = params.id || 0;
+export const load: LayoutServerLoad = async ({ params }) => {
+	const visit_id = params.id || 0;
 	const get_clinic_info = await db.query.clinicinfo.findFirst({
 		with: {
 			fileOrPicture: true

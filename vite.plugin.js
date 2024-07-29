@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import express from 'express';
 const assets = express.static('uploads');
 // @ts-ignore

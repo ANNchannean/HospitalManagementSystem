@@ -1,10 +1,9 @@
 import { db } from '$lib/server/db';
-import { accessment, visit } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
+import { accessment } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
-export const load = (async ({ url, params }) => {
+export const load = (async ({ params }) => {
 	const visit_id = params.id;
 	const get_diagnosis = await db.query.diagnosis.findMany({});
 	const get_diagnosisTypes = await db.query.diagnosisType.findMany({});

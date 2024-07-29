@@ -58,7 +58,7 @@ export const load = (async ({ params }) => {
 
 export const actions: Actions = {
 	create_prescription: async ({ request, params }) => {
-		let visit_id = params.id;
+		const visit_id = params.id;
 		const body = await request.formData();
 		const { product_id, use, amount, duration, morning, noon, afternoon, evening, night } =
 			Object.fromEntries(body) as Record<string, string>;
@@ -126,7 +126,7 @@ export const actions: Actions = {
 			});
 	},
 	update_prescription: async ({ request, params }) => {
-		let visit_id = params.id;
+		const visit_id = params.id;
 		const body = await request.formData();
 		const {
 			product_id,
@@ -245,7 +245,7 @@ export const actions: Actions = {
 			});
 	},
 	create_advice_teaching: async ({ request, params }) => {
-		let visit_id = params.id;
+		const visit_id = params.id;
 		const body = await request.formData();
 		const { advice_teaching } = Object.fromEntries(body) as Record<string, string>;
 		const get_advice_teaching = await db.query.adviceTeaching.findFirst({

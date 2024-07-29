@@ -16,7 +16,7 @@ export const subjective = mysqlTable('subjective', {
 		.unique()
 });
 
-export const subjectiveRelations = relations(subjective, ({ one, many }) => ({
+export const subjectiveRelations = relations(subjective, ({ one }) => ({
 	visit: one(visit, {
 		fields: [subjective.visit_id],
 		references: [visit.id]

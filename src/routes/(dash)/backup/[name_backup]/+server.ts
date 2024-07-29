@@ -4,13 +4,13 @@ import fs from 'fs';
 import path from 'path';
 
 export const GET: RequestHandler = async ({ params }) => {
-	let dirname = process.cwd();
+	const dirname = process.cwd();
 	if (!params.name_backup) {
 		error(404, {
 			message: 'File not found'
 		});
 	}
-	let file = fs.readFileSync(path.join(dirname, 'sql-backup', params.name_backup));
+	const file = fs.readFileSync(path.join(dirname, 'sql-backup', params.name_backup));
 
 	return new Response(file);
 };

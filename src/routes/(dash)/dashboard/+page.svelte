@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { PageServerData } from './$types';
-	export let data: PageServerData;
-	$: ({ picture } = data);
 </script>
 
 <form use:enhance enctype="multipart/form-data" action="?/img" method="post">

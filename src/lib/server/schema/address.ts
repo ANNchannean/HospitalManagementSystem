@@ -46,7 +46,7 @@ export const provice = mysqlTable('provice', {
 });
 
 // @_ProvinceRelationship
-export const provinceRelations = relations(provice, ({ one, many }) => ({
+export const provinceRelations = relations(provice, ({ many }) => ({
 	district: many(district)
 }));
 
