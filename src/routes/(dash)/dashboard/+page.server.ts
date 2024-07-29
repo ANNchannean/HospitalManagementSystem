@@ -1,8 +1,6 @@
 import { db } from '$lib/server/db';
+import { uploadFile } from '$lib/server/fileHandle';
 import type { PageServerLoad, Actions } from './$types';
-import child from 'child_process';
-import util from 'util';
-const exec = util.promisify(child.exec);
 
 export const load: PageServerLoad = async () => {
 	const picture = await db.query.fileOrPicture.findMany({});
@@ -10,16 +8,11 @@ export const load: PageServerLoad = async () => {
 	return { picture };
 };
 export const actions: Actions = {
-	img: async () => {
-		// const body = await request.formData();
-		// try {
-		// 	const file = body.get('file') as File;
-		// 	uploadFile(file);
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+	img: async ({ request }) => {
+		const body = await request.formData();
 		try {
-			await exec(`ls`);
+			const file = body.get('file') as File;
+			await uploadFile(file);
 		} catch (error) {
 			console.log(error);
 		}

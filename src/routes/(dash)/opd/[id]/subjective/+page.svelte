@@ -40,36 +40,6 @@
 			});
 		}
 	});
-	function destroy_summernote() {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			// jQuery('select').selectpicker();
-			jQuery('#cheif_coplaint').summernote('destroy');
-		});
-	}
-	function create_summernote() {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				// jQuery('select').selectpicker();
-				jQuery('#cheif_coplaint').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						// ['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	}
 </script>
 
 <div class="card">
@@ -80,11 +50,9 @@
 		enctype="multipart/form-data"
 		use:enhance={() => {
 			loading = true;
-			return async ({ update, result }) => {
+			return async ({ update }) => {
 				await update();
 				loading = false;
-				if (result.type !== 'failure') {
-				}
 			};
 		}}
 		action="?/create_subjective"

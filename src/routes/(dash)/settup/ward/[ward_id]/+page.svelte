@@ -4,7 +4,6 @@
 	import SubmitButton from '$lib/components/SubmitButton.svelte';
 	import { page } from '$app/stores';
 	export let data: PageServerData;
-	let ward_id: number;
 	let room_id: number;
 	let loading = false;
 	$: ({ get_ward, get_products, get_wards } = data);
@@ -23,7 +22,7 @@
 				return async ({ update, result }) => {
 					await update();
 					loading = false;
-					ward_id = 0;
+
 					if (result.type !== 'failure') document.getElementById('close_create_bed')?.click();
 				};
 			}}
@@ -74,7 +73,7 @@
 				return async ({ update, result }) => {
 					await update();
 					loading = false;
-					ward_id = 0;
+
 					if (result.type !== 'failure') document.getElementById('close_room')?.click();
 				};
 			}}
@@ -134,7 +133,7 @@
 				return async ({ update, result }) => {
 					await update();
 					loading = false;
-					ward_id = 0;
+
 					room_id = 0;
 					if (result.type !== 'failure') document.getElementById('close_update_room')?.click();
 				};

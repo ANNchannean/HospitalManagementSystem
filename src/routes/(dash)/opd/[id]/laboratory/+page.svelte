@@ -71,8 +71,11 @@
 			/>
 		</div>
 		<div class="col-auto">
-			<button type="submit" formaction="?/update_total_laboratory" class="btn btn-success"
-				>Save</button
+			<button
+				disabled={loading}
+				type="submit"
+				formaction="?/update_total_laboratory"
+				class="btn btn-success">Save</button
 			>
 		</div>
 	</div>

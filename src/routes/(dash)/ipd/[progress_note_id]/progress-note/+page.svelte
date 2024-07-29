@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import CreateVisitIpd from '$lib/components/createORupdate/CreateVisitIPD.svelte';
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate } = data);
@@ -64,11 +64,7 @@
 								}).format(new Date(item.date_checkup ?? ''))}
 								{#if f_date === s_date}
 									<tr>
-										<!-- svelte-ignore a11y-invalid-attribute -->
-										<!-- svelte-ignore a11y-missing-content -->
 										<td class="p-2" style="width:9%;">
-											<!-- svelte-ignore a11y-invalid-attribute -->
-
 											<button
 												type="button"
 												class="btn btn-light btn-sm w-100 mb-2"

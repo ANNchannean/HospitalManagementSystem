@@ -122,7 +122,7 @@
 									class="bg-light py-3"
 									use:enhance={() => {
 										loading = true;
-										return async ({ update, result }) => {
+										return async ({ update }) => {
 											await update({ reset: false });
 											loading = false;
 										};

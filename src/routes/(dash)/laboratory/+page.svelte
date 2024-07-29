@@ -103,7 +103,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_visits as item, index}
+						{#each get_visits as item}
 							{@const laboratoryRequests = item.laboratoryRequest}
 							{#if item.laboratoryRequest.length}
 								<tr>

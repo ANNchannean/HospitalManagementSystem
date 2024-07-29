@@ -48,8 +48,6 @@
 		</div>
 
 		<div style=" max-height: {height.concat('px')}; overflow-y: auto;">
-			<!-- svelte-ignore a11y-invalid-attribute -->
-
 			{#each data as item}
 				<button
 					type="button"

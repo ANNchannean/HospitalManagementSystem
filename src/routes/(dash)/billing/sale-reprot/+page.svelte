@@ -76,7 +76,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_billings as item, index}
+						{#each get_billings as item}
 							<tr class="text-center">
 								<td>
 									{item.id}

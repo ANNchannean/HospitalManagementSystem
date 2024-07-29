@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
-	import { enhance } from '$app/forms';
 	export let data: PageServerData;
-	$: ({ get_visits, get_pregress_notes } = data);
+	$: ({ get_pregress_notes } = data);
 	import { inerHight } from '$lib/store';
 </script>
 

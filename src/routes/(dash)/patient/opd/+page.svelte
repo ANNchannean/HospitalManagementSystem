@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import ConfirmeModal from '$lib/components/ConfirmeModal.svelte';
-	import Select from '$lib/components/Select.svelte';
 	import SendToIpd from '$lib/components/SendToIPD.svelte';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
 	import { inerHight } from '$lib/store';
 
 	import type { PageServerData } from './$types';
@@ -120,7 +118,7 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
-												return async ({ update, result }) => {
+												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
@@ -159,7 +157,7 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
-												return async ({ update, result }) => {
+												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
@@ -203,7 +201,7 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
-												return async ({ update, result }) => {
+												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
