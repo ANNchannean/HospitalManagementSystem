@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { inerHight } from '$lib/store';
 	import CreateUser from '$lib/components/createORupdate/CreateUser.svelte';
 	export let data: PageServerData;

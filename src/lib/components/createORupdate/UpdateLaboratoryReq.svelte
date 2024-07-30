@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import type { PageServerData } from '../../../routes/(dash)/laboratory/./$types';
 	export let data: PageServerData;
 	export let visit_id: number;

@@ -5,8 +5,8 @@
 	import { dobToAge } from '$lib/helper';
 	import { t } from '$lib/translations';
 	import type { PageServerData } from '../../../routes/(dash)/laboratory/$types';
-	import ImagePreview from '../ImagePreview.svelte';
-	import SubmitButton from '../SubmitButton.svelte';
+	import ImagePreview from '../etc/ImagePreview.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let visit_id: number;
 	export let data: PageServerData;
 	$: ({ get_visits, get_imagers } = data);

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let loading = false;

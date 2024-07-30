@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CreateUnit from '$lib/components/createORupdate/CreateUnit.svelte';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { inerHight } from '$lib/store';
 	import type { ActionData, PageServerData } from './$types';
 	export let form: ActionData;

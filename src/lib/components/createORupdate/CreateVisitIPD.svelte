@@ -6,8 +6,8 @@
 		ActionData,
 		PageServerData
 	} from '../../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
-	import Select from '../Select.svelte';
-	import SubmitButton from '../SubmitButton.svelte';
+	import Select from '../etc/Select.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let data: PageServerData;
 	$: ({ get_progress_note, get_staffs } = data);
 	let loading = false;

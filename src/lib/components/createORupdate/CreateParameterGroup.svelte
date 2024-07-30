@@ -4,9 +4,9 @@
 		PageServerData
 	} from '../../../routes/(dash)/settup/parameter/group/$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '.././SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
-	import Select from '../Select.svelte';
+	import Select from '../etc/Select.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	export let product_lab_id: number;

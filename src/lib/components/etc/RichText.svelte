@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageServerData } from '../../routes/(dash)/settup/img-template/$types';
+	import type { PageServerData } from '../../../routes/(dash)/settup/img-template/$types';
 	export let data: PageServerData;
 	export let template_id: number;
 	$: ({ get_templates } = data);

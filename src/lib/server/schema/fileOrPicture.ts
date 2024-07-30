@@ -4,7 +4,7 @@ import { relations } from 'drizzle-orm';
 import { imagerieRequest } from './imagerie';
 import { laboratory } from './laboratory';
 import { clinicinfo } from './clinicInfo';
-import { paymentType } from './payment';
+import { payment, paymentType } from './payment';
 import { billing } from './billing';
 import { product } from './product';
 
@@ -35,6 +35,10 @@ export const fileOrPicture = mysqlTable('file_or_picture', {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
 	}),
+	payment_id: int('payment_id').references(() => payment.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
 	product_id: int('product_id').references(() => product.id, {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
@@ -61,6 +65,10 @@ export const fileOrPictureRelations = relations(fileOrPicture, ({ one }) => ({
 	paymentType: one(paymentType, {
 		fields: [fileOrPicture.payment_type_id],
 		references: [paymentType.id]
+	}),
+	payment: one(payment, {
+		fields: [fileOrPicture.payment_id],
+		references: [payment.id]
 	}),
 	billing: one(billing, {
 		fields: [fileOrPicture.billing_id],

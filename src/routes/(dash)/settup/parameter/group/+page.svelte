@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import CreateParameterGroup from '$lib/components/createORupdate/CreateParameterGroup.svelte';
 	import CreateParameter from '$lib/components/createORupdate/CreateParameter.svelte';
 	import { browser } from '$app/environment';

@@ -5,7 +5,7 @@
 		ActionData,
 		PageServerData
 	} from '../../../routes/(dash)/settup/img-template/$types';
-	import SubmitButton from '.././SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let form: ActionData;
 	export let template_id: number;
 	export let data: PageServerData;

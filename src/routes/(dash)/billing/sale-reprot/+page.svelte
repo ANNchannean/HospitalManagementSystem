@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { EventHandler } from 'svelte/elements';
-	import type { PageServerData } from './$types';
+	import type { PageServerData, ActionData } from './$types';
 	import { inerHight } from '$lib/store';
+	import ViewPayBilling from '$lib/components/etc/ViewPayBilling.svelte';
+	import AddPayBilling from '$lib/components/etc/AddPayBilling.svelte';
 	export let data: PageServerData;
+	export let form: ActionData;
 	$: ({ get_billings } = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -14,8 +17,11 @@
 			form.requestSubmit();
 		}, 400);
 	};
+	let billing_id = 0;
 </script>
 
+<ViewPayBilling {data} {billing_id} />
+<AddPayBilling {data} {form} {billing_id} />
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Sale Report</h2>
@@ -54,15 +60,16 @@
 				</div>
 			</div>
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
-				<table class="table table-hover">
+				<table class="table table-bordered table-hover">
 					<thead class="position-sticky top-0 bg-light table-active">
 						<tr class="text-center">
 							<th>ID</th>
 							<th>Date</th>
+							<th>V-Type</th>
 							<th>Patient</th>
-							<th>Contact</th>
+							<th>Gender</th>
 							<th>Age</th>
-							<th>Address</th>
+							<th>Contact</th>
 							<th>Seller</th>
 							<th>Sub Total</th>
 							<th>Disc</th>
@@ -92,7 +99,7 @@
 										hour12: true
 									}).format(new Date(item.visit?.date_checkup ?? ''))}
 								</td>
-
+								<td>{item.visit?.checkin_type ?? ''}</td>
 								<td>
 									<span class="">
 										{item.visit?.patient?.name_khmer}
@@ -102,18 +109,9 @@
 										{item.visit?.patient?.name_latin}
 									</span>
 								</td>
-								<td>{item.visit?.patient?.telephone ?? ''}</td>
+								<td>{item.visit?.patient?.gender ?? ''}</td>
 								<td>{item.visit?.patient?.age ?? ''}</td>
-								<td>
-									{item.visit?.patient?.village?.type ?? ''}
-									{item.visit?.patient?.village?.name_khmer.concat(',') ?? ''}
-									{item.visit?.patient?.commune?.type ?? ''}
-									{item.visit?.patient?.commune?.name_khmer.concat(',') ?? ''}
-									{item.visit?.patient?.district?.type ?? ''}
-									{item.visit?.patient?.district?.name_khmer.concat(',') ?? ''}
-									{item.visit?.patient?.provice?.type ?? ''}
-									{item.visit?.patient?.provice?.name_khmer ?? ''}
-								</td>
+								<td>{item.visit?.patient?.telephone ?? ''}</td>
 								<td></td>
 								<td
 									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
@@ -159,7 +157,44 @@
 										<span class="badge text-bg-danger">{item.status ?? ''}</span>
 									{/if}
 								</td>
-								<td></td>
+								<td>
+									<!-- Example single danger button -->
+									<!-- svelte-ignore a11y-click-events-have-key-events -->
+									<!-- svelte-ignore a11y-no-static-element-interactions -->
+									<div
+										on:click={() => {
+											billing_id = 0;
+											billing_id = item.id;
+										}}
+										class="btn-group"
+									>
+										<button class="btn btn-sm btn-success d-flex gap-2 align-items-center"
+											><i class="fa-solid fa-file"></i></button
+										>
+
+										<button
+											data-bs-toggle="modal"
+											data-bs-target="#view_pay_billing"
+											class="btn btn-sm btn-success d-flex gap-2 align-items-center"
+											><i class="fa-solid fa-comments-dollar"></i></button
+										>
+
+										<button
+											disabled={item.balance <= 0}
+											data-bs-toggle="modal"
+											data-bs-target="#add_pay_billing"
+											class="btn btn-sm btn-success d-flex gap-2 align-items-center"
+											><i class="fa-solid fa-money-check-dollar"></i></button
+										>
+
+										<button class="btn btn-sm btn-primary d-flex gap-2 align-items-center"
+											><i class="fa-solid fa-file-pen"></i></button
+										>
+										<button class="btn btn-sm btn-danger d-flex gap-2 align-items-center"
+											><i class="fa-solid fa-trash-alt"></i></button
+										>
+									</div>
+								</td>
 							</tr>
 						{/each}
 					</tbody>

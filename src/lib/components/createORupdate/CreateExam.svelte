@@ -4,7 +4,7 @@
 		PageServerData
 	} from '../../../routes/(dash)/settup/physical-exam/$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '../SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	export let form: ActionData;
 	export let data: PageServerData;

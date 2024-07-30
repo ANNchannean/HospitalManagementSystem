@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from '../../../routes/(dash)/ipd/[progress_note_id]/nursing-process/$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '../SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	export let data: PageServerData;
 	export let nursing_process_id: number;

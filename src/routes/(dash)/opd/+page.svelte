@@ -1,9 +1,9 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import type { PageServerData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import Select from '$lib/components/Select.svelte';
-	import Toast from '$lib/components/Toast.svelte';
+	import Select from '$lib/components/etc/Select.svelte';
+	import Toast from '$lib/components/etc/Toast.svelte';
 	let loading = false;
 	export let data: PageServerData;
 	export let form: ActionData;

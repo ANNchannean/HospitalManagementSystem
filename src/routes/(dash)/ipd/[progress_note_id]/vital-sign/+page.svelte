@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CreateVitalSignIpd from '$lib/components/createORupdate/CreateVitalSignIPD.svelte';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let vital_sign_id: number;

@@ -10,6 +10,6 @@ export const clinicinfo = mysqlTable('clinicinfo', {
 	contact: text('contact').notNull()
 });
 
-export const clinicinfoRelations = relations(clinicinfo, ({ one }) => ({
-	fileOrPicture: one(fileOrPicture)
+export const clinicinfoRelations = relations(clinicinfo, ({ many }) => ({
+	fileOrPicture: many(fileOrPicture)
 }));

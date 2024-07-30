@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { browser } from '$app/environment';
 	export let parameters_data: any[];
 	export let parameter_data: any;

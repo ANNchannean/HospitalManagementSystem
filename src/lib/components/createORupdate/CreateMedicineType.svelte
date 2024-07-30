@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from '../../../routes/(dash)/medicine/type/$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '.././SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	export let unit_id: number;
 	export let form: ActionData;

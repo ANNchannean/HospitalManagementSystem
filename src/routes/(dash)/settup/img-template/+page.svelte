@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
-	import RichText from '$lib/components/RichText.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import RichText from '$lib/components/etc/RichText.svelte';
 	import CreateTemplate from '$lib/components/createORupdate/CreateTemplate.svelte';
 	import { browser } from '$app/environment';
 	import { inerHight } from '$lib/store';

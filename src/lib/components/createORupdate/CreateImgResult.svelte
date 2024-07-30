@@ -4,8 +4,8 @@
 	import { goto } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
 	import type { PageServerData } from '../../../routes/(dash)/imagerie/$types';
-	import Select from '../Select.svelte';
-	import SubmitButton from '../SubmitButton.svelte';
+	import Select from '../etc/Select.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let imagerie_request_id: number;
 	export let data: PageServerData;
 	$: ({ get_imagerie_templates, get_imagerie_request, get_imagers } = data);

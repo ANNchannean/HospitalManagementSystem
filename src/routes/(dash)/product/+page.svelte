@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import CreateProduct from '$lib/components/createORupdate/CreateProduct.svelte';
 	import type { EventHandler } from 'svelte/elements';
 	import { inerHight } from '$lib/store';

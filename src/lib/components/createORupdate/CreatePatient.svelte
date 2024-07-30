@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from '../../../routes/(dash)/patient/all/$types';
 	import { enhance } from '$app/forms';
-	import ImagePreview from '$lib/components/ImagePreview.svelte';
-	import SubmitButton from '.././SubmitButton.svelte';
+	import ImagePreview from '$lib/components/etc/ImagePreview.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
-	import Select from '../Select.svelte';
+	import Select from '../etc/Select.svelte';
 	import { dobToAge, now_date } from '$lib/helper';
 	import { goto } from '$app/navigation';
 	export let form: ActionData;

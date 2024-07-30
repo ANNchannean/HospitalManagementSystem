@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import ConfirmeModal from '$lib/components/ConfirmeModal.svelte';
-	import SendToIpd from '$lib/components/SendToIPD.svelte';
+	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
+	import SendToIpd from '$lib/components/etc/SendToIPD.svelte';
 	import { inerHight } from '$lib/store';
 
 	import type { PageServerData } from './$types';

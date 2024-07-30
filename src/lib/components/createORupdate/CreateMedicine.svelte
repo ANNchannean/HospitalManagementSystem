@@ -2,8 +2,8 @@
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
 	import type { PageServerData, ActionData } from '../../../routes/(dash)/medicine/list/$types';
-	import SubmitButton from '.././SubmitButton.svelte';
-	import Select from '../Select.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
+	import Select from '../etc/Select.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	export let product_id: number;

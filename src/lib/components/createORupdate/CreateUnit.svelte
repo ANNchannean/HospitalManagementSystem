@@ -2,8 +2,8 @@
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
 	import type { ActionData, PageServerData } from '../../../routes/(dash)/settup/unit/$types';
-	import SubmitButton from '.././SubmitButton.svelte';
-	import Select from '../Select.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
+	import Select from '../etc/Select.svelte';
 	export let form: ActionData;
 	export let unit_id: number;
 	export let data: PageServerData;

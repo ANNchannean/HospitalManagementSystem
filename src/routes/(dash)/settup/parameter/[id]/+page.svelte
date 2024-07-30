@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import UpdateParameter from '$lib/components/createORupdate/UpdateParameter.svelte';
 	import { inerHight } from '$lib/store';
 	import type { ActionData, PageServerData } from './$types';

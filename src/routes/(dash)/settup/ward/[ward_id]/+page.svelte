@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { page } from '$app/stores';
 	export let data: PageServerData;
 	let room_id: number;

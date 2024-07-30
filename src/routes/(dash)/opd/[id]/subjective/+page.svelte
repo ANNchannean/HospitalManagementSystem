@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from '../../../routes/(dash)/user/$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '../SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
-	import Select from '../Select.svelte';
+	import Select from '../etc/Select.svelte';
 
 	export let data: PageServerData;
 	export let user_id: string;

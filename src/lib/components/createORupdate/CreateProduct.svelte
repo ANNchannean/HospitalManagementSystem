@@ -2,8 +2,8 @@
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
 	import type { PageServerData, ActionData } from '../../../routes/(dash)/product/$types';
-	import Select from '../Select.svelte';
-	import SubmitButton from '../SubmitButton.svelte';
+	import Select from '../etc/Select.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import CreateProductGroup from './CreateProductGroup.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;

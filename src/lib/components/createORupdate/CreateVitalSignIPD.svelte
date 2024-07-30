@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from '../../../routes/(dash)/ipd/[progress_note_id]/vital-sign/$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '../SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	export let data: PageServerData;
 	export let vital_sign_id: number;

@@ -3,12 +3,12 @@
 	import type { ActionData, PageServerData } from './$types';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import SelectRef from '$lib/components/SelectRef.svelte';
+	import SelectRef from '$lib/components/etc/SelectRef.svelte';
 	import { enhance } from '$app/forms';
-	import Toast from '$lib/components/Toast.svelte';
+	import Toast from '$lib/components/etc/Toast.svelte';
 	import { globalLoading } from '$lib/store';
-	import SubmiteSearch from '$lib/components/SubmiteSearch.svelte';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmiteSearch from '$lib/components/etc/SubmiteSearch.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -219,7 +219,6 @@
 									</tr>
 								{/each}
 							{/if}
-
 							<!-- Prescription  -->
 							{#if charge_on_prescription?.productOrder.length}
 								{#each charge_on_prescription.productOrder as item (item.id)}
@@ -536,6 +535,13 @@
 						<input type="hidden" name="price" value={item.price} />
 						<button type="button" class="position-relative text-wrap btn m-0 p-0">
 							<img class="img-thumbnail" src="/no-image.jpg" alt="" />
+							<span
+								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
+							>
+								{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+									item.price
+								)}
+							</span>
 							<span
 								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
 							>

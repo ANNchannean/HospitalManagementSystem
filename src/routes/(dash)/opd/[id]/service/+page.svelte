@@ -1,10 +1,10 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { browser } from '$app/environment';
-	import Select from '$lib/components/Select.svelte';
+	import Select from '$lib/components/etc/Select.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;

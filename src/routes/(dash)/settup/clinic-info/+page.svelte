@@ -55,8 +55,10 @@
 			enctype="multipart/form-data"
 			class="card"
 		>
-			<input type="hidden" name="id" value={get_clinic_info?.id || ''} />
-			<input type="hidden" name="logo" value={get_clinic_info?.fileOrPicture?.filename || ''} />
+			<input type="hidden" name="id_logo" value={get_clinic_info?.id || ''} />
+			<input type="hidden" name="id_logo1" value={get_clinic_info?.id || ''} />
+			<input type="hidden" name="logo" value={get_clinic_info?.fileOrPicture[0]?.filename || ''} />
+			<input type="hidden" name="logo1" value={get_clinic_info?.fileOrPicture[1]?.filename || ''} />
 
 			<div class="card-header">
 				{#if !edit}
@@ -85,7 +87,7 @@
 								on:click={() => document.getElementById('img')?.click()}
 								height="170px"
 								class="float-right"
-								src="/files/{get_clinic_info?.fileOrPicture?.filename}"
+							src="/files/{get_clinic_info?.fileOrPicture[0]?.filename}"
 								alt="no logo"
 							/>
 
@@ -198,7 +200,7 @@
 								height="170px"
 								class:border={edit}
 								class="float-right"
-								src="/files/{get_clinic_info?.fileOrPicture?.filename}"
+								src="/files/{get_clinic_info?.fileOrPicture[1]?.filename}"
 								alt="no logo"
 							/>
 

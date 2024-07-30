@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import CreateVitalSign from '$lib/components/createORupdate/CreateVitalSign.svelte';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import { slide } from 'svelte/transition';
 	export let data: PageServerData;

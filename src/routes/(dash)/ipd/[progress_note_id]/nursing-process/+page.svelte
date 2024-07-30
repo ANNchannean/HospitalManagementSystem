@@ -1,6 +1,6 @@
 <script lang="ts">
 	import CreateNursingProcess from '$lib/components/createORupdate/CreateNursingProcess.svelte';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let nursing_process_id: number;

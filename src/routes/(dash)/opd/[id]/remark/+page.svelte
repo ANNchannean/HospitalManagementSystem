@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;

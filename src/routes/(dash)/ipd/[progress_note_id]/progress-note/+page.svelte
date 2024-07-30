@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import CreateVisitIpd from '$lib/components/createORupdate/CreateVisitIPD.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;

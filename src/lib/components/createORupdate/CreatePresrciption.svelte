@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import SubmitButton from '$lib/components/SubmitButton.svelte';
+	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import type {
 		PageServerData,
 		ActionData
 	} from '../../../routes/(dash)/opd/[id]/prescription/$types';
-	import DeleteModal from '../DeleteModal.svelte';
-	import Select from '../Select.svelte';
+	import DeleteModal from '../etc/DeleteModal.svelte';
+	import Select from '../etc/Select.svelte';
 	import CreateDuration from './CreateDuration.svelte';
 	import CreateUse from './CreateUse.svelte';
 	export let data: PageServerData;

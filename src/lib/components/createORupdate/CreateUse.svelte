@@ -6,7 +6,7 @@
 		ActionData,
 		PageServerData
 	} from '../../../routes/(dash)/opd/[id]/prescription/$types';
-	import SubmitButton from '.././SubmitButton.svelte';
+	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let form: ActionData;
 	let use_id: number;
 	export let data: PageServerData;

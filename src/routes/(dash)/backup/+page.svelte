@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { t } from '$lib/translations';
-	import ModalSpiner from '$lib/components/ModalSpiner.svelte';
+	import ModalSpiner from '$lib/components/etc/ModalSpiner.svelte';
 	export let data: PageServerData;
 	let backup_name = '';
 	let loading = false;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import CreateExam from '$lib/components/createORupdate/CreateExam.svelte';
 	import CreatePhysical from '$lib/components/createORupdate/CreatePhysical.svelte';
 	import UpdatePhysical from '$lib/components/createORupdate/UpdatePhysical.svelte';

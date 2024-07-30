@@ -1,20 +1,27 @@
 {
-	"version": "7",
-	"dialect": "mysql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1722154594833,
-			"tag": "0000_jittery_violations",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "5",
-			"when": 1722156401121,
-			"tag": "0001_daffy_avengers",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1722154594833,
+      "tag": "0000_jittery_violations",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1722156401121,
+      "tag": "0001_daffy_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1722308532630,
+      "tag": "0002_lovely_apocalypse",
+      "breakpoints": true
+    }
+  ]
 }
