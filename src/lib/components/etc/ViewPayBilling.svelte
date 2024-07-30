@@ -59,11 +59,11 @@
 										<!-- Example single danger button -->
 										<!-- svelte-ignore a11y-click-events-have-key-events -->
 										<!-- svelte-ignore a11y-no-static-element-interactions -->
-										<div class="btn-group">
+										<div class="">
 											<button
 												data-bs-toggle="modal"
 												data-bs-target="#add_pay_billing"
-												class="btn btn-sm btn-outline-primary d-flex gap-2 align-items-center"
+												class="btn btn-sm btn-primary "
 												><i class="fa-solid fa-file-pen"></i></button
 											>
 											<button
@@ -73,7 +73,7 @@
 												}}
 												data-bs-toggle="modal"
 												data-bs-target="#delete_modal"
-												class="btn btn-sm btn-outline-danger d-flex gap-2 align-items-center"
+												class="btn btn-sm btn-danger "
 												><i class="fa-solid fa-trash-alt"></i></button
 											>
 										</div>

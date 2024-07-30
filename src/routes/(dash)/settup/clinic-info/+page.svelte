@@ -6,7 +6,8 @@
 	$: ({ get_clinic_info } = data);
 	let edit = false;
 	let loading = false;
-	let file1: any;
+	let img0: any;
+	let img1: any;
 </script>
 
 <div class="row">
@@ -55,9 +56,8 @@
 			enctype="multipart/form-data"
 			class="card"
 		>
-			<input type="hidden" name="id_logo" value={get_clinic_info?.id || ''} />
-			<input type="hidden" name="id_logo1" value={get_clinic_info?.id || ''} />
-			<input type="hidden" name="logo" value={get_clinic_info?.fileOrPicture[0]?.filename || ''} />
+			<input type="hidden" name="id" value={get_clinic_info?.id || ''} />
+			<input type="hidden" name="logo0" value={get_clinic_info?.fileOrPicture[0]?.filename || ''} />
 			<input type="hidden" name="logo1" value={get_clinic_info?.fileOrPicture[1]?.filename || ''} />
 
 			<div class="card-header">
@@ -84,7 +84,7 @@
 							<img
 								class:border={edit}
 								id="imgp1"
-								on:click={() => document.getElementById('img')?.click()}
+								on:click={() => document.getElementById('img0')?.click()}
 								height="170px"
 								class="float-right"
 								src="/files/{get_clinic_info?.fileOrPicture[0]?.filename}"
@@ -93,11 +93,11 @@
 
 							{#if edit}
 								<input
-									on:change={(e) => (file1 = e.target)}
+									on:change={(e) => (img0 = e.target)}
 									accept="image/*"
 									type="file"
-									name="file"
-									id="img"
+									name="img0"
+									id="img0"
 									style="display:none;"
 								/>
 							{/if}
@@ -148,7 +148,6 @@
 									autocomplete="off"
 								/>
 							{/if}
-
 							{#if edit}
 								<input
 									value={get_clinic_info?.detail ?? ''}
@@ -196,14 +195,23 @@
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 							<img
-								on:click={() => document.getElementById('img')?.click()}
+								on:click={() => document.getElementById('img1')?.click()}
 								height="170px"
 								class:border={edit}
 								class="float-right"
 								src="/files/{get_clinic_info?.fileOrPicture[1]?.filename}"
 								alt="no logo"
 							/>
-
+							{#if edit}
+								<input
+									on:change={(e) => (img1 = e.target)}
+									accept="image/*"
+									type="file"
+									name="img1"
+									id="img1"
+									style="display:none;"
+								/>
+							{/if}
 							<!-- <label class="btn btn-default" for="img">upload image</label> -->
 						</div>
 					</div>

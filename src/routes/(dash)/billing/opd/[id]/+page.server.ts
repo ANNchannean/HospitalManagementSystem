@@ -55,7 +55,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		with: {
 			unit: true,
 			parameter: true,
-			productGroupType: true
+			productGroupType: true,
+			fileOrPicture:true
 		},
 		orderBy: asc(product.products),
 		limit: 200

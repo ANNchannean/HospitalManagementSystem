@@ -278,14 +278,16 @@
 											<tbody class="table-sm">
 												{#each sort_laboraytor || [] as item_1 (item_1.id)}
 													{#if item_0.product?.laboratory_group_id === item_1.product?.laboratory_group_id}
-														<td class="" colspan="6">
-															<b> &nbsp;&nbsp; #{item_1.product?.products}</b>
-														</td>
+														<tr>
+															<td colspan="6">
+																<b> &nbsp;&nbsp; #{item_1.product?.products}</b>
+															</td>
+														</tr>
 														{#each item_1.laboratoryResult as item_2, index (item_2.id)}
 															{@const check_result = item_2.result || ''}
 															<tr class="text-center kh_font_battambang p-0 m-0">
 																<td class="p-0 m-0">{index + 1}</td>
-																<td class="text-left">
+																<td class="text-start">
 																	<div class="p-0 m-0">
 																		<span style="font-size: 120%;" class="en_font_times_new_roman"
 																			>{item_2.parameter?.parameter}</span

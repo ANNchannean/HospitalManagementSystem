@@ -1,14 +1,14 @@
 /*!
  * 
- * Super simple WYSIWYG editor v0.8.19
+ * Super simple wysiwyg editor v0.8.18
  * https://summernote.org
- *
- *
- * Copyright 2013- Alan Hong and contributors
- * Summernote may be freely distributed under the MIT license.
- *
- * Date: 2024-07-30T07:55Z
- *
+ * 
+ * 
+ * Copyright 2013- Alan Hong. and other contributors
+ * summernote may be freely distributed under the MIT license.
+ * 
+ * Date: 2020-05-20T18:09Z
+ * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -19,11 +19,100 @@
 		var a = factory();
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(self, () => {
-return /******/ (() => { // webpackBootstrap
-var __webpack_exports__ = {};
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 25);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 25:
+/***/ (function(module, exports) {
+
 (function ($) {
-  $.extend(true, $.summernote.lang, {
+  $.extend($.summernote.lang, {
     'it-IT': {
       font: {
         bold: 'Testo in grassetto',
@@ -33,42 +122,42 @@ var __webpack_exports__ = {};
         height: 'Altezza della linea di testo',
         name: 'Famiglia Font',
         strikethrough: 'Testo barrato',
-        subscript: 'Pedice',
-        superscript: 'Apice',
+        subscript: 'Subscript',
+        superscript: 'Superscript',
         size: 'Dimensione del carattere'
       },
       image: {
         image: 'Immagine',
-        insert: 'Inserisci immagine',
+        insert: 'Inserisci Immagine',
         resizeFull: 'Dimensioni originali',
         resizeHalf: 'Ridimensiona al 50%',
         resizeQuarter: 'Ridimensiona al 25%',
         floatLeft: 'Posiziona a sinistra',
         floatRight: 'Posiziona a destra',
         floatNone: 'Nessun posizionamento',
-        shapeRounded: 'Forma: arrotondata',
-        shapeCircle: 'Forma: cerchio',
-        shapeThumbnail: 'Forma: miniatura',
-        shapeNone: 'Forma: nessuna',
+        shapeRounded: 'Shape: Rounded',
+        shapeCircle: 'Shape: Circle',
+        shapeThumbnail: 'Shape: Thumbnail',
+        shapeNone: 'Shape: None',
         dragImageHere: 'Trascina qui un\'immagine',
-        dropImage: 'Rilascia immagine o testo',
-        selectFromFiles: 'Scegli dai file',
-        maximumFileSize: 'Dimensione massima del file',
-        maximumFileSizeError: 'Dimensione massima del file superata.',
+        dropImage: 'Drop image or Text',
+        selectFromFiles: 'Scegli dai Documenti',
+        maximumFileSize: 'Maximum file size',
+        maximumFileSizeError: 'Maximum file size exceeded.',
         url: 'URL dell\'immagine',
         remove: 'Rimuovi immagine',
-        original: 'Originale'
+        original: 'Original'
       },
       video: {
         video: 'Video',
-        videoLink: 'Collegamento ad un video',
-        insert: 'Inserisci video',
-        url: 'URL del video',
+        videoLink: 'Collegamento ad un Video',
+        insert: 'Inserisci Video',
+        url: 'URL del Video',
         providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion o Youku)'
       },
       link: {
         link: 'Collegamento',
-        insert: 'Inserisci collegamento',
+        insert: 'Inserisci Collegamento',
         unlink: 'Elimina collegamento',
         edit: 'Modifica collegamento',
         textToDisplay: 'Testo del collegamento',
@@ -77,20 +166,20 @@ var __webpack_exports__ = {};
       },
       table: {
         table: 'Tabella',
-        addRowAbove: 'Aggiungi riga sopra',
-        addRowBelow: 'Aggiungi riga sotto',
-        addColLeft: 'Aggiungi colonna sinistra',
-        addColRight: 'Aggiungi colonna destra',
-        delRow: 'Elimina riga',
-        delCol: 'Elimina colonna',
-        delTable: 'Elimina tabella'
+        addRowAbove: 'Add row above',
+        addRowBelow: 'Add row below',
+        addColLeft: 'Add column left',
+        addColRight: 'Add column right',
+        delRow: 'Delete row',
+        delCol: 'Delete column',
+        delTable: 'Delete table'
       },
       hr: {
         insert: 'Inserisce una linea di separazione'
       },
       style: {
         style: 'Stili',
-        p: 'Normale',
+        p: 'pe',
         blockquote: 'Citazione',
         pre: 'Codice',
         h1: 'Titolo 1',
@@ -135,50 +224,50 @@ var __webpack_exports__ = {};
         action: 'Azioni',
         paragraphFormatting: 'Formattazione paragrafo',
         documentStyle: 'Stili',
-        extraKeys: 'Tasti extra'
+        extraKeys: 'Extra keys'
       },
       help: {
-        'insertParagraph': 'Inserisci paragrafo',
-        'undo': 'Annulla l\'ultimo comando',
-        'redo': 'Ripristina l\'ultimo comando',
-        'tab': 'Tabulazione',
-        'untab': 'Toglie tabulazione',
-        'bold': 'Imposta uno stile grassetto',
-        'italic': 'Imposta uno stile corsivo',
-        'underline': 'Imposta uno stile di sottolineatura',
-        'strikethrough': 'Imposta uno stile barrato',
-        'removeFormat': 'Rimuove uno stile',
-        'justifyLeft': 'Imposta l\'allineamento a sinistra',
-        'justifyCenter': 'Imposta l\'allineamento al centro',
-        'justifyRight': 'Imposta l\'allineamento al destra',
-        'justifyFull': 'Imposta l\'allineamento a pieno rigo',
-        'insertUnorderedList': 'Attiva/disattiva elenco non ordinato',
-        'insertOrderedList': 'Attiva/disattiva elenco ordinato',
-        'outdent': 'Annulla rientro paragrafo',
-        'indent': 'Rientro paragrafo',
-        'formatPara': 'Cambia il formato del blocco corrente come paragrafo (tag P)',
-        'formatH1': 'Cambia il formato del blocco corrente come H1',
-        'formatH2': 'Cambia il formato del blocco corrente come H2',
-        'formatH3': 'Cambia il formato del blocco corrente come H3',
-        'formatH4': 'Cambia il formato del blocco corrente come H4',
-        'formatH5': 'Cambia il formato del blocco corrente come H5',
-        'formatH6': 'Cambia il formato del blocco corrente come H6',
-        'insertHorizontalRule': 'Inserisci linea orizzontale',
-        'linkDialog.show': 'Mostra finestra di dialogo del collegamento'
+        'insertParagraph': 'Insert Paragraph',
+        'undo': 'Undoes the last command',
+        'redo': 'Redoes the last command',
+        'tab': 'Tab',
+        'untab': 'Untab',
+        'bold': 'Set a bold style',
+        'italic': 'Set a italic style',
+        'underline': 'Set a underline style',
+        'strikethrough': 'Set a strikethrough style',
+        'removeFormat': 'Clean a style',
+        'justifyLeft': 'Set left align',
+        'justifyCenter': 'Set center align',
+        'justifyRight': 'Set right align',
+        'justifyFull': 'Set full align',
+        'insertUnorderedList': 'Toggle unordered list',
+        'insertOrderedList': 'Toggle ordered list',
+        'outdent': 'Outdent on current paragraph',
+        'indent': 'Indent on current paragraph',
+        'formatPara': 'Change current block\'s format as a paragraph(P tag)',
+        'formatH1': 'Change current block\'s format as H1',
+        'formatH2': 'Change current block\'s format as H2',
+        'formatH3': 'Change current block\'s format as H3',
+        'formatH4': 'Change current block\'s format as H4',
+        'formatH5': 'Change current block\'s format as H5',
+        'formatH6': 'Change current block\'s format as H6',
+        'insertHorizontalRule': 'Insert horizontal rule',
+        'linkDialog.show': 'Show Link Dialog'
       },
       history: {
         undo: 'Annulla',
         redo: 'Ripristina'
       },
       specialChar: {
-        specialChar: 'CARATTERI SPECIALI',
-        select: 'Selezione caratteri speciali'
+        specialChar: 'SPECIAL CHARACTERS',
+        select: 'Select Special characters'
       }
     }
   });
 })(jQuery);
-/******/ 	return __webpack_exports__;
-/******/ })()
-;
+
+/***/ })
+
+/******/ });
 });
-//# sourceMappingURL=summernote-it-IT.js.map

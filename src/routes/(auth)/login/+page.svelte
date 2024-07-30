@@ -22,7 +22,7 @@
 							<img
 								class="img-fluid rounded mb-4"
 								loading="lazy"
-								src="/files/{get_clinichinfo?.fileOrPicture?.filename}"
+								src="/files/{get_clinichinfo?.fileOrPicture[0]?.filename}"
 								width="245"
 								height="80"
 								alt=""

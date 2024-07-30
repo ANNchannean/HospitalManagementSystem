@@ -535,7 +535,11 @@
 						<input type="hidden" name="product_id" value={item.id} />
 						<input type="hidden" name="price" value={item.price} />
 						<button type="button" class="position-relative text-wrap btn m-0 p-0">
-							<img class="img-thumbnail" src="/no-image.jpg" alt="" />
+							{#if item.fileOrPicture?.filename}
+								<img class="img-thumbnail" src="/files/{item.fileOrPicture.filename}" alt="" />
+							{:else}
+								<img class="img-thumbnail" src="/no-image.jpg" alt="" />
+							{/if}
 							<span
 								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
 							>
