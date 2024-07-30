@@ -3,7 +3,8 @@ import { vaccine } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
-export const load = (async () => {
+export const load = (async ({parent}) => {
+	await parent()
 	const get_vaccins = await db.query.vaccine.findMany({});
 	const get_vaccin_types = await db.query.vaccineType.findMany({});
 	return {

@@ -3,7 +3,8 @@ import { and, eq, or } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { billing } from '$lib/server/schema';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ parent }) => {
+	await parent();
 	const get_billings = await db.query.billing.findMany({
 		where: and(
 			eq(billing.checkin_type, 'OPD'),

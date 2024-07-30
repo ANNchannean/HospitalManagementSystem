@@ -6,7 +6,8 @@ import { and, asc, eq, like, or } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
 
-export const load = (async ({ url }) => {
+export const load = (async ({ url,parent }) => {
+	await parent()
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
 	const get_product_group_type = await db.query.productGroupType.findMany({

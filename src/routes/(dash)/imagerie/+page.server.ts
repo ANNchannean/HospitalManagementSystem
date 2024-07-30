@@ -5,7 +5,8 @@ import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 
-export const load = (async ({ url }) => {
+export const load = (async ({ url,parent }) => {
+	await parent()
 	const imagerie_request_id = url.searchParams.get('imagerie_request_id') || 0;
 	const get_imagers = await db.query.fileOrPicture.findMany({
 		where: eq(fileOrPicture.imagerie_request_id, +imagerie_request_id)

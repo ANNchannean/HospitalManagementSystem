@@ -3,7 +3,8 @@ import { visit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
 
-export const load = (async () => {
+export const load = (async ({parent}) => {
+	await parent()
 	const get_pregress_notes = await db.query.progressNote.findMany({
 		with: {
 			patient: true,

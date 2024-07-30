@@ -3,7 +3,8 @@ import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { visit } from '$lib/server/schema';
 import { eq } from 'drizzle-orm';
-export const load: LayoutServerLoad = async ({ params }) => {
+export const load: LayoutServerLoad = async ({ params, parent }) => {
+	await parent();
 	const visit_id = params.id;
 	if (isNaN(+visit_id)) redirect(303, '/patient/all');
 	const get_visit = await db.query.visit.findFirst({

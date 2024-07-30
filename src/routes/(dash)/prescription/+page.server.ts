@@ -1,7 +1,8 @@
 import { db } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 
-export const load = (async () => {
+export const load = (async ({ parent }) => {
+	await parent();
 	const get_prescriptions = await db.query.presrciption.findMany({
 		with: {
 			product: true,

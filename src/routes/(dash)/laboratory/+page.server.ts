@@ -14,7 +14,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
-export const load = (async ({ url }) => {
+export const load = (async ({ url,parent }) => {
+	await parent()
 	const laboratory_id = url.searchParams.get('laboratory_id') || '';
 	const get_visits = await db.query.visit.findMany({
 		with: {
@@ -69,6 +70,7 @@ export const load = (async ({ url }) => {
 
 export const actions: Actions = {
 	update_laboratory_request: async ({ request }) => {
+		
 		const body = await request.formData();
 		const visit_id = body.get('visit_id') ?? '';
 		const product_id = body.getAll('product_id');
