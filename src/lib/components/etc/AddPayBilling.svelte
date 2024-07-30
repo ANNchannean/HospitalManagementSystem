@@ -13,7 +13,7 @@
 	$: ({ get_billings, get_payment_types } = data);
 	$: find_billing = get_billings.find((e) => e.id === billing_id);
 	let loading = false;
-	$: value = data.get_billings.find((e) => e.id === billing_id )?.balance
+	$: value = data.get_billings.find((e) => e.id === billing_id)?.balance;
 </script>
 
 {#if form?.billing_id}

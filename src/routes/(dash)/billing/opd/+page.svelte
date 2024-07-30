@@ -1,19 +1,8 @@
 <script lang="ts">
-	import type { EventHandler } from 'svelte/elements';
 	import type { PageServerData } from './$types';
 	import { inerHight } from '$lib/store';
 	export let data: PageServerData;
 	$: ({ get_billings } = data);
-
-	let timeout: number | NodeJS.Timeout;
-	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
-		clearTimeout(timeout);
-		const form = currentTarget?.form;
-		if (!form) return;
-		timeout = setTimeout(() => {
-			form.requestSubmit();
-		}, 400);
-	};
 </script>
 
 <div class="row">

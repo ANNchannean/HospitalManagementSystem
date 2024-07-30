@@ -2,7 +2,6 @@
 	import type { PageServerData } from '../../../routes/(dash)/opd/[id]/objective/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '../etc/SubmitButton.svelte';
-	import { t } from '$lib/translations';
 	export let data: PageServerData;
 	$: ({ get_visit } = data);
 	let loading = false;

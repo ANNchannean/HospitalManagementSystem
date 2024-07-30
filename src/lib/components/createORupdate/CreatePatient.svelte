@@ -6,7 +6,6 @@
 	import { t } from '$lib/translations';
 	import Select from '../etc/Select.svelte';
 	import { dobToAge, now_date } from '$lib/helper';
-	import { goto } from '$app/navigation';
 	export let form: ActionData;
 	export let data: PageServerData;
 	$: ({ get_commune, get_district, get_province, get_village, get_patients } = data);

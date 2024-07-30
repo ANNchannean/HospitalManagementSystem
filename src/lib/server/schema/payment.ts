@@ -19,8 +19,8 @@ export const payment = mysqlTable('payment', {
 		onUpdate: 'cascade'
 	}),
 	datetime: datetime('datetime', { mode: 'string' }),
-	reference: varchar('reference',{length:255}),
-	note: text('note'),
+	reference: varchar('reference', { length: 255 }),
+	note: text('note')
 });
 
 export const paymentRelations = relations(payment, ({ one }) => ({
@@ -32,5 +32,5 @@ export const paymentRelations = relations(payment, ({ one }) => ({
 		fields: [payment.billing_id],
 		references: [billing.id]
 	}),
-	fileOrPicture:one(fileOrPicture)
+	fileOrPicture: one(fileOrPicture)
 }));

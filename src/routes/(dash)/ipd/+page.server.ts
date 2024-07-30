@@ -5,8 +5,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 
-export const load = (async ({ url,parent }) => {
-	await parent()
+export const load = (async ({ url, parent }) => {
+	await parent();
 	const patient_id = url.searchParams.get('patient_id');
 	const get_departments = await db.query.department.findMany({
 		orderBy: asc(department.department)

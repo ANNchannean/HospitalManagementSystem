@@ -5,6 +5,7 @@
 	import UpdateParameter from '$lib/components/createORupdate/UpdateParameter.svelte';
 	import { inerHight } from '$lib/store';
 	import type { ActionData, PageServerData } from './$types';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let parameter_id: number;
@@ -101,9 +102,9 @@
 							<td class="text-center">{index + 1}</td>
 							<td>{item?.parameter ?? ''}</td>
 							<td>
-								{@html item.description}
+								<Athtml html={item.description ?? ''} />
 							</td>
-							<td class="text-center">{@html item?.unit?.unit ?? ''} </td>
+							<td class="text-center"><Athtml html={item?.unit?.unit ?? ''} /> </td>
 							<td class="text-center">{item?.gender ?? ''}</td>
 							<td class="text-center">
 								<div>

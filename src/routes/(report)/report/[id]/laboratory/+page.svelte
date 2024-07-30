@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
-	import { browser } from '$app/environment';
 	import { dobToAge } from '$lib/helper';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_visit, removeDuplicateName, sort_laboraytor, get_clinic_info, get_imagers, url_qr } =
 		data);
@@ -28,7 +28,7 @@
 											id="imgp1"
 											height="150px"
 											class="float-right"
-											src="/files/{get_clinic_info?.fileOrPicture?.filename}"
+											src="/files/{get_clinic_info?.fileOrPicture[0]?.filename}"
 											alt="no logo"
 										/>
 									</div>
@@ -50,7 +50,7 @@
 										<img
 											height="150px"
 											class="float-right"
-											src="/files/{get_clinic_info?.fileOrPicture?.filename}"
+											src="/files/{get_clinic_info?.fileOrPicture[1]?.filename}"
 											alt="no logo"
 										/>
 									</div>
@@ -291,8 +291,11 @@
 																			>{item_2.parameter?.parameter}</span
 																		>
 																		<span>
-																			{@html browser ? item_2?.parameter?.description ?? '' : ''}
+																			<Athtml html={item_2?.parameter?.description ?? ''} />
 																		</span>
+																		<!-- <span>
+																			{@html browser ? item_2?.parameter?.description ?? '' : ''}
+																		</span> -->
 																	</div>
 																</td>
 																<td
@@ -319,7 +322,8 @@
 																	style="font-size: 120%;"
 																	class="p-0 m-0 en_font_times_new_roman"
 																>
-																	{@html browser ? item_2.parameter?.unit?.unit ?? '' : ''}
+																	<Athtml html={item_2.parameter?.unit?.unit ?? ''} />
+																	<!-- {@html browser ? item_2.parameter?.unit?.unit ?? '' : ''} -->
 																</td>
 																<td
 																	style="font-size: 120%;"
@@ -359,7 +363,9 @@
 								{#if get_visit?.laboratory?.doctor_comment?.length}
 									<div class=" border p-2 m-0">
 										<h5>Comment</h5>
-										<span class="ms-4">{@html get_visit?.laboratory?.doctor_comment} </span>
+										<span class="ms-4"
+											><Athtml html={get_visit?.laboratory?.doctor_comment ?? ''} />
+										</span>
 									</div>
 								{/if}
 							</div>

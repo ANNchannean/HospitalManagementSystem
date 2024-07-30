@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Athtml from './Athtml.svelte';
+
 	export let items: { name: any; id: any }[];
 	export let name = '';
 	export let value: any = '';
@@ -22,9 +24,11 @@
 		aria-expanded="false"
 	>
 		<span style="float:left;"
-			>{@html items.find((e) => e.id === value)?.name
-				? items.find((e) => e.id === value)?.name
-				: 'Select'}
+			><Athtml
+				html={items.find((e) => e.id === value)?.name
+					? items.find((e) => e.id === value)?.name
+					: 'Select'}
+			/>
 		</span>
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -56,7 +60,7 @@
 						on:click={() => {
 							value = item.id;
 						}}
-						class="dropdown-item">{@html item.name ?? ''}</button
+						class="dropdown-item"><Athtml html={item.name ?? ''} /></button
 					>
 				{/each}
 			</a>

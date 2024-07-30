@@ -4,6 +4,7 @@
 	import type { PageServerData } from './$types';
 	import { browser } from '$app/environment';
 	import { dobToAge } from '$lib/helper';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
 	onMount(async () => {
@@ -28,7 +29,7 @@
 											id="imgp1"
 											height="150px"
 											class="float-right"
-											src="/files/{get_clinic_info?.fileOrPicture?.filename}"
+											src="/files/{get_clinic_info?.fileOrPicture[1]?.filename}"
 											alt="no logo"
 										/>
 									</div>
@@ -50,7 +51,7 @@
 										<img
 											height="150px"
 											class="float-right"
-											src="/files/{get_clinic_info?.fileOrPicture?.filename}"
+											src="/files/{get_clinic_info?.fileOrPicture[1]?.filename}"
 											alt="no logo"
 										/>
 									</div>
@@ -260,7 +261,7 @@
 							</u>
 							<hr />
 							<div class="">
-								{@html get_imagerie_request?.result ?? ''}
+								<Athtml html={get_imagerie_request?.result ?? ''} />
 							</div>
 							<div class="row">
 								{#each get_imagerie_request?.fileOrPicture || [] as item}

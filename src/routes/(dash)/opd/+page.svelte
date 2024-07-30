@@ -4,7 +4,6 @@
 	import { enhance } from '$app/forms';
 	import Select from '$lib/components/etc/Select.svelte';
 	import Toast from '$lib/components/etc/Toast.svelte';
-	let loading = false;
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_staffs, get_patient, get_departments } = data);

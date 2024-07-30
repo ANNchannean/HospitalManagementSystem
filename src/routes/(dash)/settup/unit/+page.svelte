@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CreateUnit from '$lib/components/createORupdate/CreateUnit.svelte';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { inerHight } from '$lib/store';
 	import type { ActionData, PageServerData } from './$types';
@@ -89,7 +90,7 @@
 						{#each get_units as item, index}
 							<tr>
 								<td class="text-center">{index + 1}</td>
-								<td> {@html item.unit} </td>
+								<td> <Athtml html={item.unit ?? ''} /> </td>
 								<td> {item.productGroupType?.group_type ?? 'None'} </td>
 								<td>
 									<div>

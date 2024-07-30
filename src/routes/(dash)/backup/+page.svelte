@@ -47,11 +47,9 @@
 						method="post"
 						use:enhance={() => {
 							loading = true;
-							return async ({ update, result }) => {
+							return async ({ update }) => {
 								await update();
 								loading = false;
-								if (result.type !== 'failure') {
-								}
 							};
 						}}
 						action="?/backup"
@@ -86,7 +84,7 @@
 					<div class="card-body table-responsive p-0">
 						<table class="table text-nowrap">
 							<tbody>
-								{#each file_list || [] as item, index}
+								{#each file_list || [] as item}
 									{@const datetime = item
 										.split('hms_')
 										.join('')
@@ -111,7 +109,7 @@
 												<form
 													use:enhance={() => {
 														loading = true;
-														return async ({ update, result }) => {
+														return async ({ update }) => {
 															await update();
 															loading = false;
 														};

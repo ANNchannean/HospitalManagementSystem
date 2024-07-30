@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import CreateLaboratoryResult from '$lib/components/createORupdate/CreateLaboratoryResult.svelte';
 	import UpdateLaboratoryReq from '$lib/components/createORupdate/UpdateLaboratoryReq.svelte';

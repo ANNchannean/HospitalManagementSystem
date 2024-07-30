@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
-	import { onMount } from 'svelte';
 	import type {
 		ActionData,
 		PageServerData
 	} from '../../../routes/(dash)/opd/[id]/prescription/$types';
+	import Athtml from '../etc/Athtml.svelte';
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let form: ActionData;
 	let use_id: number;
@@ -85,7 +85,7 @@
 							{#each get_uses as item, index}
 								<tr>
 									<td>{index + 1}</td>
-									<td> {@html item.description} </td>
+									<td> <Athtml html={item.description ?? ''} /> </td>
 									<td>
 										<div>
 											<a

@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { dobToAge } from '$lib/helper';
-	import { t } from '$lib/translations';
-	import type {
-		ActionData,
-		PageServerData
-	} from '../../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
+	import type { PageServerData } from '../../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
 	import Select from '../etc/Select.svelte';
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let data: PageServerData;

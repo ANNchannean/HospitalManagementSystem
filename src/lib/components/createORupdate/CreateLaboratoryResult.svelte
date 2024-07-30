@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
 	import type { PageServerData } from '../../../routes/(dash)/laboratory/$types';
+	import Athtml from '../etc/Athtml.svelte';
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	import TextEditor from '../etc/TextEditor.svelte';
 	export let visit_id: number;
@@ -139,7 +139,8 @@
 														<td class="text-wrap"
 															>{iitem.parameter} <br />
 															<span class="text-sm text-wrap">
-																{@html browser ? iitem.description ?? '' : ''}
+																<Athtml html={iitem?.description ?? ''} />
+																<!-- {@html browser ? iitem.description ?? '' : ''} -->
 															</span>
 														</td>
 														<td>
@@ -165,9 +166,10 @@
 																id="browser"
 															/>
 														</td>
-														<td class="text-center"
-															>{@html browser ? iitem.unit?.unit ?? '' : ''}</td
-														>
+														<td class="text-center">
+															<Athtml html={iitem.unit?.unit ?? ''} />
+															<!-- {@html browser ? iitem.unit?.unit ?? '' : ''} -->
+														</td>
 														<td class="text-center">
 															<span>
 																{iitem.mini === 0 ? '' : iitem.mini?.toLocaleString('en-US')}</span

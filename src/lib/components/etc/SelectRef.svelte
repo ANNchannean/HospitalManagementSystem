@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import Athtml from './Athtml.svelte';
 	export let items: { name: any; id: any }[];
 	export let height = '300';
 	export let mainParams = '';
@@ -23,9 +24,11 @@
 		aria-expanded="false"
 	>
 		<span style="float:left;"
-			>{@html items.find((e) => e.id === value)?.name
-				? items.find((e) => e.id === value)?.name
-				: 'Select'}
+			><Athtml
+				html={items.find((e) => e.id === value)?.name
+					? items.find((e) => e.id === value)?.name
+					: 'Select'}
+			/>
 		</span>
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -56,7 +59,7 @@
 						value = item.id;
 						goto(`${mainParams}=${item.id}${chailParams}`, { keepFocus: true, noScroll: true });
 					}}
-					class="dropdown-item">{@html item.name ?? ''}</button
+					class="dropdown-item"><Athtml html={item.name ?? ''} /></button
 				>
 			{/each}
 		</div>

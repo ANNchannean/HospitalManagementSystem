@@ -9,7 +9,6 @@
 	let product_lab_id: number;
 	$: ({ get_product_labo } = data);
 	$: find_product_labo = get_product_labo.find((e) => e.id === product_lab_id);
-	
 </script>
 
 <CreateParameterGroup {data} {form} {product_lab_id} />
@@ -97,7 +96,6 @@
 										on:click={() => {
 											product_lab_id = 0;
 											product_lab_id = item.id;
-											
 										}}
 										href={'#'}
 										type="button"

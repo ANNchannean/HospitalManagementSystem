@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { browser } from '$app/environment';
 	export let data: PageServerData;
@@ -401,11 +401,9 @@
 			method="post"
 			use:enhance={() => {
 				loading = true;
-				return async ({ update, result }) => {
+				return async ({ update }) => {
 					await update();
 					loading = false;
-					if (result.type !== 'failure') {
-					}
 				};
 			}}
 			class="modal-content"

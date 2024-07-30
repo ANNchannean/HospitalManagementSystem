@@ -5,8 +5,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
-export const load = (async ({parent}) => {
-	await parent()
+export const load = (async ({ parent }) => {
+	await parent();
 	const get_staffs = await db.query.staff.findMany({});
 	const get_users = await db.query.user.findMany({});
 	return {

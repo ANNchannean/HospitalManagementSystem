@@ -1,9 +1,7 @@
 <script lang="ts">
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
-	import { onDestroy, onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import { browser } from '$app/environment';
 	import Select from '$lib/components/etc/Select.svelte';
 	let loading = false;
 	export let data: PageServerData;

@@ -51,12 +51,12 @@
 					<tr class="text-center">
 						<td
 							>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-								new Date(item?.datetime ?? '') ?? ''
+								new Date(item?.datetime ?? '')
 							)}</td
 						>
 						<td
 							>{new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', hour12: true }).format(
-								new Date(item?.datetime ?? '') ?? ''
+								new Date(item?.datetime ?? '')
 							)}</td
 						>
 						<td>{item.accessment ?? ''}</td>

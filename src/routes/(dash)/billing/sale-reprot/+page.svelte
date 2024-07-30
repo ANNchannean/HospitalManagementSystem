@@ -168,14 +168,14 @@
 										}}
 										class="btn-group"
 									>
-										<button class="btn  btn-success d-flex gap-2 align-items-center"
+										<button class="btn btn-success d-flex gap-2 align-items-center"
 											><i class="fa-solid fa-file"></i></button
 										>
 
 										<button
 											data-bs-toggle="modal"
 											data-bs-target="#view_pay_billing"
-											class="btn  btn-success d-flex gap-2 align-items-center"
+											class="btn btn-success d-flex gap-2 align-items-center"
 											><i class="fa-solid fa-comments-dollar"></i></button
 										>
 
@@ -183,14 +183,14 @@
 											disabled={item.balance <= 0}
 											data-bs-toggle="modal"
 											data-bs-target="#add_pay_billing"
-											class="btn  btn-success d-flex gap-2 align-items-center"
+											class="btn btn-success d-flex gap-2 align-items-center"
 											><i class="fa-solid fa-money-check-dollar"></i></button
 										>
 
-										<button class="btn  btn-primary d-flex gap-2 align-items-center"
+										<button class="btn btn-primary d-flex gap-2 align-items-center"
 											><i class="fa-solid fa-file-pen"></i></button
 										>
-										<button class="btn  btn-danger d-flex gap-2 align-items-center"
+										<button class="btn btn-danger d-flex gap-2 align-items-center"
 											><i class="fa-solid fa-trash-alt"></i></button
 										>
 									</div>

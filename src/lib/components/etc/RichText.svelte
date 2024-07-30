@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageServerData } from '../../../routes/(dash)/settup/img-template/$types';
+	import Athtml from './Athtml.svelte';
 	export let data: PageServerData;
 	export let template_id: number;
 	$: ({ get_templates } = data);
@@ -28,8 +29,7 @@
 					rows="10"
 					class="form-control"
 				/> -->
-
-				{@html find_template?.template}
+				<Athtml html={find_template?.template ?? ''} />
 			</div>
 		</div>
 	</div>

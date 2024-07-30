@@ -5,6 +5,7 @@
 		ActionData,
 		PageServerData
 	} from '../../../routes/(dash)/opd/[id]/prescription/$types';
+	import Athtml from '../etc/Athtml.svelte';
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	export let form: ActionData;
 	let duration_id: number;
@@ -84,7 +85,7 @@
 							{#each get_durations as item, index}
 								<tr>
 									<td>{index + 1}</td>
-									<td> {@html item.description} </td>
+									<td> <Athtml html={item.description ?? ''} /> </td>
 
 									<td>
 										<div>

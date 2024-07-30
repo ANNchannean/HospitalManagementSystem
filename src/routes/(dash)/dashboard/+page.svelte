@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	let value = 'sdfesd';
 </script>
@@ -11,8 +12,8 @@
 	<input class="form-control" name="file" type="file" alt="" />
 	<button type="submit">Submit</button>
 </form>
-
-<TextEditor id="2" name="1232" bind:getValue={value}  />
+<Athtml html={'lsdfe'} />
+<TextEditor id="2" name="1232" bind:getValue={value} />
 {value}
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

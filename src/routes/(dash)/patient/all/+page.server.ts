@@ -6,8 +6,8 @@ import { desc, eq } from 'drizzle-orm';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 
-export const load = (async ({parent}) => {
-	await parent()
+export const load = (async ({ parent }) => {
+	await parent();
 	const provinces = await db.query.provice.findMany({});
 	const districts = await db.query.district.findMany({});
 	const communes = await db.query.commune.findMany({});

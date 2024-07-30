@@ -1,5 +1,5 @@
 import { db } from './db';
-import {  user } from './schema';
+import { user } from './schema';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
 // import { eq } from 'drizzle-orm';

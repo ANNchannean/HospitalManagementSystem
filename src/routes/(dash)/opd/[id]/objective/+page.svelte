@@ -4,6 +4,7 @@
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import { slide } from 'svelte/transition';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let data: PageServerData;
 	let loading = false;
 	$: ({ get_exams, get_visit, get_physical_exam } = data);
@@ -40,7 +41,7 @@
 					<th class="text-center">BP(mmHg)</th>
 					<th class="text-center">MAP</th>
 					<th class="text-center">Pulse (min)</th>
-					<th class="text-center">{@html 'Temperature &deg;C'}</th>
+					<th class="text-center"><Athtml html={'Temperature &deg;C'} /></th>
 					<th class="text-center">RR (min)</th>
 					<th class="text-center">SpO2 (%)</th>
 					<th class="text-center">Height (cm)</th>
@@ -60,7 +61,7 @@
 					<td class="text-center">{get_visit?.vitalSign?.pulse?.toFixed(0).concat(' min') ?? ''}</td
 					>
 					<td class="text-center"
-						>{@html get_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''}</td
+						><Athtml html={get_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''} /></td
 					>
 					<td class="text-center">{get_visit?.vitalSign?.rr?.toFixed(0).concat(' min') ?? ''}</td>
 					<td class="text-center">{get_visit?.vitalSign?.sp02?.toFixed(0).concat(' %') ?? ''}</td>

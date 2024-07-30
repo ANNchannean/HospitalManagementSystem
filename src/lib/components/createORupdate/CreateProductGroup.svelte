@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { t } from '$lib/translations';
-	import type { ActionData, PageServerData } from '../../../routes/(dash)/product/$types';
+	import type { PageServerData } from '../../../routes/(dash)/product/$types';
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	let product_group_id: number;
 	export let data: PageServerData;

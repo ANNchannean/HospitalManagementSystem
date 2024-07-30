@@ -1,11 +1,7 @@
 <script lang="ts">
-	import type {
-		ActionData,
-		PageServerData
-	} from '../../../routes/(dash)/settup/physical-exam/$types';
+	import type { PageServerData } from '../../../routes/(dash)/settup/physical-exam/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '../etc/SubmitButton.svelte';
-	import { t } from '$lib/translations';
 	export let data: PageServerData;
 	export let exam_id: number;
 	$: ({ get_examas } = data);

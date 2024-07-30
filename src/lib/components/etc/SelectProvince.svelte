@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { t } from '$lib/translations';
 	interface Data {
 		id: string;
 		name_khmer: string;

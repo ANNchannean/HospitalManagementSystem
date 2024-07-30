@@ -87,7 +87,7 @@
 								on:click={() => document.getElementById('img')?.click()}
 								height="170px"
 								class="float-right"
-							src="/files/{get_clinic_info?.fileOrPicture[0]?.filename}"
+								src="/files/{get_clinic_info?.fileOrPicture[0]?.filename}"
 								alt="no logo"
 							/>
 
