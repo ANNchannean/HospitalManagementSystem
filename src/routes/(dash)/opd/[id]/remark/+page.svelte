@@ -5,42 +5,10 @@
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageServerData } from './$types';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	export let data: PageServerData;
 	$: ({ get_remark } = data);
 	let loading = false;
-	onMount(() => {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				// jQuery('select').selectpicker();
-				jQuery('#remark').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	});
-	onDestroy(() => {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				// jQuery('select').selectpicker();
-				jQuery('#remark').summernote('destroy');
-			});
-		}
-	});
 </script>
 
 <DeleteModal action="?/delete_remark" id={get_remark?.id} />
@@ -66,12 +34,11 @@
 			<div class="form-group row">
 				<label for="ramark" class="col-sm-3 col-form-label">Doctor's Comment</label>
 				<div class="col-sm-9">
-					<textarea
-						value={get_remark?.description ?? ''}
-						id="remark"
+					<TextEditor
+						height={200}
+						id={get_remark?.id.toString()}
 						name="description"
-						rows="4"
-						class="form-control"
+						setValue={get_remark?.description ?? ''}
 					/>
 				</div>
 			</div>

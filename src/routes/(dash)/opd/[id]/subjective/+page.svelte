@@ -4,42 +4,10 @@
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	export let data: PageServerData;
 	$: ({ get_visit } = data);
 	let loading = false;
-	onMount(() => {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				// jQuery('select').selectpicker();
-				jQuery('#cheif_coplaint').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	});
-	onDestroy(() => {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				// jQuery('select').selectpicker();
-				jQuery('#cheif_coplaint').summernote('destroy');
-			});
-		}
-	});
 </script>
 
 <div class="card">
@@ -63,12 +31,11 @@
 			<div class="form-group row pb-2">
 				<label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label>
 				<div class="col-sm-9">
-					<textarea
-						value={get_visit?.subjective?.cheif_complaint ?? ''}
-						id="cheif_coplaint"
+					<TextEditor
+						height={200}
+						id={get_visit?.subjective?.id.toString()}
 						name="cheif_complaint"
-						rows="4"
-						class="form-control"
+						setValue={get_visit?.subjective?.cheif_complaint ?? ''}
 					/>
 				</div>
 			</div>

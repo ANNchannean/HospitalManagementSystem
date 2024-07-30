@@ -6,20 +6,13 @@
 	import { enhance } from '$app/forms';
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
-	import { onDestroy, onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import Select from '../etc/Select.svelte';
+	import TextEditor from '../etc/TextEditor.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	export let product_id: number | undefined;
 	let loading = false;
 	$: ({ get_units } = data);
-	function destroy_summernote() {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery('#summernote').summernote('destroy');
-		});
-	}
 </script>
 
 <!-- @_Add_Parameter -->
@@ -37,7 +30,7 @@
 					loading = false;
 					if (result.type !== 'failure') {
 						product_id = undefined;
-						destroy_summernote();
+
 						document.getElementById('close-parameter')?.click();
 					}
 				};
@@ -46,7 +39,6 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Paramater</h4>
 				<button
-					on:click={destroy_summernote}
 					id="close-parameter"
 					type="button"
 					class="btn-close"
@@ -71,7 +63,7 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="description">Description</label>
-								<textarea id="summernote" name="description" class="form-control" />
+								<TextEditor height={200} name="description" id={product_id?.toString()} />
 								{#if form?.description}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if}

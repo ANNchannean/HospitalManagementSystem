@@ -5,39 +5,12 @@
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import { browser } from '$app/environment';
 	import Select from '$lib/components/etc/Select.svelte';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
 	$: ({ get_product_as_service, get_services } = data);
 	$: find_service = get_services.find((e) => e.id === service_id);
-	function destroy_summernote(id: string) {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery(`#${id}`).summernote('destroy');
-		});
-	}
-	function create_summernote(id: string) {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery(`#${id}`).summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	}
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
@@ -82,8 +55,6 @@
 								<td
 									><button
 										on:click={() => {
-											create_summernote('summernote');
-											create_summernote('summernote1');
 											service_id = 0;
 											service_id = item.id;
 										}}
@@ -134,8 +105,6 @@
 					await update();
 					loading = false;
 					if (result.type !== 'failure') {
-						destroy_summernote('summernote');
-						destroy_summernote('summernote1');
 						service_id = 0;
 						document.getElementById('close_create_protocol')?.click();
 					}
@@ -145,10 +114,6 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Operation Protocol</h4>
 				<button
-					on:click={() => {
-						destroy_summernote('summernote');
-						destroy_summernote('summernote1');
-					}}
 					id="close_create_protocol"
 					type="button"
 					class="btn-close"
@@ -338,12 +303,13 @@
 						<div class="col-12 mb-3">
 							<div class="form-group">
 								<label for="opertive_technique">Opertive Technique</label>
-								<textarea
-									value={find_service?.operationProtocol?.opertive_technique ?? ''}
-									id="summernote"
+								<TextEditor
+									id="summbernote_1"
 									name="opertive_technique"
-									class="form-control"
+									height={200}
+									setValue={find_service?.operationProtocol?.opertive_technique ?? ''}
 								/>
+
 								<!-- {#if form?.description}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if} -->
@@ -364,12 +330,13 @@
 						<div class="col-12 mb-3">
 							<div class="form-group">
 								<label for="notes">Notes</label>
-								<textarea
-									value={find_service?.operationProtocol?.notes ?? ''}
-									id="summernote1"
+								<TextEditor
+									id="summbernote_2"
 									name="notes"
-									class="form-control"
+									height={200}
+									setValue={find_service?.operationProtocol?.notes ?? ''}
 								/>
+
 								<!-- {#if form?.description}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if} -->

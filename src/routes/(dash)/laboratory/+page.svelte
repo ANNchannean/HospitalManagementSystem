@@ -8,28 +8,6 @@
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_visits } = data);
-	function create_summernote() {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery('#summernote').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 250
-				});
-			});
-		}
-	}
 </script>
 
 <CreateLaboratoryResult {data} {visit_id} />
@@ -153,7 +131,6 @@
 													goto(`?laboratory_id=${item.laboratory?.id || ''}`);
 													visit_id = 0;
 													visit_id = item.id;
-													create_summernote();
 												}}
 												data-bs-toggle="modal"
 												data-bs-target="#create_laboratory_result"
@@ -167,7 +144,6 @@
 													goto(`?laboratory_id=${item.laboratory?.id || ''}`);
 													visit_id = 1;
 													visit_id = item.id;
-													create_summernote();
 												}}
 												data-bs-toggle="modal"
 												data-bs-target="#create_laboratory_result"

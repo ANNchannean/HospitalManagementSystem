@@ -3,35 +3,13 @@
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import CreateParameterGroup from '$lib/components/createORupdate/CreateParameterGroup.svelte';
 	import CreateParameter from '$lib/components/createORupdate/CreateParameter.svelte';
-	import { browser } from '$app/environment';
 	import { inerHight } from '$lib/store';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_lab_id: number;
 	$: ({ get_product_labo } = data);
 	$: find_product_labo = get_product_labo.find((e) => e.id === product_lab_id);
-	function create_summernote() {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery('#summernote').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	}
+	
 </script>
 
 <CreateParameterGroup {data} {form} {product_lab_id} />
@@ -119,7 +97,7 @@
 										on:click={() => {
 											product_lab_id = 0;
 											product_lab_id = item.id;
-											create_summernote();
+											
 										}}
 										href={'#'}
 										type="button"

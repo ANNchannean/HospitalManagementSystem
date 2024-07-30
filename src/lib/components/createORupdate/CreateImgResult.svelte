@@ -1,44 +1,16 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
 	import type { PageServerData } from '../../../routes/(dash)/imagerie/$types';
 	import Select from '../etc/Select.svelte';
 	import SubmitButton from '../etc/SubmitButton.svelte';
+	import TextEditor from '../etc/TextEditor.svelte';
 	export let imagerie_request_id: number;
 	export let data: PageServerData;
 	$: ({ get_imagerie_templates, get_imagerie_request, get_imagers } = data);
 	$: find_imagerie_request = get_imagerie_request.find((e) => e.id === imagerie_request_id);
 	let loading = false;
-	function destroy_summernote() {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery('#summernote').summernote('destroy');
-		});
-	}
-	function create_summernote() {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery('#summernote').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 400
-				});
-			});
-		}
-	}
 	let imagerie_templage = '';
 </script>
 
@@ -65,7 +37,6 @@
 				<h4 class="modal-title">Imagerie Result</h4>
 				<button
 					on:click={() => {
-						destroy_summernote();
 						imagerie_request_id = 0;
 						goto('?');
 					}}
@@ -151,10 +122,6 @@
 							<div class="form-group pb-3">
 								<label for="result">Template</label>
 								<Select
-									on:click={() => {
-										destroy_summernote();
-										create_summernote();
-									}}
 									bind:value={imagerie_templage}
 									items={get_imagerie_templates.map((e) => ({ id: e.template, name: e.diagnosis }))}
 								/>
@@ -167,12 +134,14 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="result">Result</label>
-								<textarea
-									class="form-control"
-									value={imagerie_templage ? imagerie_templage : find_imagerie_request?.result}
+								<TextEditor
+									id="imagerie_templage"
 									name="result"
-									id="summernote"
+									setValue={imagerie_templage
+										? imagerie_templage
+										: find_imagerie_request?.result ?? ''}
 								/>
+
 								<!-- {#if form?.template_}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if} -->

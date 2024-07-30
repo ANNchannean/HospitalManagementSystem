@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import CreateImgResult from '$lib/components/createORupdate/CreateImgResult.svelte';
 	import { inerHight } from '$lib/store';
@@ -7,28 +6,6 @@
 	export let data: PageServerData;
 	let imagerie_request_id: number;
 	$: ({ get_imagerie_request } = data);
-	function create_summernote() {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery('#summernote').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 400
-				});
-			});
-		}
-	}
 </script>
 
 <CreateImgResult {data} {imagerie_request_id} />
@@ -167,7 +144,6 @@
 												goto(`?imagerie_request_id=${item.id}`);
 												imagerie_request_id = 0;
 												imagerie_request_id = item.id;
-												create_summernote();
 											}}
 											data-bs-toggle="modal"
 											data-bs-target="#update_img_result"
@@ -180,9 +156,7 @@
 											on:click={() => {
 												goto(`?imagerie_request_id=${item.id}`);
 												imagerie_request_id = 0;
-
 												imagerie_request_id = item.id;
-												create_summernote();
 											}}
 											data-bs-toggle="modal"
 											data-bs-target="#update_img_result"

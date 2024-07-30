@@ -5,6 +5,7 @@
 	export let getValue = '';
 	export let name = '';
 	export let id = 'myid';
+	export let height = 400;
 	$: {
 		if (browser) {
 			const $ = (window as any).$;
@@ -22,7 +23,7 @@
 						// ['insert',['picture']],
 					],
 					tabsize: 2,
-					height: 400
+					height: height
 				});
 				$(`#${id}`).summernote('code', setValue);
 				$(`#${id}`).on('summernote.change', function () {
@@ -42,5 +43,5 @@
 </script>
 
 <div>
-	<textarea {id} {name} />
+	<textarea class="form-control" {id} {name} />
 </div>

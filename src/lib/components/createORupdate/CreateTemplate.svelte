@@ -6,18 +6,13 @@
 		PageServerData
 	} from '../../../routes/(dash)/settup/img-template/$types';
 	import SubmitButton from '../etc/SubmitButton.svelte';
+	import TextEditor from '../etc/TextEditor.svelte';
 	export let form: ActionData;
 	export let template_id: number;
 	export let data: PageServerData;
 	$: ({ get_templates } = data);
 	$: find_template = get_templates.find((e) => e.id === template_id);
 	let loading = false;
-	function destroy_summernote() {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery('#summernote').summernote('destroy');
-		});
-	}
 </script>
 
 <!-- @_List_Parameter -->
@@ -34,7 +29,7 @@
 					loading = false;
 					if (result.type !== 'failure') {
 						template_id = 0;
-						destroy_summernote();
+
 						document.getElementById('close_create_template')?.click();
 					}
 				};
@@ -44,7 +39,6 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Template Imagrie</h4>
 				<button
-					on:click={destroy_summernote}
 					id="close_create_template"
 					type="button"
 					class="btn-close"
@@ -75,12 +69,10 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="template_">Template</label>
-								<textarea
-									class="form-control"
-									value={find_template?.template ?? ''}
+								<TextEditor
+									id={find_template?.id.toString()}
 									name="template_"
-									id="summernote"
-									rows="10"
+									setValue={find_template?.template ?? ''}
 								/>
 								{#if form?.template_}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>

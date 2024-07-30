@@ -3,35 +3,12 @@
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import RichText from '$lib/components/etc/RichText.svelte';
 	import CreateTemplate from '$lib/components/createORupdate/CreateTemplate.svelte';
-	import { browser } from '$app/environment';
 	import { inerHight } from '$lib/store';
 	export let data: PageServerData;
 	export let form: ActionData;
 	let template_id: number;
 	$: ({ get_templates } = data);
 	$: find_template = get_templates.find((e) => e.id === template_id);
-	function create_summernote(id: string) {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery(`#${id}`).summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 400
-				});
-			});
-		}
-	}
 </script>
 
 <CreateTemplate {data} {form} {template_id} />
@@ -83,7 +60,6 @@
 						<button
 							on:click={() => {
 								template_id = 0;
-								create_summernote('summernote');
 							}}
 							type="button"
 							class="btn btn-success"
@@ -118,7 +94,6 @@
 										on:click={() => {
 											template_id = 0;
 											template_id = item.id;
-											create_summernote('template-view');
 										}}
 										type="button"
 										class="btn btn-light btn-sm text-end"
@@ -134,7 +109,6 @@
 											on:click={() => {
 												template_id = 0;
 												template_id = item.id;
-												create_summernote('summernote');
 											}}
 											type="button"
 											class="btn btn-primary btn-sm text-end"

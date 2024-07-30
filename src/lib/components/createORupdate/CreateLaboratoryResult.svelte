@@ -3,21 +3,14 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
-	import { t } from '$lib/translations';
 	import type { PageServerData } from '../../../routes/(dash)/laboratory/$types';
-	import ImagePreview from '../etc/ImagePreview.svelte';
 	import SubmitButton from '../etc/SubmitButton.svelte';
+	import TextEditor from '../etc/TextEditor.svelte';
 	export let visit_id: number;
 	export let data: PageServerData;
 	$: ({ get_visits, get_imagers } = data);
 	$: find_visit = get_visits.find((e) => e.id === visit_id);
 	let loading = false;
-	function destroy_summernote() {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery('#summernote').summernote('destroy');
-		});
-	}
 </script>
 
 <!-- @_List_Parameter -->
@@ -45,7 +38,6 @@
 				<h4 class="modal-title">laboratory Result</h4>
 				<button
 					on:click={() => {
-						destroy_summernote();
 						goto('?');
 					}}
 					id="close_laboratory_result"
@@ -196,12 +188,13 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="doctor_comment">Comment</label>
-								<textarea
-									value={find_visit?.laboratory?.doctor_comment ?? ''}
-									class="form-control"
+								<TextEditor
+									height={200}
 									name="doctor_comment"
-									id="summernote"
+									id={find_visit?.laboratory?.id.toString()}
+									getValue={find_visit?.laboratory?.doctor_comment ?? ''}
 								/>
+
 								<!-- {#if form?.template_}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if} -->
