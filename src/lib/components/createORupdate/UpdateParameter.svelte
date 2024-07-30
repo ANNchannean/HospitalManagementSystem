@@ -8,6 +8,7 @@
 	import SubmitButton from '../etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import Select from '../etc/Select.svelte';
+	import TextEditor from '../etc/TextEditor.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	export let parameter_id: number;
@@ -77,13 +78,12 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="description">Description</label>
-								<textarea
-									value={find_parameter?.description ?? ''}
-									id="summernote"
+								<TextEditor
+									id={find_parameter?.id.toString()}
 									name="description"
-									rows="4"
-									class="form-control"
+									setValue={find_parameter?.description ?? ''}
 								/>
+
 								{#if form?.description}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if}

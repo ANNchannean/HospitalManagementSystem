@@ -5,12 +5,9 @@
 	<meta charset="utf-8" />
 	<link rel="icon" href="%sveltekit.assets%/logo.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 	<link rel="stylesheet" href="%sveltekit.assets%/plugins/fontawesome-free/css/all.min.css" />
 	<link href="%sveltekit.assets%/css/styles.css" rel="stylesheet" />
-	<link href="%sveltekit.assets%/plugins/summernote/summernote-lite.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.css" />
-
+	<link href="%sveltekit.assets%/plugins/summernote/summernote-bs5.min.css" rel="stylesheet" />
 	<link href="%sveltekit.assets%/css/custome.css" rel="stylesheet" />
 
 	%sveltekit.head%
@@ -21,38 +18,8 @@
 	<!-- <script src="%sveltekit.assets%/js/scripts.js"></script> -->
 	<script src="%sveltekit.assets%/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="%sveltekit.assets%/plugins/jquery/jquery.min.js"></script>
-	<script src="%sveltekit.assets%/plugins/summernote/summernote-lite.min.js"></script>
-	<script type="importmap">
-			{
-				"imports": {
-					"ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.2/ckeditor5.js",
-					"ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.2/"
-				}
-			}
-		</script>
-	<script type="module">
-		import {
-			ClassicEditor,
-			Essentials,
-			Bold,
-			Italic,
-			Font,
-			Paragraph
-		} from 'ckeditor5';
+	<script src="%sveltekit.assets%/plugins/summernote/summernote-bs5.min.js"></script>
 
-		ClassicEditor
-			.create(document.querySelector('#editor'), {
-				plugins: [Essentials, Bold, Italic, Font, Paragraph],
-				toolbar: {
-					items: [
-						'undo', 'redo', '|', 'bold', 'italic', '|',
-						'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-					]
-				}
-			})
-			.then( /* ... */)
-			.catch( /* ... */);
-	</script>
 	<script>
 		window.addEventListener('DOMContentLoaded', (event) => {
 			// Toggle the side navigation

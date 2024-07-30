@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	let value = 'sdfesd';
 </script>
+
 <div id="editor">
-    <p>Hello from CKEditor 5!</p>
+	<p>{value}</p>
 </div>
 <form use:enhance enctype="multipart/form-data" action="?/img" method="post">
 	<input class="form-control" name="file" type="file" alt="" />
 	<button type="submit">Submit</button>
 </form>
 
+<TextEditor id="2" name="1232" bind:getValue={value}  />
+{value}
 <h1 class="m-0">Dashbaord</h1>
-
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>
 	<li class="breadcrumb-item active">Dashboard</li>
