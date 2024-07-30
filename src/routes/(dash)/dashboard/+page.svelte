@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 </script>
-
+<div id="editor">
+    <p>Hello from CKEditor 5!</p>
+</div>
 <form use:enhance enctype="multipart/form-data" action="?/img" method="post">
 	<input class="form-control" name="file" type="file" alt="" />
 	<button type="submit">Submit</button>

@@ -20,7 +20,8 @@
 		charge_on_prescription,
 		charge_on_service,
 		get_billing,
-		get_payment_types
+		get_payment_types,
+		get_exchang
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -542,11 +543,11 @@
 									item.price
 								)}
 							</span>
-							<span
+							<!-- <span
 								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
 							>
-								{new Intl.NumberFormat('en-US').format(item.price).concat(' \u17DB')}
-							</span>
+								{new Intl.NumberFormat('en-US').format(item.price * Number(get_exchang?.rate)).concat(' \u17DB')}
+							</span> -->
 						</button>
 						<span class="fs-6 text-wrap">{item.products}</span>
 					</form>

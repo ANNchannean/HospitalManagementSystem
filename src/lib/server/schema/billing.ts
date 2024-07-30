@@ -110,3 +110,7 @@ export const tax = mysqlTable('tax', {
 	created_at: datetime('created_at', { mode: 'string' }),
 	value: float('value').default(0).notNull()
 });
+export const exchang = mysqlTable('exchang', {
+	id: int('id').primaryKey().autoincrement(),
+	rate: int('rate').default(4000).notNull()
+});
