@@ -32,4 +32,5 @@ export * from './accessment';
 export * from './clinicInfo';
 export * from './billing';
 export * from './payment';
+export * from './document';
 export * from './test';

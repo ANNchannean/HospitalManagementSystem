@@ -1,8 +1,9 @@
 import { db } from '$lib/server/db';
-import { billing, visit } from '$lib/server/schema';
+import { billing, document, formDocument, visit } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
+import { now_datetime } from '$lib/server/utils';
 
 export const load = (async ({ parent }) => {
 	await parent();
@@ -14,14 +15,17 @@ export const load = (async ({ parent }) => {
 			staff: true,
 			patient: true,
 			department: true,
-			billing: true
+			billing: true,
+			document: true
 		},
 		orderBy: desc(visit.date_checkup)
 	});
+	const get_form_documents = await db.query.formDocument.findMany();
 	return {
 		get_visits,
 		get_departments,
-		get_staffs
+		get_staffs,
+		get_form_documents
 	};
 }) satisfies PageServerLoad;
 
@@ -84,5 +88,37 @@ export const actions: Actions = {
 				checkin_type: 'OPD'
 			})
 			.where(eq(billing.id, +billing_id));
+	},
+	create_document: async ({ request }) => {
+		const body = await request.formData();
+		const document_title = body.getAll('document_title') as [];
+		const visit_id = body.get('visit_id') as string;
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, +visit_id),
+			with: {
+				document: true
+			}
+		});
+
+		for (const e of document_title) {
+			const get_form_document = await db.query.formDocument.findFirst({
+				where: eq(formDocument.title, e)
+			});
+			const is_created = get_visit?.document.some((e) => e.title === get_form_document?.title);
+			if (get_form_document && !is_created) {
+				await db.insert(document).values({
+					visit_id: +visit_id,
+					content: get_form_document.content,
+					title: get_form_document.title,
+					datetime: now_datetime()
+				});
+			}
+		}
+		for (const e of get_visit?.document || []) {
+			const is_created = document_title.some((ee) => ee === e.title);
+			if (!is_created) {
+				await db.delete(document).where(eq(document.id, e.id));
+			}
+		}
 	}
 };

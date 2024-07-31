@@ -19,7 +19,6 @@ export const payment = mysqlTable('payment', {
 		onUpdate: 'cascade'
 	}),
 	datetime: datetime('datetime', { mode: 'string' }),
-	reference: varchar('reference', { length: 255 }),
 	note: text('note')
 });
 

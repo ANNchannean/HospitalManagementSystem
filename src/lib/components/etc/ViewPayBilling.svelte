@@ -32,7 +32,7 @@
 						<thead class="table-active">
 							<tr>
 								<th>Date</th>
-								<th>Reference</th>
+								<th>Note</th>
 								<th>Amomunt</th>
 								<th>Paid By</th>
 								<th>Action</th>
@@ -48,7 +48,7 @@
 											hour12: true
 										}).format(new Date(item?.datetime ?? ''))}</td
 									>
-									<td>{item.reference ?? ''}</td>
+									<td>{item.note ?? ''}</td>
 									<td
 										>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
 											item.value
@@ -63,8 +63,7 @@
 											<button
 												data-bs-toggle="modal"
 												data-bs-target="#add_pay_billing"
-												class="btn btn-sm btn-primary "
-												><i class="fa-solid fa-file-pen"></i></button
+												class="btn btn-sm btn-primary"><i class="fa-solid fa-file-pen"></i></button
 											>
 											<button
 												on:click={() => {
@@ -73,9 +72,16 @@
 												}}
 												data-bs-toggle="modal"
 												data-bs-target="#delete_modal"
-												class="btn btn-sm btn-danger "
-												><i class="fa-solid fa-trash-alt"></i></button
+												class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-alt"></i></button
 											>
+											{#if item.fileOrPicture?.filename}
+												<a
+													class="btn btn-secondary btn-sm"
+													target="_blank"
+													href="/files/{item.fileOrPicture?.filename}"
+													><i class="fa-solid fa-file"></i></a
+												>
+											{/if}
 										</div>
 									</td>
 								</tr>

@@ -9,7 +9,7 @@ import {
 	updatChargeByValue,
 	updateProductOrder
 } from '$lib/server/models';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
 import { uploadFile } from '$lib/server/fileHandle';
 
@@ -41,7 +41,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 			}
 		}
 	});
-	if (get_billing?.status !== 'process') redirect(303, '/billing/opd');
+	// if (get_billing?.status !== 'process') redirect(303, '/billing/opd');
 	const get_product_group_type = await db.query.productGroupType.findMany({
 		with: {
 			unit: true
@@ -56,7 +56,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 			unit: true,
 			parameter: true,
 			productGroupType: true,
-			fileOrPicture:true
+			fileOrPicture: true
 		},
 		orderBy: asc(product.products),
 		limit: 200
@@ -145,12 +145,21 @@ export const actions: Actions = {
 		if (!product_id.trim()) validErr.product_id = true;
 		if (!billing_id.trim()) validErr.billing_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-
 		await createProductOrder({
 			charge_id: Number(charge_on_general?.id),
 			price: +price,
 			product_id: +product_id
 		});
+		console.log('discountID');
+		
+		console.log(billing_data?.discount);
+		
+		await billingProcess({
+			billing_id:billing_data!.id,
+			disc:billing_data?.discount  || "0",
+			note:billing_data?.note ?? '',
+			tax:billing_data!.tax
+		})
 	},
 	remove_product_order: async ({ request }) => {
 		const body = await request.formData();

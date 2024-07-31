@@ -29,6 +29,27 @@
       "when": 1722315521715,
       "tag": "0003_real_misty_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1722394507000,
+      "tag": "0004_reflective_nightmare",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1722399392804,
+      "tag": "0005_living_mastermind",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1722412954397,
+      "tag": "0006_sour_scarlet_spider",
+      "breakpoints": true
     }
   ]
 }

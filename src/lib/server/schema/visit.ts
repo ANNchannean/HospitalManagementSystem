@@ -11,6 +11,7 @@ import { imagerieRequest } from './imagerie';
 import { billing } from './billing';
 import { presrciption } from './presrciption';
 import { service } from './service';
+import { document } from './document';
 
 export const visit = mysqlTable('visit', {
 	id: int('id').primaryKey().autoincrement(),
@@ -65,7 +66,8 @@ export const visitRelations = relations(visit, ({ one, many }) => ({
 	service: many(service),
 	imagerieRequest: many(imagerieRequest),
 	laboratory: one(laboratory),
-	billing: one(billing)
+	billing: one(billing),
+	document: many(document)
 }));
 
 export const progressNote = mysqlTable('progress_note', {

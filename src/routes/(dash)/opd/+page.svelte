@@ -43,6 +43,7 @@
 		}
 		bmi.number = weight / height_m_to_cm;
 	}
+	let loading = false;
 </script>
 
 {#if form?.visit_id}
@@ -87,7 +88,6 @@
 	<form
 		method="post"
 		action="?/create_visit_opd"
-		class="form-horizontal"
 		use:enhance={() => {
 			loading = true;
 			return async ({ update }) => {

@@ -1,8 +1,13 @@
 <script>
 	export let html = '';
+	export let contenteditable = false;
 </script>
 
-<div contenteditable="false" bind:innerHTML={html} />
+{#if contenteditable}
+	<div contenteditable="true" bind:innerHTML={html} />
+{:else}
+	<div contenteditable="false" bind:innerHTML={html} />
+{/if}
 
 <!-- <style>
 	[contenteditable] {

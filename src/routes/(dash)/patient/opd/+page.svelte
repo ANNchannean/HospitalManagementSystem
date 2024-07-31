@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import CreateDocument from '$lib/components/createORupdate/CreateDocument.svelte';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
 	import SendToIpd from '$lib/components/etc/SendToIPD.svelte';
 	import { inerHight } from '$lib/store';
-
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let visit_lenght: number;
@@ -15,6 +15,7 @@
 	let billing_id = 0;
 </script>
 
+<CreateDocument {data} {visit_id} />
 <ConfirmeModal action="?/process_billing" id={billing_id} />
 <SendToIpd action="?/send_to_ipd" id={get_visits[visit_lenght]?.id} />
 <div class="modal fade" id="modal-visite">
@@ -112,7 +113,6 @@
 										</span>
 									</a>
 								</td>
-
 								<td>
 									{#if editEtiology && item.id === visit_id}
 										<form
@@ -242,7 +242,28 @@
 										>
 									{/if}
 								</td>
-								<td></td>
+								<td>
+									<button
+										on:click={() => {
+											visit_id = 0;
+											visit_id = Number(item?.id);
+										}}
+										data-bs-toggle="modal"
+										data-bs-target="#create_document"
+										type="button"
+										class="btn btn-primary position-relative"
+									>
+										Document
+										{#if item.document.length}
+											<span
+												class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+											>
+												{item.document.length}
+												<span class="visually-hidden">unread messages</span>
+											</span>
+										{/if}
+									</button>
+								</td>
 								<td>
 									{item.checkin_type ?? ''}
 								</td>

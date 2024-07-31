@@ -7,6 +7,7 @@ import { clinicinfo } from './clinicInfo';
 import { payment, paymentType } from './payment';
 import { billing } from './billing';
 import { product } from './product';
+import { document } from './document';
 
 export const fileOrPicture = mysqlTable('file_or_picture', {
 	id: int('id').primaryKey().autoincrement(),
@@ -36,6 +37,10 @@ export const fileOrPicture = mysqlTable('file_or_picture', {
 		onUpdate: 'cascade'
 	}),
 	payment_id: int('payment_id').references(() => payment.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
+	document_id: int('document_id').references(() => document.id, {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
 	}),
@@ -73,6 +78,10 @@ export const fileOrPictureRelations = relations(fileOrPicture, ({ one }) => ({
 	billing: one(billing, {
 		fields: [fileOrPicture.billing_id],
 		references: [billing.id]
+	}),
+	document: one(document, {
+		fields: [fileOrPicture.document_id],
+		references: [document.id]
 	}),
 	product: one(product, {
 		fields: [fileOrPicture.product_id],

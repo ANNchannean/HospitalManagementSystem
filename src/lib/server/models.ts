@@ -84,6 +84,8 @@ export const updateProductOrder = async ({
 };
 
 export const updateCharge = async (charge_id: number) => {
+	console.log('updatecharge');
+	
 	const get_charge = await db.query.charge.findFirst({
 		where: eq(charge.id, charge_id),
 		with: { productOrder: true }
@@ -100,15 +102,19 @@ export const updateCharge = async (charge_id: number) => {
 		where: eq(billing.id, get_charge?.billing_id || 0),
 		with: { charge: true }
 	});
-	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0);
-	const total = Number(sub_total) - Number(get_billing?.discount);
+	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0) || 0;
+	// const total = Number(sub_total) - Number(get_billing?.discount);
+	const calulator_disc = get_billing?.discount.includes('%')
+		? sub_total -
+			(Number(get_billing?.discount) * Number(get_billing?.discount.replace('%', ''))) / 100
+		: sub_total - Number(get_billing?.discount);
 	await db
 		.update(billing)
 		.set({
-			total: total,
+			total: calulator_disc,
 			sub_total: sub_total
 		})
-		.where(eq(billing.id, Number(get_billing?.id)));
+		.where(eq(billing.id, Number(get_billing?.id))).catch((e) => console.log(e) )
 };
 
 export const updatChargeByValue = async (charge_id: number, total_charge: number) => {
@@ -128,12 +134,16 @@ export const updatChargeByValue = async (charge_id: number, total_charge: number
 		where: eq(billing.id, get_charge?.billing_id || 0),
 		with: { charge: true }
 	});
-	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0);
-	const total = Number(sub_total) - Number(get_billing?.discount);
+	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0) || 0;
+	// const total = Number(sub_total) - Number(get_billing?.discount);
+	const calulator_disc = get_billing?.discount.includes('%')
+		? sub_total -
+			(Number(get_billing?.discount) * Number(get_billing?.discount.replace('%', ''))) / 100
+		: sub_total - Number(get_billing?.discount);
 	await db
 		.update(billing)
 		.set({
-			total: total,
+			total: calulator_disc,
 			sub_total: sub_total
 		})
 		.where(eq(billing.id, Number(get_billing?.id)));
@@ -161,7 +171,7 @@ export const billingProcess = async ({
 	const total = disc.includes('%')
 		? price - (price * Number(disc.replace('%', ''))) / 100
 		: price - Number(disc);
-
+	console.log(disc);
 	const total_payment = get_billing?.payment.reduce((s, e) => s + Number(e.value), 0) || 0;
 	const total_after_tax = total - (total * tax) / 100;
 	if (total_payment === 0) {
