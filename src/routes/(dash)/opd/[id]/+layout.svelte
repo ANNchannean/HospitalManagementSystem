@@ -10,7 +10,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-header bg-dark-subtle text-dark">
+			<div class="card-header">
 				{#if get_visit.progress_note_id}
 					<span
 						><a
@@ -28,7 +28,7 @@
 						</a></span
 					>
 				{/if}
-				<span
+				<span class="fs-5"
 					># Patient Infomation, ID Patient #{get_visit.patient_id} / ID Visit #{get_visit.id}
 				</span>
 			</div>

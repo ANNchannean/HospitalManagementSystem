@@ -56,17 +56,14 @@
 					>
 						<div class="row pb-2">
 							<div class="col-sm-6">
-								<div class="custom-file">
-									<input
-										bind:value={file}
-										type="file"
-										name="sql"
-										accept=".sql"
-										class="custom-file-input"
-										id="exampleInputFile"
-									/>
-									<label class="custom-file-label" for="exampleInputFile">Choose file</label>
-								</div>
+								<input
+									bind:value={file}
+									type="file"
+									name="sql"
+									accept=".sql"
+									class="custom-file-input"
+									id="exampleInputFile"
+								/>
 							</div>
 							<div class="col-sm-6">
 								<button disabled={!file} type="submit" class="btn btn-info">

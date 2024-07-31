@@ -20,13 +20,13 @@
 	action="?/create_imagerie_request"
 	method="post"
 >
-	{#each get_imageerie_groups as item}
-		{@const products = item.product}
-		<div class="card">
-			<div class="card-header fs-4">
-				<span>{item.imagerie_group}</span>
-			</div>
-			<div class="form-horizontal">
+	<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+		{#each get_imageerie_groups as item}
+			{@const products = item.product}
+			<div class="card">
+				<div class="card-header fs-5">
+					<span>{item.imagerie_group}</span>
+				</div>
 				<div class="card-body">
 					<div class="form-group row">
 						{#each products as iitem}
@@ -43,26 +43,32 @@
 									<label for={iitem.id.toString()} class="custom-control-label"
 										>{iitem.products}</label
 									>
+									<span class="badge text-bg-danger"
+										>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
+											iitem.price
+										)}</span
+									>
 								</div>
 							</div>
 						{/each}
 					</div>
 				</div>
 			</div>
-		</div>
-		<br />
-	{/each}
-	<div class="card-footer row bg-light p-2 sticky-bottom">
-		<div class="col text-end">
-			<button class="btn btn-warning"
-				>Total Imagerie {Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-					Number(total_imagerie)
-				)}
-			</button>
-		</div>
+			<br />
+		{/each}
+		<div class="card-footer row bg-light p-2 sticky-bottom">
+			<div class="col text-end">
+				<button class="btn btn-warning"
+					>Total Imagerie {Intl.NumberFormat('en-US', {
+						style: 'currency',
+						currency: 'USD'
+					}).format(Number(total_imagerie))}
+				</button>
+			</div>
 
-		<div class="col-auto">
-			<SubmitButton {loading} />
+			<div class="col-auto">
+				<SubmitButton {loading} />
+			</div>
 		</div>
-	</div>
+	</fieldset>
 </form>

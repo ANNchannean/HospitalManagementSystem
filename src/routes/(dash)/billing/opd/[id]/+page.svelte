@@ -2,13 +2,14 @@
 	import type { EventHandler } from 'svelte/elements';
 	import type { ActionData, PageServerData } from './$types';
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import SelectRef from '$lib/components/etc/SelectRef.svelte';
 	import { enhance } from '$app/forms';
 	import Toast from '$lib/components/etc/Toast.svelte';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/components/etc/SubmiteSearch.svelte';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import { browser } from '$app/environment';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -55,6 +56,20 @@
 	let bank_pay = 0;
 	$: cash_pay = (final_disc - bank_pay).toFixed(2);
 	$: return_or_credit = (Number(bank_pay) + Number(cash_pay) - final_disc).toFixed(2);
+	onMount(() => {
+		if (browser) {
+			if (window.innerWidth > 990) {
+				document.getElementById('sidebarToggle')?.click();
+			}
+		}
+	});
+	onDestroy(() => {
+		if (browser) {
+			if (window.innerWidth > 990) {
+				document.getElementById('sidebarToggle')?.click();
+			}
+		}
+	});
 </script>
 
 {#if form?.disc}
@@ -226,7 +241,7 @@
 									<tr class="text-center">
 										<td class="text-start">
 											&nbsp;{item.product?.products}
-											{#each get_billing.visit?.presrciption || [] as item_1}
+											{#each get_billing?.visit?.presrciption || [] as item_1}
 												{#if item_1.product_id === item.product_id}
 													<span class="badge text-bg-primary"
 														>{item_1.product?.generic_name ?? ''}</span
@@ -430,7 +445,7 @@
 							<td>:</td>
 							<td>
 								{Intl.NumberFormat('en-US')
-									.format(Number(Number(get_billing?.sub_total) * Number(get_billing.exchang)))
+									.format(Number(Number(get_billing?.sub_total) * Number(get_billing?.exchang)))
 									.concat(' \u17DB')}
 							</td>
 						</tr>
@@ -440,7 +455,7 @@
 							<td>:</td>
 							<td>
 								{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-									get_billing.sub_total ?? 0
+									get_billing?.sub_total ?? 0
 								)}
 							</td>
 						</tr>
@@ -606,7 +621,7 @@
 						<div class="col">
 							<span class="fs-5"
 								>{Intl.NumberFormat('en-US')
-									.format(Number(Number(get_billing?.sub_total) * Number(get_billing.exchang)))
+									.format(Number(Number(get_billing?.sub_total) * Number(get_billing?.exchang)))
 									.concat(' \u17DB')}</span
 							> <br />
 							<span class="fs-5"
@@ -637,7 +652,7 @@
 						<div class="col">
 							<span class="fs-5"
 								>{Intl.NumberFormat('en-US')
-									.format(final_disc * Number(get_billing.exchang))
+									.format(final_disc * Number(get_billing?.exchang))
 									.concat(' \u17DB')}</span
 							><br />
 							<span class="fs-5"
@@ -658,7 +673,7 @@
 						<div class="col">
 							<span class="fs-5"
 								>{Intl.NumberFormat('en-US')
-									.format(Number(return_or_credit) * Number(get_billing.exchang))
+									.format(Number(return_or_credit) * Number(get_billing?.exchang))
 									.concat(' \u17DB')}</span
 							> <br />
 							<span class="fs-5"

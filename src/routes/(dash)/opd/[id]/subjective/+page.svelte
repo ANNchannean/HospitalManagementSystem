@@ -9,7 +9,7 @@
 </script>
 
 <div class="card">
-	<div class="card-header fs-4">
+	<div class="card-header fs-5">
 		<span># Subjective</span>
 	</div>
 	<form

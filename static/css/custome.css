@@ -29,7 +29,9 @@
 	-moz-transition: none;
 	transition: none;
 }
-
+input[type="checkbox"] {
+	transform: scale(1.1);
+}
 @font-face {
 	font-family: Khmer OS Battambang;
 	src: url(/font/KhmerOSBattambang-Regular.ttf);

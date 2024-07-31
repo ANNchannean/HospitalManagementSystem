@@ -18,15 +18,15 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-header fs-4">
+			<div class="card-header ">
 				<div class="row">
-					<div class="col">
+					<div class="col fs-5">
 						<span># Service</span>
 					</div>
 					<div class="col-auto">
 						<button
 							type="button"
-							class="btn btn-success"
+							class="btn btn-success btn-sm"
 							data-bs-toggle="modal"
 							data-bs-target="#create_service_operation"
 							><i class="fa-solid fa-square-plus"></i>

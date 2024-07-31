@@ -35,15 +35,19 @@ export const createProductOrder = async ({
 				total: Number(calulator_disc) * (Number(get_product_order.qty) + 1),
 				qty: Number(get_product_order.qty) + 1
 			})
-			.where(eq(productOrder.id, get_product_order.id));
+			.where(eq(productOrder.id, get_product_order.id))
+			.catch((e) => console.log(e));
 	} else {
-		await db.insert(productOrder).values({
-			price: +price,
-			total: +price,
-			product_id: product_id,
-			created_at: now_datetime(),
-			charge_id: charge_id
-		});
+		await db
+			.insert(productOrder)
+			.values({
+				price: +price,
+				total: +price,
+				product_id: product_id,
+				created_at: now_datetime(),
+				charge_id: charge_id
+			})
+			.catch((e) => console.log(e));
 	}
 	await updateCharge(charge_id);
 };
@@ -78,14 +82,13 @@ export const updateProductOrder = async ({
 				qty: +qty,
 				total: calulator_disc * +qty
 			})
-			.where(eq(productOrder.id, product_order_id));
+			.where(eq(productOrder.id, product_order_id))
+			.catch((e) => console.log(e));
 	}
 	await updateCharge(Number(get_product_order?.charge_id));
 };
 
 export const updateCharge = async (charge_id: number) => {
-	console.log('updatecharge');
-	
 	const get_charge = await db.query.charge.findFirst({
 		where: eq(charge.id, charge_id),
 		with: { productOrder: true }
@@ -96,25 +99,26 @@ export const updateCharge = async (charge_id: number) => {
 			.set({
 				price: get_charge.productOrder.reduce((s, e) => s + Number(e.total), 0)
 			})
-			.where(eq(charge.id, charge_id));
+			.where(eq(charge.id, charge_id))
+			.catch((e) => console.log(e));
 	}
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, get_charge?.billing_id || 0),
 		with: { charge: true }
 	});
 	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0) || 0;
-	// const total = Number(sub_total) - Number(get_billing?.discount);
-	const calulator_disc = get_billing?.discount.includes('%')
-		? sub_total -
-			(Number(get_billing?.discount) * Number(get_billing?.discount.replace('%', ''))) / 100
+	const calulator_disc = get_billing?.discount?.includes('%')
+		? sub_total - (sub_total * Number(get_billing?.discount.replace('%', ''))) / 100
 		: sub_total - Number(get_billing?.discount);
+
 	await db
 		.update(billing)
 		.set({
 			total: calulator_disc,
 			sub_total: sub_total
 		})
-		.where(eq(billing.id, Number(get_billing?.id))).catch((e) => console.log(e) )
+		.where(eq(billing.id, Number(get_billing?.id)))
+		.catch((e) => console.log(e));
 };
 
 export const updatChargeByValue = async (charge_id: number, total_charge: number) => {
@@ -128,25 +132,26 @@ export const updatChargeByValue = async (charge_id: number, total_charge: number
 			.set({
 				price: total_charge
 			})
-			.where(eq(charge.id, charge_id));
+			.where(eq(charge.id, charge_id))
+			.catch((e) => console.log(e));
 	}
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, get_charge?.billing_id || 0),
 		with: { charge: true }
 	});
 	const sub_total = get_billing?.charge.reduce((s, e) => s + Number(e.price), 0) || 0;
-	// const total = Number(sub_total) - Number(get_billing?.discount);
-	const calulator_disc = get_billing?.discount.includes('%')
-		? sub_total -
-			(Number(get_billing?.discount) * Number(get_billing?.discount.replace('%', ''))) / 100
+	const calulator_disc = get_billing?.discount?.includes('%')
+		? sub_total - (sub_total * Number(get_billing?.discount.replace('%', ''))) / 100
 		: sub_total - Number(get_billing?.discount);
+
 	await db
 		.update(billing)
 		.set({
 			total: calulator_disc,
 			sub_total: sub_total
 		})
-		.where(eq(billing.id, Number(get_billing?.id)));
+		.where(eq(billing.id, Number(get_billing?.id)))
+		.catch((e) => console.log(e));
 };
 
 export const billingProcess = async ({
@@ -167,11 +172,9 @@ export const billingProcess = async ({
 		}
 	});
 	const sub_total = Number(get_billing?.sub_total);
-	const price = sub_total;
 	const total = disc.includes('%')
-		? price - (price * Number(disc.replace('%', ''))) / 100
-		: price - Number(disc);
-	console.log(disc);
+		? sub_total - (sub_total * Number(disc.replace('%', ''))) / 100
+		: sub_total - Number(disc);
 	const total_payment = get_billing?.payment.reduce((s, e) => s + Number(e.value), 0) || 0;
 	const total_after_tax = total - (total * tax) / 100;
 	if (total_payment === 0) {
@@ -189,8 +192,8 @@ export const billingProcess = async ({
 				date: now_datetime().slice(0, 10),
 				time: now_datetime().slice(11, 19)
 			})
-			.where(eq(billing.id, billing_id));
-
+			.where(eq(billing.id, billing_id))
+			.catch((e) => console.log(e));
 		return;
 	}
 	if (total_payment >= total) {
@@ -208,7 +211,8 @@ export const billingProcess = async ({
 				date: now_datetime().slice(0, 10),
 				time: now_datetime().slice(11, 19)
 			})
-			.where(eq(billing.id, billing_id));
+			.where(eq(billing.id, billing_id))
+			.catch((e) => console.log(e));
 		return;
 	}
 	if (total_payment < total) {
@@ -226,7 +230,8 @@ export const billingProcess = async ({
 				date: now_datetime().slice(0, 10),
 				time: now_datetime().slice(11, 19)
 			})
-			.where(eq(billing.id, billing_id));
+			.where(eq(billing.id, billing_id))
+			.catch((e) => console.log(e));
 		return;
 	}
 };

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import { t } from '$lib/translations';
 	import type { PageServerData } from '../../../routes/(dash)/patient/opd/$types';
 	export let data: PageServerData;
 	export let visit_id: number;
@@ -8,7 +9,6 @@
 	$: find_visit = get_visits.find((e) => e.id === visit_id);
 	let loading = false;
 	let document_id = 0;
-
 </script>
 
 <!-- @_List_Parameter -->
@@ -71,21 +71,39 @@
 					</div>
 				</div>
 				<br />
-				{#each find_visit?.document || [] as item (item.id)}
-					<button
-						on:click={() => {
-							document_id = 0;
-							document_id = item.id;
-						}}
-						data-bs-toggle="modal"
-						data-bs-target="#view_document"
-						type="button"
-						class="btn btn-primary w-100 my-2"
-					>
-						{item.title}
-					</button>
-				{/each}
-
+				<div class="card-body table-responsive p-0">
+					<table class="table text-nowrap">
+						<tbody>
+							{#each find_visit?.document || [] as item, index (item.id)}
+								<tr>
+									<td style="width: 5%;">{index + 1}</td>
+									<td style="width: 5%;">{item.title}</td>
+									<td>
+										<div>
+											<button type="submit" class="btn btn-info btn-sm"
+												><i class="fa-solid fa-arrows-rotate"></i>
+												{$t('common.restore')}
+											</button>
+											<a download href="/backup/{item}" class="btn btn-success btn-sm"
+												><i class="fa-solid fa-download"></i> {$t('common.download')}
+											</a>
+											<a
+												href={'#'}
+												on:click={() => {}}
+												type="button"
+												class="btn btn-danger btn-sm"
+												data-bs-toggle="modal"
+												data-bs-target="#delete_modal"
+												><i class="fa-solid fa-trash-can"></i>
+												{$t('common.delete_backup')}
+											</a>
+										</div>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 				<br />
 				<div class="modal-footer justify-content-end">
 					<SubmitButton {loading} />
@@ -94,4 +112,3 @@
 		</div>
 	</div>
 </div>
-

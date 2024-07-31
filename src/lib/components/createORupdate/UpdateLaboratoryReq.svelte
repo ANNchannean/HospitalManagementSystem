@@ -44,7 +44,7 @@
 					<input value={find_visit?.id} type="hidden" name="visit_id" />
 					{#each get_laboratory_group as item (item.id)}
 						<div class="card">
-							<div class="card-header fs-4">
+							<div class="card-header fs-5">
 								<span>{item.laboratory_group}</span>
 							</div>
 

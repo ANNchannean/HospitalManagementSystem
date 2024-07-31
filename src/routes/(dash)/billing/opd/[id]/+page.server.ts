@@ -9,9 +9,9 @@ import {
 	updatChargeByValue,
 	updateProductOrder
 } from '$lib/server/models';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
-import { uploadFile } from '$lib/server/fileHandle';
+import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: billing_id } = params;
@@ -150,16 +150,6 @@ export const actions: Actions = {
 			price: +price,
 			product_id: +product_id
 		});
-		console.log('discountID');
-		
-		console.log(billing_data?.discount);
-		
-		await billingProcess({
-			billing_id:billing_data!.id,
-			disc:billing_data?.discount  || "0",
-			note:billing_data?.note ?? '',
-			tax:billing_data!.tax
-		})
 	},
 	remove_product_order: async ({ request }) => {
 		const body = await request.formData();
@@ -216,6 +206,25 @@ export const actions: Actions = {
 		if (!bank_pay && !cash_pay) validErr.payment = true;
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
+
+		const get_billing = await db.query.billing.findFirst({
+			where: eq(billing.id, +billing_id),
+			with: {
+				payment: {
+					with: {
+						fileOrPicture: true
+					}
+				}
+			}
+		});
+		if (get_billing?.payment.length) {
+			for (const e of get_billing.payment) {
+				await db.delete(payment).where(eq(payment.id, e.id));
+				if (e.fileOrPicture) {
+					await deleteFile(e.fileOrPicture.filename ?? '');
+				}
+			}
+		}
 		if (Number(bank_pay) > 0 && payment_type_id) {
 			const date_time = now_datetime();
 			await db.insert(payment).values({
@@ -247,5 +256,6 @@ export const actions: Actions = {
 			tax: +tax || 0,
 			note: note.toString()
 		});
+		redirect(303,"/billing/sale-reprot")
 	}
 };
