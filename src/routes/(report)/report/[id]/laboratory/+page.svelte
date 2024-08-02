@@ -402,7 +402,6 @@
 		}
 		thead {
 			display: table-header-group;
-			width: 25px;
 		}
 		tfoot {
 			display: table-footer-group;

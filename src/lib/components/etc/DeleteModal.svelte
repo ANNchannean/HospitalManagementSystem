@@ -5,9 +5,10 @@
 	export let slug = '';
 	export let id: number | undefined = undefined;
 	let loading = false;
+	export let delete_modal = 'delete_modal';
 </script>
 
-<div class="modal fade" id="delete_modal" data-bs-backdrop="static">
+<div class="modal fade" id={delete_modal} data-bs-backdrop="static">
 	<form
 		method="post"
 		use:enhance={() => {

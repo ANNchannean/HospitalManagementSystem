@@ -8,7 +8,6 @@
 	$: find_product_group = get_product_group_type.find((e) => e.id === product_group_id);
 	let loading = false;
 </script>
-
 <!-- @_Create Unit -->
 <div class="modal fade" id="create_product_group" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
@@ -82,16 +81,21 @@
 
 									<td>
 										<div>
-											<a
-												href={'#'}
-												on:click={() => {
-													product_group_id = 0;
-													product_group_id = item.id;
-												}}
-												type="button"
-												class="btn btn-success btn-sm"
-												><i class="fa-solid fa-file-pen"></i>
-											</a>
+											<form use:enhance action="?/delete_product_group" method="post">
+												<input type="hidden" name="id" value={item.id} />
+												<button
+													on:click={() => {
+														product_group_id = 0;
+														product_group_id = item.id;
+													}}
+													type="button"
+													class="btn btn-success btn-sm"
+													><i class="fa-solid fa-file-pen"></i>
+												</button>
+												<button type="submit" class="btn btn-danger btn-sm"
+													><i class="fa-solid fa-trash-can"></i>
+												</button>
+											</form>
 										</div>
 									</td>
 								</tr>

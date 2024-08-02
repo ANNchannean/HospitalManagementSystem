@@ -170,5 +170,17 @@ export const actions: Actions = {
 				console.log(e);
 				return fail(500, { serverError: true });
 			});
+	},
+	delete_product_group: async ({ request }) => {
+		const body = await request.formData();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		if (isNaN(+id)) return fail(400, { id: true });
+		await db
+			.delete(productGroupType)
+			.where(eq(productGroupType.id, +id))
+			.catch((e) => {
+				console.log(e);
+				return fail(500, { serverError: true });
+			});
 	}
 };

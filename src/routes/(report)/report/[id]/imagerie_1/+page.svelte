@@ -202,8 +202,8 @@
 								<h1 style="font-size: 100%;" class="text-center en_font_times_new_roman">
 									Imagerie Result
 								</h1>
-							</u>
-							<hr />
+								</u>
+								<hr />
 							<div class="row">
 								<div class="col-4">
 									{#each get_imagerie_request?.fileOrPicture || [] as item}
