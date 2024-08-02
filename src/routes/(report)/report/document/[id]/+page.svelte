@@ -24,12 +24,4 @@
 	</div>
 </div>
 
-<style>
-	@page {
-		size: A4;
-		margin-bottom: 1mm;
-		margin-left: 5mm;
-		margin-top: 5mm;
-		margin-right: 5mm;
-	}
-</style>
+

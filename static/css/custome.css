@@ -33,12 +33,19 @@ input[type="checkbox"] {
 	transform: scale(1.1);
 }
 @font-face {
-	font-family: Khmer OS Battambang;
+	font-family: 'Times New Roman';
+	src: url(/font/timesNewRoman.ttf);
+}
+@font-face {
+	font-family: 'Khmer OS Battambang';
 	src: url(/font/KhmerOSBattambang-Regular.ttf);
 }
-
+@font-face {
+	font-family: 'Khmer OS Muol';
+	src: url(/font/KhmerOSmuol.ttf);
+}
 * {
-	font-family: sans-serif, 'Khmer OS Battambang', 'Khmer OS Muol', 'Khmer OS Muol Light',
+	font-family: 'Khmer OS Battambang', 'Khmer OS Muol',
 		'Kantumruy Pro';
 }
 
@@ -56,29 +63,7 @@ input[type="checkbox"] {
 .en_font_times_new_roman {
 	font-family: 'Times New Roman';
 }
-/* @ scrollbar  */
-/* width */
-::-webkit-scrollbar {
-	width: 6px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-	background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-	background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-	background: #555;
-}
-#nprogress .bar {
-	background: #051d24 !important;
-}
 
 .note-editor .dropdown-toggle::after {
 	all: unset;
@@ -103,3 +88,4 @@ tbody tr {
 td {
 	vertical-align: middle;
 }
+
