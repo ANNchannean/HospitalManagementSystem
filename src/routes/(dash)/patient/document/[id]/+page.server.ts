@@ -23,9 +23,11 @@ export const load = (async ({ params }) => {
 			}
 		}
 	});
+	const get_clinicinfo = await db.query.clinicinfo.findFirst();
 	return {
 		get_document,
-		get_visit
+		get_visit,
+		get_clinicinfo
 	};
 }) satisfies PageServerLoad;
 

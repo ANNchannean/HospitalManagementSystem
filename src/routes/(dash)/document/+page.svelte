@@ -149,8 +149,6 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				
-				
 				<div class="col-12">
 					<div class="row justify-content-center">
 						<div style="width: 50%;">
@@ -159,13 +157,9 @@
 									<tr>
 										<td>
 											<div class="row">
-												<Select bind:value items={get_patients.map((e) => ({ id: e.id, name: e.name_khmer }))} />
 												<Athtml
-													html={get_form_document
-														.find((e) => e.id === form_document_id)
-														?.content?.replace('[patient_name]', find_patient?.name_khmer ?? '')
-														?.replace('[age]', find_patient?.age ?? '')
-														?.replace('[gender]', find_patient?.gender ?? '') ?? ''}
+													html={get_form_document.find((e) => e.id === form_document_id)?.content ??
+														''}
 												/>
 											</div>
 										</td>
