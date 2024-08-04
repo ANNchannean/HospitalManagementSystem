@@ -80,23 +80,14 @@
 									<td style="width: 5%;">{item.title}</td>
 									<td>
 										<div>
-											<button type="submit" class="btn btn-info btn-sm"
-												><i class="fa-solid fa-arrows-rotate"></i>
-												{$t('common.restore')}
-											</button>
-											<a download href="/backup/{item}" class="btn btn-success btn-sm"
-												><i class="fa-solid fa-download"></i> {$t('common.download')}
-											</a>
 											<a
-												href={'#'}
-												on:click={() => {}}
-												type="button"
-												class="btn btn-danger btn-sm"
-												data-bs-toggle="modal"
-												data-bs-target="#delete_modal"
-												><i class="fa-solid fa-trash-can"></i>
-												{$t('common.delete_backup')}
+												on:click={() => document.getElementById('close_create_document')?.click() }
+												href="/patient/document/{item.id}"
+												class="btn btn-info btn-sm"
+											>
+												Input Document
 											</a>
+											<a href="/document/{item}" class="btn btn-success btn-sm"> View Document </a>
 										</div>
 									</td>
 								</tr>
