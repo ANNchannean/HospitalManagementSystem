@@ -11,7 +11,7 @@
 	disabled={loading}
 	class:btn-sm={sm === true}
 	type="submit"
-	class={`btn btn-success ${style}`}
+	class={`btn btn-success d-print-none ${style}`}
 >
 	{#if icon_only}
 		{#if loading}

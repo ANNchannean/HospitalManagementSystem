@@ -41,6 +41,10 @@ input[type="checkbox"] {
 	src: url(/font/KhmerOSbattambang.ttf);
 }
 @font-face {
+	font-family: 'Khmer OS Muol Light';
+	src: url(/font/KhmerOSMoulLight.ttf);
+}
+@font-face {
 	font-family: 'Khmer OS Muol';
 	src: url(/font/KhmerOSmuol.ttf);
 }
@@ -54,6 +58,9 @@ input[type="checkbox"] {
 	font-size: 16px;
 } */
 
+.kh_font_muol_light {
+	font-family: 'Khmer OS Muol Light';
+}
 .kh_font_muol {
 	font-family: 'Khmer OS Muol';
 }

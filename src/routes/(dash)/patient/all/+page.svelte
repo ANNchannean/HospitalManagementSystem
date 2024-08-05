@@ -4,6 +4,7 @@
 	import CreatePatient from '$lib/components/createORupdate/CreatePatient.svelte';
 	import { inerHight } from '$lib/store';
 	import VIewProfilePatient from '$lib/components/etc/VIewProfilePatient.svelte';
+	import { invalidateAll } from '$app/navigation';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let patient_id: number;
@@ -168,8 +169,7 @@
 								</td>
 								<td>
 									<div>
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
 												patient_id = item.id;
 											}}
@@ -178,9 +178,8 @@
 											data-bs-toggle="modal"
 											data-bs-target="#view-patient"
 											><i class="fa-solid fa-expand"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
 												patient_id = item.id;
 											}}
@@ -189,10 +188,8 @@
 											data-bs-toggle="modal"
 											data-bs-target="#modal-visite"
 											><i class="fa-solid fa-circle-plus"></i>
-										</a>
-										<a
-											data-sveltekit-reload
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
 												dob = '';
 												age = 0;
@@ -214,10 +211,9 @@
 											data-bs-toggle="modal"
 											data-bs-target="#create-patient"
 											><i class="fa-solid fa-file-pen"></i>
-										</a>
+										</button>
 
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
 												patient_id = 0;
 												patient_id = item.id;
@@ -227,7 +223,7 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

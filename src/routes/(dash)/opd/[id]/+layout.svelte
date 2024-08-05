@@ -164,6 +164,12 @@
 				? 'btn btn-dark mb-2'
 				: 'btn btn-outline-dark mb-2'}>Services</a
 		>
+		<a
+			href="/opd/{visit_id}/vaccine "
+			class={$page.url.pathname.includes('vaccine')
+				? 'btn btn-dark mb-2'
+				: 'btn btn-outline-dark mb-2'}>Vaccine</a
+		>
 	</div>
 </div>
 

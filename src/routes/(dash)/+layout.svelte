@@ -6,6 +6,7 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { inerHight, globalLoading } from '$lib/store';
+	import { invalidateAll } from '$app/navigation';
 	$: ({ get_clinich_info } = data);
 	// onNavigate((navigation) => {
 	// 	if (!document.startViewTransition) return;

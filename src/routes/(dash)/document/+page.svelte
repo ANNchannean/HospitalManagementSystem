@@ -135,7 +135,7 @@
 </div>
 
 <div class="modal fade" id="view_document">
-	<div class="modal-dialog modal-fullscreen">
+	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Document</h4>
@@ -151,7 +151,7 @@
 			<div class="modal-body">
 				<div class="col-12">
 					<div class="row justify-content-center">
-						<div style="width: 50%;">
+						<div>
 							<table class="super-table">
 								<tbody>
 									<tr>

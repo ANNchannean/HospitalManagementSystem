@@ -23,7 +23,11 @@ export const load = (async ({ params }) => {
 			}
 		}
 	});
-	const get_clinicinfo = await db.query.clinicinfo.findFirst();
+	const get_clinicinfo = await db.query.clinicinfo.findFirst({
+		with:{
+			fileOrPicture:true
+		}
+	});
 	return {
 		get_document,
 		get_visit,
