@@ -63,18 +63,17 @@
 				</div>
 			</div>
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
-				<table class="table table-bordered">
+				<table class="table table-bordered text-nowrap">
 					<thead class="table-active table-light sticky-top">
-						<tr>
+						<tr class="text-center">
 							<th class="text-center" style="width: 5%;">ID Visit</th>
-							<th style="width: 5%;">Date</th>
-							<!-- <th>Time</th> -->
-							<th style="width: 5%;">Patient Name</th>
+							<th  style="width: 10%;">Date</th>
+							<th style="width: 10%;">Patient Name</th>
 							<th style="width: 5%;">Gender</th>
 							<th style="width: 5%;">Age</th>
-							<th style="width: 5%;">Doctor</th>
+							<th style="width: 10%;">Doctor</th>
 							<th style="width: 5%;">Visit Type</th>
-							<th style="width: 20%;">Request Check</th>
+							<th style="width: 35%;">Request Check</th>
 							<th style="width: 10%;">Result</th>
 							<th style="width: 10%;"></th>
 						</tr>
@@ -83,7 +82,7 @@
 						{#each get_visits as item}
 							{@const laboratoryRequests = item.laboratoryRequest}
 							{#if item.laboratoryRequest.length}
-								<tr>
+								<tr class="text-center"> 
 									<td class="text-center">{item.id}</td>
 									<td
 										>{new Date(item?.date_checkup ?? '')
@@ -107,7 +106,7 @@
 									<td>{item?.patient?.age}</td>
 									<td>{item?.staff?.name}</td>
 									<td>{item?.checkin_type}</td>
-									<td class="text-wrap">
+									<td class="text-wrap text-start">
 										{#each laboratoryRequests as iitem}
 											<span class="m-1 badge text-bg-info">{iitem.product?.products}</span>
 										{/each}

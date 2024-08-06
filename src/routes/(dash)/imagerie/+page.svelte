@@ -63,23 +63,23 @@
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
 				<table class="table table-bordered">
 					<thead class="table-active table-light sticky-top">
-						<tr>
-							<th class="text-center" style="width: 5%;">ID Visit</th>
-							<th class="text-center">Date</th>
-							<th>Patient Name</th>
-							<th class="text-center">Gender</th>
-							<th class="text-center">Age</th>
-							<th>Doctor</th>
-							<th>Visit Type</th>
-							<th>Request Check</th>
-							<th></th>
-							<th class="text-center">Result</th>
-							<th></th>
+						<tr class="text-center">
+							<th style="width: 5%;">ID Visit</th>
+							<th style="width: 10%;">Date</th>
+							<th style="width: 10%;">Patient Name</th>
+							<th style="width: 5%;">Gender</th>
+							<th style="width: 5%;">Age</th>
+							<th style="width: 10%;">Doctor</th>
+							<th style="width: 10%;">Visit Type</th>
+							<th style="width: 20%;">Request Check</th>
+							<td style="width: 10%;"></td>
+							<th style="width: 10%;">Result</th>
+							<th style="width: 10%;"></th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each get_imagerie_request as item}
-							<tr>
+							<tr class="text-center">
 								<td class="text-center">{item.visit?.id}</td>
 								<td class="text-center"
 									>{new Date(item.visit?.date_checkup ?? '')
