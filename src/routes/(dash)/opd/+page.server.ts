@@ -52,7 +52,7 @@ export const actions: Actions = {
 			asign_vitalsing
 		} = Object.fromEntries(body) as Record<string, string>;
 		if (!bmi) return fail(400, { bmi: true });
-		await db
+		const visit_id = await db
 			.insert(visit)
 			.values({
 				checkin_type: 'OPD',
@@ -62,14 +62,9 @@ export const actions: Actions = {
 				department_id: Number(department_id),
 				etiology: etiology
 			})
-			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
-			});
+			.$returningId();
 
-		const get_visit = await db.query.visit.findFirst({
-			where: eq(visit.date_checkup, created_at)
-		});
+		const get_visit = visit_id[0];
 		if (!get_visit) return fail(400, { visit_id: true });
 		if (get_visit) {
 			// doing billing
@@ -137,6 +132,17 @@ export const actions: Actions = {
 				.values({
 					billing_id: get_billing!.id,
 					charge_on: 'service',
+					created_at: created_at
+				})
+				.catch((e) => {
+					console.log(e);
+					return fail(500, { serverError: true });
+				});
+			await db
+				.insert(charge)
+				.values({
+					billing_id: get_billing!.id,
+					charge_on: 'vaccine',
 					created_at: created_at
 				})
 				.catch((e) => {

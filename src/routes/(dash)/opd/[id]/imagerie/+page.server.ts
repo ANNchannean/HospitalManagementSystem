@@ -65,7 +65,7 @@ export const actions: Actions = {
 		// Create Imagerie Request
 		const charge_on_imagerie = get_visit?.billing?.charge.find((e) => e.charge_on === 'imagerie');
 		for (const e of product_id) {
-			const is_created = get_visit?.imagerieRequest.find((ee) => ee.product_id === +e);
+			const is_created = get_visit?.imagerieRequest.some((ee) => ee.product_id === +e);
 			if (!is_created) {
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
@@ -84,7 +84,7 @@ export const actions: Actions = {
 
 		// Delete Imagere Request
 		for (const e of get_visit!.imagerieRequest) {
-			const is_created = product_id.find((ee) => +ee === e.product_id);
+			const is_created = product_id.some((ee) => +ee === e.product_id);
 			if (!is_created) {
 				const product_order_ = charge_on_imagerie?.productOrder.find(
 					(ee) => ee.product_id === e.product_id

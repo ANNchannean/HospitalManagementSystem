@@ -1,8 +1,9 @@
 import { db } from '$lib/server/db';
-import { laboratory, laboratoryRequest, product, visit } from '$lib/server/schema';
+import { injection, product, productGroupType, vaccine, visit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, eq } from 'drizzle-orm';
-import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
+import { and, asc, eq } from 'drizzle-orm';
+import { createProductOrder, deleteProductOrder } from '$lib/server/models';
+import { now_datetime } from '$lib/server/utils';
 
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);
@@ -19,33 +20,43 @@ export const load = (async ({ params }) => {
 				with: {
 					charge: true
 				}
+			},
+			vaccine: {
+				with: {
+					product: true
+				}
 			}
 		},
 		where: eq(visit.id, +id)
 	});
-	const get_laboratory_group = await db.query.laboratoryGroup.findMany({
+	const get_vaccine_group = await db.query.productGroupType.findFirst({
 		with: {
 			product: {
 				orderBy: asc(product.products)
 			}
-		}
+		},
+		where: eq(productGroupType.id, 3)
 	});
+
 	return {
-		get_laboratory_group,
+		get_vaccine_group,
 		get_visit
 	};
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	create_laboratory_request: async ({ request, params }) => {
+	vaccine_service: async ({ request, params }) => {
 		const id = parseInt(params.id);
 		const body = await request.formData();
 		const product_id = body.getAll('product_id');
 		const get_visit = await db.query.visit.findFirst({
 			where: eq(visit.id, +id),
 			with: {
-				laboratoryRequest: true,
-				laboratory: true,
+				vaccine: {
+					with: {
+						injection: true
+					}
+				},
 				billing: {
 					with: {
 						charge: {
@@ -57,85 +68,57 @@ export const actions: Actions = {
 				}
 			}
 		});
-		const charge_on_laboratory = get_visit?.billing?.charge.find(
-			(e) => e.charge_on === 'laboratory'
-		);
+		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'vaccine');
 		for (const e of product_id) {
-			const is_created = get_visit?.laboratoryRequest.find((ee) => ee.product_id === +e);
+			const is_created = get_visit?.vaccine.some((ee) => ee.product_id === +e);
 			if (!is_created) {
+				const get_injection = await db.query.injection.findFirst({
+					where: and(eq(injection.patient_id, get_visit!.patient_id!), eq(injection.product_id, +e))
+				});
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
 				});
-				await db.insert(laboratoryRequest).values({
-					product_id: +e,
-					visit_id: get_visit?.id
-				});
-				if (get_visit?.laboratory?.id) {
-					await db
-						.update(laboratory)
-						.set({
-							status: false,
-							visit_id: get_visit?.id
-						})
-						.where(eq(laboratory.id, get_visit.laboratory.id));
-				}
-				if (!get_visit?.laboratory?.id) {
-					await db.insert(laboratory).values({
-						status: false,
-						visit_id: get_visit?.id
+
+				if (get_injection) {
+					await db.insert(vaccine).values({
+						visit_id: +get_visit!.id,
+						product_id: get_product?.id,
+						injection_id: get_injection.id
 					});
 				}
+				if (!get_injection) {
+					const injection_id = await db
+						.insert(injection)
+						.values({
+							patient_id: get_visit?.patient_id,
+							product_id: +e,
+							datetime: now_datetime()
+						})
+						.$returningId();
+					await db.insert(vaccine).values({
+						visit_id: +get_visit!.id,
+						product_id: get_product?.id,
+						injection_id: injection_id[0].id
+					});
+				}
+
 				await createProductOrder({
-					charge_id: Number(charge_on_laboratory?.id),
+					charge_id: Number(charge_on_service?.id),
 					price: Number(get_product?.price),
 					product_id: Number(+e)
 				});
 			}
 		}
-		for (const e of get_visit!.laboratoryRequest) {
-			const is_created = product_id.find((ee) => +ee === e.product_id);
+		// Delete Vaccine Service
+		for (const e of get_visit!.vaccine) {
+			const is_created = product_id.some((ee) => +ee === e.product_id);
 			if (!is_created) {
-				const product_order_ = charge_on_laboratory?.productOrder.find(
+				const product_order_ = charge_on_service?.productOrder.find(
 					(ee) => ee.product_id === e.product_id
 				);
-				await db
-					.delete(laboratoryRequest)
-					.where(eq(laboratoryRequest.id, e.id))
-					.catch((e) => {
-						console.log(e);
-					});
-
+				await db.delete(vaccine).where(eq(vaccine.id, e.id));
 				await deleteProductOrder(Number(product_order_?.id));
 			}
-		}
-	},
-
-	update_total_laboratory: async ({ request, params }) => {
-		const { id } = params;
-		const body = await request.formData();
-		const { total_laboratory } = Object.fromEntries(body) as Record<string, string>;
-		const get_visit = await db.query.visit.findFirst({
-			where: eq(visit.id, +id),
-			with: {
-				laboratoryRequest: true,
-				laboratory: true,
-				billing: {
-					with: {
-						charge: {
-							with: {
-								productOrder: true
-							}
-						}
-					}
-				}
-			}
-		});
-
-		const charge_on_laboratory = get_visit?.billing?.charge.find(
-			(e) => e.charge_on === 'laboratory'
-		);
-		if (charge_on_laboratory) {
-			await updatChargeByValue(charge_on_laboratory.id, +total_laboratory);
 		}
 	}
 };

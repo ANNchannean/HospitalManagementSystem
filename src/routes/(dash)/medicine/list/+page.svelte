@@ -75,11 +75,14 @@
 								<td class="text-center">{index + 1}</td>
 								<td>{item.products}</td>
 								<td>{item.unit?.unit}</td>
-								<td>{new Intl.NumberFormat().format(item.price)}</td>
+								<td
+									>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
+										item.price
+									)}</td
+								>
 								<td>
 									<div>
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
 												product_id = 0;
 												product_id = item.id;
@@ -89,9 +92,8 @@
 											data-bs-toggle="modal"
 											data-bs-target="#create-medicine"
 											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
 												product_id = 0;
 												product_id = item.id;
@@ -101,7 +103,7 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

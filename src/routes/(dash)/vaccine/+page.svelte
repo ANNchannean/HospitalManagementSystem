@@ -7,79 +7,11 @@
 	export let data: PageServerData;
 	let vaccin_id: number;
 	let loading = false;
-	$: ({ get_vaccins, get_vaccin_types } = data);
-	$: find_vaccin = get_vaccins.find((e) => e.id === vaccin_id);
+	$: ({ get_injection } = data);
+	const timesInject = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 </script>
 
-<DeleteModal action="?/delete_vaccine" id={find_vaccin?.id} />
-<!-- @_Add_Patient -->
-<div class="modal fade" id="modal-add-Vaccine" data-bs-backdrop="static">
-	<div class="modal-dialog modal-xl">
-		<form
-			action={find_vaccin?.id ? '?/update_vaccine' : '?/create_vaccine'}
-			method="post"
-			class="modal-content"
-			use:enhance={() => {
-				loading = true;
-				return async ({ update, result }) => {
-					await update();
-					loading = false;
-					vaccin_id = 0;
-					if (result.type !== 'failure') document.getElementById('close-vaccine')?.click();
-				};
-			}}
-		>
-			<div class="modal-header">
-				<h4 class="modal-title">Vaccine</h4>
-				<button
-					id="close-vaccine"
-					type="button"
-					class="btn-close"
-					data-bs-dismiss="modal"
-					aria-label="Close"
-				>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-12">
-							<div class="form-group pb-3">
-								<input value={find_vaccin?.id} type="hidden" name="vaccine_id" />
-								<label for="Discription">Discription</label>
-								<input
-									value={find_vaccin?.discription ?? ''}
-									name="discription"
-									type="text"
-									class="form-control"
-									id="Discription"
-								/>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="form-group pb-3">
-								<label for="vaccine_type_id">Vaccin Type</label>
-								<select
-									value={find_vaccin?.vaccine_type_id ?? ''}
-									id="vaccine_type_id"
-									class="form-control"
-									name="vaccine_type_id"
-								>
-									{#each get_vaccin_types as item}
-										<option value={item.id}>{item.type}</option>
-									{/each}
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer justify-content-end">
-				<SubmitButton {loading} />
-			</div>
-		</form>
-	</div>
-</div>
+<!-- <DeleteModal action="?/delete_vaccine" /> -->
 
 <div class="row">
 	<div class="col-sm-6">
@@ -116,59 +48,59 @@
 							placeholder="Search"
 						/>
 					</div>
-					<div class="col-auto">
-						<button
-							on:click={() => (vaccin_id = 0)}
-							type="button"
-							class="btn btn-success mx-2"
-							data-bs-toggle="modal"
-							data-bs-target="#modal-add-Vaccine"
-							><i class="fa-solid fa-square-plus"></i>
-							New Vaccine
-						</button>
-					</div>
 				</div>
 			</div>
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
-				<table class="table table-head-fixed table-hover text-nowrap table-valign-middle">
-					<thead class="">
+				<table class="table table-bordered">
+					<thead class="table-active table-light sticky-top">
 						<tr>
-							<th>N</th>
-							<th>Discription</th>
-							<th>Action</th>
+							<th class="text-center" style="width: 5%;">ID</th>
+							<th class="text-center">Date</th>
+							<th>Patient Name</th>
+							<th class="text-center">Gender</th>
+							<th class="text-center">Age</th>
+							<th>Doctor</th>
+							<th>Visit Type</th>
+							<th>Vaccine</th>
+							<th class="text-center">Schedule</th>
+
+							<th></th>
 						</tr>
 					</thead>
-					<tbody class="table-sm">
-						{#each get_vaccins || [] as item, index}
+					<tbody>
+						{#each get_injection as item}
 							<tr>
-								<td>{index + 1}</td>
-								<td>{item.discription}</td>
+								<td class="text-center">{item.id}</td>
+								<td>
+									{item?.patient?.name_khmer} <br />
+									{item?.patient?.name_latin}
+								</td>
+								<td class="text-center">{item?.patient?.gender}</td>
+								<td class="text-center">{item?.patient?.age}</td>
+								<!-- <td>{item?.staff?.name}</td> -->
+								<!-- <td>{item?.checkin_type}</td> -->
 								<td>
 									<div>
-										<a
-											href={'#'}
-											on:click={() => {
-												vaccin_id = 0;
-												vaccin_id = item.id;
-											}}
-											type="button"
-											class="btn btn-info btn-sm"
-											data-bs-toggle="modal"
-											data-bs-target="#modal-add-Vaccine"
-											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
-											on:click={() => {
-												vaccin_id = 0;
-												vaccin_id = item.id;
-											}}
-											type="button"
-											class="btn btn-danger btn-sm"
-											data-bs-toggle="modal"
-											data-bs-target="#delete_modal"
-											><i class="fa-solid fa-trash-can"></i>
-										</a>
+										<span class=" badge text-bg-info text-start"
+											>{item.product?.products ?? ''}</span
+										>
+										<br />
+									</div>
+								</td>
+								<td>
+									<button
+										data-bs-toggle="modal"
+										data-bs-target="#create_injection"
+										type="button"
+										class="btn btn-sm btn-info"
+										>Inject {item.vaccine.length}
+									</button>
+								</td>
+								<td>
+									<div>
+										<button style="background-color: deeppink;" type="button" class="btn btn-sm"
+											>Invoice
+										</button>
 									</div>
 								</td>
 							</tr>
@@ -176,6 +108,111 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
+	</div>
+</div>
+
+<!-- @Create Ijection -->
+<div class="modal fade" id="create_injection" data-bs-backdrop="static">
+	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Create Document</h4>
+				<button
+					data-bs-toggle="modal"
+					data-bs-target="#create_injection"
+					id="nest_create_injection"
+					type="button"
+					class="d-none"
+				>
+				</button>
+				<button
+					id="close_create_injection"
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+				>
+				</button>
+			</div>
+			<form
+				class="modal-body"
+				use:enhance={() => {
+					loading = true;
+					return async ({ update }) => {
+						await update({ reset: false });
+						loading = false;
+					};
+				}}
+				action="?/create_injection"
+				method="post"
+			>
+				<div class="card">
+					<h5 class="card-header">Form Document</h5>
+					<div class="card-body">
+						<div class=" form-group row p-3">
+							<div class="col">
+								<div class="row">
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="1" />
+										<label for="1" class="custom-control-label">លើកទី ០១​</label>
+									</div>
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="2" />
+										<label for="2" class="custom-control-label">លើកទី ០២​</label>
+									</div>
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="3" />
+										<label for="3" class="custom-control-label">លើកទី ០៣​</label>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="4" />
+										<label for="4" class="custom-control-label">លើកទី ០៤​</label>
+									</div>
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="5" />
+										<label for="5" class="custom-control-label">លើកទី ០៥​</label>
+									</div>
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="6" />
+										<label for="6" class="custom-control-label">លើកទី ០៦​</label>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="7" />
+										<label for="7" class="custom-control-label">លើកទី ០៧​</label>
+									</div>
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="8" />
+										<label for="8" class="custom-control-label">លើកទី ០៨​</label>
+									</div>
+									<div class="mb-3 form-check">
+										<input name="document_title" class="form-check-input" type="checkbox" id="9" />
+										<label for="9" class="custom-control-label">លើកទី ០៩​</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div class="card-body table-responsive p-0">
+					<table class="table text-nowrap">
+						<tbody> </tbody>
+					</table>
+				</div>
+				<br />
+				<div class="modal-footer justify-content-end">
+					<SubmitButton {loading} />
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

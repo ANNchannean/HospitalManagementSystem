@@ -60,7 +60,6 @@
 					</div>
 				</div>
 			</div>
-
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
 				<table class="table table-bordered">
 					<thead class="table-active table-light sticky-top">

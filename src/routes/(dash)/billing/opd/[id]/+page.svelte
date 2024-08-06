@@ -22,7 +22,8 @@
 		charge_on_service,
 		get_billing,
 		get_payment_types,
-		get_exchang
+		get_exchang,
+		charge_on_vaccine
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -43,6 +44,7 @@
 		Number(charge_on_laboratory?.productOrder.length || 0) +
 		Number(charge_on_general?.productOrder.length || 0) +
 		Number(charge_on_prescription?.productOrder.length || 0) +
+		Number(charge_on_vaccine?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
 	onMount(() => {
 		inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
@@ -320,6 +322,53 @@
 							<!-- Service -->
 							{#if charge_on_service?.productOrder.length}
 								{#each charge_on_service.productOrder as item (item.id)}
+									<tr class="text-center">
+										<td class="text-start">
+											&nbsp;{item.product?.products}
+											<br />
+										</td>
+										<td>
+											<input
+												class="border-0 bg-light w-100 text-center text-primary"
+												type="number"
+												min="0"
+												step="any"
+												name="price"
+												value={item?.price?.toFixed(2)}
+											/></td
+										>
+										<td>
+											<input type="hidden" name="product_order_id" value={item.id} />
+											<input
+												class="border-0 bg-light w-100 text-center text-primary"
+												type="number"
+												min="0"
+												step="any"
+												name="qty"
+												value={item?.qty}
+											/></td
+										>
+										<td>
+											<input
+												class="border-0 bg-light w-100 text-center text-primary"
+												type="text"
+												pattern="[0-9]+%?"
+												name="disc"
+												value={item?.discount}
+											/></td
+										>
+										<td
+											>{Intl.NumberFormat('en-US')
+												.format(item.total ?? 0)
+												.concat(' \u17DB')}</td
+										>
+										<td> </td>
+									</tr>
+								{/each}
+							{/if}
+							<!-- Vaccine -->
+							{#if charge_on_vaccine?.productOrder.length}
+								{#each charge_on_vaccine.productOrder as item (item.id)}
 									<tr class="text-center">
 										<td class="text-start">
 											&nbsp;{item.product?.products}

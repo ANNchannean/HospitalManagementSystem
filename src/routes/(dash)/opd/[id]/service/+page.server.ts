@@ -29,7 +29,7 @@ export const load = (async ({ params }) => {
 	});
 	return {
 		get_product_as_service,
-		get_services
+		get_services: get_services
 	};
 }) satisfies PageServerLoad;
 

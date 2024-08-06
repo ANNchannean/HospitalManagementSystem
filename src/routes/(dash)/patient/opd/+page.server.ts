@@ -120,5 +120,16 @@ export const actions: Actions = {
 				await db.delete(document).where(eq(document.id, e.id));
 			}
 		}
+	},
+	delete_visit: async ({ request }) => {
+		const body = (await request.formData()).entries();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		await db
+			.delete(visit)
+			.where(eq(visit.id, +id))
+			.catch((e) => {
+				console.log(e);
+				return fail(500, { serverError: true });
+			});
 	}
 };

@@ -4,7 +4,7 @@ import { vaccine } from './vaccine';
 
 export const vaccineType = mysqlTable('vaccine_type', {
 	id: int('id').primaryKey().autoincrement(),
-	type: varchar('department', { length: 255 }).notNull()
+	type: varchar('type', { length: 255 }).notNull()
 });
 
 export const vaccineTypeRelations = relations(vaccineType, ({ many }) => ({

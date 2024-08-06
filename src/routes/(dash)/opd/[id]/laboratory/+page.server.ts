@@ -61,7 +61,7 @@ export const actions: Actions = {
 			(e) => e.charge_on === 'laboratory'
 		);
 		for (const e of product_id) {
-			const is_created = get_visit?.laboratoryRequest.find((ee) => ee.product_id === +e);
+			const is_created = get_visit?.laboratoryRequest.some((ee) => ee.product_id === +e);
 			if (!is_created) {
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
@@ -93,7 +93,7 @@ export const actions: Actions = {
 			}
 		}
 		for (const e of get_visit!.laboratoryRequest) {
-			const is_created = product_id.find((ee) => +ee === e.product_id);
+			const is_created = product_id.some((ee) => +ee === e.product_id);
 			if (!is_created) {
 				const product_order_ = charge_on_laboratory?.productOrder.find(
 					(ee) => ee.product_id === e.product_id

@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import CreateDocument from '$lib/components/createORupdate/CreateDocument.svelte';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import SendToIpd from '$lib/components/etc/SendToIPD.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
@@ -15,6 +16,7 @@
 	let billing_id = 0;
 </script>
 
+<DeleteModal action="?/delete_visit" id={visit_id} />
 <CreateDocument {data} {visit_id} />
 <ConfirmeModal action="?/process_billing" id={billing_id} />
 <SendToIpd action="?/send_to_ipd" id={get_visits[visit_lenght]?.id} />
@@ -78,13 +80,13 @@
 							<th style="width: 7%;">Dates</th>
 							<th style="width: 5%;">Patient ID</th>
 							<th style="width: 10%;">Patient</th>
-							<th style="width: 20%;">Etiology</th>
+							<th style="width: 15%;">Etiology</th>
 							<th style="width: 20%;">Department</th>
 							<th style="width: 10%;">Doctor</th>
 							<th style="width: 10%;">Doc</th>
 							<th style="width: 5%;">Visit</th>
 							<th style="width: 5%;">Pay</th>
-							<th style="width: 5%;">send to IPD</th>
+							<th style="width: 10%;">send to IPD</th>
 						</tr>
 					</thead>
 					<tbody class="table-sm">
@@ -283,12 +285,23 @@
 									{/if}
 								</td>
 								<td class="">
-									<a
+									<button
+										type="button"
 										class="btn btn-secondary btn-sm"
 										data-bs-toggle="modal"
-										data-bs-target="#send_to_ipd"
-										href={'#'}>Send to IPD</a
+										data-bs-target="#send_to_ipd">Send to IPD</button
 									>
+									<button
+										on:click={() => {
+											visit_id = 0;
+											visit_id = item.id;
+										}}
+										type="button"
+										class="btn btn-danger btn-sm"
+										data-bs-toggle="modal"
+										data-bs-target="#delete_modal"
+										><i class="fa-solid fa-trash-can"></i>
+									</button>
 								</td>
 							</tr>
 						{/each}

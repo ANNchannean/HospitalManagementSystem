@@ -25,8 +25,9 @@
 		<input value={id} type="hidden" name="id" />
 		<input value={slug} type="hidden" name="slug" />
 		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title">{$t('common.confirm_delete')}</h3>
+			<div class="modal-body p-4 text-center">
+				<h5 class="mb-0">{$t('common.confirm_delete')}</h5>
+				<!-- <p class="mb-0">You can always change your mind in your account settings.</p> -->
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button

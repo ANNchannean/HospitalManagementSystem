@@ -90,6 +90,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const charge_on_general = get_billing?.charge.find((e) => e.charge_on === 'general');
 	const charge_on_service = get_billing?.charge.find((e) => e.charge_on === 'service');
 	const charge_on_prescription = get_billing?.charge.find((e) => e.charge_on === 'prescription');
+	const charge_on_vaccine = get_billing?.charge.find((e) => e.charge_on === 'vaccine');
 	const get_tax = await db.query.tax.findFirst();
 	const get_exchang = await db.query.exchang.findFirst();
 	return {
@@ -104,7 +105,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_billing,
 		get_payment_types,
 		get_tax,
-		get_exchang
+		get_exchang,
+		charge_on_vaccine
 	};
 };
 
