@@ -101,7 +101,6 @@ export const actions: Actions = {
 						injection_id: injection_id[0].id
 					});
 				}
-
 				await createProductOrder({
 					charge_id: Number(charge_on_service?.id),
 					price: Number(get_product?.price),
