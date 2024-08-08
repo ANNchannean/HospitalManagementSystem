@@ -62,15 +62,25 @@
 
 		<div class="card-footer row p-2 bg-light sticky-bottom">
 			<div class="col text-end">
-				<button class="btn btn-warning"
-					>Total Imagerie {Intl.NumberFormat('en-US', {
-						style: 'currency',
-						currency: 'USD'
-					}).format(Number(total_vaccine_service))}
-				</button>
+				<button type="button" class="btn btn-warning">Total Vaccine</button>
 			</div>
 			<div class="col-auto">
-				<SubmitButton />
+				<input
+					step="any"
+					value={total_vaccine_service}
+					class="form-control"
+					type="number"
+					name="total_vaccine"
+					id="total_vaccine"
+				/>
+			</div>
+			<div class="col-auto">
+				<button
+					disabled={loading}
+					type="submit"
+					formaction="?/update_total_vaccine"
+					class="btn btn-success">Save</button
+				>
 			</div>
 		</div>
 	</fieldset>

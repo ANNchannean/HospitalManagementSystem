@@ -65,7 +65,7 @@
 
 		<div class="card-footer row p-2 bg-light sticky-bottom">
 			<div class="col text-end">
-				<button class="btn btn-warning">Total Laboratory</button>
+				<button type="button" class="btn btn-warning">Total Laboratory</button>
 			</div>
 			<div class="col-auto">
 				<input

@@ -1,0 +1,1 @@
+ALTER TABLE `appointment_injection` MODIFY COLUMN `times` int NOT NULL DEFAULT 1;

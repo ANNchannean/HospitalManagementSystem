@@ -2,11 +2,12 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	let offTaos = true;
+	export let toas = 'infomation' as 'success' | 'infomation' | 'error';
 	export let message = '';
 	onMount(() => {
 		setTimeout(() => {
 			offTaos = false;
-		}, 2000);
+		}, 2500);
 	});
 </script>
 
@@ -14,16 +15,30 @@
 	<div
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}
-		class="position-relative justify-content-end d-flex"
+		class="position-relative justify-content-center d-flex"
 	>
 		<div
-			class="toast align-items-center position-absolute show text-bg-warning"
+			class:text-bg-warning={toas === 'infomation'}
+			class:text-bg-success={toas === 'success'}
+			class:text-bg-danger={toas === 'error'}
+			class="toast align-items-center position-absolute sticky-top show mt-2"
 			role="alert"
 			aria-live="assertive"
 			aria-atomic="true"
 		>
 			<div class="d-flex">
-				<div class="toast-body"><i class="fa-solid fa-bell"></i> {message}</div>
+				<div class="toast-body">
+					{#if toas === 'infomation'}
+						<i class="fa-solid fa-circle-exclamation"></i>
+					{/if}
+					{#if toas === 'error'}
+						<i class="fa-solid fa-triangle-exclamation"></i>
+					{/if}
+					{#if toas === 'success'}
+						<i class="fa-solid fa-circle-check"></i>
+					{/if}
+					{message}
+				</div>
 				<button
 					type="button"
 					class="btn-close me-2 m-auto"

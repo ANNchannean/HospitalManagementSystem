@@ -127,6 +127,9 @@ export const actions: Actions = {
 	delete_product: async ({ request }) => {
 		const body = await request.formData();
 		const { id } = Object.fromEntries(body) as Record<string, string>;
+		const validErr = {
+			serverError: false
+		};
 		const get_product = await db.query.product.findFirst({
 			where: eq(product.id, +id),
 			with: {
@@ -138,11 +141,12 @@ export const actions: Actions = {
 			.where(eq(product.id, Number(id)))
 			.catch((e) => {
 				console.log(e);
-				return fail(500, { serverError: true });
+				validErr.serverError = true;
 			});
 		if (get_product?.fileOrPicture) {
 			await deleteFile(get_product?.fileOrPicture?.filename as string);
 		}
+		if (Object.values(validErr).includes(true)) return fail(500, validErr);
 	},
 	create_product_group: async ({ request }) => {
 		const body = await request.formData();

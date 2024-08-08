@@ -4,6 +4,7 @@
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
+	import {} from 'pdfmake'
 	import { t } from '$lib/translations';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
 	export let data: PageServerData;
@@ -16,16 +17,8 @@
 	const timesInject = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 </script>
 
-<button
-	data-bs-toggle="modal"
-	data-bs-target="#confirme_modal"
-	id="confirme_modal"
-	type="button"
-	class="d-none"
->
-</button>
-<!-- <DeleteModal action="?/delete_vaccine" /> -->
-<ConfirmeModal action="?/update_action" id={appointment_injection_id} />
+<DeleteModal action="?/delete_appionment_inject" id={appointment_injection_id} />
+<ConfirmeModal action="?/update_appointment_inject" id={appointment_injection_id} />
 <div class="row">
 	<div class="col-sm-6">
 		<h2>List Vaccine</h2>
@@ -108,10 +101,13 @@
 								<td></td>
 								<td>
 									<div>
-										<span class=" badge text-bg-info text-start"
-											>{item.product?.products ?? ''}</span
-										>
+										<span class=" badge text-bg-info text-start">{item.unit?.unit ?? ''}</span>
 										<br />
+										{#each item.vaccine as iitem, index (iitem.id)}
+											<span class=" badge text-bg-success text-start"
+												>{'លើកទី 0'.concat(String(index + 1))} {iitem.product?.products ?? ''}</span
+											> <br />
+										{/each}
 									</div>
 								</td>
 								<td>
@@ -185,16 +181,16 @@
 						<div class="form-group mb-3">
 							<label for="times">Times</label>
 							<select class="form-control" name="times" id="times">
-								<option value="លើកទី ០១">លើកទី ០១</option>
-								<option value="លើកទី ០២">លើកទី ០២</option>
-								<option value="លើកទី ០៣">លើកទី ០៣</option>
-								<option value="លើកទី ០៤">លើកទី ០៤</option>
-								<option value="លើកទី ០៥">លើកទី ០៥</option>
-								<option value="លើកទី ០៦">លើកទី ០៦</option>
-								<option value="លើកទី ០៧">លើកទី ០៧</option>
-								<option value="លើកទី ០៨">លើកទី ០៨</option>
-								<option value="លើកទី ០៩">លើកទី ០៩</option>
-								<option value="លើកទី ១០">លើកទី ១០</option>
+								<option value="1">លើកទី ០១</option>
+								<option value="2">លើកទី ០២</option>
+								<option value="3">លើកទី ០៣</option>
+								<option value="4">លើកទី ០៤</option>
+								<option value="5">លើកទី ០៥</option>
+								<option value="6">លើកទី ០៦</option>
+								<option value="7">លើកទី ០៧</option>
+								<option value="8">លើកទី ០៨</option>
+								<option value="9">លើកទី ០៩</option>
+								<option value="10">លើកទី ១០</option>
 							</select>
 						</div>
 						<div class="form-group mb-3">
@@ -215,11 +211,30 @@
 				<div class="card-body table-responsive p-0">
 					<table class="table text-nowrap">
 						<tbody>
-							{#each find_injection?.appointmentInjection || [] as item}
+							{#each find_injection?.appointmentInjection || [] as item, index}
 								<tr>
-									<td style="width: 5%;">{item.times ?? ''}</td>
-									<td style="width: 5%;">{$t('common.date')}</td>
-									<td style="width: 20%;">
+									<td>
+										<button
+											on:click={() => {
+												appointment_injection_id = 0;
+												appointment_injection_id = item.id;
+											}}
+											type="button"
+											class="btn btn-danger"
+											data-bs-toggle="modal"
+											data-bs-target="#delete_modal"
+											><i class="fa-solid fa-trash-can"></i>
+										</button>
+									</td>
+									<td>
+										{#if item.times < 10}
+											{'លើកទី 0'.concat(String(item?.times) ?? '')}
+										{:else}
+											{'លើកទី '.concat(String(item?.times) ?? '')}
+										{/if}
+									</td>
+									
+									<td>
 										{#if item.status}
 											<button class="btn btn-primary">
 												{new Intl.DateTimeFormat('en-GB', {
@@ -237,28 +252,45 @@
 										{/if}
 									</td>
 									<td>
-										<input
-											on:change={() => {
-												appointment_injection_id = 0;
-												appointment_injection_id = item.id;
-												document.getElementById('confirme_modal')?.click()
-											}}
-											checked={item.status}
-											type="checkbox"
-											name=""
-											class="form-check-input"
-											id=""
-										/>
+										{#if item.status}
+											<button
+												on:click={() => {
+													appointment_injection_id = 0;
+													appointment_injection_id = item.id;
+												}}
+												data-bs-toggle="modal"
+												data-bs-target="#confirme_modal"
+												id="confirme_modal"
+												type="button"
+												class="btn btn-link btn-lg"><i class="fa-solid fa-square-check"></i></button
+											>
+										{:else}
+											<button
+												on:click={() => {
+													appointment_injection_id = 0;
+													appointment_injection_id = item.id;
+												}}
+												data-bs-toggle="modal"
+												data-bs-target="#confirme_modal"
+												id="confirme_modal"
+												type="button"
+												class="btn btn-link btn-lg"><i class="fa-regular fa-square"></i></button
+											>
+										{/if}
 									</td>
 									{#if item.status}
 										<td
 											>{new Intl.DateTimeFormat('en-GB', {
 												dateStyle: 'short',
-												hour12: true
-											}).format(new Date(item.datetime_inject ?? new Date()))}</td
-										>
+												hour12: true,
+												timeStyle: 'short'
+											}).format(new Date(item.datetime_inject ?? new Date()))}
+
+											<!-- Vaccine {find_injection?.vaccine[index].product?.products ?? ''} -->
+										</td>
+									{:else}
+										<td></td>
 									{/if}
-									<td> </td>
 								</tr>
 							{/each}
 						</tbody>

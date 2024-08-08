@@ -3,6 +3,7 @@ import { boolean, datetime, int, mysqlTable, varchar } from 'drizzle-orm/mysql-c
 import { visit } from './visit';
 import { product } from './product';
 import { patient } from './patient';
+import { unit } from './unit';
 
 export const vaccine = mysqlTable('vaccine', {
 	id: int('id').primaryKey().autoincrement(),
@@ -30,7 +31,7 @@ export const injection = mysqlTable('injection', {
 	id: int('id').primaryKey().autoincrement(),
 	patient_id: int('patient_id').references(() => patient.id),
 	datetime: datetime('datetime', { mode: 'string' }).notNull(),
-	product_id: int('product_id').references(() => product.id, { onDelete: 'set null' }),
+	unit_id: int('unit_id').references(() => unit.id),
 	discription: varchar('discription', { length: 255 })
 });
 
@@ -41,9 +42,9 @@ export const injectionRelations = relations(injection, ({ many, one }) => ({
 		fields: [injection.patient_id],
 		references: [patient.id]
 	}),
-	product: one(product, {
-		fields: [injection.product_id],
-		references: [product.id]
+	unit: one(unit, {
+		fields: [injection.unit_id],
+		references: [unit.id]
 	})
 }));
 
@@ -53,7 +54,7 @@ export const appointmentInjection = mysqlTable('appointment_injection', {
 	datetime_inject: datetime('datetime_inject', { mode: 'string' }),
 	status: boolean('status').default(false),
 	discription: varchar('discription', { length: 255 }),
-	times: varchar('times', { length: 255 }).notNull(),
+	times: int('times').notNull().default(1),
 	injection_id: int('injection_id').references(() => injection.id, { onDelete: 'cascade' })
 });
 

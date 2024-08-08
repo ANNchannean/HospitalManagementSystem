@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { injection, product, productGroupType, vaccine, visit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq } from 'drizzle-orm';
-import { createProductOrder, deleteProductOrder } from '$lib/server/models';
+import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
 import { now_datetime } from '$lib/server/utils';
 
 export const load = (async ({ params }) => {
@@ -72,13 +72,15 @@ export const actions: Actions = {
 		for (const e of product_id) {
 			const is_created = get_visit?.vaccine.some((ee) => ee.product_id === +e);
 			if (!is_created) {
-				const get_injection = await db.query.injection.findFirst({
-					where: and(eq(injection.patient_id, get_visit!.patient_id!), eq(injection.product_id, +e))
-				});
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
 				});
-
+				const get_injection = await db.query.injection.findFirst({
+					where: and(
+						eq(injection.patient_id, get_visit!.patient_id!),
+						eq(injection.unit_id, get_product!.unit_id!)
+					)
+				});
 				if (get_injection) {
 					await db.insert(vaccine).values({
 						visit_id: +get_visit!.id,
@@ -91,7 +93,7 @@ export const actions: Actions = {
 						.insert(injection)
 						.values({
 							patient_id: get_visit?.patient_id,
-							product_id: +e,
+							unit_id: get_product!.unit_id!,
 							datetime: now_datetime()
 						})
 						.$returningId();
@@ -118,6 +120,34 @@ export const actions: Actions = {
 				await db.delete(vaccine).where(eq(vaccine.id, e.id));
 				await deleteProductOrder(Number(product_order_?.id));
 			}
+		}
+	},
+	update_total_vaccine: async ({ request, params }) => {
+		const { id } = params;
+		const body = await request.formData();
+		const { total_vaccine } = Object.fromEntries(body) as Record<string, string>;
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, +id),
+			with: {
+				laboratoryRequest: true,
+				laboratory: true,
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				}
+			}
+		});
+
+		const charge_on_laboratory = get_visit?.billing?.charge.find(
+			(e) => e.charge_on === 'vaccine'
+		);
+		if (charge_on_laboratory) {
+			await updatChargeByValue(charge_on_laboratory.id, +total_vaccine);
 		}
 	}
 };

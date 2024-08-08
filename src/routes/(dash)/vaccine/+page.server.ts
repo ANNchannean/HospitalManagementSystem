@@ -1,12 +1,15 @@
 import { db } from '$lib/server/db';
-import { appointmentInjection } from '$lib/server/schema';
+import { appointmentInjection, vaccine } from '$lib/server/schema';
+import { asc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
+import { now_datetime } from '$lib/server/utils';
+import { fail } from '@sveltejs/kit';
 
 export const load = (async ({ parent }) => {
 	await parent();
 	const get_injection = await db.query.injection.findMany({
 		with: {
-			product: true,
+			unit: true,
 			patient: {
 				with: {
 					commune: true,
@@ -19,9 +22,12 @@ export const load = (async ({ parent }) => {
 				with: {
 					product: true,
 					visit: true
-				}
+				},
+				orderBy: asc(vaccine.id)
 			},
-			appointmentInjection: true
+			appointmentInjection: {
+				orderBy: asc(appointmentInjection.times)
+			}
 		}
 	});
 
@@ -39,10 +45,38 @@ export const actions: Actions = {
 		>;
 		await db.insert(appointmentInjection).values({
 			appointment: appointment,
-			times: times,
+			times: +times,
 			discription: discription,
-			injection_id: +injection_id,
-
+			injection_id: +injection_id
 		});
+	},
+	update_appointment_inject: async ({ request }) => {
+		const body = await request.formData();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		const get_appoinmten = await db.query.appointmentInjection.findFirst({
+			where: eq(appointmentInjection.id, +id)
+		});
+		await db
+			.update(appointmentInjection)
+			.set({
+				status: !get_appoinmten?.status,
+				datetime_inject: now_datetime()
+			})
+			.where(eq(appointmentInjection.id, +id))
+			.catch((e) => {
+				console.log(e);
+				return fail(400, { actionError: true, message: e });
+			});
+	},
+	delete_appionment_inject: async ({ request }) => {
+		const body = await request.formData();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		await db
+			.delete(appointmentInjection)
+			.where(eq(appointmentInjection.id, +id))
+			.catch((e) => {
+				console.log(e);
+				return fail(400, { actionError: true, message: e });
+			});
 	}
 };

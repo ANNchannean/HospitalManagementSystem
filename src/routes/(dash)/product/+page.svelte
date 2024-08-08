@@ -4,6 +4,7 @@
 	import CreateProduct from '$lib/components/createORupdate/CreateProduct.svelte';
 	import type { EventHandler } from 'svelte/elements';
 	import { inerHight } from '$lib/store';
+	import Toast from '$lib/components/etc/Toast.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
@@ -18,10 +19,11 @@
 		}, 400);
 	};
 </script>
-
 <DeleteModal action="?/delete_product" id={get_products.find((e) => e.id === product_id)?.id} />
 <CreateProduct {data} {form} {product_id} />
-
+{#if form?.serverError }
+	<Toast toas="error" message="Can't delete" />
+{/if}
 <div class="row">
 	<div class="col-sm-6">
 		<h2>List products</h2>
