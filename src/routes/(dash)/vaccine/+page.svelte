@@ -16,37 +16,12 @@
 	let appointment_injection_id: number;
 	let new_appionment = false;
 	const timesInject = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-	let dataUIrl: string;
-	onMount(() => {
-		const doc = new jsPDF();
-		const imgsrc = '/files/20240729000847-4g0u8fm95o.jpeg';
-		// const dataURL = 'data:image/jpeg;base64,'.concat(imgsrc.toString('base64'));
-		// doc.addFileToVFS("KhmerOSbattambang-normal.ttf", 'KhmerOSBattambang');
-		// doc.addFont('KhmerOSbattambang-normal.ttf', 'KhmerOSBattambang', 'normal');
-		// doc.addFont('KhmerOSMoulLight-normal.ttf', 'KhmerOSMoulLight', 'normal');
-		// doc.addFont('KhmerOSmuol-normal.ttf', 'KhmerOSmuol', 'normal');
-		// doc.setFont('KhmerOSBattambang');
-		doc.text('សដសា', 10, 10);
-		doc.addPage();
-		doc.addImage(imgsrc, 'JPEG', 15, 40, 180, 160);
-		doc.text('ដសដស', 10, 10);
-		const pageCount = doc.getNumberOfPages();
-		for (let i = 1; i <= pageCount; i++) {
-			doc.setPage(i);
-			doc.text(`Page ${i} + Of ${pageCount}`, 210 - 50, 297 - 20);
-		}
-		doc.addPage();
-		dataUIrl = doc.output('dataurl');
-	});
+
+	
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
-<iframe
-	src={dataUIrl}
-	style="width:718px; height:700px;"
-	frameborder="0"
-	allowfullscreen
-></iframe>
+
 <DeleteModal action="?/delete_appionment_inject" id={appointment_injection_id} />
 <ConfirmeModal action="?/update_appointment_inject" id={appointment_injection_id} />
 <div class="row">

@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import { fileOrPicture } from '$lib/server/schema';
 import fs from 'fs';
 import path from 'path';
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params,setHeaders }) => {
 	const dirname = process.cwd();
 	if (!params.file) {
 		error(404, {
@@ -23,11 +23,11 @@ export const GET: RequestHandler = async ({ params }) => {
 		});
 	}
 	const file = fs.readFileSync(path.join(dirname, 'files', get_file.filename));
-	// setHeaders({
-	// 	'Content-Type': get_file?.mimeType ?? '',
-	// 	'Content-Length': get_file?.size?.toString() ?? '',
-	// 	'Last-Modified': get_file?.lastModified?.toString() ?? '',
-	// 	'Cache-Control': 'public, max-age=600'
-	// });
+	setHeaders({
+		'Content-Type': get_file?.mimeType ?? '',
+		'Content-Length': get_file?.size?.toString() ?? '',
+		// 'Last-Modified': get_file?.lastModified?.toString() ?? '',
+		// 'Cache-Control': 'public, max-age=600'
+	});
 	return new Response(file);
 };
