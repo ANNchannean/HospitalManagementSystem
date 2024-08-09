@@ -33,23 +33,23 @@ input[type="checkbox"] {
 	transform: scale(1.1);
 }
 @font-face {
-	font-family: 'Times New Roman';
+	font-family: 'TimesNewRoman';
 	src: url(/font/timesNewRoman.ttf);
 }
 @font-face {
-	font-family: 'Khmer OS Battambang';
+	font-family: 'KhmerOSBattambang';
 	src: url(/font/KhmerOSbattambang.ttf);
 }
 @font-face {
-	font-family: 'Khmer OS Muol Light';
+	font-family: 'KhmerOSMuolLight';
 	src: url(/font/KhmerOSMoulLight.ttf);
 }
 @font-face {
-	font-family: 'Khmer OS Muol';
+	font-family: 'KhmerOSMuol';
 	src: url(/font/KhmerOSmuol.ttf);
 }
 * {
-	font-family: 'Khmer OS Battambang', 'Khmer OS Muol',
+	font-family: 'KhmerOSBattambang', 'KhmerOSMuol',
 		'Kantumruy Pro';
 }
 
@@ -59,16 +59,16 @@ input[type="checkbox"] {
 } */
 
 .kh_font_muol_light {
-	font-family: 'Khmer OS Muol Light';
+	font-family: 'KhmerOSMuolLight';
 }
 .kh_font_muol {
-	font-family: 'Khmer OS Muol';
+	font-family: 'KhmerOSMuol';
 }
 .kh_font_battambang {
-	font-family: 'Khmer OS Battambang';
+	font-family: 'KhmerOSBattambang';
 }
 .en_font_times_new_roman {
-	font-family: 'Times New Roman';
+	font-family: 'TimesNewRoman';
 }
 
 
