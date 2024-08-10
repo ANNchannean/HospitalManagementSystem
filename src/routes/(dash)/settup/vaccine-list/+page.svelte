@@ -5,36 +5,39 @@
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import { inerHight } from '$lib/store';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
-	let vaccin_type_id: number;
+	let vaccin_id: number;
 	let loading = false;
-	$: ({ get_vaccin_types } = data);
-	$: find_vaccin_types = get_vaccin_types.find((e) => e.id === vaccin_type_id);
+	$: ({ get_vaccines } = data);
+	$: find_vaccine = get_vaccines.find((e) => e.id === vaccin_id);
 </script>
 
-<DeleteModal action="?/delete_vaccine_type" id={find_vaccin_types?.id} />
-<!-- @_Add_Patient -->
-<div class="modal fade" id="modal-add-Vaccine" data-bs-backdrop="static">
-	<div class="modal-dialog modal-xl">
+<!-- <DeleteModal action="?/delete_vaccine_type" id={find_vaccin_types?.id} /> -->
+<div class="modal fade" id="create_dose" data-bs-backdrop="static">
+	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
 		<form
-			action={find_vaccin_types?.id ? '?/update_vaccine_type' : '?/create_vaccine_type'}
+			enctype="multipart/form-data"
+			action={find_vaccine?.vaccine_dose_id ? '?/update_vaccine_dose' : '?/create_vaccine_dose'}
 			method="post"
-			class="modal-content"
 			use:enhance={() => {
 				loading = true;
 				return async ({ update, result }) => {
 					await update();
 					loading = false;
-					vaccin_type_id = 0;
-					if (result.type !== 'failure') document.getElementById('close')?.click();
+					if (result.type !== 'failure') {
+						vaccin_id = 0;
+						document.getElementById('close_vaccine_dose')?.click();
+					}
 				};
 			}}
+			class="modal-content"
 		>
 			<div class="modal-header">
-				<h4 class="modal-title">Vaccine</h4>
+				<h4 class="modal-title">Dose</h4>
 				<button
-					id="close"
+					id="close_vaccine_dose"
 					type="button"
 					class="btn-close"
 					data-bs-dismiss="modal"
@@ -42,23 +45,18 @@
 				>
 				</button>
 			</div>
-			<div class="modal-body">
-				<div class="card-body pt-0">
+			<div class="card-body pt-0">
+				<div class="modal-body">
 					<div class="row">
 						<div class="col-12">
 							<div class="form-group pb-3">
-								<input value={find_vaccin_types?.id} type="hidden" name="vaccine_type_id" />
-								<label for="type">Type</label>
-								<input
-									value={find_vaccin_types?.type ?? ''}
-									name="type"
-									type="text"
-									class="form-control"
-									id="type"
+								<input value={find_vaccine?.vaccine_dose_id} type="hidden" name="vaccine_dose_id" />
+								<input value={find_vaccine?.id} type="hidden" name="vaccine_id" />
+								<TextEditor
+									setValue={find_vaccine?.vaccineDose?.discription ?? ''}
+									name="description"
+									id="dose"
 								/>
-								{#if form?.type}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
-								{/if}
 							</div>
 						</div>
 					</div>
@@ -92,7 +90,7 @@
 			<li class="breadcrumb-item">
 				<a href="/settup/vaccine-type" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-viruses nav-icon"></i>
-					Vaccine Type
+					Vaccine List
 				</a>
 			</li>
 		</ol>
@@ -115,7 +113,7 @@
 
 					<div class="col-auto">
 						<button
-							on:click={() => (vaccin_type_id = 0)}
+							on:click={() => (vaccin_id = 0)}
 							type="button"
 							class="btn btn-success"
 							data-bs-toggle="modal"
@@ -131,22 +129,38 @@
 					<thead class="table-active table-light sticky-top">
 						<tr>
 							<th class="text-center" style="width: 5%;">N</th>
-							<th>Type</th>
+							<th>Vaccine</th>
+							<th>Unit</th>
+							<th>Dose</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_vaccin_types as item, index}
+						{#each get_vaccines as item, index}
 							<tr>
 								<td class="text-center">{index + 1}</td>
-								<td>{item.type}</td>
+								<td>{item.products}</td>
+								<td>{item.unit?.unit}</td>
+								<td>
+									<button
+										on:click={() => {
+											vaccin_id = 0;
+											vaccin_id = item.id;
+										}}
+										type="button"
+										class="btn btn-success btn-sm"
+										data-bs-toggle="modal"
+										data-bs-target="#create_dose"
+										>Dose
+									</button>
+								</td>
 								<td>
 									<div>
 										<a
 											href={'#'}
 											on:click={() => {
-												vaccin_type_id = 0;
-												vaccin_type_id = item.id;
+												vaccin_id = 0;
+												vaccin_id = item.id;
 											}}
 											type="button"
 											class="btn btn-primary btn-sm"
@@ -157,8 +171,8 @@
 										<a
 											href={'#'}
 											on:click={() => {
-												vaccin_type_id = 0;
-												vaccin_type_id = item.id;
+												vaccin_id = 0;
+												vaccin_id = item.id;
 											}}
 											type="button"
 											class="btn btn-danger btn-sm"

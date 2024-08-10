@@ -7,12 +7,14 @@ import { unit } from './unit';
 import { parameter } from './parameter';
 import { laboratoryRequest } from './laboratory';
 import { fileOrPicture } from './fileOrPicture';
+import { vaccineDose } from './vaccine';
 
 export const product = mysqlTable('product', {
 	id: int('id').primaryKey().autoincrement(),
 	products: text('products').notNull(),
 	generic_name: text('generic_name'),
 	group_type_id: int('group_type_id').references(() => productGroupType.id),
+	vaccine_dose_id: int('vaccine_dose_id').references(() => vaccineDose.id),
 	laboratory_group_id: int('laboratory_group_id').references(() => laboratoryGroup.id),
 	imagerie_group_id: int('imagerie_group_id').references(() => imagerieGroup.id),
 	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
@@ -23,6 +25,10 @@ export const productRelations = relations(product, ({ one, many }) => ({
 	unit: one(unit, {
 		fields: [product.unit_id],
 		references: [unit.id]
+	}),
+	vaccineDose: one(vaccineDose, {
+		fields: [product.vaccine_dose_id],
+		references: [vaccineDose.id]
 	}),
 	productGroupType: one(productGroupType, {
 		fields: [product.group_type_id],

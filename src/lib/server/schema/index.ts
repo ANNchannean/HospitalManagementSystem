@@ -15,7 +15,6 @@ export * from './template';
 export * from './user';
 export * from './unit';
 export * from './vaccine';
-export * from './vaccineType';
 export * from './visit';
 export * from './vitalSign';
 export * from './imagerie';

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { jsPDF } from 'jspdf';
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
@@ -7,17 +6,12 @@
 	import { globalLoading, inerHight } from '$lib/store';
 	import { t } from '$lib/translations';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
-	import { onMount } from 'svelte';
 	export let data: PageServerData;
 	let vaccin_id: number;
 	let loading = false;
 	$: ({ get_injection } = data);
 	$: find_injection = get_injection.find((e) => e.id === vaccin_id);
 	let appointment_injection_id: number;
-	let new_appionment = false;
-	const timesInject = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-	
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
@@ -125,8 +119,41 @@
 										data-bs-target="#create_injection"
 										type="button"
 										class="btn btn-sm btn-info"
-										>Inject {item.vaccine.length}
+										>Schedule Vaccine
 									</button>
+									<div>
+										{#each item.appointmentInjection as iitem}
+											{#if iitem.times < 10}
+												<span class="badge text-bg-warning">
+													{'លើកទី 0'.concat(String(iitem?.times) ?? '')}
+													{new Intl.DateTimeFormat('en-GB', {
+														dateStyle: 'short'
+													}).format(new Date(iitem.appointment))}
+												</span>
+												{#if iitem.status}
+													<button type="button" class="btn btn-link btn-lg"
+														><i class="fa-solid fa-square-check"></i></button
+													>
+													បានចាក់​ {new Intl.DateTimeFormat('en-GB', {
+														dateStyle: 'short',
+														timeStyle: 'short',
+														hour12: true
+													}).format(new Date(iitem?.datetime_inject ?? ''))}
+												{:else}
+													<button type="button" class="btn btn-link btn-lg"
+														><i class="fa-regular fa-square"></i></button
+													>
+												{/if}
+
+												<br />
+											{:else}
+												<span class="badge text-bg-warning">
+													{'លើកទី '.concat(String(iitem?.times) ?? '')}
+												</span>
+												<br />
+											{/if}
+										{/each}
+									</div>
 								</td>
 								<td>
 									<div>
@@ -212,11 +239,14 @@
 						</div>
 					</form>
 				</div>
+				<h3>
+					{find_injection?.vaccine[0].product?.products ?? ''}
+				</h3>
 				<hr />
 				<div class="card-body table-responsive p-0">
 					<table class="table text-nowrap">
 						<tbody>
-							{#each find_injection?.appointmentInjection || [] as item, index}
+							{#each find_injection?.appointmentInjection || [] as item, index (item.id)}
 								<tr>
 									<td>
 										<button
@@ -275,6 +305,7 @@
 													appointment_injection_id = 0;
 													appointment_injection_id = item.id;
 												}}
+												disabled={index + 1 > Number(find_injection?.vaccine.length)}
 												data-bs-toggle="modal"
 												data-bs-target="#confirme_modal"
 												id="confirme_modal"

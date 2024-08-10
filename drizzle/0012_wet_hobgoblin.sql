@@ -1,1 +1,0 @@
-ALTER TABLE `appointment_injection` MODIFY COLUMN `datetime_inject` datetime;

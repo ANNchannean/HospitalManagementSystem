@@ -398,14 +398,15 @@
 								{$t('common.template_imagerie')}
 							</a>
 							<a
-								class:active={$page.url.pathname === '/settup/vaccine-type'}
-								href="/settup/vaccine-type"
+								class:active={$page.url.pathname === '/settup/vaccine-list'}
+								href="/settup/vaccine-list"
 								class="nav-link"
 							>
 								<i class="fas fa-viruses"></i>&nbsp;
 
-								{$t('common.vaccine_type')}
+								{$t('common.vaccine_list')}
 							</a>
+
 							<a
 								class:active={$page.url.pathname === '/settup/past-history'}
 								href="/settup/past-history"

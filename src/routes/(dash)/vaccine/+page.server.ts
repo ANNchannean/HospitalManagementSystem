@@ -20,7 +20,11 @@ export const load = (async ({ parent }) => {
 			},
 			vaccine: {
 				with: {
-					product: true,
+					product: {
+						with: {
+							vaccineDose: true
+						}
+					},
 					visit: true
 				},
 				orderBy: asc(vaccine.id)
