@@ -87,6 +87,12 @@ export const actions: Actions = {
 						product_id: get_product?.id,
 						injection_id: get_injection.id
 					});
+					await db
+						.update(injection)
+						.set({
+							datetime: now_datetime()
+						})
+						.where(eq(injection.id, get_injection.id));
 				}
 				if (!get_injection) {
 					const injection_id = await db
@@ -143,9 +149,7 @@ export const actions: Actions = {
 			}
 		});
 
-		const charge_on_laboratory = get_visit?.billing?.charge.find(
-			(e) => e.charge_on === 'vaccine'
-		);
+		const charge_on_laboratory = get_visit?.billing?.charge.find((e) => e.charge_on === 'vaccine');
 		if (charge_on_laboratory) {
 			await updatChargeByValue(charge_on_laboratory.id, +total_vaccine);
 		}

@@ -4,12 +4,14 @@
 	import { enhance } from '$app/forms';
 	import Select from '$lib/components/etc/Select.svelte';
 	import Toast from '$lib/components/etc/Toast.svelte';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_staffs, get_patient, get_departments } = data);
 	let height = 0;
 	let weight = 0;
 	let asign_vitalsign = true;
+	let assign_subjective = true;
 	let bmi = {
 		number: 0,
 		string: '',
@@ -78,11 +80,11 @@
 </div>
 
 <div class="card">
-	<div class="card-header">
-		<h4 class="card-title">
+	<div class="card-header fs-5">
+		
 			<span>#{get_patient?.name_khmer}, </span>
 			<span>{get_patient?.name_latin} </span>
-		</h4>
+
 	</div>
 
 	<form
@@ -128,10 +130,11 @@
 					class="form-check-input"
 					type="checkbox"
 					name="asign_vitalsing"
-					id="flexCheckDefault"
+					id="asign_vitalsign"
 				/>
-				<label class="form-check-label" for="flexCheckDefault">Accept vitalsign</label>
+				<label class="form-check-label" for="asign_vitalsign">Accept vitalsign</label>
 			</div>
+
 			<hr />
 			{#if asign_vitalsign}
 				<div class="">
@@ -262,7 +265,97 @@
 					</div>
 				</div>
 			{/if}
+			<div class="form-check">
+				<input
+					bind:checked={assign_subjective}
+					class="form-check-input"
+					type="checkbox"
+					name="asign_vitalsing"
+					id="assign_subjective"
+				/>
+				<label class="form-check-label" for="assign_subjective">Accept Subjective</label>
+			</div>
+			<hr />
+			{#if assign_subjective}
+				<div class="form-group row pb-2">
+					<label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label>
+					<div class="col-sm-9">
+						<TextEditor height={200} name="cheif_complaint" />
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<label for="present_illness" class="col-sm-3 col-form-label">History of Present illness</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input id="present_illness" name="present_illness" type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<label for="past_history" class="col-sm-3 col-form-label">Past history</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input id="past_history" name="past_history" type="text" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<label for="past_medicine_history" class="col-sm-3 col-form-label"
+						>Past medicine history</label
+					>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input
+								id="past_medicine_history"
+								name="past_medicine_history"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<label for="allesgy_medicine" class="col-sm-3 col-form-label">Allergy medicine</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input
+								id="allesgy_medicine_"
+								name="allesgy_medicine"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<label for="surgical_history" class="col-sm-3 col-form-label">Surgical history</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input
+								id="surgical_history"
+								name="surgical_history"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<label for="familly_history" class="col-sm-3 col-form-label">Familly history</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input
+								id="familly_history_"
+								name="familly_history"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+					</div>
+				</div>
+			{/if}
 		</div>
+
 		<div class="card-footer">
 			<a href="/patient/all" class="btn btn-light"><i class="fas fa-undo"></i> Cancel</a>
 			<div class="float-end">

@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
-import { appointmentInjection, vaccine } from '$lib/server/schema';
-import { asc, eq } from 'drizzle-orm';
+import { appointmentInjection, injection, vaccine } from '$lib/server/schema';
+import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { now_datetime } from '$lib/server/utils';
 import { fail } from '@sveltejs/kit';
@@ -20,11 +20,7 @@ export const load = (async ({ parent }) => {
 			},
 			vaccine: {
 				with: {
-					product: {
-						with: {
-							vaccineDose: true
-						}
-					},
+					product: true,
 					visit: true
 				},
 				orderBy: asc(vaccine.id)
@@ -32,9 +28,9 @@ export const load = (async ({ parent }) => {
 			appointmentInjection: {
 				orderBy: asc(appointmentInjection.times)
 			}
-		}
+		},
+		orderBy:desc(injection.datetime)
 	});
-
 	return {
 		get_injection
 	};
@@ -42,17 +38,25 @@ export const load = (async ({ parent }) => {
 
 export const actions: Actions = {
 	create_appointment_inject: async ({ request }) => {
+		let actionError = false;
 		const body = await request.formData();
 		const { times, appointment, discription, injection_id } = Object.fromEntries(body) as Record<
 			string,
 			string
 		>;
-		await db.insert(appointmentInjection).values({
-			appointment: appointment,
-			times: +times,
-			discription: discription,
-			injection_id: +injection_id
-		});
+		await db
+			.insert(appointmentInjection)
+			.values({
+				appointment: appointment,
+				times: +times,
+				discription: discription,
+				injection_id: +injection_id
+			})
+			.catch((e) => {
+				console.log(e);
+				actionError = true;
+			});
+		if (actionError) return fail(400, { actionError: true, message: 'actionError' });
 	},
 	update_appointment_inject: async ({ request }) => {
 		const body = await request.formData();

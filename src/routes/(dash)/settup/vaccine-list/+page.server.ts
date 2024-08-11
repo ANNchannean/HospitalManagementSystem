@@ -1,51 +1,26 @@
 import { db } from '$lib/server/db';
-import { product, vaccineDose } from '$lib/server/schema';
+import { unit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
 export const load = (async () => {
-	const get_vaccines = await db.query.product.findMany({
-		where: eq(product.group_type_id, 3),
-		with: {
-			unit: true,
-			vaccineDose: true
-		}
+	const get_unit_as_vaccine = await db.query.unit.findMany({
+		where: eq(unit.product_group_type_id, 3)
 	});
 	return {
-		get_vaccines
+		get_unit_as_vaccine
 	};
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	create_vaccine_dose: async ({ request }) => {
-		const body = await request.formData();
-		const { description, vaccine_id } = Object.fromEntries(body) as Record<string, string>;
-		const vaccine_dose_id = await db
-			.insert(vaccineDose)
-			.values({
-				discription: description
-			})
-			.$returningId();
-		await db
-			.update(product)
-			.set({
-				vaccine_dose_id: vaccine_dose_id[0].id
-			})
-			.where(eq(product.id, +vaccine_id));
-	},
 	update_vaccine_dose: async ({ request }) => {
 		const body = await request.formData();
-		const { description, vaccine_dose_id } = Object.fromEntries(body) as Record<string, string>;
+		const { description, unit_id } = Object.fromEntries(body) as Record<string, string>;
 		await db
-			.update(vaccineDose)
+			.update(unit)
 			.set({
-				discription: description
+				vaccine_dose: description
 			})
-			.where(eq(vaccineDose.id, +vaccine_dose_id));
-	},
-	delete_vaccine_dose: async ({ request }) => {
-		const body = await request.formData();
-		const { id } = Object.fromEntries(body) as Record<string, string>;
-		await db.delete(vaccineDose).where(eq(vaccineDose.id, +id));
+			.where(eq(unit.id, +unit_id));
 	}
 };

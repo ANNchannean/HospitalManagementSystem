@@ -1,17 +1,21 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
+	import type { ActionData, PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
 	import { t } from '$lib/translations';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
+	import Toast from '$lib/components/etc/Toast.svelte';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let data: PageServerData;
+	export let form: ActionData;
 	let vaccin_id: number;
 	let loading = false;
 	$: ({ get_injection } = data);
 	$: find_injection = get_injection.find((e) => e.id === vaccin_id);
 	let appointment_injection_id: number;
+	let new_inject = false;
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
@@ -61,6 +65,7 @@
 						<tr>
 							<th class="text-center" style="width: 5%;">ID</th>
 							<th class="text-center">Date</th>
+							<th>Patient ID</th>
 							<th>Patient Name</th>
 							<th class="text-center">Gender</th>
 							<th class="text-center">Age</th>
@@ -89,6 +94,9 @@
 										timeStyle: 'short'
 									})}</td
 								>
+								<td class="text-center">
+									{item?.patient?.id}
+								</td>
 								<td>
 									{item?.patient?.name_khmer} <br />
 									{item?.patient?.name_latin}
@@ -176,7 +184,7 @@
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Create Document</h4>
+				<h4 class="modal-title">Schedule Injection</h4>
 				<button
 					data-bs-toggle="modal"
 					data-bs-target="#create_injection"
@@ -239,12 +247,18 @@
 						</div>
 					</form>
 				</div>
-				<h3>
-					{find_injection?.vaccine[0].product?.products ?? ''}
-				</h3>
+
 				<hr />
 				<div class="card-body table-responsive p-0">
-					<table class="table text-nowrap">
+					<Athtml html={find_injection?.unit?.vaccine_dose ?? ''} />
+					<table class="table table-sm text-nowrap">
+						<thead>
+							<tr>
+								<th colspan="5">
+									{find_injection?.unit?.unit ?? ''}
+								</th>
+							</tr>
+						</thead>
 						<tbody>
 							{#each find_injection?.appointmentInjection || [] as item, index (item.id)}
 								<tr>

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "79695456-c054-4880-8056-edf12db5cda9",
+  "id": "26c534b4-55a1-4a2e-a785-097977ae5af6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "commune": {
@@ -1769,6 +1769,13 @@
         "unit": {
           "name": "unit",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "vaccine_dose": {
+          "name": "vaccine_dose",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

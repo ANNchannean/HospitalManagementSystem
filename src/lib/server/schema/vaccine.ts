@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { boolean, datetime, int, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
+import { boolean, datetime, int, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
 import { visit } from './visit';
 import { product } from './product';
 import { patient } from './patient';
@@ -64,11 +64,4 @@ export const appointmentInjectionRelations = relations(appointmentInjection, ({ 
 		fields: [appointmentInjection.injection_id],
 		references: [injection.id]
 	})
-}));
-export const vaccineDose = mysqlTable('vaccine_dose', {
-	id: int('id').primaryKey().autoincrement(),
-	discription: text('discription')
-});
-export const vaccineDoseRelations = relations(vaccineDose, ({ many }) => ({
-	product: many(product)
 }));

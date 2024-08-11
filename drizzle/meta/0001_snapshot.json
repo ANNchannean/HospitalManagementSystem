@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "57a707ca-83f1-4193-88f6-126f4a0830ba",
-  "prevId": "79695456-c054-4880-8056-edf12db5cda9",
+  "id": "8cebd708-29ea-49a3-903f-b3f66f4e78d0",
+  "prevId": "26c534b4-55a1-4a2e-a785-097977ae5af6",
   "tables": {
     "commune": {
       "name": "commune",
@@ -1288,13 +1288,6 @@
           "notNull": false,
           "autoincrement": false
         },
-        "vaccine_dose_id": {
-          "name": "vaccine_dose_id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "laboratory_group_id": {
           "name": "laboratory_group_id",
           "type": "int",
@@ -1340,19 +1333,6 @@
           "tableTo": "product_group_type",
           "columnsFrom": [
             "group_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "product_vaccine_dose_id_vaccine_dose_id_fk": {
-          "name": "product_vaccine_dose_id_vaccine_dose_id_fk",
-          "tableFrom": "product",
-          "tableTo": "vaccine_dose",
-          "columnsFrom": [
-            "vaccine_dose_id"
           ],
           "columnsTo": [
             "id"
@@ -1793,6 +1773,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "vaccine_dose": {
+          "name": "vaccine_dose",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "product_group_type_id": {
           "name": "product_group_type_id",
           "type": "int",
@@ -2070,36 +2057,6 @@
       "compositePrimaryKeys": {
         "vaccine_id": {
           "name": "vaccine_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "vaccine_dose": {
-      "name": "vaccine_dose",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "discription": {
-          "name": "discription",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "vaccine_dose_id": {
-          "name": "vaccine_dose_id",
           "columns": [
             "id"
           ]
@@ -4266,6 +4223,43 @@
       "compositePrimaryKeys": {
         "test_id": {
           "name": "test_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "words": {
+      "name": "words",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "words_id": {
+          "name": "words_id",
           "columns": [
             "id"
           ]

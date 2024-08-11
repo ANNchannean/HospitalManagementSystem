@@ -423,14 +423,7 @@
 								<i class="fas fa-book-open"></i>&nbsp;
 								{$t('common.physical_exam')}
 							</a>
-							<a
-								class:active={$page.url.pathname === '/settup/evalution'}
-								href="/settup/evalution"
-								class="nav-link"
-							>
-								<i class="fas fa-sliders-h"></i>&nbsp;
-								{$t('common.evalution')}
-							</a>
+
 							<a
 								class:active={$page.url.pathname === '/settup/department'}
 								href="/settup/department"
@@ -439,13 +432,7 @@
 								<i class="fas fa-building"></i>&nbsp;
 								{$t('common.department')}
 							</a>
-							<a
-								class:active={$page.url.pathname === '/settup/echo-ob'}
-								href="/settup/echo-ob"
-								class="nav-link"
-							>
-								<i class="fa-solid fa-person-pregnant"></i>&nbsp; Echo OB
-							</a>
+
 							<a
 								class:active={$page.url.pathname === '/settup/ward'}
 								href="/settup/ward"

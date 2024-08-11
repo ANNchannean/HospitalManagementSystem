@@ -3,11 +3,13 @@
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import Words from '$lib/components/etc/Words.svelte';
 	export let data: PageServerData;
-	$: ({ get_visit } = data);
+	$: ({ get_visit, get_words } = data);
 	let loading = false;
 </script>
 
+<Words words={get_words} modal_name="cheif_complaint" words_type="cheif_complaint" />
 <div class="card">
 	<div class="card-header fs-5">
 		<span># Subjective</span>
@@ -27,7 +29,15 @@
 	>
 		<div class="card-body">
 			<div class="form-group row pb-2">
-				<label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label>
+				<div class="col-sm-3">
+					<button
+						data-bs-toggle="modal"
+						data-bs-target="#cheif_complaint"
+						type="button"
+						class="btn btn-light">Cheif complaint</button
+					>
+				</div>
+				<!-- <label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label> -->
 				<div class="col-sm-9">
 					<TextEditor
 						height={200}
@@ -38,7 +48,9 @@
 				</div>
 			</div>
 			<div class="form-group row pb-2">
-				<label for="present_illness" class="col-sm-3 col-form-label">Present illness</label>
+				<label for="present_illness" class="col-sm-3 col-form-label"
+					>History of Present illness</label
+				>
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input
@@ -82,7 +94,7 @@
 				</div>
 			</div>
 			<div class="form-group row pb-2">
-				<label for="allesgy_medicine" class="col-sm-3 col-form-label">Allesgy medicine</label>
+				<label for="allesgy_medicine" class="col-sm-3 col-form-label">Allergy medicine</label>
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input

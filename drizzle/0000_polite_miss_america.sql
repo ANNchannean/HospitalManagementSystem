@@ -226,6 +226,7 @@ CREATE TABLE `user` (
 CREATE TABLE `unit` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`unit` varchar(255),
+	`vaccine_dose` text,
 	`product_group_type_id` int,
 	CONSTRAINT `unit_id` PRIMARY KEY(`id`)
 );
