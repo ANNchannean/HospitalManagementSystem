@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db';
 import { physicalExam, visit, vitalSign } from '$lib/server/schema';
-import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -54,8 +54,7 @@ export const actions: Actions = {
 					dbp: +dbp
 				})
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		if (get_vital_sign) {
@@ -74,8 +73,7 @@ export const actions: Actions = {
 				})
 				.where(eq(vitalSign.visit_id, Number(visit_id)))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 	},
@@ -87,17 +85,27 @@ export const actions: Actions = {
 		const physical_id = body.getAll('physical_id');
 		if (physical_exam_id.length) {
 			for (const e of physical_exam_id) {
-				await db.delete(physicalExam).where(eq(physicalExam.id, +e));
+				await db
+					.delete(physicalExam)
+					.where(eq(physicalExam.id, +e))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 		if (physical_id.length) {
 			for (let index = 0; index < physical_id.length; index++) {
 				const element = physical_id[index];
-				await db.insert(physicalExam).values({
-					physical_id: +element,
-					visit_id: +visit_id,
-					result: physical[index].toString()
-				});
+				await db
+					.insert(physicalExam)
+					.values({
+						physical_id: +element,
+						visit_id: +visit_id,
+						result: physical[index].toString()
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 	}

@@ -68,10 +68,10 @@ export const actions: Actions = {
 				.$returningId();
 			visit_id = id[0].id;
 		} catch (error) {
-			await logErrorMessage(String(error));
+			logErrorMessage(String(error));
 		}
 		console.log(visit_id);
-		
+
 		if (visit_id <= 0) return fail(400, { visit_id: true });
 		if (visit_id <= 0) {
 			// doing billing
@@ -83,8 +83,8 @@ export const actions: Actions = {
 					checkin_type: 'OPD',
 					tax: get_tax?.value || 0
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 			const get_billing = await db.query.billing.findFirst({
 				where: eq(billing.created_at, created_at)
@@ -96,8 +96,8 @@ export const actions: Actions = {
 					charge_on: 'general',
 					created_at: created_at
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -106,8 +106,8 @@ export const actions: Actions = {
 					charge_on: 'imagerie',
 					created_at: created_at
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -116,8 +116,8 @@ export const actions: Actions = {
 					charge_on: 'laboratory',
 					created_at: created_at
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -126,8 +126,8 @@ export const actions: Actions = {
 					charge_on: 'prescription',
 					created_at: created_at
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -136,8 +136,8 @@ export const actions: Actions = {
 					charge_on: 'service',
 					created_at: created_at
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -146,8 +146,8 @@ export const actions: Actions = {
 					charge_on: 'vaccine',
 					created_at: created_at
 				})
-				.catch(async (e) => {
-					await logErrorMessage(e);
+				.catch((e) => {
+					logErrorMessage(e);
 				});
 
 			// creae vital sign
@@ -166,8 +166,8 @@ export const actions: Actions = {
 						sbp: +sbp,
 						dbp: +dbp
 					})
-					.catch(async (e) => {
-						await logErrorMessage(e);
+					.catch((e) => {
+						logErrorMessage(e);
 					});
 			}
 		}

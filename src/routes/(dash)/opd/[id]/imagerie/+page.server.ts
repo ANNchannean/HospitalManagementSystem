@@ -3,6 +3,7 @@ import { imagerieRequest, product, visit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder } from '$lib/server/models';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const get_imageerie_groups = await db.query.imagerieGroup.findMany({
@@ -70,10 +71,15 @@ export const actions: Actions = {
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
 				});
-				await db.insert(imagerieRequest).values({
-					product_id: +e,
-					visit_id: get_visit?.id
-				});
+				await db
+					.insert(imagerieRequest)
+					.values({
+						product_id: +e,
+						visit_id: get_visit?.id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 				await createProductOrder({
 					charge_id: Number(charge_on_imagerie?.id),
 					price: Number(get_product?.price),
@@ -89,7 +95,12 @@ export const actions: Actions = {
 				const product_order_ = charge_on_imagerie?.productOrder.find(
 					(ee) => ee.product_id === e.product_id
 				);
-				await db.delete(imagerieRequest).where(eq(imagerieRequest.id, e.id));
+				await db
+					.delete(imagerieRequest)
+					.where(eq(imagerieRequest.id, e.id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 				await deleteProductOrder(Number(product_order_?.id));
 			}
 		}

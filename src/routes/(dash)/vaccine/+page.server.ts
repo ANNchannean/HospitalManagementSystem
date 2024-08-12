@@ -3,7 +3,7 @@ import { appointmentInjection, injection, vaccine } from '$lib/server/schema';
 import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { now_datetime } from '$lib/server/utils';
-import { fail } from '@sveltejs/kit';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ parent }) => {
 	await parent();
@@ -29,7 +29,7 @@ export const load = (async ({ parent }) => {
 				orderBy: asc(appointmentInjection.times)
 			}
 		},
-		orderBy:desc(injection.datetime)
+		orderBy: desc(injection.datetime)
 	});
 	return {
 		get_injection
@@ -38,7 +38,6 @@ export const load = (async ({ parent }) => {
 
 export const actions: Actions = {
 	create_appointment_inject: async ({ request }) => {
-		let actionError = false;
 		const body = await request.formData();
 		const { times, appointment, discription, injection_id } = Object.fromEntries(body) as Record<
 			string,
@@ -53,10 +52,8 @@ export const actions: Actions = {
 				injection_id: +injection_id
 			})
 			.catch((e) => {
-				console.log(e);
-				actionError = true;
+				logErrorMessage(e);
 			});
-		if (actionError) return fail(400, { actionError: true, message: 'actionError' });
 	},
 	update_appointment_inject: async ({ request }) => {
 		const body = await request.formData();
@@ -72,8 +69,7 @@ export const actions: Actions = {
 			})
 			.where(eq(appointmentInjection.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(400, { actionError: true, message: e });
+				logErrorMessage(e);
 			});
 	},
 	delete_appionment_inject: async ({ request }) => {
@@ -83,8 +79,7 @@ export const actions: Actions = {
 			.delete(appointmentInjection)
 			.where(eq(appointmentInjection.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(400, { actionError: true, message: e });
+				logErrorMessage(e);
 			});
 	}
 };

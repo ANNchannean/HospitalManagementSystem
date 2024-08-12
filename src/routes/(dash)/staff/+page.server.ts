@@ -3,6 +3,7 @@ import { staff } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ parent }) => {
 	await parent();
@@ -44,8 +45,7 @@ export const actions: Actions = {
 					| 'RADIOGRAPHY'
 			});
 		} catch (error) {
-			console.log(error);
-			return fail(500, { serverError: true });
+			logErrorMessage(String(error));
 		}
 	},
 	update_staff: async ({ request }) => {
@@ -82,8 +82,7 @@ export const actions: Actions = {
 				})
 				.where(eq(staff.id, Number(staff_id)));
 		} catch (error) {
-			console.log(error);
-			return fail(500, { serverError: true });
+			logErrorMessage(String(error));
 		}
 	},
 	delete_staff: async ({ request }) => {
@@ -92,8 +91,7 @@ export const actions: Actions = {
 		try {
 			await db.delete(staff).where(eq(staff.id, Number(id)));
 		} catch (error) {
-			console.log(error);
-			return fail(500, { serverError: true });
+			logErrorMessage(String(error));
 		}
 	}
 };

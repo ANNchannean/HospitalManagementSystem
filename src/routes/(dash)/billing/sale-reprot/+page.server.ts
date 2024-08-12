@@ -6,6 +6,7 @@ import { fail } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { billingProcess } from '$lib/server/models';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
@@ -84,12 +85,17 @@ export const actions: Actions = {
 			where: eq(payment.id, paymentId[0].id)
 		});
 		if (file.size) {
-			await db.insert(fileOrPicture).values({
-				payment_id: get_payment?.id,
-				filename: await uploadFile(file),
-				size: file.size,
-				mimeType: file.type
-			});
+			await db
+				.insert(fileOrPicture)
+				.values({
+					payment_id: get_payment?.id,
+					filename: await uploadFile(file),
+					size: file.size,
+					mimeType: file.type
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		await billingProcess({
 			billing_id: +billing_id,
@@ -119,7 +125,12 @@ export const actions: Actions = {
 			where: eq(billing.id, get_payment?.billing_id || 0)
 		});
 		if (get_billing) {
-			await db.delete(payment).where(eq(payment.id, +payment_id));
+			await db
+				.delete(payment)
+				.where(eq(payment.id, +payment_id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 			await billingProcess({
 				billing_id: get_billing!.id,
 				disc: get_billing!.discount,

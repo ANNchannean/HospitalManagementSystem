@@ -3,6 +3,7 @@ import { imagerieGroup } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_imagerie_groups = await db.query.imagerieGroup.findMany({});
@@ -22,8 +23,7 @@ export const actions: Actions = {
 				imagerie_group: imagerie_group
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_imagerie_group: async ({ request }) => {
@@ -41,8 +41,7 @@ export const actions: Actions = {
 			})
 			.where(eq(imagerieGroup.id, Number(imagerie_group_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_imagerie_group: async ({ request }) => {
@@ -52,8 +51,7 @@ export const actions: Actions = {
 			.delete(imagerieGroup)
 			.where(eq(imagerieGroup.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

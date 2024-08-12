@@ -3,6 +3,7 @@ import { appointment } from '$lib/server/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const visit_id = parseInt(params.id);
@@ -31,8 +32,7 @@ export const actions: Actions = {
 					visit_id: visit_id
 				})
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		if (get_appointment) {
@@ -44,8 +44,7 @@ export const actions: Actions = {
 				})
 				.where(eq(appointment.visit_id, visit_id))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		redirect(303, '?');
@@ -53,6 +52,11 @@ export const actions: Actions = {
 	delete_appointment: async ({ request }) => {
 		const id = (await request.formData()).get('id');
 		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		await db.delete(appointment).where(eq(appointment.id, +id));
+		await db
+			.delete(appointment)
+			.where(eq(appointment.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

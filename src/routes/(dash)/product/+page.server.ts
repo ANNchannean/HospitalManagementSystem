@@ -5,6 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq, like, or } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -64,17 +65,21 @@ export const actions: Actions = {
 				create_at: datetime
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 		if (file.size) {
 			const get_product = await db.query.product.findFirst({
 				where: eq(product.create_at, datetime)
 			});
-			await db.insert(fileOrPicture).values({
-				filename: await uploadFile(file),
-				product_id: get_product?.id
-			});
+			await db
+				.insert(fileOrPicture)
+				.values({
+					filename: await uploadFile(file),
+					product_id: get_product?.id
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 	},
 	update_product: async ({ request }) => {
@@ -102,8 +107,7 @@ export const actions: Actions = {
 			})
 			.where(eq(product.id, Number(product_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 		if (file.size) {
 			const get_fileOrPicture = await db.query.fileOrPicture.findFirst({
@@ -115,12 +119,20 @@ export const actions: Actions = {
 					.set({
 						filename: await updateFile(file, filename)
 					})
-					.where(eq(fileOrPicture.product_id, +product_id));
+					.where(eq(fileOrPicture.product_id, +product_id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			} else {
-				await db.insert(fileOrPicture).values({
-					filename: await uploadFile(file),
-					product_id: +product_id
-				});
+				await db
+					.insert(fileOrPicture)
+					.values({
+						filename: await uploadFile(file),
+						product_id: +product_id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 	},
@@ -140,11 +152,12 @@ export const actions: Actions = {
 			.delete(product)
 			.where(eq(product.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				validErr.serverError = true;
+				logErrorMessage(e);
 			});
 		if (get_product?.fileOrPicture) {
-			await deleteFile(get_product?.fileOrPicture?.filename as string);
+			await deleteFile(get_product?.fileOrPicture?.filename as string).catch((e) => {
+				logErrorMessage(e);
+			});
 		}
 		if (Object.values(validErr).includes(true)) return fail(500, validErr);
 	},
@@ -157,8 +170,7 @@ export const actions: Actions = {
 				group_type: product_group
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_product_group: async ({ request }) => {
@@ -171,8 +183,7 @@ export const actions: Actions = {
 			})
 			.where(eq(productGroupType.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_product_group: async ({ request }) => {
@@ -183,8 +194,7 @@ export const actions: Actions = {
 			.delete(productGroupType)
 			.where(eq(productGroupType.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

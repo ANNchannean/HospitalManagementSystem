@@ -1,9 +1,10 @@
 import { db } from '$lib/server/db';
 import { department, staff, patient, visit, progressNote } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
+import { redirect } from '@sveltejs/kit';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -57,8 +58,7 @@ export const actions: Actions = {
 				progress_note_id: get_pregress_note?.id
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 		redirect(303, `/ipd/${get_pregress_note?.id}/progress-note`);
 	}

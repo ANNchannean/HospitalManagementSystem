@@ -3,6 +3,7 @@ import { laboratoryGroup } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_lab_groups = await db.query.laboratoryGroup.findMany({});
@@ -22,8 +23,7 @@ export const actions: Actions = {
 				laboratory_group: lab_group
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_lab_group: async ({ request }) => {
@@ -37,8 +37,7 @@ export const actions: Actions = {
 			})
 			.where(eq(laboratoryGroup.id, Number(lab_group_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_lab_group: async ({ request }) => {
@@ -48,8 +47,7 @@ export const actions: Actions = {
 			.delete(laboratoryGroup)
 			.where(eq(laboratoryGroup.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

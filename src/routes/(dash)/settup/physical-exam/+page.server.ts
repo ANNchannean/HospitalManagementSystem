@@ -3,6 +3,7 @@ import { exam, physical } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_physical = await db.query.physical.findMany();
@@ -29,8 +30,7 @@ export const actions: Actions = {
 				examination: examination
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_exam: async ({ request }) => {
@@ -44,8 +44,7 @@ export const actions: Actions = {
 			})
 			.where(eq(exam.id, Number(examination_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_exam: async ({ request }) => {
@@ -55,8 +54,7 @@ export const actions: Actions = {
 			.delete(exam)
 			.where(eq(exam.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	create_physical: async ({ request }) => {
@@ -70,8 +68,7 @@ export const actions: Actions = {
 				exam_id: +exam_id
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_physical: async ({ request }) => {
@@ -85,12 +82,20 @@ export const actions: Actions = {
 				.set({
 					physical: physical_name[index].toString()
 				})
-				.where(eq(physical.id, +element));
+				.where(eq(physical.id, +element))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 	},
 	delete_physical: async ({ request }) => {
 		const body = await request.formData();
 		const id = body.get('id') ?? '';
-		await db.delete(physical).where(eq(physical.id, +id));
+		await db
+			.delete(physical)
+			.where(eq(physical.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

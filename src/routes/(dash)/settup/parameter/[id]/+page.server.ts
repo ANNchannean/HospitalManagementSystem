@@ -3,6 +3,7 @@ import { parameter, product } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const [get_lab_groups, get_units, get_parameters, get_product_labo] = await Promise.all([
@@ -61,8 +62,7 @@ export const actions: Actions = {
 			})
 			.where(eq(parameter.id, Number(parameter_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_parameter: async ({ request }) => {
@@ -72,8 +72,7 @@ export const actions: Actions = {
 			.delete(parameter)
 			.where(eq(parameter.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

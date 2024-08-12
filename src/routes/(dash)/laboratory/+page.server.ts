@@ -14,6 +14,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 export const load = (async ({ url, parent }) => {
 	await parent();
 	const laboratory_id = url.searchParams.get('laboratory_id') || '';
@@ -106,16 +107,26 @@ export const actions: Actions = {
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
 				});
-				await db.insert(laboratoryRequest).values({
-					product_id: +e,
-					visit_id: get_visit?.id
-				});
-				await db.insert(productOrder).values({
-					created_at: now_datetime(),
-					charge_id: charge_on_laboratory!.id,
-					product_id: +e,
-					price: get_product!.price
-				});
+				await db
+					.insert(laboratoryRequest)
+					.values({
+						product_id: +e,
+						visit_id: get_visit?.id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
+				await db
+					.insert(productOrder)
+					.values({
+						created_at: now_datetime(),
+						charge_id: charge_on_laboratory!.id,
+						product_id: +e,
+						price: get_product!.price
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 				if (get_visit?.laboratory?.id) {
 					await db
 						.update(laboratory)
@@ -123,13 +134,21 @@ export const actions: Actions = {
 							status: false,
 							visit_id: get_visit?.id
 						})
-						.where(eq(laboratory.id, get_visit.laboratory.id));
+						.where(eq(laboratory.id, get_visit.laboratory.id))
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 				if (!get_visit?.laboratory?.id) {
-					await db.insert(laboratory).values({
-						status: false,
-						visit_id: get_visit?.id
-					});
+					await db
+						.insert(laboratory)
+						.values({
+							status: false,
+							visit_id: get_visit?.id
+						})
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 			}
 		}
@@ -143,9 +162,14 @@ export const actions: Actions = {
 					.delete(laboratoryRequest)
 					.where(eq(laboratoryRequest.id, e.id))
 					.catch((e) => {
-						console.log(e);
+						logErrorMessage(e);
 					});
-				await db.delete(productOrder).where(eq(productOrder.id, product_order_!.id));
+				await db
+					.delete(productOrder)
+					.where(eq(productOrder.id, product_order_!.id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 		const get_charge = await db.query.charge.findFirst({
@@ -163,7 +187,10 @@ export const actions: Actions = {
 			.set({
 				price: total_charge_on_imagerie
 			})
-			.where(eq(charge.id, charge_on_laboratory!.id));
+			.where(eq(charge.id, charge_on_laboratory!.id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	create_laboratory_result: async ({ request }) => {
 		const body = await request.formData();
@@ -189,14 +216,22 @@ export const actions: Actions = {
 						laboratory_request_id: +laboratory_request_id_,
 						result: result.toString()
 					})
-					.where(eq(laboratoryResult.id, +laboratory_resultId));
+					.where(eq(laboratoryResult.id, +laboratory_resultId))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 			if (!laboratory_resultId) {
-				await db.insert(laboratoryResult).values({
-					parameter_id: +parameterId,
-					laboratory_request_id: +laboratory_request_id_,
-					result: result.toString()
-				});
+				await db
+					.insert(laboratoryResult)
+					.values({
+						parameter_id: +parameterId,
+						laboratory_request_id: +laboratory_request_id_,
+						result: result.toString()
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 
@@ -225,34 +260,52 @@ export const actions: Actions = {
 					sample: sample,
 					finish_datetime: !isReqAndRes ? now_datetime() : undefined
 				})
-				.where(eq(laboratory.id, check_request.laboratory.id));
+				.where(eq(laboratory.id, check_request.laboratory.id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		if (!check_request?.laboratory?.id) {
-			await db.insert(laboratory).values({
-				status: !isReqAndRes,
-				doctor_comment: doctor_comment,
-				visit_id: check_request?.id,
-				sample: sample,
-				finish_datetime: !isReqAndRes ? now_datetime() : undefined
-			});
+			await db
+				.insert(laboratory)
+				.values({
+					status: !isReqAndRes,
+					doctor_comment: doctor_comment,
+					visit_id: check_request?.id,
+					sample: sample,
+					finish_datetime: !isReqAndRes ? now_datetime() : undefined
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		for (const e of file) {
 			if (e.size) {
 				const filename = await uploadFile(e);
-				await db.insert(fileOrPicture).values({
-					filename: filename,
-					lastModified: e.lastModified,
-					mimeType: e.type,
-					size: e.size,
-					laboratory_id: check_request?.laboratory?.id
-				});
+				await db
+					.insert(fileOrPicture)
+					.values({
+						filename: filename,
+						lastModified: e.lastModified,
+						mimeType: e.type,
+						size: e.size,
+						laboratory_id: check_request?.laboratory?.id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 	},
 	delete_picture: async ({ request }) => {
 		const body = await request.formData();
 		const { file_name } = Object.fromEntries(body) as Record<string, string>;
-		await db.delete(fileOrPicture).where(eq(fileOrPicture.filename, file_name));
+		await db
+			.delete(fileOrPicture)
+			.where(eq(fileOrPicture.filename, file_name))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 		await deleteFile(file_name);
 	}
 };

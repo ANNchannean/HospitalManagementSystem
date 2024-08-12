@@ -152,8 +152,8 @@ export const actions: Actions = {
 			charge_id: Number(charge_on_general?.id),
 			price: +price,
 			product_id: +product_id
-		}).catch(async (e) => {
-			await logErrorMessage(e);
+		}).catch((e) => {
+			logErrorMessage(e);
 		});
 	},
 	remove_product_order: async ({ request }) => {
@@ -164,7 +164,9 @@ export const actions: Actions = {
 		};
 		if (!product_order_id.trim()) validErr.product_order_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-		await deleteProductOrder(+product_order_id);
+		await deleteProductOrder(+product_order_id).catch((e) => {
+			logErrorMessage(e);
+		});
 	},
 	update_product_order: async ({ request }) => {
 		const body = await request.formData();
@@ -186,10 +188,14 @@ export const actions: Actions = {
 				price: +price_,
 				product_order_id: +product_order_id_,
 				qty: +qty_
+			}).catch((e) => {
+				logErrorMessage(e);
 			});
 		}
 		if (charge_id) {
-			await updatChargeByValue(+charge_id, +charge_on_laboratory);
+			await updatChargeByValue(+charge_id, +charge_on_laboratory).catch((e) => {
+				logErrorMessage(e);
+			});
 		}
 	},
 	update_billing: async ({ request, params }) => {
@@ -221,6 +227,8 @@ export const actions: Actions = {
 					}
 				}
 			}
+		}).catch((e) => {
+			logErrorMessage(e);
 		});
 		if (get_billing?.payment.length) {
 			for (const e of get_billing.payment) {
@@ -237,6 +245,8 @@ export const actions: Actions = {
 				datetime: date_time,
 				payment_type_id: +payment_type_id,
 				value: +bank_pay
+			}).catch((e) => {
+				logErrorMessage(e);
 			});
 		}
 		if (Number(cash_pay) > 0) {
@@ -245,6 +255,8 @@ export const actions: Actions = {
 				datetime: now_datetime(),
 				payment_type_id: get_payment_type?.id,
 				value: +cash_pay
+			}).catch((e) => {
+				logErrorMessage(e);
 			});
 		}
 		if (file.size) {
@@ -253,6 +265,8 @@ export const actions: Actions = {
 				filename: await uploadFile(file),
 				size: file.size,
 				mimeType: file.type
+			}).catch((e) => {
+				logErrorMessage(e);
 			});
 		}
 		await billingProcess({

@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);
@@ -82,17 +83,25 @@ export const actions: Actions = {
 					)
 				});
 				if (get_injection) {
-					await db.insert(vaccine).values({
-						visit_id: +get_visit!.id,
-						product_id: get_product?.id,
-						injection_id: get_injection.id
-					});
+					await db
+						.insert(vaccine)
+						.values({
+							visit_id: +get_visit!.id,
+							product_id: get_product?.id,
+							injection_id: get_injection.id
+						})
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 					await db
 						.update(injection)
 						.set({
 							datetime: now_datetime()
 						})
-						.where(eq(injection.id, get_injection.id));
+						.where(eq(injection.id, get_injection.id))
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 				if (!get_injection) {
 					const injection_id = await db
@@ -103,11 +112,16 @@ export const actions: Actions = {
 							datetime: now_datetime()
 						})
 						.$returningId();
-					await db.insert(vaccine).values({
-						visit_id: +get_visit!.id,
-						product_id: get_product?.id,
-						injection_id: injection_id[0].id
-					});
+					await db
+						.insert(vaccine)
+						.values({
+							visit_id: +get_visit!.id,
+							product_id: get_product?.id,
+							injection_id: injection_id[0].id
+						})
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 				await createProductOrder({
 					charge_id: Number(charge_on_service?.id),
@@ -123,7 +137,12 @@ export const actions: Actions = {
 				const product_order_ = charge_on_service?.productOrder.find(
 					(ee) => ee.product_id === e.product_id
 				);
-				await db.delete(vaccine).where(eq(vaccine.id, e.id));
+				await db
+					.delete(vaccine)
+					.where(eq(vaccine.id, e.id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 				await deleteProductOrder(Number(product_order_?.id));
 			}
 		}

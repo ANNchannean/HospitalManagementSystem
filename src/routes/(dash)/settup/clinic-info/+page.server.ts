@@ -4,6 +4,7 @@ import { clinicinfo, fileOrPicture } from '$lib/server/schema';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 export const load: PageServerLoad = async () => {
 	const get_clinic_info = await db.query.clinicinfo.findFirst({
 		with: {
@@ -34,16 +35,24 @@ export const actions: Actions = {
 					title_eng: title_eng,
 					title_khm: title_khm
 				})
-				.where(eq(clinicinfo.id, fineclinichinfo!.id));
+				.where(eq(clinicinfo.id, fineclinichinfo!.id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		if (!id) {
-			await db.insert(clinicinfo).values({
-				address: address,
-				detail: detail,
-				contact: contact,
-				title_eng: title_eng,
-				title_khm: title_khm
-			});
+			await db
+				.insert(clinicinfo)
+				.values({
+					address: address,
+					detail: detail,
+					contact: contact,
+					title_eng: title_eng,
+					title_khm: title_khm
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		const get_clinic_info = await db.query.clinicinfo.findFirst();
 		if (img0.size) {
@@ -53,13 +62,21 @@ export const actions: Actions = {
 					.set({
 						filename: await updateFile(img0, logo0)
 					})
-					.where(eq(fileOrPicture.filename, logo0));
+					.where(eq(fileOrPicture.filename, logo0))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 			if (!logo0) {
-				await db.insert(fileOrPicture).values({
-					filename: await updateFile(img0, logo0),
-					clinicinfo_id: get_clinic_info?.id
-				});
+				await db
+					.insert(fileOrPicture)
+					.values({
+						filename: await updateFile(img0, logo0),
+						clinicinfo_id: get_clinic_info?.id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 		if (img1.size) {
@@ -69,13 +86,21 @@ export const actions: Actions = {
 					.set({
 						filename: await updateFile(img1, logo1)
 					})
-					.where(eq(fileOrPicture.filename, logo1));
+					.where(eq(fileOrPicture.filename, logo1))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 			if (!logo1) {
-				await db.insert(fileOrPicture).values({
-					filename: await updateFile(img1, logo1),
-					clinicinfo_id: get_clinic_info?.id
-				});
+				await db
+					.insert(fileOrPicture)
+					.values({
+						filename: await updateFile(img1, logo1),
+						clinicinfo_id: get_clinic_info?.id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 

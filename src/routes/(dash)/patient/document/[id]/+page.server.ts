@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { document, visit } from '$lib/server/schema';
 import { redirect } from '@sveltejs/kit';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const { id } = params;
@@ -44,6 +45,9 @@ export const actions: Actions = {
 			.set({
 				content: document_content
 			})
-			.where(eq(document.id, +id));
+			.where(eq(document.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

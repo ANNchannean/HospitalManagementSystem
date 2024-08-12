@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -62,17 +63,27 @@ export const actions: Actions = {
 			for (const e of product_id) {
 				const is_created = get_visit.imagerieRequest.find((ee) => ee.product_id === +e);
 				if (!is_created) {
-					await db.insert(imagerieRequest).values({
-						product_id: +e,
-						visit_id: get_visit?.id
-					});
+					await db
+						.insert(imagerieRequest)
+						.values({
+							product_id: +e,
+							visit_id: get_visit?.id
+						})
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 			}
 		}
 		for (const e of get_visit!.imagerieRequest) {
 			const is_created = product_id.find((ee) => +ee === e.product_id);
 			if (!is_created) {
-				await db.delete(imagerieRequest).where(eq(imagerieRequest.id, e.id));
+				await db
+					.delete(imagerieRequest)
+					.where(eq(imagerieRequest.id, e.id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 	},
@@ -86,18 +97,26 @@ export const actions: Actions = {
 				result: result,
 				status: result.length ? true : false
 			})
-			.where(eq(imagerieRequest.id, +id));
+			.where(eq(imagerieRequest.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 
 		for (const e of file) {
 			if (e.size) {
 				const filename = await uploadFile(e);
-				await db.insert(fileOrPicture).values({
-					filename: filename,
-					lastModified: e.lastModified,
-					mimeType: e.type,
-					size: e.size,
-					imagerie_request_id: +id
-				});
+				await db
+					.insert(fileOrPicture)
+					.values({
+						filename: filename,
+						lastModified: e.lastModified,
+						mimeType: e.type,
+						size: e.size,
+						imagerie_request_id: +id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 			const get_imagerie_request = await db.query.imagerieRequest.findFirst({
 				where: eq(imagerieRequest.id, +id),
@@ -112,7 +131,10 @@ export const actions: Actions = {
 						status: true,
 						finish_datetime: now_datetime()
 					})
-					.where(eq(imagerieRequest.id, +id));
+					.where(eq(imagerieRequest.id, +id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			} else {
 				await db
 					.update(imagerieRequest)
@@ -120,7 +142,10 @@ export const actions: Actions = {
 						status: false,
 						finish_datetime: ''
 					})
-					.where(eq(imagerieRequest.id, +id));
+					.where(eq(imagerieRequest.id, +id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 	},
@@ -142,7 +167,10 @@ export const actions: Actions = {
 					status: true,
 					finish_datetime: now_datetime()
 				})
-				.where(eq(imagerieRequest.id, +imagerie_request_id));
+				.where(eq(imagerieRequest.id, +imagerie_request_id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		} else {
 			await db
 				.update(imagerieRequest)
@@ -150,7 +178,10 @@ export const actions: Actions = {
 					status: false,
 					finish_datetime: ''
 				})
-				.where(eq(imagerieRequest.id, +imagerie_request_id));
+				.where(eq(imagerieRequest.id, +imagerie_request_id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 	}
 };

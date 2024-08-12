@@ -1,5 +1,6 @@
 import { db } from '$lib/server/db';
 import { accessment } from '$lib/server/schema';
+import { logErrorMessage } from '$lib/server/telegram';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
@@ -35,13 +36,19 @@ export const actions: Actions = {
 					diagnosis_or_problem: diagnosis,
 					differential_diagnosis: diagnosis_differential
 				})
-				.where(eq(accessment.id, check_accessment.id));
+				.where(eq(accessment.id, check_accessment.id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		if (!check_accessment) {
 			await db.insert(accessment).values({
 				diagnosis_or_problem: diagnosis,
 				differential_diagnosis: diagnosis_differential,
 				visit_id: +visit_id
+			})
+			.catch((e) => {
+				logErrorMessage(e);
 			});
 		}
 	}

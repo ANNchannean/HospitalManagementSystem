@@ -1,11 +1,12 @@
 import { db } from '$lib/server/db';
 import { subjective, visit } from '$lib/server/schema';
-import { fail, redirect } from '@sveltejs/kit';
+import { logErrorMessage } from '$lib/server/telegram';
+import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
 export const load = (async ({ params }) => {
-	const get_words = await db.query.words.findMany()
+	const get_words = await db.query.words.findMany();
 	const visit_id = params.id;
 	if (isNaN(+visit_id)) redirect(303, '/patient/all');
 	const get_visit = await db.query.visit.findFirst({
@@ -51,8 +52,7 @@ export const actions: Actions = {
 					visit_id: Number(visit_id)
 				})
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		if (get_subjective) {
@@ -69,8 +69,7 @@ export const actions: Actions = {
 				})
 				.where(eq(subjective.visit_id, Number(visit_id)))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		redirect(303, '?');

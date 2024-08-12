@@ -3,6 +3,7 @@ import { parameter, product, productGroupType } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, like } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_lab_groups = await db.query.laboratoryGroup.findMany({});
@@ -55,8 +56,7 @@ export const actions: Actions = {
 				laboratory_group_id: Number(lab_group_id)
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_parameter_group: async ({ request }) => {
@@ -85,8 +85,7 @@ export const actions: Actions = {
 			})
 			.where(eq(product.id, Number(product_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_parameter_group: async ({ request }) => {
@@ -96,8 +95,7 @@ export const actions: Actions = {
 			.delete(product)
 			.where(eq(product.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	create_parameter: async ({ request }) => {
@@ -131,8 +129,7 @@ export const actions: Actions = {
 				product_id: Number(product_id)
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

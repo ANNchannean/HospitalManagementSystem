@@ -3,6 +3,7 @@ import { template } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_templates = await db.query.template.findMany({
@@ -32,8 +33,7 @@ export const actions: Actions = {
 				template: template_
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_template: async ({ request }) => {
@@ -58,8 +58,7 @@ export const actions: Actions = {
 			})
 			.where(eq(template.id, +template_id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_template: async ({ request }) => {
@@ -69,8 +68,7 @@ export const actions: Actions = {
 			.delete(template)
 			.where(eq(template.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

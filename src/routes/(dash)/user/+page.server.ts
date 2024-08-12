@@ -5,6 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
+import { logErrorMessage } from '$lib/server/telegram';
 export const load = (async ({ parent }) => {
 	await parent();
 	const get_staffs = await db.query.staff.findMany({});
@@ -48,14 +49,19 @@ export const actions: Actions = {
 			outputLen: 32,
 			parallelism: 1
 		});
-		await db.insert(user).values({
-			id: userId,
-			image: '',
-			staff_id: staff_id ? +staff_id : undefined,
-			role: role as 'DOCTOR' | 'PHARMACIST' | 'NURSE' | 'LABO_TECHICAL' | 'ADMIN' | 'RADIOGRAPHY',
-			password_hash: passwordHash,
-			username: username
-		});
+		await db
+			.insert(user)
+			.values({
+				id: userId,
+				image: '',
+				staff_id: staff_id ? +staff_id : undefined,
+				role: role as 'DOCTOR' | 'PHARMACIST' | 'NURSE' | 'LABO_TECHICAL' | 'ADMIN' | 'RADIOGRAPHY',
+				password_hash: passwordHash,
+				username: username
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_user: async ({ request }) => {
 		const body = await request.formData();
@@ -87,6 +93,9 @@ export const actions: Actions = {
 				role: role as 'DOCTOR' | 'PHARMACIST' | 'NURSE' | 'LABO_TECHICAL' | 'ADMIN' | 'RADIOGRAPHY',
 				username: username
 			})
-			.where(eq(user.id, user_id));
+			.where(eq(user.id, user_id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

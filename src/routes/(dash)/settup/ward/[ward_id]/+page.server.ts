@@ -1,5 +1,6 @@
 import { db } from '$lib/server/db';
 import { bed, product, productGroupType, room, ward } from '$lib/server/schema';
+import { logErrorMessage } from '$lib/server/telegram';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 
@@ -44,9 +45,14 @@ export const actions: Actions = {
 	create_ward: async ({ request }) => {
 		const body = await request.formData();
 		const { ward: ward_ } = Object.fromEntries(body) as Record<string, string>;
-		await db.insert(ward).values({
-			ward: ward_
-		});
+		await db
+			.insert(ward)
+			.values({
+				ward: ward_
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_ward: async ({ request }) => {
 		const body = await request.formData();
@@ -56,20 +62,33 @@ export const actions: Actions = {
 			.set({
 				ward: ward_
 			})
-			.where(eq(ward.id, +id));
+			.where(eq(ward.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	delete_ward: async ({ request }) => {
 		const body = await request.formData();
 		const { id } = Object.fromEntries(body) as Record<string, string>;
-		await db.delete(ward).where(eq(ward.id, +id));
+		await db
+			.delete(ward)
+			.where(eq(ward.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	create_room: async ({ request }) => {
 		const body = await request.formData();
 		const { room: room_, ward_id } = Object.fromEntries(body) as Record<string, string>;
-		await db.insert(room).values({
-			room: room_,
-			ward_id: +ward_id
-		});
+		await db
+			.insert(room)
+			.values({
+				room: room_,
+				ward_id: +ward_id
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_room: async ({ request }) => {
 		const body = await request.formData();
@@ -86,16 +105,24 @@ export const actions: Actions = {
 				ward_id: +ward_id,
 				product_id: +product_id
 			})
-			.where(eq(room.id, +room_id));
+			.where(eq(room.id, +room_id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 
 	create_bed: async ({ request }) => {
 		const body = await request.formData();
 		const { room_id, ward_id, bed: bed_ } = Object.fromEntries(body) as Record<string, string>;
-		await db.insert(bed).values({
-			room_id: +room_id,
-			ward_id: +ward_id,
-			bed: bed_
-		});
+		await db
+			.insert(bed)
+			.values({
+				room_id: +room_id,
+				ward_id: +ward_id,
+				bed: bed_
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

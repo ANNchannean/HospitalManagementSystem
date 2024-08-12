@@ -1,5 +1,6 @@
 import { db } from '$lib/server/db';
 import { unit } from '$lib/server/schema';
+import { logErrorMessage } from '$lib/server/telegram';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 
@@ -21,6 +22,9 @@ export const actions: Actions = {
 			.set({
 				vaccine_dose: description
 			})
-			.where(eq(unit.id, +unit_id));
+			.where(eq(unit.id, +unit_id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

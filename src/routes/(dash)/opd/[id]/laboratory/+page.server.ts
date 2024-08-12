@@ -3,6 +3,7 @@ import { laboratory, laboratoryRequest, product, visit } from '$lib/server/schem
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);
@@ -77,13 +78,21 @@ export const actions: Actions = {
 							status: false,
 							visit_id: get_visit?.id
 						})
-						.where(eq(laboratory.id, get_visit.laboratory.id));
+						.where(eq(laboratory.id, get_visit.laboratory.id))
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 				if (!get_visit?.laboratory?.id) {
-					await db.insert(laboratory).values({
-						status: false,
-						visit_id: get_visit?.id
-					});
+					await db
+						.insert(laboratory)
+						.values({
+							status: false,
+							visit_id: get_visit?.id
+						})
+						.catch((e) => {
+							logErrorMessage(e);
+						});
 				}
 				await createProductOrder({
 					charge_id: Number(charge_on_laboratory?.id),
@@ -102,10 +111,12 @@ export const actions: Actions = {
 					.delete(laboratoryRequest)
 					.where(eq(laboratoryRequest.id, e.id))
 					.catch((e) => {
-						console.log(e);
+						logErrorMessage(e);
 					});
 
-				await deleteProductOrder(Number(product_order_?.id));
+				await deleteProductOrder(Number(product_order_?.id)).catch((e) => {
+					logErrorMessage(e);
+				});
 			}
 		}
 	},

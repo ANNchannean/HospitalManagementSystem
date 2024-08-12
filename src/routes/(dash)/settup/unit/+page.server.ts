@@ -3,6 +3,7 @@ import { productGroupType, unit } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_product_group_types = await db.query.productGroupType.findMany({
@@ -31,8 +32,7 @@ export const actions: Actions = {
 				product_group_type_id: product_group_type_id ? +product_group_type_id : undefined
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_unit: async ({ request }) => {
@@ -49,8 +49,7 @@ export const actions: Actions = {
 			})
 			.where(eq(unit.id, Number(unit_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_unit: async ({ request }) => {
@@ -60,8 +59,7 @@ export const actions: Actions = {
 			.delete(unit)
 			.where(eq(unit.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

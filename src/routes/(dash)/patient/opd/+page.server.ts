@@ -4,6 +4,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ parent }) => {
 	await parent();
@@ -39,7 +40,10 @@ export const actions: Actions = {
 			.set({
 				checkin_type: 'IPD'
 			})
-			.where(eq(visit.id, +id));
+			.where(eq(visit.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_etiology: async ({ request }) => {
 		const body = await request.formData();
@@ -51,7 +55,10 @@ export const actions: Actions = {
 			.set({
 				etiology: etiology.toString()
 			})
-			.where(eq(visit.id, +id));
+			.where(eq(visit.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_department: async ({ request }) => {
 		const body = await request.formData();
@@ -63,7 +70,10 @@ export const actions: Actions = {
 			.set({
 				department_id: +department_id
 			})
-			.where(eq(visit.id, +id));
+			.where(eq(visit.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_staff: async ({ request }) => {
 		const body = await request.formData();
@@ -75,7 +85,10 @@ export const actions: Actions = {
 			.set({
 				staff_id: +staff_id
 			})
-			.where(eq(visit.id, +id));
+			.where(eq(visit.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	process_billing: async ({ request }) => {
 		const body = await request.formData();
@@ -87,7 +100,10 @@ export const actions: Actions = {
 				status: 'process',
 				checkin_type: 'OPD'
 			})
-			.where(eq(billing.id, +billing_id));
+			.where(eq(billing.id, +billing_id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	create_document: async ({ request }) => {
 		const body = await request.formData();
@@ -106,18 +122,28 @@ export const actions: Actions = {
 			});
 			const is_created = get_visit?.document.some((e) => e.title === get_form_document?.title);
 			if (get_form_document && !is_created) {
-				await db.insert(document).values({
-					visit_id: +visit_id,
-					content: get_form_document.content,
-					title: get_form_document.title,
-					datetime: now_datetime()
-				});
+				await db
+					.insert(document)
+					.values({
+						visit_id: +visit_id,
+						content: get_form_document.content,
+						title: get_form_document.title,
+						datetime: now_datetime()
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 		for (const e of get_visit?.document || []) {
 			const is_created = document_title.some((ee) => ee === e.title);
 			if (!is_created) {
-				await db.delete(document).where(eq(document.id, e.id));
+				await db
+					.delete(document)
+					.where(eq(document.id, e.id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			}
 		}
 	},
@@ -128,8 +154,7 @@ export const actions: Actions = {
 			.delete(visit)
 			.where(eq(visit.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

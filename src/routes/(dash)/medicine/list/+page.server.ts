@@ -3,6 +3,7 @@ import { product, productGroupType, unit } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_product_type = await db.query.productGroupType.findFirst({
@@ -52,8 +53,7 @@ export const actions: Actions = {
 				unit_id: Number(unit_id)
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_medicine: async ({ request }) => {
@@ -82,8 +82,7 @@ export const actions: Actions = {
 			})
 			.where(eq(product.id, Number(product_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_medicine: async ({ request }) => {
@@ -93,8 +92,7 @@ export const actions: Actions = {
 			.delete(product)
 			.where(eq(product.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

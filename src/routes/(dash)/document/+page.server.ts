@@ -4,6 +4,7 @@ import { now_datetime } from '$lib/server/utils';
 import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ parent }) => {
 	await parent();
@@ -32,12 +33,16 @@ export const actions: Actions = {
 					title: title,
 					datetime: now_datetime()
 				})
-				.where(eq(formDocument.id, +id));
+				.where(eq(formDocument.id, +id)).catch((e) => {
+					logErrorMessage(e);
+				});
 		} else {
 			await db.insert(formDocument).values({
 				content: content,
 				title: title,
 				datetime: now_datetime()
+			}).catch((e) => {
+				logErrorMessage(e);
 			});
 		}
 	},
@@ -46,7 +51,9 @@ export const actions: Actions = {
 		const { id } = Object.fromEntries(body) as Record<string, string>;
 		if (isNaN(+id)) return fail(400, { id: true });
 		if (id) {
-			await db.delete(formDocument).where(eq(formDocument.id, +id));
+			await db.delete(formDocument).where(eq(formDocument.id, +id)).catch((e) => {
+				logErrorMessage(e);
+			});
 		}
 	}
 };

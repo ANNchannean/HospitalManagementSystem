@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db';
 import { operationProtocol, product, productGroupType, service } from '$lib/server/schema';
-import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.progress_note_id;
@@ -39,10 +39,15 @@ export const actions: Actions = {
 		const body = await request.formData();
 		const visti_id = parseInt(params.progress_note_id);
 		const { product_id } = Object.fromEntries(body) as Record<string, string>;
-		await db.insert(service).values({
-			product_id: +product_id,
-			visit_id: visti_id
-		});
+		await db
+			.insert(service)
+			.values({
+				product_id: +product_id,
+				visit_id: visti_id
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	delete_service: async ({ request }) => {
 		const body = await request.formData();
@@ -98,8 +103,7 @@ export const actions: Actions = {
 				})
 				.where(eq(operationProtocol.service_id, +service_id))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		} else {
 			await db
@@ -123,10 +127,8 @@ export const actions: Actions = {
 					surgeon: surgeon,
 					type_anesthesia: type_anesthesia
 				})
-
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 	}

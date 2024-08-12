@@ -3,6 +3,7 @@ import { product, productGroupType, template } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, like } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_imageerie_groups = await db.query.imagerieGroup.findMany({});
@@ -52,8 +53,7 @@ export const actions: Actions = {
 				group_type_id: 2
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_ImagerieGroup: async ({ request }) => {
@@ -70,8 +70,7 @@ export const actions: Actions = {
 			})
 			.where(eq(product.id, Number(product_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_ImagerieGroup: async ({ request }) => {
@@ -81,8 +80,7 @@ export const actions: Actions = {
 			.delete(product)
 			.where(eq(product.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

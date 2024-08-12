@@ -13,6 +13,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -98,14 +99,19 @@ export const actions: Actions = {
 		const charge_on_prescription = get_visit?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
-		await db.insert(productOrder).values({
-			charge_id: charge_on_prescription!.id,
-			product_id: +product_id,
-			created_at: now_datetime(),
-			price: get_product?.price,
-			qty: +amount,
-			total: Number(get_product?.price) * Number(amount)
-		});
+		await db
+			.insert(productOrder)
+			.values({
+				charge_id: charge_on_prescription!.id,
+				product_id: +product_id,
+				created_at: now_datetime(),
+				price: get_product?.price,
+				qty: +amount,
+				total: Number(get_product?.price) * Number(amount)
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 		await db
 			.insert(presrciption)
 			.values({
@@ -121,8 +127,7 @@ export const actions: Actions = {
 				night: +night
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_prescription: async ({ request, params }) => {
@@ -179,7 +184,10 @@ export const actions: Actions = {
 					qty: +amount,
 					total: Number(get_product_order?.price) * Number(amount)
 				})
-				.where(eq(productOrder.id, get_product_order!.id));
+				.where(eq(productOrder.id, get_product_order!.id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		await db
 			.update(presrciption)
@@ -197,8 +205,7 @@ export const actions: Actions = {
 			})
 			.where(eq(presrciption.id, +prescription_id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_prescription: async ({ request, params }) => {
@@ -240,8 +247,7 @@ export const actions: Actions = {
 			.delete(presrciption)
 			.where(eq(presrciption.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	create_advice_teaching: async ({ request, params }) => {
@@ -259,8 +265,7 @@ export const actions: Actions = {
 					description: advice_teaching
 				})
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		if (get_advice_teaching) {
@@ -271,8 +276,7 @@ export const actions: Actions = {
 				})
 				.where(eq(adviceTeaching.id, get_advice_teaching.id))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 		redirect(303, '?');
@@ -281,9 +285,14 @@ export const actions: Actions = {
 		const body = await request.formData();
 		const description = body.get('description')?.toString() ?? '';
 		if (!description || description.trim().length == 0) return fail(400, { descriptionErr: true });
-		await db.insert(use).values({
-			description: description
-		});
+		await db
+			.insert(use)
+			.values({
+				description: description
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_use: async ({ request }) => {
 		const body = await request.formData();
@@ -296,22 +305,35 @@ export const actions: Actions = {
 			.set({
 				description: description
 			})
-			.where(eq(use.id, +id));
+			.where(eq(use.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	delete_use: async ({ request }) => {
 		const body = await request.formData();
 		const id = body.get('id')?.toString() ?? '';
 		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		await db.delete(use).where(eq(use.id, +id));
+		await db
+			.delete(use)
+			.where(eq(use.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 
 	create_duration: async ({ request }) => {
 		const body = await request.formData();
 		const description = body.get('description')?.toString() ?? '';
 		if (!description || description.trim().length == 0) return fail(400, { descriptionErr: true });
-		await db.insert(duration).values({
-			description: description
-		});
+		await db
+			.insert(duration)
+			.values({
+				description: description
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	update_duration: async ({ request }) => {
 		const body = await request.formData();
@@ -324,12 +346,20 @@ export const actions: Actions = {
 			.set({
 				description: description
 			})
-			.where(eq(duration.id, +id));
+			.where(eq(duration.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	delete_duration: async ({ request }) => {
 		const body = await request.formData();
 		const id = body.get('id')?.toString() ?? '';
 		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		await db.delete(duration).where(eq(duration.id, +id));
+		await db
+			.delete(duration)
+			.where(eq(duration.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

@@ -3,7 +3,7 @@ import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { nursingProcess } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
-import { fail } from '@sveltejs/kit';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const progress_note_id = params.progress_note_id;
@@ -36,8 +36,7 @@ export const actions: Actions = {
 					progress_note_id: +progress_note_id
 				})
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: e });
+					logErrorMessage(e);
 				});
 		}
 		if (nursing_process_id) {
@@ -52,8 +51,7 @@ export const actions: Actions = {
 				})
 				.where(eq(nursingProcess.id, +nursing_process_id))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: e });
+					logErrorMessage(e);
 				});
 		}
 	},
@@ -64,8 +62,7 @@ export const actions: Actions = {
 			.delete(nursingProcess)
 			.where(eq(nursingProcess.id, +id))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: e });
+				logErrorMessage(e);
 			});
 	}
 };

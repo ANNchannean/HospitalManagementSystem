@@ -3,6 +3,7 @@ import { department } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
 	const get_departments = await db.query.department.findMany({});
@@ -22,8 +23,7 @@ export const actions: Actions = {
 				department: department_
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	update_department: async ({ request }) => {
@@ -37,8 +37,7 @@ export const actions: Actions = {
 			})
 			.where(eq(department.id, Number(department_id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_department: async ({ request }) => {
@@ -48,8 +47,7 @@ export const actions: Actions = {
 			.delete(department)
 			.where(eq(department.id, Number(id)))
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	}
 };

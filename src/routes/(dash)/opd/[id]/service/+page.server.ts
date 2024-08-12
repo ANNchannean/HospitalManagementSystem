@@ -11,6 +11,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -79,8 +80,7 @@ export const actions: Actions = {
 				created_at: now_datetime()
 			})
 			.catch((e) => {
-				console.log(e);
-				return fail(500, { serverError: true });
+				logErrorMessage(e);
 			});
 	},
 	delete_service: async ({ request, params }) => {
@@ -118,9 +118,19 @@ export const actions: Actions = {
 			(e) => e.product_id === get_services?.product_id
 		);
 		if (get_product_order) {
-			await db.delete(productOrder).where(eq(productOrder.id, get_product_order!.id));
+			await db
+				.delete(productOrder)
+				.where(eq(productOrder.id, get_product_order!.id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
-		await db.delete(service).where(eq(service.id, +id));
+		await db
+			.delete(service)
+			.where(eq(service.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	},
 	create_protocol: async ({ request }) => {
 		const body = await request.formData();
@@ -170,8 +180,7 @@ export const actions: Actions = {
 				})
 				.where(eq(operationProtocol.service_id, +service_id))
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		} else {
 			await db
@@ -196,8 +205,7 @@ export const actions: Actions = {
 					type_anesthesia: type_anesthesia
 				})
 				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+					logErrorMessage(e);
 				});
 		}
 	}

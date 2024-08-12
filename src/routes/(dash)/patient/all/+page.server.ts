@@ -5,6 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ parent }) => {
 	await parent();
@@ -85,6 +86,7 @@ export const actions: Actions = {
 				other: other,
 				created_at: created_at
 			});
+
 			if (image.size) {
 				const patient_id = await db.query.patient.findFirst({
 					where: eq(patient.created_at, created_at)
@@ -99,8 +101,7 @@ export const actions: Actions = {
 				});
 			}
 		} catch (error) {
-			console.log(error);
-			return fail(500, { serverError: true });
+			logErrorMessage(String(error));
 		}
 	},
 	update_patient: async ({ request }) => {
@@ -186,8 +187,7 @@ export const actions: Actions = {
 				}
 			}
 		} catch (error) {
-			console.log(error);
-			return fail(400, { serverError: true });
+			logErrorMessage(String(error));
 		}
 	},
 
@@ -203,7 +203,9 @@ export const actions: Actions = {
 				.delete(patient)
 				.where(eq(patient.id, get_patient.id))
 				.catch((e) => console.log(e));
-			await deleteFile(get_patient.fileOrPicture?.filename ?? '');
+			await deleteFile(get_patient.fileOrPicture?.filename ?? '').catch((e) => {
+				logErrorMessage(e);
+			});
 		}
 	}
 };
