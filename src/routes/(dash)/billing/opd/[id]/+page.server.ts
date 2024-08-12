@@ -12,6 +12,7 @@ import {
 import { fail, redirect } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: billing_id } = params;
@@ -151,6 +152,8 @@ export const actions: Actions = {
 			charge_id: Number(charge_on_general?.id),
 			price: +price,
 			product_id: +product_id
+		}).catch(async (e) => {
+			await logErrorMessage(e);
 		});
 	},
 	remove_product_order: async ({ request }) => {
@@ -258,6 +261,6 @@ export const actions: Actions = {
 			tax: +tax || 0,
 			note: note.toString()
 		});
-		redirect(303,"/billing/sale-reprot")
+		redirect(303, '/billing/sale-reprot');
 	}
 };

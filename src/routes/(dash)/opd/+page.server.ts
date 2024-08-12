@@ -4,6 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -52,33 +53,38 @@ export const actions: Actions = {
 			asign_vitalsing
 		} = Object.fromEntries(body) as Record<string, string>;
 		if (!bmi) return fail(400, { bmi: true });
-		const visit_id = await db
-			.insert(visit)
-			.values({
-				checkin_type: 'OPD',
-				patient_id: Number(patient_id),
-				date_checkup: created_at,
-				staff_id: Number(staff_id),
-				department_id: Number(department_id),
-				etiology: etiology
-			})
-			.$returningId();
-
-		const get_visit = visit_id[0];
-		if (!get_visit) return fail(400, { visit_id: true });
-		if (get_visit) {
+		let visit_id: number = 0;
+		try {
+			const id = await db
+				.insert(visit)
+				.values({
+					checkin_type: 'OPD',
+					patient_id: Number(patient_id),
+					date_checkup: created_at,
+					staff_id: Number(staff_id),
+					department_id: Number(department_id),
+					etiology: etiology
+				})
+				.$returningId();
+			visit_id = id[0].id;
+		} catch (error) {
+			await logErrorMessage(String(error));
+		}
+		console.log(visit_id);
+		
+		if (visit_id <= 0) return fail(400, { visit_id: true });
+		if (visit_id <= 0) {
 			// doing billing
 			await db
 				.insert(billing)
 				.values({
 					created_at: created_at,
-					visit_id: get_visit?.id,
+					visit_id: visit_id,
 					checkin_type: 'OPD',
 					tax: get_tax?.value || 0
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 			const get_billing = await db.query.billing.findFirst({
 				where: eq(billing.created_at, created_at)
@@ -90,9 +96,8 @@ export const actions: Actions = {
 					charge_on: 'general',
 					created_at: created_at
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -101,9 +106,8 @@ export const actions: Actions = {
 					charge_on: 'imagerie',
 					created_at: created_at
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -112,9 +116,8 @@ export const actions: Actions = {
 					charge_on: 'laboratory',
 					created_at: created_at
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -123,9 +126,8 @@ export const actions: Actions = {
 					charge_on: 'prescription',
 					created_at: created_at
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -134,9 +136,8 @@ export const actions: Actions = {
 					charge_on: 'service',
 					created_at: created_at
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 			await db
 				.insert(charge)
@@ -145,9 +146,8 @@ export const actions: Actions = {
 					charge_on: 'vaccine',
 					created_at: created_at
 				})
-				.catch((e) => {
-					console.log(e);
-					return fail(500, { serverError: true });
+				.catch(async (e) => {
+					await logErrorMessage(e);
 				});
 
 			// creae vital sign
@@ -162,13 +162,12 @@ export const actions: Actions = {
 						pulse: +pulse,
 						sp02: +sp02,
 						t: +t,
-						visit_id: get_visit!.id,
+						visit_id: visit_id,
 						sbp: +sbp,
 						dbp: +dbp
 					})
-					.catch((e) => {
-						console.log(e);
-						return fail(500, { serverError: true });
+					.catch(async (e) => {
+						await logErrorMessage(e);
 					});
 			}
 		}
