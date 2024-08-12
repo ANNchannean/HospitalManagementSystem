@@ -67,7 +67,7 @@
 					<thead class="table-active table-light sticky-top">
 						<tr class="text-center">
 							<th class="text-center" style="width: 5%;">ID Visit</th>
-							<th  style="width: 10%;">Date</th>
+							<th style="width: 10%;">Date</th>
 							<th style="width: 10%;">Patient Name</th>
 							<th style="width: 5%;">Gender</th>
 							<th style="width: 5%;">Age</th>
@@ -82,7 +82,7 @@
 						{#each get_visits as item}
 							{@const laboratoryRequests = item.laboratoryRequest}
 							{#if item.laboratoryRequest.length}
-								<tr class="text-center"> 
+								<tr class="text-center">
 									<td class="text-center">{item.id}</td>
 									<td
 										>{new Date(item?.date_checkup ?? '')

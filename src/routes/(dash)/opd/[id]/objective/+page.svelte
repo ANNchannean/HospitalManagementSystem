@@ -19,7 +19,7 @@
 <div class="card">
 	<div class="card-header">
 		<div class="row">
-			<div class="col  fs-5">
+			<div class="col fs-5">
 				<span># Vital Sign</span>
 			</div>
 			<div class="col-auto">

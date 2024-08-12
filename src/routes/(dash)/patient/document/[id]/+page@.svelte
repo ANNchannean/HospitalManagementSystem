@@ -13,11 +13,11 @@
 		.replace('name_latin', String(get_visit?.patient?.name_latin ?? ''))
 		.replace('gender', String(get_visit?.patient?.gender ?? ''))
 		.replace('dob', String(get_visit?.patient?.gender ?? ''))
-		.replace('clinic_name', get_clinicinfo?.title_khm!)
+		.replace('clinic_name', get_clinicinfo?.title_khm ?? '')
 		.replace(
 			'date_visit',
 			new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-				new Date(get_visit?.date_checkup!)
+				new Date(get_visit?.date_checkup ?? '')
 			)
 		)
 		.replace(

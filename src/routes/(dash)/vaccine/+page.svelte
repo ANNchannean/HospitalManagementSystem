@@ -1,21 +1,17 @@
 <script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
-	import { t } from '$lib/translations';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
-	import Toast from '$lib/components/etc/Toast.svelte';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let data: PageServerData;
-	export let form: ActionData;
 	let vaccin_id: number;
 	let loading = false;
 	$: ({ get_injection } = data);
 	$: find_injection = get_injection.find((e) => e.id === vaccin_id);
 	let appointment_injection_id: number;
-	let new_inject = false;
 </script>
 
 <!-- svelte-ignore a11y-missing-attribute -->
@@ -133,7 +129,7 @@
 										{#each item.appointmentInjection as iitem}
 											{#if iitem.times < 10}
 												<span class="badge text-bg-warning">
-													{'លើកទី 0'.concat(String(iitem?.times) ?? '')}
+													{'លើកទី 0'.concat(String(iitem?.times))}
 													{new Intl.DateTimeFormat('en-GB', {
 														dateStyle: 'short'
 													}).format(new Date(iitem.appointment))}
@@ -142,7 +138,8 @@
 													<button type="button" class="btn btn-link btn-lg"
 														><i class="fa-solid fa-square-check"></i></button
 													>
-													បានចាក់​ {new Intl.DateTimeFormat('en-GB', {
+													{'បានចាក់​'}
+													{new Intl.DateTimeFormat('en-GB', {
 														dateStyle: 'short',
 														timeStyle: 'short',
 														hour12: true
@@ -152,11 +149,10 @@
 														><i class="fa-regular fa-square"></i></button
 													>
 												{/if}
-
 												<br />
 											{:else}
 												<span class="badge text-bg-warning">
-													{'លើកទី '.concat(String(iitem?.times) ?? '')}
+													{'លើកទី '.concat(String(iitem?.times))}
 												</span>
 												<br />
 											{/if}
@@ -277,9 +273,9 @@
 									</td>
 									<td>
 										{#if item.times < 10}
-											{'លើកទី 0'.concat(String(item?.times) ?? '')}
+											{'លើកទី 0'.concat(String(item?.times))}
 										{:else}
-											{'លើកទី '.concat(String(item?.times) ?? '')}
+											{'លើកទី '.concat(String(item?.times))}
 										{/if}
 									</td>
 

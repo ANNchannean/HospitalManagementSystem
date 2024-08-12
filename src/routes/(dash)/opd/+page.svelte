@@ -81,10 +81,8 @@
 
 <div class="card">
 	<div class="card-header fs-5">
-		
-			<span>#{get_patient?.name_khmer}, </span>
-			<span>{get_patient?.name_latin} </span>
-
+		<span>#{get_patient?.name_khmer}, </span>
+		<span>{get_patient?.name_latin} </span>
 	</div>
 
 	<form
@@ -284,7 +282,9 @@
 					</div>
 				</div>
 				<div class="form-group row pb-2">
-					<label for="present_illness" class="col-sm-3 col-form-label">History of Present illness</label>
+					<label for="present_illness" class="col-sm-3 col-form-label"
+						>History of Present illness</label
+					>
 					<div class="col-sm-9">
 						<div class="input-group">
 							<input id="present_illness" name="present_illness" type="text" class="form-control" />

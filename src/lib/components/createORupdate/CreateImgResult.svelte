@@ -139,7 +139,7 @@
 									name="result"
 									setValue={imagerie_templage
 										? imagerie_templage
-										: find_imagerie_request?.result ?? ''}
+										: (find_imagerie_request?.result ?? '')}
 								/>
 
 								<!-- {#if form?.template_}

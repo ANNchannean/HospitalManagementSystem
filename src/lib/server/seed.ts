@@ -28,11 +28,14 @@ async function main() {
 	// 		price: Number(price.toFixed(2))
 	// 	}).where(eq(product.id,e.id))
 	// }
-	const testID = await db.insert(test).values({
-		decimal: 12.1155555
-	}).$returningId()
+	const testID = await db
+		.insert(test)
+		.values({
+			decimal: 12.1155555
+		})
+		.$returningId();
 	console.log(testID[0].id);
-	
+
 	process.exit(0);
 }
 

@@ -82,7 +82,7 @@
 										<div>
 											<a
 												target="_blank"
-												on:click={() => document.getElementById('close_create_document')?.click() }
+												on:click={() => document.getElementById('close_create_document')?.click()}
 												href="/patient/document/{item.id}"
 												class="btn btn-info btn-sm"
 											>

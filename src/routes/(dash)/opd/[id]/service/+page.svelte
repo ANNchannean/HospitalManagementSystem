@@ -18,7 +18,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-header ">
+			<div class="card-header">
 				<div class="row">
 					<div class="col fs-5">
 						<span># Service</span>

@@ -218,18 +218,20 @@ export const actions: Actions = {
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 
-		const get_billing = await db.query.billing.findFirst({
-			where: eq(billing.id, +billing_id),
-			with: {
-				payment: {
-					with: {
-						fileOrPicture: true
+		const get_billing = await db.query.billing
+			.findFirst({
+				where: eq(billing.id, +billing_id),
+				with: {
+					payment: {
+						with: {
+							fileOrPicture: true
+						}
 					}
 				}
-			}
-		}).catch((e) => {
-			logErrorMessage(e);
-		});
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 		if (get_billing?.payment.length) {
 			for (const e of get_billing.payment) {
 				await db.delete(payment).where(eq(payment.id, e.id));
@@ -240,34 +242,43 @@ export const actions: Actions = {
 		}
 		if (Number(bank_pay) > 0 && payment_type_id) {
 			const date_time = now_datetime();
-			await db.insert(payment).values({
-				billing_id: +billing_id,
-				datetime: date_time,
-				payment_type_id: +payment_type_id,
-				value: +bank_pay
-			}).catch((e) => {
-				logErrorMessage(e);
-			});
+			await db
+				.insert(payment)
+				.values({
+					billing_id: +billing_id,
+					datetime: date_time,
+					payment_type_id: +payment_type_id,
+					value: +bank_pay
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		if (Number(cash_pay) > 0) {
-			await db.insert(payment).values({
-				billing_id: +billing_id,
-				datetime: now_datetime(),
-				payment_type_id: get_payment_type?.id,
-				value: +cash_pay
-			}).catch((e) => {
-				logErrorMessage(e);
-			});
+			await db
+				.insert(payment)
+				.values({
+					billing_id: +billing_id,
+					datetime: now_datetime(),
+					payment_type_id: get_payment_type?.id,
+					value: +cash_pay
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		if (file.size) {
-			await db.insert(fileOrPicture).values({
-				billing_id: +billing_id,
-				filename: await uploadFile(file),
-				size: file.size,
-				mimeType: file.type
-			}).catch((e) => {
-				logErrorMessage(e);
-			});
+			await db
+				.insert(fileOrPicture)
+				.values({
+					billing_id: +billing_id,
+					filename: await uploadFile(file),
+					size: file.size,
+					mimeType: file.type
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 		await billingProcess({
 			billing_id: +billing_id,

@@ -8,7 +8,6 @@
 		(e) => e.charge_on === 'vaccine'
 	)?.price;
 	let loading = false;
-
 </script>
 
 <form

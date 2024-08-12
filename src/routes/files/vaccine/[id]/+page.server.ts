@@ -6,7 +6,6 @@ export const load = (async () => {
 			fileOrPicture: true
 		}
 	});
-	
 
 	return { get_clinichinfo };
 }) satisfies PageServerLoad;

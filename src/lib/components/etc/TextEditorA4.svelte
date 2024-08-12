@@ -20,7 +20,7 @@
 						['para', ['ul', 'ol', 'paragraph']],
 						['height', ['height']],
 						['table'],
-						['paperSize',['paperSize']], 
+						['paperSize', ['paperSize']]
 						// ['insert',['picture']],
 					],
 					tabsize: 2,

@@ -19,9 +19,10 @@
 		}, 400);
 	};
 </script>
+
 <DeleteModal action="?/delete_product" id={get_products.find((e) => e.id === product_id)?.id} />
 <CreateProduct {data} {form} {product_id} />
-{#if form?.serverError }
+{#if form?.serverError}
 	<Toast toas="error" message="Can't delete" />
 {/if}
 <div class="row">

@@ -42,14 +42,16 @@ export const actions: Actions = {
 				});
 		}
 		if (!check_accessment) {
-			await db.insert(accessment).values({
-				diagnosis_or_problem: diagnosis,
-				differential_diagnosis: diagnosis_differential,
-				visit_id: +visit_id
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
+			await db
+				.insert(accessment)
+				.values({
+					diagnosis_or_problem: diagnosis,
+					differential_diagnosis: diagnosis_differential,
+					visit_id: +visit_id
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
 		}
 	}
 };

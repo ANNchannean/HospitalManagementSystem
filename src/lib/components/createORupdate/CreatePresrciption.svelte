@@ -98,7 +98,7 @@
 											<input
 												value={find_prescription?.morning === 0
 													? ''
-													: find_prescription?.morning ?? ''}
+													: (find_prescription?.morning ?? '')}
 												placeholder="Morning"
 												id="morning"
 												name="morning"
@@ -111,7 +111,7 @@
 									<div class="col">
 										<div class="input-group">
 											<input
-												value={find_prescription?.noon === 0 ? '' : find_prescription?.noon ?? ''}
+												value={find_prescription?.noon === 0 ? '' : (find_prescription?.noon ?? '')}
 												placeholder="Noon"
 												id="noon"
 												name="noon"
@@ -126,7 +126,7 @@
 											<input
 												value={find_prescription?.afternoon === 0
 													? ''
-													: find_prescription?.afternoon ?? ''}
+													: (find_prescription?.afternoon ?? '')}
 												placeholder="Afternoon"
 												id="afternoon"
 												name="afternoon"
@@ -141,7 +141,7 @@
 											<input
 												value={find_prescription?.evening === 0
 													? ''
-													: find_prescription?.evening ?? ''}
+													: (find_prescription?.evening ?? '')}
 												placeholder="Evening"
 												id="evening"
 												step="any"
@@ -154,7 +154,9 @@
 									<div class="col">
 										<div class="input-group">
 											<input
-												value={find_prescription?.night === 0 ? '' : find_prescription?.night ?? ''}
+												value={find_prescription?.night === 0
+													? ''
+													: (find_prescription?.night ?? '')}
 												placeholder="Night"
 												id="night"
 												step="any"
