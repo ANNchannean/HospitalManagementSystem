@@ -52,7 +52,19 @@ export const actions: Actions = {
 			rr,
 			asign_vitalsing
 		} = Object.fromEntries(body) as Record<string, string>;
-		if (!bmi) return fail(400, { bmi: true });
+		const validErr = {
+			bmi: false,
+			etiology: false,
+			patient_id: false,
+			department_id: false,
+			staff_id: false
+		};
+		if (!bmi) validErr.bmi = true;
+		if (!etiology) validErr.etiology = true;
+		if (!patient_id) validErr.patient_id = true;
+		if (!department_id) validErr.department_id = true;
+		if (!staff_id) validErr.staff_id = true;
+		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 		let visit_id: number = 0;
 		try {
 			const id = await db
@@ -70,7 +82,6 @@ export const actions: Actions = {
 		} catch (error) {
 			logErrorMessage(String(error));
 		}
-		console.log(visit_id);
 
 		if (visit_id <= 0) return fail(400, { visit_id: true });
 		if (visit_id <= 0) {

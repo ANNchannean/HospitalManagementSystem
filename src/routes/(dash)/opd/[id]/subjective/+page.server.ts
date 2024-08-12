@@ -28,12 +28,12 @@ export const actions: Actions = {
 		const body = await request.formData();
 		const {
 			cheif_complaint,
-			past_history,
-			present_illness,
-			past_medicine_history,
+			history_of_present_illness,
+			past_medical_history,
 			allesgy_medicine,
 			surgical_history,
-			familly_history
+			current_medication,
+			family_and_social_history
 		} = Object.fromEntries(body) as Record<string, string>;
 		const get_subjective = await db.query.subjective.findFirst({
 			where: eq(subjective.visit_id, Number(visit_id))
@@ -44,12 +44,12 @@ export const actions: Actions = {
 				.values({
 					allesgy_medicine: allesgy_medicine,
 					cheif_complaint: cheif_complaint,
-					familly_history: familly_history,
-					past_history: past_history,
-					past_medicine_history: past_medicine_history,
-					present_illness: present_illness,
+					past_medical_history: past_medical_history,
+					history_of_present_illness: history_of_present_illness,
 					surgical_history: surgical_history,
-					visit_id: Number(visit_id)
+					visit_id: Number(visit_id),
+					current_medication: current_medication,
+					family_and_social_history: family_and_social_history
 				})
 				.catch((e) => {
 					logErrorMessage(e);
@@ -61,17 +61,17 @@ export const actions: Actions = {
 				.set({
 					allesgy_medicine: allesgy_medicine,
 					cheif_complaint: cheif_complaint,
-					familly_history: familly_history,
-					past_history: past_history,
-					past_medicine_history: past_medicine_history,
-					present_illness: present_illness,
-					surgical_history: surgical_history
+					past_medical_history: past_medical_history,
+					history_of_present_illness: history_of_present_illness,
+					surgical_history: surgical_history,
+
+					current_medication: current_medication,
+					family_and_social_history: family_and_social_history
 				})
 				.where(eq(subjective.visit_id, Number(visit_id)))
 				.catch((e) => {
 					logErrorMessage(e);
 				});
 		}
-		redirect(303, '?');
 	}
 };

@@ -13,7 +13,6 @@ export const load = (async ({ parent }) => {
 	const districts = await db.query.district.findMany({});
 	const communes = await db.query.commune.findMany({});
 	const vilates = await db.query.village.findMany({});
-
 	const patients = await db.query.patient.findMany({
 		orderBy: desc(patient.id),
 		with: {

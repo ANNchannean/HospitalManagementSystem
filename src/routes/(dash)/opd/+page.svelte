@@ -5,6 +5,7 @@
 	import Select from '$lib/components/etc/Select.svelte';
 	import Toast from '$lib/components/etc/Toast.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import { t } from '$lib/translations';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_staffs, get_patient, get_departments } = data);
@@ -49,7 +50,7 @@
 </script>
 
 {#if form?.visit_id}
-	<Toast message="កាបញ្ជូលព័តមានមិនត្រឹមត្រូវ!" />
+	<Toast toas="infomation" message="សូមជ្រើសរើសឈ្មេាះអ្នកជំងឺជាមុនសិន!" />
 {/if}
 <div class="row">
 	<div class="col-sm-6">
@@ -104,12 +105,18 @@
 					<label for="etiology" class="col-sm-3 col-form-label">Etiology</label>
 					<div class="col-sm-9">
 						<input name="etiology" type="text" class="form-control" id="etiology" />
+						{#if form?.etiology}
+							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+						{/if}
 					</div>
 				</div>
 				<div class="form-group row pb-3">
 					<label for="staff" class="col-sm-3 col-form-label">Staff</label>
 					<div class="col-sm-9">
 						<Select name="staff_id" items={get_staffs.map((e) => ({ id: e.id, name: e.name }))} />
+						{#if form?.staff_id}
+							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+						{/if}
 					</div>
 				</div>
 				<div class="form-group row pb-3">
@@ -119,6 +126,9 @@
 							name="department_id"
 							items={get_departments.map((e) => ({ id: e.id, name: e.department }))}
 						/>
+						{#if form?.department_id}
+							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+						{/if}
 					</div>
 				</div>
 			</div>
