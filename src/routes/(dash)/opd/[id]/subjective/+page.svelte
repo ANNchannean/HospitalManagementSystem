@@ -4,6 +4,7 @@
 	import type { PageServerData } from './$types';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	import Words from '$lib/components/etc/Words.svelte';
+	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
 	$: ({ get_visit, get_words } = data);
 	const { get_visit: visit } = data;
@@ -27,9 +28,11 @@
 		enctype="multipart/form-data"
 		use:enhance={() => {
 			loading = true;
+			$globalLoading = true;
 			return async ({ update }) => {
-				await update({ reset: false });
+				await update({ reset: false, invalidateAll: true });
 				loading = false;
+				$globalLoading = false;
 			};
 		}}
 		action="?/create_subjective"
@@ -52,7 +55,7 @@
 						height={100}
 						id="cheif_complaint_id"
 						name="cheif_complaint"
-						setValue={cheif_complaint ?? ''}
+						bind:setValue={cheif_complaint}
 					/>
 				</div>
 			</div>
@@ -71,7 +74,7 @@
 						height={100}
 						id="history_of_present_illness_id"
 						name="history_of_present_illness"
-						setValue={history_of_present_illness ?? ''}
+						bind:setValue={history_of_present_illness}
 					/>
 				</div>
 			</div>
@@ -89,7 +92,7 @@
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input
-							value={current_medication ?? ''}
+							bind:value={current_medication}
 							id="current_medication"
 							name="current_medication"
 							type="text"
@@ -110,7 +113,7 @@
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input
-							value={past_medical_history}
+							bind:value={past_medical_history}
 							id="past_medical_history"
 							name="past_medical_history"
 							type="text"
@@ -132,7 +135,7 @@
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input
-							value={allesgy_medicine ?? ''}
+							bind:value={allesgy_medicine}
 							id="allesgy_medicine_"
 							name="allesgy_medicine"
 							type="text"
@@ -154,7 +157,7 @@
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input
-							value={surgical_history ?? ''}
+							bind:value={surgical_history}
 							id="surgical_history"
 							name="surgical_history"
 							type="text"
@@ -176,7 +179,7 @@
 				<div class="col-sm-9">
 					<div class="input-group">
 						<input
-							value={family_and_social_history ?? ''}
+							bind:value={family_and_social_history}
 							id="family_and_social_history"
 							name="family_and_social_history"
 							type="text"

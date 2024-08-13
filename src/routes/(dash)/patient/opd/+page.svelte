@@ -4,7 +4,7 @@
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import SendToIpd from '$lib/components/etc/SendToIPD.svelte';
-	import { inerHight } from '$lib/store';
+	import { globalLoading, inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let visit_lenght: number;
@@ -120,8 +120,10 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
+												$globalLoading = true
 												return async ({ update }) => {
 													await update({ reset: false });
+													$globalLoading = false
 													editDepartment = false;
 													editEtiology = false;
 													editDoctor = false;
@@ -159,11 +161,13 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
+												$globalLoading = true
 												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
 													editDoctor = false;
+													$globalLoading = false
 												};
 											}}
 											method="post"
@@ -203,11 +207,13 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
+												$globalLoading = true
 												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
 													editDoctor = false;
+													$globalLoading = false
 												};
 											}}
 											method="post"

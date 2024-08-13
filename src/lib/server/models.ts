@@ -214,7 +214,7 @@ export const billingProcess = async ({
 			.where(eq(billing.id, billing_id))
 			.catch((e) => console.log(e));
 	}
-	if (total_payment < total) {
+	if (total_payment < total && total_payment > 0) {
 		await db
 			.update(billing)
 			.set({
@@ -312,8 +312,7 @@ export const billingProcess = async ({
 				.concat('%0A')
 		);
 	}
-	const message = '- Status '
-		.concat('%0A')
+	const message = '%0A'
 		.concat(table)
 		.concat('*********************************************')
 		.concat('%0A')
@@ -347,5 +346,5 @@ export const billingProcess = async ({
 			}).format(new Date(billing_?.date?.concat(' ').concat(billing_?.time ?? '') ?? ''))
 		);
 
-	billingMessage(message);
+	 billingMessage(message);
 };

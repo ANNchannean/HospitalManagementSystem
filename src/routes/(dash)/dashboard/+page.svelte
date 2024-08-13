@@ -2,9 +2,47 @@
 	import { enhance } from '$app/forms';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
-	let value = 'sdfesd';
+	import { onMount } from 'svelte';
+	import 'ckeditor5/ckeditor5.css';
+
+	let value = 'dsafd';
+	onMount(async () => {
+		const { ClassicEditor, Essentials, Bold, Italic, Font, Paragraph,TableToolbar,Table   } = await import('ckeditor5');
+		ClassicEditor.create(document.querySelector('#editor'), {
+			plugins: [Essentials, Bold, Italic, Font, Paragraph,TableToolbar,Table  ],
+			table: {
+            contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+        },
+			toolbar: {
+				items: [
+					'undo',
+					'redo',
+					'|',
+					'bold',
+					'italic',
+					'|',
+					'fontSize',
+					'fontFamily',
+					'fontColor',
+					'fontBackgroundColor',
+					
+				]
+			}
+		})
+			.then(/* ... */)
+			.catch(/* ... */);
+	});
 </script>
 
+<div id="editor">
+	<p>Hello from CKEditor 5!</p>
+</div>
+
+<div class="form-group">
+	<label> Body </label>
+	<textarea class="form-control" id="body" placeholder="Enter the Description" name="body"
+	></textarea>
+</div>
 <div id="editor">
 	<p>{value}</p>
 </div>
@@ -13,7 +51,7 @@
 	<button type="submit">Submit</button>
 </form>
 <Athtml html={'lsdfe'} />
-<TextEditor id="2" name="1232" bind:getValue={value} />
+<TextEditor id="2" name="1232" setValue="sdfds" bind:getValue={value} />
 {value}
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

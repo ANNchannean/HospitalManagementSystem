@@ -10,10 +10,10 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 	export let billing_id: number;
+	export let value: number;
 	$: ({ get_billings, get_payment_types } = data);
 	$: find_billing = get_billings.find((e) => e.id === billing_id);
 	let loading = false;
-	$: value = data.get_billings.find((e) => e.id === billing_id)?.balance;
 </script>
 
 {#if form?.billing_id}

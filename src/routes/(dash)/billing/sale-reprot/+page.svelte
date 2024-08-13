@@ -7,7 +7,6 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_billings } = data);
-
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -18,10 +17,12 @@
 		}, 400);
 	};
 	let billing_id = 0;
+	$: value = get_billings?.find((e) => e.id === billing_id)?.balance || 0;
 </script>
 
 <ViewPayBilling {data} {billing_id} />
-<AddPayBilling {data} {form} {billing_id} />
+<AddPayBilling {value} {data} {form} {billing_id} />
+
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Sale Report</h2>
