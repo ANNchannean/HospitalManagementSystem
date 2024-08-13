@@ -286,6 +286,7 @@ export const actions: Actions = {
 			tax: +tax || 0,
 			note: note.toString()
 		});
+
 		redirect(303, '/billing/sale-reprot');
 	}
 };

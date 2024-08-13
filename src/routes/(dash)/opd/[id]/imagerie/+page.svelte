@@ -62,7 +62,7 @@
 					>Total Imagerie {Intl.NumberFormat('en-US', {
 						style: 'currency',
 						currency: 'USD'
-					}).format(Number(total_imagerie))}
+					}).format(Number(total_imagerie ?? ''))}
 				</button>
 			</div>
 

@@ -14,10 +14,10 @@
 	export let modal_name: string;
 	export let value = '';
 	function handleText(text: string) {
-		if (value.includes(text.concat(','))) {
-			value = value.replace(text.concat(','), '');
+		if (value.includes(' '.concat(text).concat(','))) {
+			value = value.replace(' '.concat(text.concat(',')), '');
 		} else {
-			value = value.concat(text).concat(',');
+			value = value.concat(' '.concat(text)).concat(',');
 		}
 	}
 	let isEdit = false;
@@ -79,7 +79,7 @@
 								/>
 							</div>
 							<div class="col-auto">
-								<SubmitButton />
+								<SubmitButton name="Add" />
 							</div>
 						</div>
 					</div>
@@ -102,16 +102,6 @@
 									method="post"
 								>
 									<input type="hidden" name="id" value={item.id} />
-									<input
-										on:click={() => {
-											handleText(item.text);
-										}}
-										checked={value.includes(item.text)}
-										class="form-check-input"
-										type="checkbox"
-										id={item.id.toString()}
-										value={item.text}
-									/>
 
 									<button
 										type="button"
@@ -132,6 +122,16 @@
 										>
 									{/if}
 
+									<input
+										on:click={() => {
+											handleText(item.text);
+										}}
+										checked={value.includes(' '.concat(item.text).concat(','))}
+										class="form-check-input"
+										type="checkbox"
+										id={item.id.toString()}
+										value={item.text}
+									/>
 									<label for={item.id.toString()} class="custom-control-label">{item.text}</label>
 								</form>
 							</div>
