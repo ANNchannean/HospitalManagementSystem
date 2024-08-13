@@ -1,7 +1,4 @@
 <script lang="ts">
-	import '$lib/font/KhmerOSMoulLight-normal';
-	import '$lib/font/KhmerOSbattambang-normal';
-	import '$lib/font/KhmerOSmuol-normal';
 	import { jsPDF } from 'jspdf';
 	import type { PageServerData } from './$types';
 	import { onMount } from 'svelte';

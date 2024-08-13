@@ -5,12 +5,24 @@
 	import { enhance } from '$app/forms';
 	import { slide } from 'svelte/transition';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Words from '$lib/components/etc/Words.svelte';
+	import { onMount } from 'svelte';
 	export let data: PageServerData;
+
 	let loading = false;
-	$: ({ get_exams, get_visit, get_physical_exam } = data);
+	$: ({ get_exams, get_visit, get_physical_exam, get_words } = data);
+	const { get_physicals } = data;
 	let physicalExam_name = '';
 	$: mean_arterial_pressure =
 		(1 / 3) * Number(get_visit?.vitalSign?.sbp) + (2 / 3) * Number(get_visit?.vitalSign?.dbp);
+	const obj: any = {};
+	onMount(() => {
+		for (let index = 0; index < get_physicals?.length; index++) {
+			const element = get_physicals[index];
+			obj[element.id] =
+				get_visit?.physicalExam.find((e) => e.physical_id === element.id)?.result ?? '';
+		}
+	});
 </script>
 
 <CreateVitalSign {data} />
@@ -134,12 +146,26 @@
 											{@const exam_result = get_physical_exam.find(
 												(e) => e.physical_id === element.id
 											)}
+
 											<input type="hidden" name="physical_id" value={element?.id ?? ''} />
 											<input type="hidden" name="physical_exam_id" value={exam_result?.id ?? ''} />
 											<div class="col-6">
-												<p class="pb-0 mb-0">{element?.physical ?? ''}</p>
+												<Words
+													bind:value={obj[element.id]}
+													Class="btn btn-link"
+													name={element.physical ?? ''}
+													words={get_words.filter(
+														(e) => e.type === element.physical?.replace(' ', '')
+													)}
+													modal_name={element.physical
+														?.replaceAll(' ', '_')
+														.replaceAll('/', '_')
+														.replaceAll("'", '_')
+														.concat(element.id.toString()) ?? ''}
+												/>
+												<!-- <p class="pb-0 mb-0">{element?.physical ?? ''}</p> -->
 												<input
-													value={exam_result?.result ?? ''}
+													value={obj[element.id]}
 													name="physical"
 													class="form-control"
 													type="text"

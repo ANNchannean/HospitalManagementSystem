@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { t } from '$lib/translations';
-	import DeleteModal from './DeleteModal.svelte';
 	interface Words {
 		id: number;
 		text: string;
@@ -24,15 +23,19 @@
 	let isEdit = false;
 	let words_id: number;
 	let words_ = '';
+	$: if (isEdit === false) words_ = '';
+	export let name = '';
+	export let Class = 'btn btn-outline-primary btn-sm';
 </script>
 
-<DeleteModal action="/opd/words/?/delete_words" id={words_id} />
-
+<button data-bs-toggle="modal" data-bs-target="#{modal_name}" type="button" class={Class}
+	>{name}</button
+>
 <div class="modal fade" id={modal_name}>
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Words</h4>
+				<h4 class="modal-title">Words {name}</h4>
 				<button
 					id="close_words"
 					type="button"
@@ -53,7 +56,9 @@
 							isEdit = false;
 						};
 					}}
-					action={words_id > 0 ? '/opd/words/?/update_words' : '/opd/words/?/create_words'}
+					action={words_id > 0 && isEdit
+						? '/opd/words/?/update_words'
+						: '/opd/words/?/create_words'}
 					method="post"
 				>
 					<input type="hidden" name="id" value={words_id ?? ''} />
@@ -83,47 +88,56 @@
 					{#each find_words as item}
 						{#if item.text}
 							<div class="col-3 p-2">
-								<input
-									on:click={() => {
-										handleText(item.text);
+								<form
+									use:enhance={() => {
+										loading = true;
+										return async ({ update }) => {
+											await update({ reset: true });
+											loading = false;
+											words_id = 0;
+											isEdit = false;
+										};
 									}}
-									checked={value.includes(item.text)}
-									class="form-check-input"
-									type="checkbox"
-									id={item.id.toString()}
-									value={item.text}
-								/>
-
-								<button
-									type="button"
-									class={words_id === item.id && isEdit
-										? 'btn btn-link m-0 p-0'
-										: 'btn btn-link text-secondary m-0 p-0'}
-									on:click={() => {
-										words_id = 0;
-										words_id = item.id;
-										isEdit = !isEdit;
-										words_ = '';
-										words_ = item.text;
-									}}><i class="fa-solid fa-file-pen"></i></button
+									action="/opd/words/?/delete_words"
+									method="post"
 								>
-								<button
-									on:click={() => {
-										words_id = 0;
-										words_id = item.id;
-									}}
-									class="btn btn-link text-danger m-0 p-0"
-									data-bs-toggle="modal"
-									type="button"
-									data-bs-target="#delete_modal"><i class="fa-solid fa-x"></i></button
-								>
+									<input type="hidden" name="id" value={item.id} />
+									<input
+										on:click={() => {
+											handleText(item.text);
+										}}
+										checked={value.includes(item.text)}
+										class="form-check-input"
+										type="checkbox"
+										id={item.id.toString()}
+										value={item.text}
+									/>
 
-								<label for={item.id.toString()} class="custom-control-label">{item.text}</label>
+									<button
+										type="button"
+										class={words_id === item.id && isEdit
+											? 'btn btn-link m-0 p-0'
+											: 'btn btn-link text-secondary m-0 p-0'}
+										on:click={() => {
+											words_id = 0;
+											words_id = item.id;
+											isEdit = !isEdit;
+											words_ = '';
+											words_ = item.text;
+										}}><i class="fa-solid fa-file-pen"></i></button
+									>
+									{#if words_id === item.id && isEdit}
+										<button class="btn btn-link text-danger m-0 p-0" type="submit"
+											><i class="fa-solid fa-x"></i></button
+										>
+									{/if}
+
+									<label for={item.id.toString()} class="custom-control-label">{item.text}</label>
+								</form>
 							</div>
 						{/if}
 					{/each}
 				</div>
-				<div class="modal-footer"></div>
 			</div>
 		</div>
 	</div>

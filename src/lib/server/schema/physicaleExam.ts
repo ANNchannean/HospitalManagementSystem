@@ -15,10 +15,7 @@ export const physical = mysqlTable('physical', {
 
 export const physicalExam = mysqlTable('physical_exam', {
 	id: int('id').primaryKey().autoincrement(),
-	physical_id: int('physical_id').references(() => physical.id, {
-		onDelete: 'cascade',
-		onUpdate: 'cascade'
-	}),
+	physical_id: int('physical_id').references(() => physical.id),
 	result: varchar('result', { length: 255 }),
 	visit_id: int('visit_id').references(() => visit.id, { onDelete: 'cascade', onUpdate: 'cascade' })
 });

@@ -17,42 +17,6 @@
 	let family_and_social_history = visit?.subjective?.family_and_social_history ?? '';
 </script>
 
-<Words
-	bind:value={past_medical_history}
-	words={get_words.filter((e) => e.type === 'past_medical_history')}
-	modal_name="past_medical_history"
-/>
-<Words
-	bind:value={cheif_complaint}
-	words={get_words.filter((e) => e.type === 'cheif_complaint')}
-	modal_name="cheif_complaint"
-/>
-<Words
-	bind:value={history_of_present_illness}
-	words={get_words.filter((e) => e.type === 'history_of_present_illness')}
-	modal_name="history_of_present_illness"
-/>
-<Words
-	bind:value={current_medication}
-	words={get_words.filter((e) => e.type === 'current_medication')}
-	modal_name="current_medication"
-/>
-<Words
-	bind:value={allesgy_medicine}
-	words={get_words.filter((e) => e.type === 'allesgy_medicine')}
-	modal_name="allesgy_medicine"
-/>
-<Words
-	bind:value={surgical_history}
-	words={get_words.filter((e) => e.type === 'surgical_history')}
-	modal_name="surgical_history"
-/>
-<Words
-	bind:value={family_and_social_history}
-	words={get_words.filter((e) => e.type === 'family_and_social_history')}
-	modal_name="family_and_social_history"
-/>
-
 <div class="card">
 	<div class="card-header fs-5">
 		<span># Subjective</span>
@@ -75,12 +39,12 @@
 		<div class="card-body">
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#cheif_complaint"
-						type="button"
-						class="btn btn-outline-primary btn-sm">Cheif complaint</button
-					>
+					<Words
+						name="Cheif complaint"
+						bind:value={cheif_complaint}
+						words={get_words.filter((e) => e.type === 'cheif_complaint')}
+						modal_name="cheif_complaint"
+					/>
 				</div>
 				<!-- <label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label> -->
 				<div class="col-sm-9">
@@ -94,12 +58,12 @@
 			</div>
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#history_of_present_illness"
-						type="button"
-						class="btn btn-outline-primary btn-sm">History of Present illness</button
-					>
+					<Words
+						name="History of Present illness"
+						bind:value={history_of_present_illness}
+						words={get_words.filter((e) => e.type === 'history_of_present_illness')}
+						modal_name="history_of_present_illness"
+					/>
 				</div>
 				<!-- <label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label> -->
 				<div class="col-sm-9">
@@ -115,12 +79,12 @@
 			<hr />
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#current_medication"
-						type="button"
-						class="btn btn-outline-primary btn-sm">Current Medication</button
-					>
+					<Words
+						name="Current Medication"
+						bind:value={current_medication}
+						words={get_words.filter((e) => e.type === 'current_medication')}
+						modal_name="current_medication"
+					/>
 				</div>
 				<div class="col-sm-9">
 					<div class="input-group">
@@ -136,12 +100,12 @@
 			</div>
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#past_medical_history"
-						type="button"
-						class="btn btn-outline-primary btn-sm">Past medical history</button
-					>
+					<Words
+						name="Past medical history"
+						bind:value={past_medical_history}
+						words={get_words.filter((e) => e.type === 'past_medical_history')}
+						modal_name="past_medical_history"
+					/>
 				</div>
 				<div class="col-sm-9">
 					<div class="input-group">
@@ -157,12 +121,12 @@
 			</div>
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#allesgy_medicine"
-						type="button"
-						class="btn btn-outline-primary btn-sm">Allergy medicine</button
-					>
+					<Words
+						name="Allergy medicine"
+						bind:value={allesgy_medicine}
+						words={get_words.filter((e) => e.type === 'allesgy_medicine')}
+						modal_name="allesgy_medicine"
+					/>
 				</div>
 
 				<div class="col-sm-9">
@@ -179,12 +143,12 @@
 			</div>
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#surgical_history"
-						type="button"
-						class="btn btn-outline-primary btn-sm">Surgical history</button
-					>
+					<Words
+						name="Surgical history"
+						bind:value={surgical_history}
+						words={get_words.filter((e) => e.type === 'surgical_history')}
+						modal_name="surgical_history"
+					/>
 				</div>
 
 				<div class="col-sm-9">
@@ -201,12 +165,12 @@
 			</div>
 			<div class="form-group row pb-2">
 				<div class="col-sm-3">
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#family_and_social_history"
-						type="button"
-						class="btn btn-outline-primary btn-sm">Family and social history</button
-					>
+					<Words
+						name="Family and social history"
+						bind:value={family_and_social_history}
+						words={get_words.filter((e) => e.type === 'family_and_social_history')}
+						modal_name="family_and_social_history"
+					/>
 				</div>
 
 				<div class="col-sm-9">

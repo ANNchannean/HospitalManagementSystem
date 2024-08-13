@@ -6,6 +6,7 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
+	const get_physicals = await db.query.physical.findMany();
 	const get_physical_exam = await db.query.physicalExam.findMany({
 		where: eq(physicalExam.visit_id, +visit_id)
 	});
@@ -21,10 +22,13 @@ export const load = (async ({ params }) => {
 			physicalExam: true
 		}
 	});
+	const get_words = await db.query.words.findMany();
 	return {
 		get_visit,
 		get_exams,
-		get_physical_exam
+		get_physical_exam,
+		get_words,
+		get_physicals
 	};
 }) satisfies PageServerLoad;
 
