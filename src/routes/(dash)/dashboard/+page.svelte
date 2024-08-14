@@ -1,84 +1,14 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import '$lib/ckeditor5/ckeditor5.css';
-	import { onDestroy, onMount } from 'svelte';
-	let id = 'myid';
-	let value = 'dsafd';
-	let height = '400px';
-	onMount(async () => {
-		const {
-			ClassicEditor,
-			Essentials,
-			Bold,
-			Italic,
-			Font,
-			Paragraph,
-			TableToolbar,
-			Table,
-			Undo,
-			List
-		} = await import('$lib/ckeditor5/ckeditor5');
-		if (browser) {
-			const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
-			await ClassicEditor.create(editorPlaceholder, {
-				fontFamily: {
-					options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
-				},
-				fontSize: {
-					options: [9, 11, 13, 'default', 17, 19, 21]
-				},
-				plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
-				toolbar: [
-					'undo',
-					'redo',
-					'|',
-					'fontFamily',
-					'fontSize',
-					'|',
-					'bulletedList',
-					'numberedList',
-					'bold',
-					'italic',
-					'|',
-					'fontColor',
-					'fontBackgroundColor',
-					'insertTable'
-				],
-				table: {
-					contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-				}
-			})
-				.then((editor) => {
-					editor.editing.view.change((writer: any) => {
-						writer.setStyle('height', height, editor.editing.view.document.getRoot());
-					});
-					(window as any).editor = editor;
-				})
-				.catch((error) => {
-					console.error(error);
-				});
-		}
-	});
-	onDestroy(() => {
-		if (browser) {
-			(window as any).editor.destroy();
-		}
-	});
+	import Ckeditor from '$lib/components/etc/Ckeditor.svelte';
+	let value = 'dfsd';
+	let value1 = '';
 </script>
 
-<div class="form-group">
-	<textarea
-		rows="10"
-		cols="10"
-		class="form-control"
-		{id}
-		placeholder="Enter the Description"
-		name="body"
-	></textarea>
-</div>
-<div id="editor">
-	<p>{value}</p>
-</div>
+{value}
+{value1}
+<Ckeditor height="200px" bind:value name="abcd" />
+<Ckeditor height="200px" bind:value={value1} name='myab' />
 
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

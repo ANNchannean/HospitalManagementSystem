@@ -3,18 +3,23 @@
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { page } from '$app/stores';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	export let data: PageServerData;
 	let room_id: number;
+	let ward_id: number;
+	let bed_id: number;
 	let loading = false;
 	$: ({ get_ward, get_products, get_wards } = data);
 	$: find_room = get_ward?.room.find((e) => e.id === room_id);
+	$: find_rooms = get_ward?.room.filter((e) => e.id === ward_id);
+	$: find_bed = find_room?.bed.find((e) => e.id === bed_id);
 </script>
 
 <!-- @_Add_bed-->
 <div class="modal fade" id="create_bed" data-bs-backdrop="static">
 	<div class="modal-dialog modal-xl">
 		<form
-			action="?/create_bed"
+			action={find_bed?.id ? '?/update_bed' : '?/create_bed'}
 			method="post"
 			class="modal-content"
 			use:enhance={() => {
@@ -30,6 +35,9 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Bed</h4>
 				<button
+					on:click={() => {
+						bed_id = 0;
+					}}
 					id="close_create_bed"
 					type="button"
 					class="btn-close"
@@ -45,8 +53,15 @@
 							<div class="form-group pb-3">
 								<input value={$page.params.ward_id} type="hidden" name="ward_id" />
 								<input value={room_id} type="hidden" name="room_id" />
+								<input value={find_bed?.id ?? ''} type="hidden" name="bed_id" />
 								<label for="bed">Bed</label>
-								<input name="bed" type="text" class="form-control" id="bed" />
+								<input
+									value={find_bed?.bed ?? ''}
+									name="bed"
+									type="text"
+									class="form-control"
+									id="bed"
+								/>
 								<!-- {#if form?.ward}
 									<p class="text-danger">{$t('common.input_data')}</p>
 								{/if} -->
@@ -56,6 +71,9 @@
 				</div>
 			</div>
 			<div class="modal-footer justify-content-end">
+				{#if find_bed }
+					Delete
+				{/if}
 				<SubmitButton {loading} />
 			</div>
 		</form>
@@ -255,7 +273,7 @@
 		</div>
 	</div>
 </div>
-
+<DeleteModal action="?/delete_room" id={room_id} />
 <div class="row">
 	<div data-bs-sveltekit-noscroll class="col-sm-12">
 		{#each get_ward?.room || [] as { id, room, product }}
@@ -274,6 +292,13 @@
 						type="button"
 						class="btn btn-outline-dark"><i class="fa-solid fa-pen-to-square"></i></button
 					>
+					<button
+						type="button"
+						class="btn btn-outline-danger btn-sm"
+						data-bs-toggle="modal"
+						data-bs-target="#delete_modal"
+						><i class="fa-solid fa-trash-can"></i>
+					</button>
 				{/if}
 			</div>
 		{/each}
@@ -297,12 +322,20 @@
 </div>
 
 <div class="row">
-	<div class="col-sm-6">
-		{#each find_room?.bed || [] as { bed }}
-			<button class="btn btn-success m-2">
+	{#each find_room?.bed || [] as { bed, id }}
+		<div class="col-sm-3">
+			<button
+				data-bs-toggle="modal"
+				data-bs-target="#create_bed"
+				on:click={() => {
+					bed_id = 0;
+					bed_id = id;
+				}}
+				class="btn btn-success m-2"
+			>
 				<i class="fa-solid fa-bed fa-6x"></i> <br />
 				<h3>{bed ?? ''}</h3>
 			</button>
-		{/each}
-	</div>
+		</div>
+	{/each}
 </div>

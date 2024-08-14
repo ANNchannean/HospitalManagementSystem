@@ -110,6 +110,16 @@ export const actions: Actions = {
 				logErrorMessage(e);
 			});
 	},
+	delete_room: async ({ request }) => {
+		const body = await request.formData();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		await db
+			.delete(room)
+			.where(eq(room.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
+	},
 
 	create_bed: async ({ request }) => {
 		const body = await request.formData();
@@ -121,6 +131,36 @@ export const actions: Actions = {
 				ward_id: +ward_id,
 				bed: bed_
 			})
+			.catch((e) => {
+				logErrorMessage(e);
+			});
+	},
+	update_bed: async ({ request }) => {
+		const body = await request.formData();
+		const {
+			room_id,
+			ward_id,
+			bed: bed_,
+			bed_id
+		} = Object.fromEntries(body) as Record<string, string>;
+		await db
+			.update(bed)
+			.set({
+				room_id: +room_id,
+				ward_id: +ward_id,
+				bed: bed_
+			})
+			.where(eq(bed.id, +bed_id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
+	},
+	delete_bed: async ({ request }) => {
+		const body = await request.formData();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		await db
+			.delete(bed)
+			.where(eq(bed.id, +id))
 			.catch((e) => {
 				logErrorMessage(e);
 			});
