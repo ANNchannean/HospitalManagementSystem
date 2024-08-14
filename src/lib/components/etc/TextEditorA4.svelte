@@ -1,46 +1,94 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { onDestroy } from 'svelte';
+	import type { ClassicEditor } from 'ckeditor5';
+	import 'ckeditor5/ckeditor5.css';
+	import { onDestroy, onMount } from 'svelte';
+	export let name: string;
+	export let height = 400;
 	export let setValue = '';
 	export let getValue = '';
-	export let name = '';
 	export let id = 'myid';
-	export let height = 400;
+
+	let theEditor: ClassicEditor;
 	$: {
-		if (browser) {
-			const $ = (window as any).$;
-			$(document).ready(function () {
-				$(`#${id}`).summernote({
+		onMount(async () => {
+			const {
+				ClassicEditor,
+				Essentials,
+				Bold,
+				Italic,
+				Font,
+				Paragraph,
+				TableToolbar,
+				Table,
+				Undo,
+				List
+			} = await import('ckeditor5');
+			if (browser) {
+				const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
+				await ClassicEditor.create(editorPlaceholder, {
+					fontFamily: {
+						options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
+					},
+					fontSize: {
+						options: [9, 11, 13, 'default', 17, 19, 21]
+					},
+					plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
 					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table'],
-						['paperSize', ['paperSize']]
-						// ['insert',['picture']],
+						'undo',
+						'redo',
+						'|',
+						'fontFamily',
+						'fontSize',
+						'|',
+						'bulletedList',
+						'numberedList',
+						'bold',
+						'italic',
+						'|',
+						'fontColor',
+						'fontBackgroundColor',
+						'insertTable'
 					],
-					tabsize: 2,
-					height: height
-				});
-				$(`#${id}`).summernote('code', setValue);
-				$(`#${id}`).on('summernote.change', function () {
-					getValue = $(`#${id}`).summernote('code');
-				});
-			});
-		}
+					table: {
+						contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+					},
+					ui: {
+						viewportOffset: {}
+					}
+				})
+					.then((editor) => {
+						editor.model.document.on('change:data', () => {
+							getValue = editor.getData();
+						});
+						editor.editing.view.change((writer: any) => {
+							writer.setStyle(
+								'height',
+								String(height).concat('px'),
+								editor.editing.view.document.getRoot()
+							);
+						});
+
+						(window as any).editor = editor;
+						theEditor = editor;
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			}
+		});
 	}
+
 	onDestroy(() => {
 		if (browser) {
-			const $ = (window as any).$;
-			$(document).ready(function () {
-				$(`#${id}`).summernote('destroy');
-			});
+			theEditor.destroy();
 		}
 	});
+	$: {
+		if (browser) {
+			theEditor?.setData(setValue);
+		}
+	}
 </script>
 
 <div>
