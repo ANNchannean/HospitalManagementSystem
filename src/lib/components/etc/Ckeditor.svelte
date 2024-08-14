@@ -1,76 +1,95 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import '$lib/ckeditor5/ckeditor5.css';
+	import type { ClassicEditor } from 'ckeditor5';
+	import 'ckeditor5/ckeditor5.css';
 	import { onDestroy, onMount } from 'svelte';
-	export let value = 'dsafd';
 	export let name: string;
-	export let height = '400px';
-	onMount(async () => {
-		const {
-			ClassicEditor,
-			Essentials,
-			Bold,
-			Italic,
-			Font,
-			Paragraph,
-			TableToolbar,
-			Table,
-			Undo,
-			List
-		} = await import('$lib/ckeditor5/ckeditor5');
-		if (browser) {
-			const editorPlaceholder = document.querySelector(`#${name}`) as HTMLElement;
-			await ClassicEditor.create(editorPlaceholder, {
-				fontFamily: {
-					options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
-				},
-				fontSize: {
-					options: [9, 11, 13, 'default', 17, 19, 21]
-				},
-				plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
-				toolbar: [
-					'undo',
-					'redo',
-					'|',
-					'fontFamily',
-					'fontSize',
-					'|',
-					'bulletedList',
-					'numberedList',
-					'bold',
-					'italic',
-					'|',
-					'fontColor',
-					'fontBackgroundColor',
-					'insertTable'
-				],
-				table: {
-					contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-				}
-			})
-				.then((editor) => {
-					editor.model.document.on('change:data', () => {
-						value = editor.getData();
-					});
-					editor.editing.view.change((writer: any) => {
-						writer.setStyle('height', height, editor.editing.view.document.getRoot());
-					});
-				
+	export let height = '400';
+	export let setValue = '';
+	export let getValue = '';
+
+	let theEditor: ClassicEditor;
+	$: {
+		onMount(async () => {
+			const {
+				ClassicEditor,
+				Essentials,
+				Bold,
+				Italic,
+				Font,
+				Paragraph,
+				TableToolbar,
+				Table,
+				Undo,
+				List
+			} = await import('ckeditor5');
+			if (browser) {
+				const editorPlaceholder = document.querySelector(`#${name}`) as HTMLElement;
+				await ClassicEditor.create(editorPlaceholder, {
+					fontFamily: {
+						options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
+					},
+					fontSize: {
+						options: [9, 11, 13, 'default', 17, 19, 21]
+					},
+					plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
+					toolbar: [
+						'undo',
+						'redo',
+						'|',
+						'fontFamily',
+						'fontSize',
+						'|',
+						'bulletedList',
+						'numberedList',
+						'bold',
+						'italic',
+						'|',
+						'fontColor',
+						'fontBackgroundColor',
+						'insertTable'
+					],
+					table: {
+						contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+					},
+					ui: {
+						viewportOffset: {}
+					}
 				})
-				.catch((error) => {
-					console.error(error);
-				});
-		}
-	});
+					.then((editor) => {
+						editor.model.document.on('change:data', () => {
+							getValue = editor.getData();
+						});
+						editor.editing.view.change((writer: any) => {
+							writer.setStyle(
+								'height',
+								height.concat('px'),
+								editor.editing.view.document.getRoot()
+							);
+						});
+
+						(window as any).editor = editor;
+						theEditor = editor;
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			}
+		});
+	}
 
 	onDestroy(() => {
 		if (browser) {
-			(window as any).editor.destroy();
+			theEditor.destroy();
 		}
 	});
+	$: {
+		if (browser) {
+			theEditor?.setData(setValue);
+		}
+	}
 </script>
-{#if name }
-    
-<textarea {value} class="form-control" id={name} placeholder="Enter the Description" {name}
-></textarea>
-{/if}
+
+<textarea class="form-control" {name} id={name}>
+	{setValue}
+</textarea>

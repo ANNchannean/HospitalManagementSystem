@@ -1,15 +1,12 @@
 <script lang="ts">
-	import '$lib/ckeditor5/ckeditor5.css';
 	import Ckeditor from '$lib/components/etc/Ckeditor.svelte';
-	let value = 'dfsd';
-	let value1 = '';
+	let setValue = '';
+	let getValue = '';
 </script>
 
-{value}
-{value1}
-<Ckeditor height="200px" bind:value name="abcd" />
-<Ckeditor height="200px" bind:value={value1} name='myab' />
-
+<input type="text" name="" bind:value={setValue} id="" />
+<Ckeditor height="200" {setValue} {getValue} name="abcd" />
+<!-- <input type="text" name="" bind:value id="" /> -->
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>

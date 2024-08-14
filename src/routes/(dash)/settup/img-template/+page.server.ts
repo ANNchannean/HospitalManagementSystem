@@ -18,6 +18,8 @@ export const load = (async () => {
 export const actions: Actions = {
 	create_template: async ({ request }) => {
 		const body = await request.formData();
+		console.log(body);
+
 		const { diagnosis, template_ } = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			diagnosis: false,
