@@ -1,58 +1,85 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import TextEditor from '$lib/components/etc/TextEditor.svelte';
-	import { onMount } from 'svelte';
-	import 'ckeditor5/ckeditor5.css';
-
+	import { browser } from '$app/environment';
+	import '$lib/ckeditor5/ckeditor5.css';
+	import { onDestroy, onMount } from 'svelte';
+	let id = 'myid';
 	let value = 'dsafd';
+	let height = '400px';
 	onMount(async () => {
-		const { ClassicEditor, Essentials, Bold, Italic, Font, Paragraph,TableToolbar,Table   } = await import('ckeditor5');
-		ClassicEditor.create(document.querySelector('#editor'), {
-			plugins: [Essentials, Bold, Italic, Font, Paragraph,TableToolbar,Table  ],
-			table: {
-            contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
-        },
-			toolbar: {
-				items: [
+		const {
+			ClassicEditor,
+			Essentials,
+			Bold,
+			Italic,
+			Font,
+			Paragraph,
+			TableToolbar,
+			Table,
+			Undo,
+			List
+		} = await import('$lib/ckeditor5/ckeditor5');
+		if (browser) {
+			const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
+			await ClassicEditor.create(editorPlaceholder, {
+				fontFamily: {
+					options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
+				},
+				fontSize: {
+					options: [9, 11, 13, 'default', 17, 19, 21]
+				},
+				plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
+				toolbar: [
 					'undo',
 					'redo',
 					'|',
+					'fontFamily',
+					'fontSize',
+					'|',
+					'bulletedList',
+					'numberedList',
 					'bold',
 					'italic',
 					'|',
-					'fontSize',
-					'fontFamily',
 					'fontColor',
 					'fontBackgroundColor',
-					
-				]
-			}
-		})
-			.then(/* ... */)
-			.catch(/* ... */);
+					'insertTable'
+				],
+				table: {
+					contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+				}
+			})
+				.then((editor) => {
+					editor.editing.view.change((writer: any) => {
+						writer.setStyle('height', height, editor.editing.view.document.getRoot());
+					});
+					(window as any).editor = editor;
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+	});
+	onDestroy(() => {
+		if (browser) {
+			(window as any).editor.destroy();
+		}
 	});
 </script>
 
-<div id="editor">
-	<p>Hello from CKEditor 5!</p>
-</div>
-
 <div class="form-group">
-	<label> Body </label>
-	<textarea class="form-control" id="body" placeholder="Enter the Description" name="body"
+	<textarea
+		rows="10"
+		cols="10"
+		class="form-control"
+		{id}
+		placeholder="Enter the Description"
+		name="body"
 	></textarea>
 </div>
 <div id="editor">
 	<p>{value}</p>
 </div>
-<form use:enhance enctype="multipart/form-data" action="?/img" method="post">
-	<input class="form-control" name="file" type="file" alt="" />
-	<button type="submit">Submit</button>
-</form>
-<Athtml html={'lsdfe'} />
-<TextEditor id="2" name="1232" setValue="sdfds" bind:getValue={value} />
-{value}
+
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>

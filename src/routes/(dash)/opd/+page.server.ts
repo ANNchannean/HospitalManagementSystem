@@ -1,10 +1,11 @@
 import { db } from '$lib/server/db';
-import { department, staff, patient, visit, billing, charge, vitalSign } from '$lib/server/schema';
+import { department, staff, patient, visit, vitalSign, subjective } from '$lib/server/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
+import { preBilling } from '$lib/server/models';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -24,10 +25,12 @@ export const load = (async ({ url, parent }) => {
 			village: true
 		}
 	});
+	const get_words = await db.query.words.findMany();
 	return {
 		get_patient,
 		get_staffs,
-		get_departments
+		get_departments,
+		get_words
 	};
 }) satisfies PageServerLoad;
 
@@ -35,7 +38,6 @@ export const actions: Actions = {
 	create_visit_opd: async ({ request }) => {
 		const body = await request.formData();
 		const created_at = now_datetime();
-		const get_tax = await db.query.tax.findFirst();
 		const {
 			patient_id,
 			staff_id,
@@ -50,7 +52,15 @@ export const actions: Actions = {
 			sbp,
 			dbp,
 			rr,
-			asign_vitalsing
+			asign_vitalsing,
+			assign_subjective,
+			cheif_complaint,
+			history_of_present_illness,
+			past_medical_history,
+			allesgy_medicine,
+			surgical_history,
+			current_medication,
+			family_and_social_history
 		} = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			bmi: false,
@@ -84,82 +94,9 @@ export const actions: Actions = {
 		}
 
 		if (visit_id <= 0) return fail(400, { visit_id: true });
-		if (visit_id <= 0) {
+		if (visit_id > 0) {
 			// doing billing
-			await db
-				.insert(billing)
-				.values({
-					created_at: created_at,
-					visit_id: visit_id,
-					checkin_type: 'OPD',
-					tax: get_tax?.value || 0
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			const get_billing = await db.query.billing.findFirst({
-				where: eq(billing.created_at, created_at)
-			});
-			await db
-				.insert(charge)
-				.values({
-					billing_id: get_billing!.id,
-					charge_on: 'general',
-					created_at: created_at
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			await db
-				.insert(charge)
-				.values({
-					billing_id: get_billing!.id,
-					charge_on: 'imagerie',
-					created_at: created_at
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			await db
-				.insert(charge)
-				.values({
-					billing_id: get_billing!.id,
-					charge_on: 'laboratory',
-					created_at: created_at
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			await db
-				.insert(charge)
-				.values({
-					billing_id: get_billing!.id,
-					charge_on: 'prescription',
-					created_at: created_at
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			await db
-				.insert(charge)
-				.values({
-					billing_id: get_billing!.id,
-					charge_on: 'service',
-					created_at: created_at
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			await db
-				.insert(charge)
-				.values({
-					billing_id: get_billing!.id,
-					charge_on: 'vaccine',
-					created_at: created_at
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
+			await preBilling(visit_id);
 
 			// creae vital sign
 			if (asign_vitalsing === 'on') {
@@ -176,6 +113,24 @@ export const actions: Actions = {
 						visit_id: visit_id,
 						sbp: +sbp,
 						dbp: +dbp
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
+			}
+
+			if (assign_subjective === 'one') {
+				await db
+					.insert(subjective)
+					.values({
+						allesgy_medicine: allesgy_medicine,
+						cheif_complaint: cheif_complaint,
+						past_medical_history: past_medical_history,
+						history_of_present_illness: history_of_present_illness,
+						surgical_history: surgical_history,
+						visit_id: Number(visit_id),
+						current_medication: current_medication,
+						family_and_social_history: family_and_social_history
 					})
 					.catch((e) => {
 						logErrorMessage(e);

@@ -6,18 +6,20 @@
 	import Toast from '$lib/components/etc/Toast.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	import { t } from '$lib/translations';
+	import Words from '$lib/components/etc/Words.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_staffs, get_patient, get_departments } = data);
+	$: ({ get_staffs, get_patient, get_departments, get_words } = data);
 	let height = 0;
 	let weight = 0;
-	let asign_vitalsign = true;
-	let assign_subjective = true;
+	let asign_vitalsign = false;
+	let assign_subjective = false;
 	let bmi = {
 		number: 0,
 		string: '',
 		color: ''
 	};
+
 	$: height_m_to_cm = (height / 100) * (height / 100);
 	$: {
 		if (weight / height_m_to_cm < 16) {
@@ -47,6 +49,14 @@
 		bmi.number = weight / height_m_to_cm;
 	}
 	let loading = false;
+	let cheif_complaint = '';
+	let history_of_present_illness = '';
+	let current_medication = '';
+	let past_medical_history = '';
+	let allesgy_medicine = '';
+	let surgical_history = '';
+	let etiology = '';
+	let family_and_social_history = '';
 </script>
 
 {#if form?.visit_id}
@@ -102,9 +112,22 @@
 		<div class="card-body">
 			<div class="">
 				<div class="form-group row pb-3">
-					<label for="etiology" class="col-sm-3 col-form-label">Etiology</label>
+					<div class="col-sm-3">
+						<Words
+							name="Etiology"
+							bind:value={etiology}
+							words={get_words.filter((e) => e.type === 'etiology')}
+							modal_name="etiology"
+						/>
+					</div>
 					<div class="col-sm-9">
-						<input name="etiology" type="text" class="form-control" id="etiology" />
+						<input
+							bind:value={etiology}
+							name="etiology"
+							type="text"
+							class="form-control"
+							id="etiology"
+						/>
 						{#if form?.etiology}
 							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 						{/if}
@@ -286,38 +309,60 @@
 			<hr />
 			{#if assign_subjective}
 				<div class="form-group row pb-2">
-					<label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label>
+					<div class="col-sm-3">
+						<Words
+							name="Cheif complaint"
+							bind:value={cheif_complaint}
+							words={get_words.filter((e) => e.type === 'cheif_complaint')}
+							modal_name="cheif_complaint"
+						/>
+					</div>
+					<!-- <label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label> -->
 					<div class="col-sm-9">
-						<TextEditor height={200} name="cheif_complaint" />
+						<TextEditor
+							height={100}
+							id="cheif_complaint_id"
+							name="cheif_complaint"
+							bind:setValue={cheif_complaint}
+						/>
 					</div>
 				</div>
 				<div class="form-group row pb-2">
-					<label for="present_illness" class="col-sm-3 col-form-label"
-						>History of Present illness</label
-					>
+					<div class="col-sm-3">
+						<Words
+							name="History of Present illness"
+							bind:value={history_of_present_illness}
+							words={get_words.filter((e) => e.type === 'history_of_present_illness')}
+							modal_name="history_of_present_illness"
+						/>
+					</div>
+					<!-- <label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label> -->
 					<div class="col-sm-9">
-						<div class="input-group">
-							<input id="present_illness" name="present_illness" type="text" class="form-control" />
-						</div>
+						<TextEditor
+							height={100}
+							id="history_of_present_illness_id"
+							name="history_of_present_illness"
+							bind:setValue={history_of_present_illness}
+						/>
 					</div>
 				</div>
+				<span class="btn btn-sm btn-info">Past Medicine History</span>
+				<hr />
 				<div class="form-group row pb-2">
-					<label for="past_history" class="col-sm-3 col-form-label">Past history</label>
-					<div class="col-sm-9">
-						<div class="input-group">
-							<input id="past_history" name="past_history" type="text" class="form-control" />
-						</div>
+					<div class="col-sm-3">
+						<Words
+							name="Current Medication"
+							bind:value={current_medication}
+							words={get_words.filter((e) => e.type === 'current_medication')}
+							modal_name="current_medication"
+						/>
 					</div>
-				</div>
-				<div class="form-group row pb-2">
-					<label for="past_medicine_history" class="col-sm-3 col-form-label"
-						>Past medicine history</label
-					>
 					<div class="col-sm-9">
 						<div class="input-group">
 							<input
-								id="past_medicine_history"
-								name="past_medicine_history"
+								bind:value={current_medication}
+								id="current_medication"
+								name="current_medication"
 								type="text"
 								class="form-control"
 							/>
@@ -325,10 +370,40 @@
 					</div>
 				</div>
 				<div class="form-group row pb-2">
-					<label for="allesgy_medicine" class="col-sm-3 col-form-label">Allergy medicine</label>
+					<div class="col-sm-3">
+						<Words
+							name="Past medical history"
+							bind:value={past_medical_history}
+							words={get_words.filter((e) => e.type === 'past_medical_history')}
+							modal_name="past_medical_history"
+						/>
+					</div>
 					<div class="col-sm-9">
 						<div class="input-group">
 							<input
+								bind:value={past_medical_history}
+								id="past_medical_history"
+								name="past_medical_history"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row pb-2">
+					<div class="col-sm-3">
+						<Words
+							name="Allergy medicine"
+							bind:value={allesgy_medicine}
+							words={get_words.filter((e) => e.type === 'allesgy_medicine')}
+							modal_name="allesgy_medicine"
+						/>
+					</div>
+
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input
+								bind:value={allesgy_medicine}
 								id="allesgy_medicine_"
 								name="allesgy_medicine"
 								type="text"
@@ -338,10 +413,19 @@
 					</div>
 				</div>
 				<div class="form-group row pb-2">
-					<label for="surgical_history" class="col-sm-3 col-form-label">Surgical history</label>
+					<div class="col-sm-3">
+						<Words
+							name="Surgical history"
+							bind:value={surgical_history}
+							words={get_words.filter((e) => e.type === 'surgical_history')}
+							modal_name="surgical_history"
+						/>
+					</div>
+
 					<div class="col-sm-9">
 						<div class="input-group">
 							<input
+								bind:value={surgical_history}
 								id="surgical_history"
 								name="surgical_history"
 								type="text"
@@ -351,12 +435,21 @@
 					</div>
 				</div>
 				<div class="form-group row pb-2">
-					<label for="familly_history" class="col-sm-3 col-form-label">Familly history</label>
+					<div class="col-sm-3">
+						<Words
+							name="Family and social history"
+							bind:value={family_and_social_history}
+							words={get_words.filter((e) => e.type === 'family_and_social_history')}
+							modal_name="family_and_social_history"
+						/>
+					</div>
+
 					<div class="col-sm-9">
 						<div class="input-group">
 							<input
-								id="familly_history_"
-								name="familly_history"
+								bind:value={family_and_social_history}
+								id="family_and_social_history"
+								name="family_and_social_history"
 								type="text"
 								class="form-control"
 							/>

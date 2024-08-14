@@ -103,6 +103,17 @@
 								>
 									<input type="hidden" name="id" value={item.id} />
 
+									<input
+										on:click={() => {
+											handleText(item.text);
+										}}
+										checked={value.includes(' '.concat(item.text).concat(','))}
+										class="form-check-input"
+										type="checkbox"
+										id={item.id.toString()}
+										value={item.text}
+									/>
+									<label for={item.id.toString()} class="custom-control-label">{item.text}</label>
 									<button
 										type="button"
 										class={words_id === item.id && isEdit
@@ -121,18 +132,6 @@
 											><i class="fa-solid fa-x"></i></button
 										>
 									{/if}
-
-									<input
-										on:click={() => {
-											handleText(item.text);
-										}}
-										checked={value.includes(' '.concat(item.text).concat(','))}
-										class="form-check-input"
-										type="checkbox"
-										id={item.id.toString()}
-										value={item.text}
-									/>
-									<label for={item.id.toString()} class="custom-control-label">{item.text}</label>
 								</form>
 							</div>
 						{/if}

@@ -6,7 +6,7 @@
 	import Words from '$lib/components/etc/Words.svelte';
 	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
-	$: ({ get_visit, get_words } = data);
+	$: ({ get_words } = data);
 	const { get_visit: visit } = data;
 	let loading = false;
 	let cheif_complaint = visit?.subjective?.cheif_complaint ?? '';
