@@ -4,7 +4,7 @@
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import Select from '$lib/components/etc/Select.svelte';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
-	import TextEditorA4 from '$lib/components/etc/TextEditorA4.svelte';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -177,7 +177,7 @@
 <div class="modal fade" id="create_document">
 	<div class="modal-dialog modal-xl">
 		<form
-			enctype="multipart/form-data"
+		
 			action="?/create_document"
 			use:enhance={() => {
 				loading = true;
@@ -213,7 +213,7 @@
 					name="title"
 					id="title"
 				/>
-				<TextEditorA4
+				<TextEditor
 					setValue={find_form_document?.content ?? ''}
 					name="content"
 					id="document"

@@ -1,11 +1,13 @@
 <script lang="ts">
 	import Ckeditor from '$lib/components/etc/Ckeditor.svelte';
+	import RichText from '$lib/components/etc/RichText.svelte';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	let setValue = '';
 	let getValue = '';
 </script>
 
 <input type="text" name="" bind:value={setValue} id="" />
-<Ckeditor height="200" {setValue} {getValue} name="abcd" />
+<TextEditor name="okay"  id="ok" {setValue} {getValue}  />
 <!-- <input type="text" name="" bind:value id="" /> -->
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

@@ -21,7 +21,7 @@
 				TableToolbar,
 				Table,
 				Undo,
-				List
+				List,Alignment
 			} = await import('ckeditor5');
 			if (browser) {
 				const editorPlaceholder = document.querySelector(`#${name}`) as HTMLElement;
@@ -32,7 +32,7 @@
 					fontSize: {
 						options: [9, 11, 13, 'default', 17, 19, 21]
 					},
-					plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
+					plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo,Alignment, List],
 					toolbar: [
 						'undo',
 						'redo',
@@ -40,6 +40,7 @@
 						'fontFamily',
 						'fontSize',
 						'|',
+						'alignment',
 						'bulletedList',
 						'numberedList',
 						'bold',

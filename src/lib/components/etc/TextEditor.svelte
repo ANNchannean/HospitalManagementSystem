@@ -22,7 +22,8 @@
 				TableToolbar,
 				Table,
 				Undo,
-				List
+				List,
+				Alignment
 			} = await import('ckeditor5');
 			if (browser) {
 				const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
@@ -33,7 +34,18 @@
 					fontSize: {
 						options: [9, 11, 13, 'default', 17, 19, 21]
 					},
-					plugins: [Essentials, Paragraph, Bold, Italic, Font, Table, TableToolbar, Undo, List],
+					plugins: [
+						Essentials,
+						Paragraph,
+						Bold,
+						Italic,
+						Font,
+						Table,
+						TableToolbar,
+						Undo,
+						List,
+						Alignment
+					],
 					toolbar: [
 						'undo',
 						'redo',
@@ -41,6 +53,7 @@
 						'fontFamily',
 						'fontSize',
 						'|',
+						'alignment',
 						'bulletedList',
 						'numberedList',
 						'bold',
@@ -69,8 +82,9 @@
 							);
 						});
 
-						(window as any).editor = editor;
+						// (window as any).editor = editor;
 						theEditor = editor;
+						editor?.sourceElement?.focus()
 					})
 					.catch((error) => {
 						console.error(error);
@@ -91,6 +105,8 @@
 	}
 </script>
 
-<textarea class="form-control" {name} {id}>
-	{getValue}
-</textarea>
+{#if id}
+	<textarea class="form-control" {name} {id}>
+		{getValue}
+	</textarea>
+{/if}
