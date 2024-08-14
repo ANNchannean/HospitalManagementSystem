@@ -71,7 +71,7 @@
 				</div>
 			</div>
 			<div class="modal-footer justify-content-end">
-				{#if find_bed }
+				{#if find_bed}
 					Delete
 				{/if}
 				<SubmitButton {loading} />

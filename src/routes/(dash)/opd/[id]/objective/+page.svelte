@@ -157,11 +157,11 @@
 													words={get_words.filter(
 														(e) =>
 															e.type ===
-																element.physical
-																	?.replaceAll(' ', '_')
-																	.replaceAll('/', '_')
-																	.replaceAll("'", '_')
-																	.concat(element.id.toString()) ?? ''
+															element.physical
+																?.replaceAll(' ', '_')
+																.replaceAll('/', '_')
+																.replaceAll("'", '_')
+																.concat(element.id.toString())
 													)}
 													modal_name={element.physical
 														?.replaceAll(' ', '_')

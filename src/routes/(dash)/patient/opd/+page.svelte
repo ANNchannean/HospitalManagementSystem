@@ -120,10 +120,10 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
-												$globalLoading = true
+												$globalLoading = true;
 												return async ({ update }) => {
 													await update({ reset: false });
-													$globalLoading = false
+													$globalLoading = false;
 													editDepartment = false;
 													editEtiology = false;
 													editDoctor = false;
@@ -161,13 +161,13 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
-												$globalLoading = true
+												$globalLoading = true;
 												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
 													editDoctor = false;
-													$globalLoading = false
+													$globalLoading = false;
 												};
 											}}
 											method="post"
@@ -207,13 +207,13 @@
 										<form
 											data-sveltekit-keepfocus
 											use:enhance={() => {
-												$globalLoading = true
+												$globalLoading = true;
 												return async ({ update }) => {
 													await update({ reset: false });
 													editDepartment = false;
 													editEtiology = false;
 													editDoctor = false;
-													$globalLoading = false
+													$globalLoading = false;
 												};
 											}}
 											method="post"
