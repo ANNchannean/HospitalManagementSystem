@@ -13,7 +13,12 @@ export const load = (async () => {
 	});
 	const wards = await db.query.ward.findMany({
 		with: {
-			room: true,
+			room: {
+				with:{
+					product:true,
+					bed:true
+				}
+			},
 			bed: true
 		}
 	});

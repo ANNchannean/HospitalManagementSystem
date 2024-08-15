@@ -6,6 +6,7 @@
 	import { inerHight } from '$lib/store';
 	export let data: PageServerData;
 	let ward_id: number;
+	let room_id: number;
 	let loading = false;
 	$: ({ wards, get_products } = data);
 	$: find_word = wards.find((e) => e.id === ward_id);
@@ -242,69 +243,64 @@
 					</div>
 				</div>
 			</div>
-			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
-				<table class="table table-bordered">
-					<thead class="table-active table-light sticky-top">
-						<tr>
-							<th class="text-center" style="width: 5%;">N</th>
-							<th>Ward</th>
-							<th>Room</th>
-							<th>Action</th>
-						</tr>
-					</thead>
+			<div style="max-height: {$inerHight}" class="card-body table-responsive p-0">
+				<table class="table table-sm table-bordered">
 					<tbody>
 						{#each wards as { room, ward, id }, index}
 							<tr>
-								<td class="text-center">{index + 1}</td>
-								<td>{ward}</td>
 								<td
-									><div>
-										<a href="/settup/ward/{id}" class="btn btn-primary btn-sm"
-											>{room.length} <i class="fa-solid fa-window-maximize"></i>
-										</a>
-										<a
-											on:click={() => {
-												ward_id = 0;
-												ward_id = id;
-											}}
-											href={'#'}
-											type="button"
-											class="btn btn-light btn-sm"
-											data-bs-toggle="modal"
-											data-bs-target="#create_room"
-											><i class="fa-solid fa-square-plus"></i>
-										</a>
+									style="width: 35%;"
+									class="position-relative text-bg-primary text-center justify-content-center"
+								>
+									<a href="/settup/ward/{id}" class="btn btn-primary btn-sm fs-3"
+										><i class="fa-solid fa-hospital"></i> {ward}
+									</a>
+								</td>
+								<td style="width: 65%;" class="text-start p-0 m-0"
+									><div class="">
+										{#each room as iitem}
+											{@const beds = iitem.bed || []}
+											<div class="">
+												<div class="">
+													<table class="table table-sm table-bordered">
+														<thead>
+															<tr class="p-0 m-0">
+																<td
+																	style="width: 50%;"
+																	class="justify-content-center align-content-center text-start text-bg-success fs-5 m-0"
+																>
+																	{iitem.room}
+																	{iitem.product ? `( ${iitem?.product?.products})` : ''}
+																</td>
+																{#if beds.length}
+																	<td
+																		style="width: 50%;"
+																		class="justify-content-center align-content-center text-center text-bg-warning"
+																	>
+																		<table class="table p-0 m-0 table-bordered">
+																			<tbody>
+																				{#each beds as bed}
+																					<tr>
+																						<td>
+																							{bed.bed}
+																						</td>
+																					</tr>
+																				{/each}
+																			</tbody>
+																		</table>
+																	</td>
+																{:else}
+																	<td></td>
+																{/if}
+															</tr>
+														</thead>
+													</table>
+												</div>
+											</div>
+										{/each}
 									</div></td
 								>
-
-								<td>
-									<div>
-										<a
-											href={'#'}
-											on:click={() => {
-												ward_id = 0;
-												ward_id = id;
-											}}
-											type="button"
-											class="btn btn-primary btn-sm"
-											data-bs-toggle="modal"
-											data-bs-target="#create_ward"
-											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
-											on:click={() => {
-												ward_id = 0;
-												ward_id = id;
-											}}
-											type="button"
-											class="btn btn-danger btn-sm"
-											data-bs-toggle="modal"
-											data-bs-target="#delete_modal"
-											><i class="fa-solid fa-trash-can"></i>
-										</a>
-									</div>
-								</td>
+								<td style="width: 0%;"></td>
 							</tr>
 						{/each}
 					</tbody>

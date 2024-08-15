@@ -32,7 +32,7 @@ export const uploadFile = async (file: File) => {
 export const updateFile = async (file: File, fileName: string) => {
 	if (file.size) {
 		try {
-			if (fileName.length) await deleteFile(fileName);
+			if (fileName) await deleteFile(fileName);
 			const uid = generateId(10);
 			const date_number = now_datetime_number().concat('-').concat(uid);
 			const filePath = path.join(
@@ -55,7 +55,7 @@ export const updateFile = async (file: File, fileName: string) => {
 	}
 };
 export const deleteFile = async (fileName: string) => {
-	if (fileName.length) {
+	if (fileName) {
 		try {
 			await fs.unlink(`${location}/${fileName}`);
 		} catch (error) {

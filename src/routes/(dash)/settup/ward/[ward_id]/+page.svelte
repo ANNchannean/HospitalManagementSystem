@@ -70,9 +70,16 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer justify-content-end">
+			<div
+				class={find_bed
+					? 'modal-footer justify-content-between'
+					: 'modal-footer justify-content-end'}
+			>
 				{#if find_bed}
-					Delete
+					<form use:enhance method="post" action="?/delete_bed">
+						<input value={find_bed?.id ?? ''} type="hidden" name="id" />
+						<SubmitButton style="btn btn-danger" name="Delete" {loading} />
+					</form>
 				{/if}
 				<SubmitButton {loading} />
 			</div>

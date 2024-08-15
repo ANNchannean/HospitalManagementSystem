@@ -1,7 +1,7 @@
 # NODE_ENV = "production"
 NODE_ENV = "development"
 BODY_SIZE_LIMIT=Infinity
-ORIGIN=http://localhost:3000
+ORIGIN=http://localhost:5173
 #ORIGIN=http://209.222.17.220
 PROTOCOL_HEADER=x-forwarded-proto
 HOST_HEADER=x-forwarded-host
