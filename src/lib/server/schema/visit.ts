@@ -18,12 +18,18 @@ import { room } from './wardRoomBed';
 export const visit = mysqlTable('visit', {
 	id: int('id').primaryKey().autoincrement(),
 	date_checkup: datetime('date_checkup', { mode: 'string' }),
-	patient_id: int('patient_id').references(() => patient.id, { onDelete: 'cascade' }),
-	department_id: int('department_id').references(() => department.id),
-	staff_id: int('staff_id').references(() => staff.id),
+	patient_id: int('patient_id')
+		.references(() => patient.id, { onDelete: 'cascade' })
+		.notNull(),
+	department_id: int('department_id')
+		.references(() => department.id)
+		.notNull(),
+	staff_id: int('staff_id')
+		.references(() => staff.id)
+		.notNull(),
 	checkin_type: varchar('checkin_type', { length: 255 }).notNull().$type<'IPD' | 'OPD'>(),
-	etiology: varchar('etiology', { length: 255 }),
-	transfer:boolean('transfer').default(false).notNull(),
+	etiology: varchar('etiology', { length: 255 }).notNull(),
+	transfer: boolean('transfer').default(false).notNull(),
 	progress_note_id: int('progress_note_id').references(() => progressNote.id, {
 		onDelete: 'cascade'
 	})
@@ -78,8 +84,15 @@ export const progressNote = mysqlTable('progress_note', {
 	id: int('id').primaryKey().autoincrement(),
 	date_checkup: datetime('date_checkup', { mode: 'string' }).notNull(),
 	date_checkout: datetime('date_checkout', { mode: 'string' }),
+	staff_id: int('staff_id')
+		.references(() => staff.id)
+		.notNull(),
+	etiology: varchar('etiology', { length: 255 }).notNull(),
+	department_id: int('department_id')
+		.references(() => department.id)
+		.notNull(),
 	patient_id: int('patient_id')
-		.references(() => patient.id)
+		.references(() => patient.id, { onDelete: 'cascade', onUpdate: 'cascade' })
 		.notNull(),
 	room_id: int('room_id')
 		.references(() => room.id)
@@ -97,7 +110,16 @@ export const progressNoteRelations = relations(progressNote, ({ one, many }) => 
 	room: one(room, {
 		fields: [progressNote.room_id],
 		references: [room.id]
-	})
+	}),
+	staff: one(staff, {
+		fields: [progressNote.staff_id],
+		references: [staff.id]
+	}),
+	department: one(department, {
+		fields: [progressNote.department_id],
+		references: [department.id]
+	}),
+	service: many(service)
 }));
 export const nursingProcessRelations = relations(nursingProcess, ({ one }) => ({
 	staff: one(staff, {

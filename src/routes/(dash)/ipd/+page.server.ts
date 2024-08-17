@@ -75,7 +75,10 @@ export const actions: Actions = {
 			.values({
 				date_checkup: created_at,
 				patient_id: +patient_id,
-				room_id: +room_id
+				room_id: +room_id,
+				staff_id: Number(staff_id),
+				department_id: Number(department_id),
+				etiology: etiology
 			})
 			.$returningId();
 

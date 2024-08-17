@@ -3,11 +3,9 @@
 	import CreateDocument from '$lib/components/createORupdate/CreateDocument.svelte';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import SendToIpd from '$lib/components/etc/SendToIPD.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	let visit_lenght: number;
 	$: ({ get_visits, get_departments, get_staffs } = data);
 	let editEtiology = false;
 	let editDepartment = false;
@@ -19,7 +17,6 @@
 <DeleteModal action="?/delete_visit" id={visit_id} />
 <CreateDocument {data} {visit_id} />
 <ConfirmeModal action="?/process_billing" id={billing_id} />
-<SendToIpd action="?/send_to_ipd" id={get_visits[visit_lenght]?.id} />
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
 		<div class="modal-content">

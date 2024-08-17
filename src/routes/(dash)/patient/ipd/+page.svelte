@@ -1,10 +1,14 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_pregress_notes } = data);
-	import { inerHight } from '$lib/store';
+	$: ({ get_pregress_notes, get_departments, get_staffs, get_form_documents } = data);
+	import { globalLoading, inerHight } from '$lib/store';
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import { enhance } from '$app/forms';
 	let progress_note_id = 0;
+	let editEtiology = false;
+	let editDepartment = false;
+	let editDoctor = false;
 </script>
 
 <DeleteModal action="?/delete_progress_note" id={progress_note_id} />
@@ -103,11 +107,145 @@
 										</span>
 									</a>
 								</td>
-								<td>{item.visit[0]?.etiology ?? ''}</td>
-								<td>{item.visit[0]?.department?.department}</td>
-								<td>{item.visit[0]?.staff?.name}</td>
+
 								<td>
-									<span class="badge text-bg-success">{item.room?.room ?? ''}</span><br>
+									{#if editEtiology && item.id === progress_note_id}
+										<form
+											data-sveltekit-keepfocus
+											use:enhance={() => {
+												$globalLoading = true;
+												return async ({ update }) => {
+													await update({ reset: false });
+													$globalLoading = false;
+													editDepartment = false;
+													editEtiology = false;
+													editDoctor = false;
+												};
+											}}
+											method="post"
+											action="?/update_etiology"
+											on:change={(e) => {
+												e.currentTarget.requestSubmit();
+												editEtiology = false;
+											}}
+										>
+											<input
+												name="etiology"
+												class="bg-info form-control text-center"
+												value={item.etiology}
+												type="text"
+											/>
+											<input type="hidden" name="id" value={item.id} />
+										</form>
+									{:else}
+										<button
+											class="btn"
+											on:click={() => {
+												editEtiology = true;
+												editDepartment = false;
+												editDoctor = false;
+												progress_note_id = item.id;
+											}}>{item.etiology ?? ''}</button
+										>
+									{/if}
+								</td>
+								<td>
+									{#if editDepartment && progress_note_id === item.id}
+										<form
+											data-sveltekit-keepfocus
+											use:enhance={() => {
+												$globalLoading = true;
+												return async ({ update }) => {
+													await update({ reset: false });
+													editDepartment = false;
+													editEtiology = false;
+													editDoctor = false;
+													$globalLoading = false;
+												};
+											}}
+											method="post"
+											action="?/update_department"
+											on:change={(e) => {
+												e.currentTarget.requestSubmit();
+												editDepartment = false;
+											}}
+										>
+											<select
+												class="form-control text-center bg-info"
+												name="department_id"
+												id="department_id"
+											>
+												{#each get_departments as iitem}
+													<option selected={item.department_id === iitem.id} value={iitem.id}
+														>{iitem.department}</option
+													>
+												{/each}
+											</select>
+											<input type="hidden" name="id" value={item.id} />
+										</form>
+									{:else}
+										<button
+											class="btn"
+											on:click={(e) => {
+												if (e.target) editDepartment = true;
+												editEtiology = false;
+												editDoctor = false;
+												progress_note_id = item.id;
+											}}>{item.department?.department ?? ''}</button
+										>
+									{/if}
+								</td>
+								<td>
+									{#if editDoctor && progress_note_id === item.id}
+										<form
+											data-sveltekit-keepfocus
+											use:enhance={() => {
+												$globalLoading = true;
+												return async ({ update }) => {
+													await update({ reset: false });
+													editDepartment = false;
+													editEtiology = false;
+													editDoctor = false;
+													$globalLoading = false;
+												};
+											}}
+											method="post"
+											action="?/update_staff"
+											on:change={(e) => {
+												e.currentTarget.requestSubmit();
+												editDepartment = false;
+												editDoctor = false;
+												editEtiology = false;
+											}}
+										>
+											<select
+												class="form-control text-center bg-info"
+												name="staff_id"
+												id="staff_id"
+											>
+												{#each get_staffs as iitem}
+													<option selected={item.staff_id === iitem.id} value={iitem.id}
+														>{iitem.name}</option
+													>
+												{/each}
+											</select>
+											<input type="hidden" name="id" value={item.id} />
+										</form>
+									{:else}
+										<button
+											class="btn"
+											on:click={() => {
+												editDepartment = false;
+												editEtiology = false;
+												editDoctor = true;
+												progress_note_id = item.id;
+											}}>{item.staff?.name ?? ''}</button
+										>
+									{/if}
+								</td>
+
+								<td>
+									<span class="badge text-bg-success">{item.room?.room ?? ''}</span><br />
 									<span class="badge text-bg-success">{item.room.product?.products ?? ''}</span>
 								</td>
 								<td></td>

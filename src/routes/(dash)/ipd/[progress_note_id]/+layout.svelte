@@ -123,16 +123,16 @@
 				: 'btn btn-outline-dark mb-2'}>Vital Sign</a
 		>
 		<a
-			href="/ipd/{progress_note_id}/services "
-			class={$page.url.pathname.includes('services')
+			href="/ipd/{progress_note_id}/service "
+			class={$page.url.pathname.includes('service')
 				? 'btn btn-dark mb-2'
 				: 'btn btn-outline-dark mb-2'}>Services</a
 		>
 		<a
-			href="/ipd/{progress_note_id}/diagnosis "
-			class={$page.url.pathname.includes('diagnosis')
+			href="/ipd/{progress_note_id}/assessment "
+			class={$page.url.pathname.includes('assessment')
 				? 'btn btn-dark mb-2'
-				: 'btn btn btn-outline-dark mb-2'}>Diagnosis</a
+				: 'btn btn btn-outline-dark mb-2'}>Assessment</a
 		>
 		<a
 			href="/ipd/{progress_note_id}/discharge-summary"
@@ -141,7 +141,7 @@
 				: 'btn btn-outline-dark mb-2'}>Discharge Summary</a
 		>
 		<a
-			href="/ipd/{progress_note_id}/Medical Sertificate "
+			href="/ipd/{progress_note_id}/appointment"
 			class={$page.url.pathname.includes('appointment')
 				? 'btn btn-dark mb-2'
 				: 'btn btn-outline-dark mb-2'}>Appointment</a
