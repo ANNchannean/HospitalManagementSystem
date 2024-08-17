@@ -71,6 +71,20 @@
       "when": 1723877199513,
       "tag": "0009_round_tomorrow_man",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1723906387960,
+      "tag": "0010_low_shooting_star",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1723908739696,
+      "tag": "0011_crazy_giant_man",
+      "breakpoints": true
     }
   ]
 }

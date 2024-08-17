@@ -22,9 +22,6 @@ export const load = (async ({ parent }) => {
 			}
 		}
 	});
-	const districts = await db.query.district.findMany({});
-	const communes = await db.query.commune.findMany({});
-	const vilates = await db.query.village.findMany({});
 	const patients = await db.query.patient.findMany({
 		orderBy: desc(patient.id),
 		with: {
@@ -38,10 +35,7 @@ export const load = (async ({ parent }) => {
 
 	return {
 		get_patients: patients,
-		get_province: provinces,
-		get_district: districts,
-		get_commune: communes,
-		get_village: vilates
+		get_province: provinces
 	};
 }) satisfies PageServerLoad;
 

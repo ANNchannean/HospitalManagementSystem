@@ -8,7 +8,7 @@
 	import { dobToAge, now_date } from '$lib/helper';
 	export let form: ActionData;
 	export let data: PageServerData;
-	$: ({ get_commune, get_district, get_province, get_village, get_patients } = data);
+	$: ({ get_province, get_patients } = data);
 	let loading = false;
 	export let patient_id: number;
 	export let province_id: number;
@@ -18,14 +18,10 @@
 	export let age: number = 0;
 	export let dob: string = '';
 	$: find_patient = get_patients.find((e) => e.id === patient_id);
-	$: dob = now_date(new Date().toISOString());
-	$: disctricts = get_district.filter((e) => e.province_id === province_id);
-	$: communes = get_commune.filter((e) => e.district_id === district_id);
-	$: villages = get_village.filter((e) => e.commune_id === commune_id);
+	$: dob = dob ? dob : now_date(new Date().toISOString());
 	$: find_province = get_province.find((e) => e.id === province_id);
-	$: find_disctrict = find_province?.district.find((e) => e.id === district_id);
-	$: find_communes = find_disctrict?.commune.find((e) => e.id === commune_id);
-	$: find_village = find_communes?.village.find((e) => e.id === village_id);
+	$: find_district = find_province?.district.find((e) => e.id === district_id);
+	$: find_commune = find_district?.commune.find((e) => e.id === commune_id);
 	$: src = '';
 	function handleAGE(e: string) {
 		age = dobToAge({
@@ -42,7 +38,6 @@
 		// 	dob = now_date(new Date().toISOString());
 		// }
 	}
-
 	function onChange(event: any) {
 		if (event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
@@ -68,13 +63,6 @@
 					await update();
 					loading = false;
 					if (result.type !== 'failure') {
-						patient_id = 0;
-						dob = '';
-						age = 0;
-						province_id = 0;
-						district_id = 0;
-						commune_id = 0;
-						village_id = 0;
 						document.getElementById('close_create_patient')?.click();
 					}
 				};
@@ -217,14 +205,12 @@
 							<div class="form-group pb-3">
 								<label for="province">Province</label>
 								<Select
-									on:click={() => {
-										commune_id = 0;
-										district_id = 0;
-										village_id = 0;
-									}}
 									bind:value={province_id}
 									name="province_id"
-									items={get_province.map((e) => ({ id: e.id, name: e.name_khmer }))}
+									items={get_province.map((e) => ({
+										id: e.id,
+										name: e.name_khmer.concat(' ').concat(e.name_latin)
+									}))}
 								/>
 
 								{#if form?.province_id}
@@ -236,13 +222,12 @@
 							<div class="form-group pb-3">
 								<label for="district">District</label>
 								<Select
-									on:click={() => {
-										commune_id = 0;
-										village_id = 0;
-									}}
 									bind:value={district_id}
 									name="district_id"
-									items={disctricts.map((e) => ({ id: e.id, name: e.name_khmer }))}
+									items={find_province?.district.map((e) => ({
+										id: e.id,
+										name: e.name_khmer.concat(' ').concat(e.name_latin)
+									})) || []}
 								/>
 
 								{#if form?.district_id}
@@ -258,7 +243,10 @@
 								<Select
 									bind:value={commune_id}
 									name="commune_id"
-									items={communes.map((e) => ({ id: e.id, name: e.name_khmer }))}
+									items={find_district?.commune.map((e) => ({
+										id: e.id,
+										name: e.name_khmer.concat(' ').concat(e.name_latin)
+									})) || []}
 								/>
 
 								{#if form?.commune_id}
@@ -272,7 +260,10 @@
 								<Select
 									bind:value={village_id}
 									name="village_id"
-									items={villages.map((e) => ({ id: e.id, name: e.name_khmer }))}
+									items={find_commune?.village.map((e) => ({
+										id: e.id,
+										name: e.name_khmer.concat(' ').concat(e.name_latin)
+									})) || []}
 								/>
 
 								{#if form?.village_id}

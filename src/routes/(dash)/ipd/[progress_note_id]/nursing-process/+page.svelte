@@ -12,18 +12,16 @@
 <!-- VitalSign  -->
 
 <div class="card">
-	<div class="card-header bg-info">
+	<div class="card-header fs-5">
 		<div class="row">
 			<div class="col">
-				<h4 class="">
-					<span># Nursing Process</span>
-				</h4>
+				<span># Nursing Process</span>
 			</div>
 			<div class="col-auto">
 				<button
 					on:click={() => (nursing_process_id = 0)}
 					type="button"
-					class="btn btn-success"
+					class="btn btn-success btn-sm"
 					data-bs-toggle="modal"
 					data-bs-target="#create_nursing_process"
 					><i class="fa-solid fa-square-plus"></i>

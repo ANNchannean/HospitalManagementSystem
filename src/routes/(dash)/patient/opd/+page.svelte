@@ -86,7 +86,8 @@
 							<th style="width: 10%;">Doc</th>
 							<th style="width: 5%;">Visit</th>
 							<th style="width: 5%;">Pay</th>
-							<th style="width: 10%;">send to IPD</th>
+							<th style="width: 7%;">send to IPD</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody class="table-sm">
@@ -106,7 +107,7 @@
 								<td>{item.patient_id ?? ''}</td>
 								<td>
 									<a href="/opd/{item.id}/subjective">
-										<span class="">
+										<span>
 											{item.patient?.name_khmer}
 										</span>
 										<br />
@@ -300,14 +301,20 @@
 										>
 									{/if}
 								</td>
-								<td class="">
+								<td>
 									<div>
-										<button
-											type="button"
-											class="btn btn-secondary btn-sm"
-											data-bs-toggle="modal"
-											data-bs-target="#send_to_ipd">Send to IPD</button
-										>
+										{#if item.transfer}
+											<button type="button" class="btn btn-dark btn-sm">Send to IPD</button>
+										{:else}
+											<a
+												href="/ipd?patient_id={item.patient_id}&visit_id={item.id}"
+												class="btn btn-light btn-sm">Send to IPD</a
+											>
+										{/if}
+									</div>
+								</td>
+								<td>
+									<div>
 										<button
 											on:click={() => {
 												visit_id = 0;

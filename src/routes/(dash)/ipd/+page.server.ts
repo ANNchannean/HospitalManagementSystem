@@ -8,7 +8,15 @@ import { fail, redirect } from '@sveltejs/kit';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
-	const patient_id = url.searchParams.get('patient_id');
+	const patient_id = url.searchParams.get('patient_id') ?? '';
+	if (!url.searchParams.has('patient_id')) redirect(303, '/patient/opd');
+	const visit_id = url.searchParams.get('visit_id') ?? '';
+	const get_visit = await db.query.visit.findFirst({
+		where: eq(visit.id, +visit_id),
+		with: {
+			vitalSign: true
+		}
+	});
 	const get_departments = await db.query.department.findMany({
 		orderBy: asc(department.department)
 	});
@@ -37,7 +45,8 @@ export const load = (async ({ url, parent }) => {
 		get_staffs,
 		get_departments,
 		get_words,
-		get_wards
+		get_wards,
+		get_visit
 	};
 }) satisfies PageServerLoad;
 
@@ -45,7 +54,7 @@ export const actions: Actions = {
 	create_visit_ipd: async ({ request }) => {
 		const body = await request.formData();
 		const created_at = now_datetime();
-		const { patient_id, staff_id, department_id, etiology, room_id } = Object.fromEntries(
+		const { patient_id, staff_id, department_id, etiology, room_id, visit_id } = Object.fromEntries(
 			body
 		) as Record<string, string>;
 		const validErr = {
@@ -61,7 +70,6 @@ export const actions: Actions = {
 		if (!department_id) validErr.department_id = true;
 		if (!staff_id) validErr.staff_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-
 		const progress_note_id = await db
 			.insert(progressNote)
 			.values({
@@ -70,20 +78,34 @@ export const actions: Actions = {
 				room_id: +room_id
 			})
 			.$returningId();
-		await db
-			.insert(visit)
-			.values({
-				checkin_type: 'IPD',
-				patient_id: Number(patient_id),
-				date_checkup: created_at,
-				staff_id: Number(staff_id),
-				department_id: Number(department_id),
-				etiology: etiology,
-				progress_note_id: progress_note_id[0].id
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
+
+		if (visit_id) {
+			await db
+				.update(visit)
+				.set({
+					transfer: true,
+					progress_note_id: progress_note_id[0].id
+				})
+				.where(eq(visit.id, +visit_id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
+		} else {
+			await db
+				.insert(visit)
+				.values({
+					checkin_type: 'IPD',
+					patient_id: Number(patient_id),
+					date_checkup: created_at,
+					staff_id: Number(staff_id),
+					department_id: Number(department_id),
+					etiology: etiology,
+					progress_note_id: progress_note_id[0].id
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
+		}
 
 		await db.update(room).set({ status: true }).where(eq(room.id, +room_id));
 		redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);

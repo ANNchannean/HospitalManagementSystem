@@ -12,18 +12,16 @@
 <!-- VitalSign  -->
 
 <div class="card">
-	<div class="card-header bg-info">
+	<div class="card-header fs-5">
 		<div class="row">
 			<div class="col">
-				<h4 class="card-title">
-					<span># Vital Sign</span>
-				</h4>
+				<span># Vital Sign</span>
 			</div>
 			<div class="col-auto">
 				<button
 					on:click={() => (vital_sign_id = 0)}
 					type="button"
-					class="btn btn-success"
+					class="btn btn-success btn-sm"
 					data-bs-toggle="modal"
 					data-bs-target="#create_vital_sign_ipd"
 					><i class="fa-solid fa-square-plus"></i>

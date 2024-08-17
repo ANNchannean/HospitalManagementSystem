@@ -14,9 +14,9 @@ export const load = (async () => {
 	const wards = await db.query.ward.findMany({
 		with: {
 			room: {
-				with:{
-					product:true,
-					bed:true
+				with: {
+					product: true,
+					bed: true
 				}
 			},
 			bed: true

@@ -6,9 +6,8 @@
 	import { inerHight } from '$lib/store';
 	export let data: PageServerData;
 	let ward_id: number;
-	let room_id: number;
 	let loading = false;
-	$: ({ wards, get_products } = data);
+	$: ({ wards } = data);
 	$: find_word = wards.find((e) => e.id === ward_id);
 </script>
 
@@ -148,75 +147,61 @@
 				<table class="table table-sm table-bordered">
 					<tbody>
 						{#each wards as { room, ward, id }, index}
-							<tr>
+							<tr class="border border-3">
 								<td
 									style="width: 35%;"
 									class="position-relative text-bg-primary text-center justify-content-center"
 								>
-									<a href="/settup/ward/{id}" class="btn btn-primary btn-sm fs-3"
-										><i class="fa-solid fa-hospital"></i> {ward}
-									</a>
-									<button
-										on:click={() => {
-											ward_id = 0;
-											ward_id = id;
-										}}
-										data-bs-toggle="modal"
-										data-bs-target="#create_ward"
-										type="button"
-										class="btn btn-primary btn-sm fs-3"
-										><i class="fa-solid fa-file-pen"></i>
-									</button>
+									<div>
+										<a href="/settup/ward/{id}" class="btn btn-primary btn-sm fs-3"
+											><i class="fa-solid fa-hospital"></i> {ward}
+										</a>
+										<button
+											on:click={() => {
+												ward_id = 0;
+												ward_id = id;
+											}}
+											data-bs-toggle="modal"
+											data-bs-target="#create_ward"
+											type="button"
+											class="btn btn-primary btn-sm fs-3"
+											><i class="fa-solid fa-file-pen"></i>
+										</button>
+									</div>
 								</td>
-								<td style="width: 65%;" class="text-start p-0 m-0"
-									><div class="">
-										{#each room as iitem}
-											{@const beds = iitem.bed || []}
-											<div class="">
-												<div class="">
-													<table class="table table-sm table-bordered">
-														<thead>
-															<tr class="p-0 m-0">
-																<td
-																	style="width: 50%;"
-																	class:text-bg-success={!iitem.status}
-																	class:text-bg-danger={iitem.status}
-																	class="justify-content-center align-content-center text-start fs-5 m-0"
-																>
-																	<i class="fa-regular fa-window-maximize"></i>
-																	{iitem.room}
-																	{iitem.product ? `( ${iitem?.product?.products})` : ''}
-																</td>
-																{#if beds.length}
-																	<td
-																		style="width: 50%;"
-																		class="justify-content-center align-content-center text-center text-bg-warning"
-																	>
-																		<table class="table p-0 m-0 table-bordered">
-																			<tbody>
-																				{#each beds as bed}
-																					<tr>
-																						<td class="text-start">
-																							<i class="fa-solid fa-bed"></i>
-																							{bed.bed}
-																						</td>
-																					</tr>
-																				{/each}
-																			</tbody>
-																		</table>
-																	</td>
-																{:else}
-																	<td></td>
-																{/if}
-															</tr>
-														</thead>
-													</table>
-												</div>
-											</div>
-										{/each}
-									</div></td
-								>
-								<td style="width: 0%;"></td>
+								<td style="width: 65%;" class="text-start p-0 m-0">
+									{#each room as iitem}
+										{@const beds = iitem.bed || []}
+										<table class="table table-sm my-2">
+											<thead>
+												<tr>
+													<td
+														style="width: 50%;"
+														class:text-bg-success={!iitem.status}
+														class:text-bg-danger={iitem.status}
+														class="justify-content-center align-content-center text-start fs-5 m-0"
+													>
+														&nbsp;<i class="fa-regular fa-window-maximize"></i>&nbsp;
+														{iitem.room}
+														{iitem.product ? `( ${iitem?.product?.products} )` : ''}
+													</td>
+													{#if beds.length}
+														<td style="width: 50%;">
+															{#each beds as bed}
+																<button class="btn btn-info rounded-0 me-2" type="button">
+																	<i class="fa-solid fa-bed"></i>
+																	{bed.bed}
+																</button>
+															{/each}
+														</td>
+													{:else}
+														<td></td>
+													{/if}
+												</tr>
+											</thead>
+										</table>
+									{/each}
+								</td>
 							</tr>
 						{/each}
 					</tbody>

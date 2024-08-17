@@ -7,7 +7,8 @@
 	import { globalLoading } from '$lib/store';
 	let loading = false;
 	export let data: PageServerData;
-	let etiology = '';
+	const { get_visit } = data;
+	let etiology = get_visit?.etiology ?? '';
 	$: ({ get_staffs, get_patient, get_departments, get_words, get_wards } = data);
 	let ward_id: number = 0;
 	$: find_ward = get_wards.find((e) => e.id === ward_id);
@@ -61,6 +62,7 @@
 		}}
 	>
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
+		<input value={get_visit?.id ?? ''} type="hidden" name="visit_id" />
 		<div class="card-body">
 			<div class="form-group row pb-3">
 				<div class="col-sm-3">
@@ -84,13 +86,18 @@
 			<div class="form-group row pb-3">
 				<label for="staff" class="col-sm-3 col-form-label">Staff</label>
 				<div class="col-sm-9">
-					<Select name="staff_id" items={get_staffs.map((e) => ({ id: e.id, name: e.name }))} />
+					<Select
+						value={get_visit?.staff_id}
+						name="staff_id"
+						items={get_staffs.map((e) => ({ id: e.id, name: e.name }))}
+					/>
 				</div>
 			</div>
 			<div class="form-group row pb-3">
 				<label for="department_id" class="col-sm-3 col-form-label">Department</label>
 				<div class="col-sm-9">
 					<Select
+						value={get_visit?.department_id}
 						name="department_id"
 						items={get_departments.map((e) => ({ id: e.id, name: e.department }))}
 					/>

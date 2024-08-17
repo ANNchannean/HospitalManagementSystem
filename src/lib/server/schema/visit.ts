@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { int, mysqlTable, varchar, datetime, text } from 'drizzle-orm/mysql-core';
+import { int, mysqlTable, varchar, datetime, text, boolean } from 'drizzle-orm/mysql-core';
 import { patient } from './patient';
 import { department } from './department';
 import { staff } from './staff';
@@ -23,6 +23,7 @@ export const visit = mysqlTable('visit', {
 	staff_id: int('staff_id').references(() => staff.id),
 	checkin_type: varchar('checkin_type', { length: 255 }).notNull().$type<'IPD' | 'OPD'>(),
 	etiology: varchar('etiology', { length: 255 }),
+	transfer:boolean('transfer').default(false).notNull(),
 	progress_note_id: int('progress_note_id').references(() => progressNote.id, {
 		onDelete: 'cascade'
 	})
@@ -77,8 +78,12 @@ export const progressNote = mysqlTable('progress_note', {
 	id: int('id').primaryKey().autoincrement(),
 	date_checkup: datetime('date_checkup', { mode: 'string' }).notNull(),
 	date_checkout: datetime('date_checkout', { mode: 'string' }),
-	patient_id: int('patient_id').references(() => patient.id).notNull(),
-	room_id: int('room_id').references(() => room.id, { onUpdate: 'cascade' }).notNull()
+	patient_id: int('patient_id')
+		.references(() => patient.id)
+		.notNull(),
+	room_id: int('room_id')
+		.references(() => room.id)
+		.notNull()
 });
 
 export const progressNoteRelations = relations(progressNote, ({ one, many }) => ({

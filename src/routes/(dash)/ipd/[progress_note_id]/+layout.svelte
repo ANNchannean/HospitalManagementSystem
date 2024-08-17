@@ -10,7 +10,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-header bg-info">
+			<div class="card-header fs-5">
 				<div class="row">
 					<div class="col-auto">
 						<a href="/patient/ipd" class="text-light btn btn-primary"
