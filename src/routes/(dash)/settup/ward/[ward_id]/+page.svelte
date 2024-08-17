@@ -25,7 +25,7 @@
 			use:enhance={() => {
 				loading = true;
 				return async ({ update, result }) => {
-					await update();
+					await update({ reset: true });
 					loading = false;
 
 					if (result.type !== 'failure') document.getElementById('close_create_bed')?.click();
@@ -37,6 +37,7 @@
 				<button
 					on:click={() => {
 						bed_id = 0;
+						room_id = 0;
 					}}
 					id="close_create_bed"
 					type="button"
@@ -76,7 +77,18 @@
 					: 'modal-footer justify-content-end'}
 			>
 				{#if find_bed}
-					<form use:enhance method="post" action="?/delete_bed">
+					<form
+						use:enhance={() => {
+							loading = true;
+							return async ({ update, result }) => {
+								await update();
+								loading = false;
+								if (result.type !== 'failure') document.getElementById('close_create_bed')?.click();
+							};
+						}}
+						method="post"
+						action="?/delete_bed"
+					>
 						<input value={find_bed?.id ?? ''} type="hidden" name="id" />
 						<SubmitButton style="btn btn-danger" name="Delete" {loading} />
 					</form>
@@ -98,7 +110,6 @@
 				return async ({ update, result }) => {
 					await update();
 					loading = false;
-
 					if (result.type !== 'failure') document.getElementById('close_room')?.click();
 				};
 			}}
@@ -106,6 +117,10 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Room</h4>
 				<button
+					on:click={() => {
+						bed_id = 0;
+						room_id = 0;
+					}}
 					id="close_room"
 					type="button"
 					class="btn-close"
@@ -167,6 +182,10 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Room</h4>
 				<button
+					on:click={() => {
+						bed_id = 0;
+						room_id = 0;
+					}}
 					id="close_update_room"
 					type="button"
 					class="btn-close"
@@ -217,7 +236,29 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer justify-content-end">
+			<div
+				class={find_room
+					? 'modal-footer justify-content-between'
+					: 'modal-footer justify-content-end'}
+			>
+				{#if find_room}
+					<form
+						use:enhance={() => {
+							loading = true;
+							return async ({ update, result }) => {
+								await update();
+								loading = false;
+								if (result.type !== 'failure')
+									document.getElementById('close_update_room')?.click();
+							};
+						}}
+						method="post"
+						action="?/delete_room"
+					>
+						<input value={find_room?.id ?? ''} type="hidden" name="id" />
+						<SubmitButton style="btn btn-danger" name="Delete" {loading} />
+					</form>
+				{/if}
 				<SubmitButton {loading} />
 			</div>
 		</form>
@@ -263,7 +304,7 @@
 			<div class="card-header fs-4">
 				<div class="row">
 					<div class="col">
-						<span># {get_ward?.ward ?? ''} </span>
+						<span><i class="fa-solid fa-hospital"></i> {get_ward?.ward ?? ''} </span>
 					</div>
 					<div class="col-auto">
 						<button
@@ -281,68 +322,63 @@
 	</div>
 </div>
 <DeleteModal action="?/delete_room" id={room_id} />
-<div class="row">
-	<div data-bs-sveltekit-noscroll class="col-sm-12">
-		{#each get_ward?.room || [] as { id, room, product }}
-			{@const active = id === room_id ? true : false}
-			<div class="btn-group me-3 mt-3">
-				<button
-					on:click={() => (room_id = id)}
-					type="button"
-					class={active ? `btn btn-dark` : 'btn btn-outline-dark'}
-					>{room ?? ''} {product?.products ?? ''}
-				</button>
-				{#if room_id === id}
-					<button
-						data-bs-toggle="modal"
-						data-bs-target="#update_room"
-						type="button"
-						class="btn btn-outline-dark"><i class="fa-solid fa-pen-to-square"></i></button
-					>
-					<button
-						type="button"
-						class="btn btn-outline-danger btn-sm"
-						data-bs-toggle="modal"
-						data-bs-target="#delete_modal"
-						><i class="fa-solid fa-trash-can"></i>
-					</button>
-				{/if}
-			</div>
-		{/each}
-	</div>
-</div>
-<hr />
-<div class="row">
-	{#if find_room}
-		<div class="col"></div>
-		<div class="col-auto">
-			<button
-				type="button"
-				class="btn btn-success"
-				data-bs-toggle="modal"
-				data-bs-target="#create_bed"
-				><i class="fa-solid fa-square-plus"></i>
-				New Bed
-			</button>
-		</div>
-	{/if}
-</div>
-
-<div class="row">
-	{#each find_room?.bed || [] as { bed, id }}
-		<div class="col-sm-3">
-			<button
-				data-bs-toggle="modal"
-				data-bs-target="#create_bed"
-				on:click={() => {
-					bed_id = 0;
-					bed_id = id;
-				}}
-				class="btn btn-success m-2"
-			>
-				<i class="fa-solid fa-bed fa-6x"></i> <br />
-				<h3>{bed ?? ''}</h3>
-			</button>
-		</div>
-	{/each}
+<br />
+<div class="table-responsive">
+	<table class="table table-bordered">
+		<tbody>
+			{#each get_ward?.room || [] as item}
+				{@const beds = item.bed}
+				{@const active = item.id === room_id ? true : false}
+				<tr>
+					<td style="width: 30%;">
+						<button
+							data-bs-toggle="modal"
+							data-bs-target="#update_room"
+							on:click={() => (room_id = item.id)}
+							type="button"
+							class={active ? `btn btn-dark btn-sm` : 'btn btn-outline-dark btn-sm'}
+						>
+							<i class="fa-regular fa-window-maximize"></i>
+							{item.room ?? ''}
+							{item.product?.products ?? ''}
+						</button>
+					</td>
+					<td>
+						<div class="row w-100">
+							<div class="col-auto">
+								{#each beds as iitem}
+									<button
+										on:click={() => {
+											bed_id = 0;
+											bed_id = iitem.id;
+											room_id = 0;
+											room_id = iitem?.room_id ?? 0;
+										}}
+										data-bs-toggle="modal"
+										data-bs-target="#create_bed"
+										class="btn btn-primary btn-sm me-2"
+									>
+										<i class="fa-solid fa-bed"></i> {iitem.bed}</button
+									>
+								{/each}
+							</div>
+							<div class="col text-end">
+								<button
+									on:click={() => {
+										room_id = 0;
+										room_id = item.id;
+									}}
+									data-bs-toggle="modal"
+									data-bs-target="#create_bed"
+									type="button"
+									class="btn btn-success btn-sm"
+									><i class="fa-solid fa-square-plus"></i>
+								</button>
+							</div>
+						</div>
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
 </div>
