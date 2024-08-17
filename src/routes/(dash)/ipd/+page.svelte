@@ -3,10 +3,14 @@
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import Select from '$lib/components/etc/Select.svelte';
+	import Words from '$lib/components/etc/Words.svelte';
+	import { globalLoading } from '$lib/store';
 	let loading = false;
 	export let data: PageServerData;
-	$: ({ get_staffs, get_patient, get_departments } = data);
-	let date_checkup = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+	let etiology = '';
+	$: ({ get_staffs, get_patient, get_departments, get_words, get_wards } = data);
+	let ward_id: number = 0;
+	$: find_ward = get_wards.find((e) => e.id === ward_id);
 </script>
 
 <div class="row">
@@ -38,11 +42,9 @@
 </div>
 
 <div class="card">
-	<div class="card-header bg-info">
-		<h4 class="card-title">
-			<span>#{get_patient?.name_khmer}, </span>
-			<span>{get_patient?.name_latin} </span>
-		</h4>
+	<div class="card-header fs-5">
+		<span>#{get_patient?.name_khmer}, </span>
+		<span>{get_patient?.name_latin} </span>
 	</div>
 	<form
 		method="post"
@@ -50,41 +52,75 @@
 		class="form-horizontal"
 		use:enhance={() => {
 			loading = true;
-			return async ({ update, result }) => {
+			$globalLoading = true;
+			return async ({ update }) => {
 				await update();
 				loading = false;
+				$globalLoading = false;
 			};
 		}}
 	>
-		<input class="form-control" value={date_checkup} type="hidden" name="date_checkup" />
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
 		<div class="card-body">
 			<div class="form-group row pb-3">
-				<label for="etiology" class="col-sm-2 col-form-label">Etiology</label>
-				<div class="col-sm-10">
-					<input name="etiology" type="text" class="form-control" id="etiology" />
+				<div class="col-sm-3">
+					<Words
+						name="Etiology"
+						bind:value={etiology}
+						words={get_words.filter((e) => e.type === 'etiology')}
+						modal_name="etiology"
+					/>
+				</div>
+				<div class="col-sm-9">
+					<input
+						bind:value={etiology}
+						name="etiology"
+						type="text"
+						class="form-control"
+						id="etiology"
+					/>
 				</div>
 			</div>
 			<div class="form-group row pb-3">
-				<label for="staff" class="col-sm-2 col-form-label">Staff</label>
-				<div class="col-sm-10">
+				<label for="staff" class="col-sm-3 col-form-label">Staff</label>
+				<div class="col-sm-9">
 					<Select name="staff_id" items={get_staffs.map((e) => ({ id: e.id, name: e.name }))} />
 				</div>
 			</div>
 			<div class="form-group row pb-3">
-				<label for="department_id" class="col-sm-2 col-form-label">Department</label>
-				<div class="col-sm-10">
+				<label for="department_id" class="col-sm-3 col-form-label">Department</label>
+				<div class="col-sm-9">
 					<Select
 						name="department_id"
 						items={get_departments.map((e) => ({ id: e.id, name: e.department }))}
 					/>
 				</div>
 			</div>
+			<div class="form-group row pb-3">
+				<label for="department_id" class="col-sm-3 col-form-label">Room</label>
+				<div class="col-sm-9">
+					<div class="row">
+						<div class="col">
+							<Select
+								bind:value={ward_id}
+								name="ward_id"
+								items={get_wards.map((e) => ({ id: e.id, name: e.ward }))}
+							/>
+						</div>
+						<div class="col">
+							<Select
+								name="room_id"
+								items={find_ward?.room?.map((e) => ({ id: e.id, name: e.room })) || []}
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="card-footer">
 			<a href="/patient/all" class="btn btn-light"><i class="fas fa-undo"></i> Cancel</a>
 			<div class="float-end">
-				<SubmitButton />
+				<SubmitButton {loading} />
 			</div>
 		</div>
 	</form>

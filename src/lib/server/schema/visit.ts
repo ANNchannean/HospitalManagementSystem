@@ -75,10 +75,10 @@ export const visitRelations = relations(visit, ({ one, many }) => ({
 
 export const progressNote = mysqlTable('progress_note', {
 	id: int('id').primaryKey().autoincrement(),
-	date_checkup: datetime('date_checkup', { mode: 'string' }),
+	date_checkup: datetime('date_checkup', { mode: 'string' }).notNull(),
 	date_checkout: datetime('date_checkout', { mode: 'string' }),
-	patient_id: int('patient_id').references(() => patient.id),
-	room_id: int('room_id').references(() => room.id)
+	patient_id: int('patient_id').references(() => patient.id).notNull(),
+	room_id: int('room_id').references(() => room.id, { onUpdate: 'cascade' }).notNull()
 });
 
 export const progressNoteRelations = relations(progressNote, ({ one, many }) => ({

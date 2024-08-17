@@ -1,5 +1,6 @@
 import { db } from '$lib/server/db';
-import { visit } from '$lib/server/schema';
+import { progressNote, room, visit } from '$lib/server/schema';
+import { logErrorMessage } from '$lib/server/telegram';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';
 
@@ -13,6 +14,11 @@ export const load = (async ({ parent }) => {
 					staff: true,
 					patient: true,
 					department: true
+				}
+			},
+			room: {
+				with:{
+					product:true
 				}
 			}
 		},
@@ -33,4 +39,19 @@ export const load = (async ({ parent }) => {
 	};
 }) satisfies PageServerLoad;
 
-export const actions: Actions = {};
+export const actions: Actions = {
+	delete_progress_note: async ({ request }) => {
+		const body = (await request.formData()).entries();
+		const { id } = Object.fromEntries(body) as Record<string, string>;
+		const getProgressNote = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +id)
+		});
+		await db.update(room).set({ status: false }).where(eq(room.id, getProgressNote!.room_id!));
+		await db
+			.delete(progressNote)
+			.where(eq(progressNote.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
+	}
+};

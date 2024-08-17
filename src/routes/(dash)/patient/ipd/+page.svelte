@@ -3,8 +3,11 @@
 	export let data: PageServerData;
 	$: ({ get_pregress_notes } = data);
 	import { inerHight } from '$lib/store';
+	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	let progress_note_id = 0;
 </script>
 
+<DeleteModal action="?/delete_progress_note" id={progress_note_id} />
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
 		<div class="modal-content">
@@ -103,7 +106,10 @@
 								<td>{item.visit[0]?.etiology ?? ''}</td>
 								<td>{item.visit[0]?.department?.department}</td>
 								<td>{item.visit[0]?.staff?.name}</td>
-								<td></td>
+								<td>
+									<span class="badge text-bg-success">{item.room?.room ?? ''}</span><br>
+									<span class="badge text-bg-success">{item.room.product?.products ?? ''}</span>
+								</td>
 								<td></td>
 								<td
 									><div>
@@ -113,7 +119,21 @@
 									</div></td
 								>
 								<td></td>
-								<td> </td>
+								<td>
+									<div>
+										<button
+											on:click={() => {
+												progress_note_id = 0;
+												progress_note_id = item.id;
+											}}
+											type="button"
+											class="btn btn-danger btn-sm"
+											data-bs-toggle="modal"
+											data-bs-target="#delete_modal"
+											><i class="fa-solid fa-trash-can"></i>
+										</button>
+									</div>
+								</td>
 							</tr>
 						{/each}
 					</tbody>

@@ -278,6 +278,7 @@
 								<td>
 									{#if item.billing?.status === 'active'}
 										<button
+											type="button"
 											on:click={() => {
 												billing_id = 0;
 												billing_id = Number(item?.billing?.id);
@@ -287,27 +288,38 @@
 											class="btn btn-primary btn-sm">Active</button
 										>
 									{:else}
-										<button type="button" class=" btn btn-danger bg-s btn-sm">Desactive</button>
+										<button
+											on:click={() => {
+												billing_id = 0;
+												billing_id = Number(item?.billing?.id);
+											}}
+											type="button"
+											data-bs-toggle="modal"
+											data-bs-target="#confirme_modal"
+											class="btn btn-danger btn-sm">DeActive</button
+										>
 									{/if}
 								</td>
 								<td class="">
-									<button
-										type="button"
-										class="btn btn-secondary btn-sm"
-										data-bs-toggle="modal"
-										data-bs-target="#send_to_ipd">Send to IPD</button
-									>
-									<button
-										on:click={() => {
-											visit_id = 0;
-											visit_id = item.id;
-										}}
-										type="button"
-										class="btn btn-danger btn-sm"
-										data-bs-toggle="modal"
-										data-bs-target="#delete_modal"
-										><i class="fa-solid fa-trash-can"></i>
-									</button>
+									<div>
+										<button
+											type="button"
+											class="btn btn-secondary btn-sm"
+											data-bs-toggle="modal"
+											data-bs-target="#send_to_ipd">Send to IPD</button
+										>
+										<button
+											on:click={() => {
+												visit_id = 0;
+												visit_id = item.id;
+											}}
+											type="button"
+											class="btn btn-danger btn-sm"
+											data-bs-toggle="modal"
+											data-bs-target="#delete_modal"
+											><i class="fa-solid fa-trash-can"></i>
+										</button>
+									</div>
 								</td>
 							</tr>
 						{/each}

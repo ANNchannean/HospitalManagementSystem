@@ -179,7 +179,9 @@
 															<tr class="p-0 m-0">
 																<td
 																	style="width: 50%;"
-																	class="justify-content-center align-content-center text-start text-bg-success fs-5 m-0"
+																	class:text-bg-success={!iitem.status}
+																	class:text-bg-danger={iitem.status}
+																	class="justify-content-center align-content-center text-start fs-5 m-0"
 																>
 																	<i class="fa-regular fa-window-maximize"></i>
 																	{iitem.room}

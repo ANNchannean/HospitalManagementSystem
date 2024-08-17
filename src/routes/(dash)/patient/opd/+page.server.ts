@@ -94,10 +94,14 @@ export const actions: Actions = {
 		const body = await request.formData();
 		const billing_id = body.get('id');
 		if (!billing_id || isNaN(+billing_id)) return fail(303, { idErr: true });
+		const get_billing = await db.query.billing.findFirst({
+			where: eq(billing.id, +billing_id)
+		});
+		const status = get_billing?.status === 'active' ? 'process' : 'active';
 		await db
 			.update(billing)
 			.set({
-				status: 'process',
+				status: status,
 				checkin_type: 'OPD'
 			})
 			.where(eq(billing.id, +billing_id))
