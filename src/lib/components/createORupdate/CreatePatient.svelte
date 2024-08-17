@@ -22,6 +22,8 @@
 	$: disctricts = get_district.filter((e) => e.province_id === province_id);
 	$: communes = get_commune.filter((e) => e.district_id === district_id);
 	$: villages = get_village.filter((e) => e.commune_id === commune_id);
+	$: find_province = get_province.find((e) => e.id === province_id )
+	$: find_disctrict = find_province?.district.find((e) => e.id === district_id )
 	$: src = '';
 	function handleAGE(e: string) {
 		age = dobToAge({

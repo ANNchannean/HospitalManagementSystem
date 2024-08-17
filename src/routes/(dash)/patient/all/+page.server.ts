@@ -9,7 +9,19 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ parent }) => {
 	await parent();
-	const provinces = await db.query.provice.findMany({});
+	const provinces = await db.query.provice.findMany({
+		with: {
+			district: {
+				with: {
+					commune: {
+						with: {
+							village: true
+						}
+					}
+				}
+			}
+		}
+	});
 	const districts = await db.query.district.findMany({});
 	const communes = await db.query.commune.findMany({});
 	const vilates = await db.query.village.findMany({});
