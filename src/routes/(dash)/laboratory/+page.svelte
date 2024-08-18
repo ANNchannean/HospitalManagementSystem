@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import CreateLaboratoryResult from '$lib/components/createORupdate/CreateLaboratoryResult.svelte';
 	import UpdateLaboratoryReq from '$lib/components/createORupdate/UpdateLaboratoryReq.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
+	import { invalidateAll } from '$app/navigation';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_visits } = data);
@@ -126,7 +126,7 @@
 										{#if item?.laboratory?.status === false}
 											<button
 												on:click={() => {
-													goto(`?laboratory_id=${item.laboratory?.id || ''}`);
+													invalidateAll();
 													visit_id = 0;
 													visit_id = item.id;
 												}}
@@ -139,8 +139,8 @@
 										{:else}
 											<button
 												on:click={() => {
-													goto(`?laboratory_id=${item.laboratory?.id || ''}`);
-													visit_id = 1;
+													invalidateAll();
+													visit_id = 0;
 													visit_id = item.id;
 												}}
 												data-bs-toggle="modal"
@@ -156,6 +156,7 @@
 											<button
 												type="button"
 												on:click={() => {
+													invalidateAll();
 													visit_id = 0;
 													visit_id = item.id;
 												}}

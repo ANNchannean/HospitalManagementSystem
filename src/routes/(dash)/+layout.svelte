@@ -5,9 +5,10 @@
 	import { t, locale } from '$lib/translations';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
-	import { inerHight, globalLoading } from '$lib/store';
 	import { invalidateAll } from '$app/navigation';
-	$: ({ get_clinich_info } = data);
+	import { inerHight, globalLoading } from '$lib/store';
+	import ViewRoom from '$lib/components/etc/ViewRoom.svelte';
+	$: ({ get_clinich_info, get_progress_note } = data);
 	// onNavigate((navigation) => {
 	// 	if (!document.startViewTransition) return;
 	// 	return new Promise((resolve) => {
@@ -48,13 +49,9 @@
 
 <svelte:head>
 	<meta name="description" content="Hospital Managerment System" />
-	<!-- <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
-	<link href="/css/styles.css" rel="stylesheet" />
-	<script src="/js/scripts.js"></script>
-	<script src="/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	<script src="/plugins/jquery/jquery.min.js"></script>
-	<script src="/plugins/summernote/summernote-bs4.min.js"></script> -->
 </svelte:head>
+
+<ViewRoom {data} />
 
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 	<!-- Navbar Brand-->
@@ -86,25 +83,35 @@
 			{/if}
 		</form>
 
-		<!-- <li class="nav-item">
-			<a class="nav-link" data-widget="fullscreen" href={'#'} role="button">
-				<i class="fas fa-expand-arrows-alt"></i>
-			</a>
-		</li> -->
 		<li class="nav-item">
-			<a class="nav-link" href={'#'} role="button">
-				<i class="fa-solid fa-bed"></i>
-			</a>
+			<button
+				on:click={() => {
+					invalidateAll();
+				}}
+				data-bs-toggle="modal"
+				data-bs-target="#view_room"
+				class="nav-link btn btn-link"
+				type="button"
+			>
+				<div class="position-relative">
+					<i class="fa-solid fa-bed"> </i>
+					<span
+						class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+					>
+						{get_progress_note.length ?? ''}
+						<span class="visually-hidden">unread messages</span>
+					</span>
+				</div>
+			</button>
 		</li>
 
 		<li class="nav-item dropdown">
-			<a
-				class="nav-link dropdown-toggle"
+			<button
+				class="nav-link btn btn-link dropdown-toggle"
 				id="navbarDropdown"
-				href={'#'}
-				role="button"
+				type="button"
 				data-bs-toggle="dropdown"
-				aria-expanded="false"><i class="fas fa-user fa-fw"></i></a
+				aria-expanded="false"><i class="fas fa-user fa-fw"></i></button
 			>
 			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 				<li><a class="dropdown-item" href="#!">Settings</a></li>
@@ -116,11 +123,11 @@
 
 		<div class="d-sm-none d-md-block d-none d-sm-block">
 			<li class="nav-item">
-				<a class="nav-link" href={'#'} role="button">
+				<button class="nav-link btn btn-link" type="button">
 					<span class=" badge p-2 badge-info">
 						<i class="fa-regular fa-clock fa-spin"></i> {date}</span
 					>
-				</a>
+				</button>
 			</li>
 		</div>
 	</ul>
@@ -150,11 +157,10 @@
 						{$t('common.pos')}
 					</a>
 					<!-- Billing  -->
-					<!-- <div class="sb-sidenav-menu-heading">Billing</div> -->
 
-					<a
-						class="nav-link collapsed"
-						href={'#'}
+					<button
+						class="nav-link btn btn-link collapsed"
+						type="button"
 						data-bs-toggle="collapse"
 						data-bs-target="#collapseLayouts"
 						aria-expanded="false"
@@ -163,7 +169,7 @@
 						<div class="sb-nav-link-icon"><i class="fas fa-money-bills"></i></div>
 						{$t('common.billing')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-					</a>
+					</button>
 
 					<div
 						class="collapse"
@@ -206,9 +212,9 @@
 						{$t('common.products')}
 					</a>
 					<!-- patient  -->
-					<a
-						class="nav-link collapsed"
-						href={'#'}
+					<button
+						class="nav-link btn btn-link collapsed"
+						type="button"
 						data-bs-toggle="collapse"
 						data-bs-target="#collapsepatient"
 						aria-expanded="false"
@@ -217,7 +223,7 @@
 						<div class="sb-nav-link-icon"><i class="fas fa-wheelchair"></i></div>
 						{$t('common.patient')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-					</a>
+					</button>
 
 					<div
 						class="collapse"
@@ -254,9 +260,9 @@
 					</div>
 					<!-- End patient  -->
 					<!-- Medicine  -->
-					<a
-						class="nav-link collapsed"
-						href={'#'}
+					<button
+						class="nav-link collapsed btn btn-link"
+						type="button"
 						data-bs-toggle="collapse"
 						data-bs-target="#collapsemedecine"
 						aria-expanded="false"
@@ -265,7 +271,7 @@
 						<div class="sb-nav-link-icon"><i class="fas fa-pills"></i></div>
 						{$t('common.medicine')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-					</a>
+					</button>
 
 					<div
 						class="collapse"
@@ -337,9 +343,9 @@
 						</div>
 						{$t('common.staff')}
 					</a>
-					<a
-						class="nav-link collapsed"
-						href={'#'}
+					<button
+						class="nav-link btn btn-link collapsed"
+						type="button"
 						data-bs-toggle="collapse"
 						data-bs-target="#collapsesetup"
 						aria-expanded="false"
@@ -348,7 +354,7 @@
 						<div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
 						{$t('common.settup')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-					</a>
+					</button>
 
 					<div
 						class="collapse"

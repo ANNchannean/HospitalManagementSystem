@@ -68,8 +68,8 @@
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
 				<table class="table table-bordered">
 					<thead class="sticky-top bg-light table-active">
-						<tr>
-							<th style="width: 5%; " class="text-center">ID</th>
+						<tr class="text-center">
+							<th style="width: 5%; ">ID</th>
 							<th>Dates</th>
 							<th>Patient</th>
 							<th>Etiology</th>
@@ -84,8 +84,8 @@
 					</thead>
 					<tbody class="table-sm">
 						{#each get_pregress_notes as item}
-							<tr>
-								<td class="text-center">{item.id}</td>
+							<tr class="text-center">
+								<td>{item.id}</td>
 								<td
 									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
 										.format(new Date(item.date_checkup ?? ''))

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import CreateImgResult from '$lib/components/createORupdate/CreateImgResult.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
@@ -140,7 +140,7 @@
 										<button
 											type="button"
 											on:click={() => {
-												goto(`?imagerie_request_id=${item.id}`);
+												invalidateAll();
 												imagerie_request_id = 0;
 												imagerie_request_id = item.id;
 											}}
@@ -153,7 +153,7 @@
 										<button
 											type="button"
 											on:click={() => {
-												goto(`?imagerie_request_id=${item.id}`);
+												invalidateAll();
 												imagerie_request_id = 0;
 												imagerie_request_id = item.id;
 											}}

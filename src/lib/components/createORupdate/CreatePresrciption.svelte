@@ -64,6 +64,7 @@
 							<div class="col-sm-9">
 								<div class="input-group">
 									<Select
+										name="select_prodcts"
 										bind:value={unit_id}
 										items={get_units_as_medicine.map((e) => ({ id: e.id, name: e.unit }))}
 									/>

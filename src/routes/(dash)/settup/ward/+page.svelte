@@ -7,7 +7,7 @@
 	export let data: PageServerData;
 	let ward_id: number;
 	let loading = false;
-	$: ({ wards } = data);
+	$: ({ wards, get_progress_note } = data);
 	$: find_word = wards.find((e) => e.id === ward_id);
 </script>
 
@@ -177,26 +177,27 @@
 												<tr>
 													<td
 														style="width: 50%;"
-														class:text-bg-success={!iitem.status}
-														class:text-bg-danger={iitem.status}
+														class:text-bg-success={!get_progress_note.some(
+															(e) => e.room_id === iitem.id
+														)}
+														class:text-bg-danger={get_progress_note.some(
+															(e) => e.room_id === iitem.id
+														)}
 														class="justify-content-center align-content-center text-start fs-5 m-0"
 													>
 														&nbsp;<i class="fa-regular fa-window-maximize"></i>&nbsp;
 														{iitem.room}
 														{iitem.product ? `( ${iitem?.product?.products} )` : ''}
 													</td>
-													{#if beds.length}
-														<td style="width: 50%;">
-															{#each beds as bed}
-																<button class="btn btn-info rounded-0 me-2" type="button">
-																	<i class="fa-solid fa-bed"></i>
-																	{bed.bed}
-																</button>
-															{/each}
-														</td>
-													{:else}
-														<td></td>
-													{/if}
+
+													<td style="width: 50%;">
+														{#each beds as bed}
+															<button class="btn btn-info rounded-0 me-2" type="button">
+																<i class="fa-solid fa-bed"></i>
+																{bed.bed}
+															</button>
+														{/each}
+													</td>
 												</tr>
 											</thead>
 										</table>

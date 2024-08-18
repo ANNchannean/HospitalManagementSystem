@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db';
-import { bed, product, productGroupType, room, ward } from '$lib/server/schema';
+import { bed, product, productGroupType, progressNote, room, ward } from '$lib/server/schema';
 import { logErrorMessage } from '$lib/server/telegram';
 import type { Actions, PageServerLoad } from './$types';
-import { eq } from 'drizzle-orm';
+import { eq, isNull } from 'drizzle-orm';
 
 export const load = (async () => {
 	const get_product_type = await db.query.productGroupType.findFirst({
@@ -22,9 +22,16 @@ export const load = (async () => {
 			bed: true
 		}
 	});
+	const get_progress_note = await db.query.progressNote.findMany({
+		where: isNull(progressNote.date_checkout),
+		with: {
+			patient: true
+		}
+	});
 	return {
 		wards,
-		get_products
+		get_products,
+		get_progress_note
 	};
 }) satisfies PageServerLoad;
 

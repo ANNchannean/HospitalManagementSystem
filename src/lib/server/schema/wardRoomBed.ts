@@ -1,4 +1,4 @@
-import { boolean, int, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
+import { int, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
 import { product } from './product';
 import { relations } from 'drizzle-orm';
 import { progressNote } from './visit';
@@ -14,7 +14,6 @@ export const room = mysqlTable('room', {
 	room: varchar('room', { length: 255 }),
 	product_id: int('product_id').references(() => product.id),
 	ward_id: int('ward_id').references(() => ward.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-	status: boolean('status').notNull().default(false),
 	description: text('description')
 });
 

@@ -49,6 +49,7 @@
 						<div class="col-4">
 							<div class="input-group">
 								<Select
+									name="diagnosis_type_id"
 									bind:value={diagnosis_type_id}
 									items={get_diagnosisTypes.map((e) => ({ id: e.id, name: e.diagnosis_type }))}
 								/>
@@ -58,6 +59,7 @@
 							<div class="input-group">
 								<Select
 									bind:value={diagnosis}
+									name="diagnosis_type_text"
 									items={find_diagnosis.map((e) => ({
 										id: e.diagnosis,
 										name: e.diagnosis?.concat(e.diagnosis_khmer || '')

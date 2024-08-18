@@ -8,7 +8,7 @@
 	import TextEditor from '../etc/TextEditor.svelte';
 	export let imagerie_request_id: number;
 	export let data: PageServerData;
-	$: ({ get_imagerie_templates, get_imagerie_request, get_imagers } = data);
+	$: ({ get_imagerie_templates, get_imagerie_request } = data);
 	$: find_imagerie_request = get_imagerie_request.find((e) => e.id === imagerie_request_id);
 	let loading = false;
 	let imagerie_templage = '';
@@ -38,7 +38,7 @@
 				<button
 					on:click={() => {
 						imagerie_request_id = 0;
-						goto('?');
+						imagerie_templage = '';
 					}}
 					id="close_update_img_result"
 					type="button"
@@ -163,7 +163,7 @@
 								</div>
 							</div>
 						</div>
-						{#each get_imagers || [] as item}
+						{#each find_imagerie_request?.fileOrPicture || [] as item}
 							<form use:enhance method="post" action="?/delete_picture" class="p-2 col-3">
 								<input type="hidden" name="imagerie_request_id" value={find_imagerie_request?.id} />
 								<input type="hidden" name="file_name" value={item.filename} />

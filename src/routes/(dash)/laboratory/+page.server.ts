@@ -15,12 +15,15 @@ import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
-export const load = (async ({ url, parent }) => {
+export const load = (async ({ parent }) => {
 	await parent();
-	const laboratory_id = url.searchParams.get('laboratory_id') || '';
 	const get_visits = await db.query.visit.findMany({
 		with: {
-			laboratory: true,
+			laboratory: {
+				with: {
+					fileOrPicture: true
+				}
+			},
 			laboratoryRequest: {
 				with: {
 					product: {
@@ -58,14 +61,9 @@ export const load = (async ({ url, parent }) => {
 			}
 		}
 	});
-	const get_imagers = await db.query.fileOrPicture.findMany({
-		where: eq(fileOrPicture.laboratory_id, +laboratory_id)
-	});
-
 	return {
 		get_visits,
-		get_laboratory_group,
-		get_imagers
+		get_laboratory_group
 	};
 }) satisfies PageServerLoad;
 

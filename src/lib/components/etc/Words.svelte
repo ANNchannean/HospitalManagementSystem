@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
-	import { t } from '$lib/translations';
 	interface Words {
 		id: number;
 		text: string;

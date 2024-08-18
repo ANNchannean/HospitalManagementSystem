@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { department, staff, patient, visit, progressNote, room } from '$lib/server/schema';
+import { department, staff, patient, visit, progressNote } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
@@ -8,6 +8,13 @@ import { fail, redirect } from '@sveltejs/kit';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
+	const progress_note_id = url.searchParams.get('progress_note_id') ?? '';
+	const get_progress_note = await db.query.progressNote.findFirst({
+		where: eq(progressNote.id, +progress_note_id || 0),
+		with: {
+			room: true
+		}
+	});
 	const patient_id = url.searchParams.get('patient_id') ?? '';
 	if (!url.searchParams.has('patient_id')) redirect(303, '/patient/opd');
 	const visit_id = url.searchParams.get('visit_id') ?? '';
@@ -35,7 +42,9 @@ export const load = (async ({ url, parent }) => {
 	const get_wards = await db.query.ward.findMany({
 		with: {
 			room: {
-				where: eq(room.status, false)
+				with: {
+					product: true
+				}
 			}
 		}
 	});
@@ -46,7 +55,8 @@ export const load = (async ({ url, parent }) => {
 		get_departments,
 		get_words,
 		get_wards,
-		get_visit
+		get_visit,
+		get_progress_note
 	};
 }) satisfies PageServerLoad;
 
@@ -54,9 +64,8 @@ export const actions: Actions = {
 	create_visit_ipd: async ({ request }) => {
 		const body = await request.formData();
 		const created_at = now_datetime();
-		const { patient_id, staff_id, department_id, etiology, room_id, visit_id } = Object.fromEntries(
-			body
-		) as Record<string, string>;
+		const { patient_id, staff_id, department_id, etiology, room_id, visit_id, progress_note_id } =
+			Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			patient_id: false,
 			staff_id: false,
@@ -70,47 +79,63 @@ export const actions: Actions = {
 		if (!department_id) validErr.department_id = true;
 		if (!staff_id) validErr.staff_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-		const progress_note_id = await db
-			.insert(progressNote)
-			.values({
-				date_checkup: created_at,
-				patient_id: +patient_id,
-				room_id: +room_id,
-				staff_id: Number(staff_id),
-				department_id: Number(department_id),
-				etiology: etiology
-			})
-			.$returningId();
-
-		if (visit_id) {
+		if (progress_note_id) {
 			await db
-				.update(visit)
+				.update(progressNote)
 				.set({
-					transfer: true,
-					progress_note_id: progress_note_id[0].id
-				})
-				.where(eq(visit.id, +visit_id))
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-		} else {
-			await db
-				.insert(visit)
-				.values({
-					checkin_type: 'IPD',
-					patient_id: Number(patient_id),
 					date_checkup: created_at,
+					room_id: +room_id,
 					staff_id: Number(staff_id),
 					department_id: Number(department_id),
-					etiology: etiology,
-					progress_note_id: progress_note_id[0].id
+					etiology: etiology
 				})
+				.where(eq(progressNote.id, +progress_note_id))
 				.catch((e) => {
 					logErrorMessage(e);
 				});
-		}
+			redirect(303, `/ipd/${progress_note_id}/progress-note`);
+		} else {
+			const progress_note_id = await db
+				.insert(progressNote)
+				.values({
+					date_checkup: created_at,
+					patient_id: +patient_id,
+					room_id: +room_id,
+					staff_id: Number(staff_id),
+					department_id: Number(department_id),
+					etiology: etiology
+				})
+				.$returningId();
 
-		await db.update(room).set({ status: true }).where(eq(room.id, +room_id));
-		redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);
+			if (visit_id) {
+				await db
+					.update(visit)
+					.set({
+						transfer: true,
+						progress_note_id: progress_note_id[0].id
+					})
+					.where(eq(visit.id, +visit_id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
+			} else {
+				await db
+					.insert(visit)
+					.values({
+						checkin_type: 'IPD',
+						patient_id: Number(patient_id),
+						date_checkup: created_at,
+						staff_id: Number(staff_id),
+						department_id: Number(department_id),
+						etiology: etiology,
+						progress_note_id: progress_note_id[0].id
+					})
+					.catch((e) => {
+						logErrorMessage(e);
+					});
+			}
+
+			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);
+		}
 	}
 };

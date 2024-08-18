@@ -6,12 +6,8 @@ import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
 
-export const load = (async ({ url, parent }) => {
+export const load = (async ({ parent }) => {
 	await parent();
-	const imagerie_request_id = url.searchParams.get('imagerie_request_id') || 0;
-	const get_imagers = await db.query.fileOrPicture.findMany({
-		where: eq(fileOrPicture.imagerie_request_id, +imagerie_request_id)
-	});
 	const get_imagerie_templates = await db.query.template.findMany({});
 	const get_imagerie_request = await db.query.imagerieRequest.findMany({
 		with: {
@@ -44,8 +40,7 @@ export const load = (async ({ url, parent }) => {
 	return {
 		get_imagerie_group,
 		get_imagerie_request,
-		get_imagerie_templates,
-		get_imagers
+		get_imagerie_templates
 	};
 }) satisfies PageServerLoad;
 
@@ -140,7 +135,7 @@ export const actions: Actions = {
 					.update(imagerieRequest)
 					.set({
 						status: false,
-						finish_datetime: ''
+						finish_datetime: null
 					})
 					.where(eq(imagerieRequest.id, +id))
 					.catch((e) => {
@@ -176,7 +171,7 @@ export const actions: Actions = {
 				.update(imagerieRequest)
 				.set({
 					status: false,
-					finish_datetime: ''
+					finish_datetime: null
 				})
 				.where(eq(imagerieRequest.id, +imagerie_request_id))
 				.catch((e) => {

@@ -8,7 +8,7 @@
 	import TextEditor from '../etc/TextEditor.svelte';
 	export let visit_id: number;
 	export let data: PageServerData;
-	$: ({ get_visits, get_imagers } = data);
+	$: ({ get_visits } = data);
 	$: find_visit = get_visits.find((e) => e.id === visit_id);
 	let loading = false;
 </script>
@@ -193,8 +193,8 @@
 								<TextEditor
 									height={200}
 									name="doctor_comment"
-									id={find_visit?.laboratory?.id.toString()}
-									getValue={find_visit?.laboratory?.doctor_comment ?? ''}
+									id="doctor_comment_id"
+									setValue={find_visit?.laboratory?.doctor_comment ?? ''}
 								/>
 
 								<!-- {#if form?.template_}
@@ -214,7 +214,6 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="exampleInputFile">Picture</label>
-
 								<input type="hidden" name="picture" />
 								<input
 									multiple
@@ -226,7 +225,7 @@
 								/>
 							</div>
 						</div>
-						{#each get_imagers || [] as item}
+						{#each find_visit?.laboratory?.fileOrPicture || [] as item}
 							<form use:enhance method="post" action="?/delete_picture" class="p-2 col-3">
 								<input type="hidden" name="laboratory_id" value={find_visit?.laboratory?.id} />
 								<input type="hidden" name="file_name" value={item.filename} />

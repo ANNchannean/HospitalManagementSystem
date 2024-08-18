@@ -7,10 +7,10 @@
 	import { globalLoading } from '$lib/store';
 	let loading = false;
 	export let data: PageServerData;
-	const { get_visit } = data;
-	let etiology = get_visit?.etiology ?? '';
+	const { get_visit, get_progress_note } = data;
+	let etiology = get_visit?.etiology || get_progress_note?.etiology || '';
 	$: ({ get_staffs, get_patient, get_departments, get_words, get_wards } = data);
-	let ward_id: number = 0;
+	let ward_id: number = get_progress_note?.room.ward_id || 0;
 	$: find_ward = get_wards.find((e) => e.id === ward_id);
 </script>
 
@@ -61,6 +61,10 @@
 			};
 		}}
 	>
+		{#if get_progress_note}
+			<input value={get_progress_note?.id ?? ''} type="hidden" name="progress_note_id" />
+			<input value={get_progress_note?.room_id ?? ''} type="hidden" name="old_room_id" />
+		{/if}
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
 		<input value={get_visit?.id ?? ''} type="hidden" name="visit_id" />
 		<div class="card-body">
@@ -87,7 +91,7 @@
 				<label for="staff" class="col-sm-3 col-form-label">Staff</label>
 				<div class="col-sm-9">
 					<Select
-						value={get_visit?.staff_id}
+						value={get_visit?.staff_id || get_progress_note?.staff_id || ''}
 						name="staff_id"
 						items={get_staffs.map((e) => ({ id: e.id, name: e.name }))}
 					/>
@@ -97,7 +101,7 @@
 				<label for="department_id" class="col-sm-3 col-form-label">Department</label>
 				<div class="col-sm-9">
 					<Select
-						value={get_visit?.department_id}
+						value={get_visit?.department_id || get_progress_note?.department_id || ''}
 						name="department_id"
 						items={get_departments.map((e) => ({ id: e.id, name: e.department }))}
 					/>
@@ -116,8 +120,12 @@
 						</div>
 						<div class="col">
 							<Select
+								value={get_progress_note?.room_id || ''}
 								name="room_id"
-								items={find_ward?.room?.map((e) => ({ id: e.id, name: e.room })) || []}
+								items={find_ward?.room?.map((e) => ({
+									id: e.id,
+									name: e.room?.concat(' ').concat(e.product?.products ?? '')
+								})) || []}
 							/>
 						</div>
 					</div>
