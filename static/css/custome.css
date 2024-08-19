@@ -121,3 +121,16 @@ td {
 	display: none;
 }
 
+.separator {
+	display: flex;
+	align-items: center;
+	text-align: center;
+}
+
+.separator::before,
+.separator::after {
+	content: '';
+	flex: 1;
+	border-bottom: 2px solid blue;
+}
+

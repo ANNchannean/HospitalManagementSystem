@@ -78,7 +78,7 @@
 							<th>Room</th>
 							<th>Doc</th>
 							<th>Visit</th>
-							<th>Pay</th>
+							<th>Payment</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -245,8 +245,10 @@
 								</td>
 
 								<td>
-									<span class="badge text-bg-success">{item.room?.room ?? ''}</span><br />
-									<span class="badge text-bg-success">{item.room.product?.products ?? ''}</span>
+									<span class="badge text-bg-success">{item.bed?.room?.room ?? ''}</span><br />
+									<span class="badge text-bg-success"
+										>{item.bed?.room?.product?.products ?? ''}</span
+									>
 								</td>
 								<td></td>
 								<td

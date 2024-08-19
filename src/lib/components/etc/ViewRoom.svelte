@@ -29,126 +29,122 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-12">
-						<div class="card">
-							<div class="card-body table-responsive p-0">
-								<table class="table table-sm table-bordered">
-									<tbody>
-										{#each get_wards as { room, ward, id }, index}
-											<tr class="border border-3">
-												<td
-													style="width: 25%;"
-													class="position-relative text-bg-primary text-center justify-content-center"
-												>
-													<div>
-														<button type="button" class="btn btn-primary btn-sm fs-3"
-															><i class="fa-solid fa-hospital"></i> {ward}
-														</button>
-													</div>
-												</td>
-												<td style="width: 75%;" class="text-start p-0 m-0">
-													{#each room as iitem}
-														{@const find_progress_note = get_progress_note.find(
-															(e) => e.room_id === iitem.id
-														)}
-														<table class="table table-sm my-2">
-															<thead>
-																<tr>
-																	<td
-																		class:text-bg-success={!get_progress_note.some(
-																			(e) => e.room_id === iitem.id
-																		)}
-																		class:text-bg-danger={get_progress_note.some(
-																			(e) => e.room_id === iitem.id
-																		)}
-																		style="width: 40%;"
-																		class="justify-content-center align-content-center text-start fs-5 m-0"
-																	>
-																		&nbsp;<i class="fa-regular fa-window-maximize"></i>&nbsp;
-																		{iitem.room}
-																		{iitem.product ? `( ${iitem?.product?.products} )` : ''}
-																	</td>
-
-																	<td style="width: 60%;">
-																		{#if find_progress_note}
-																			<div class="table-responsive">
-																				<table class="table table-sm">
-																					<thead>
-																						<tr>
-																							<td>{$t('common.patient')}</td>
-																							<td>:</td>
-																							<td>
-																								<a
-																									on:click={() =>
-																										document
-																											.getElementById('close_view_room')
-																											?.click()}
-																									href="/ipd/{find_progress_note.id}/progress-note"
-																								>
-																									<span
-																										>{find_progress_note?.patient.name_khmer}</span
-																									>,
-																									<span
-																										>{find_progress_note?.patient.name_latin}</span
-																									>
-																								</a>
-																							</td>
-																						</tr>
-																						<tr>
-																							<td>{$t('common.date')}</td>
-																							<td>:</td>
-																							<td>
-																								<span
-																									>{new Intl.DateTimeFormat('en-GB', {
-																										dateStyle: 'short',
-																										timeStyle: 'short',
-																										hour12: true
-																									}).format(
-																										Date.parse(find_progress_note.date_checkup)
-																									)}</span
-																								>
-																							</td>
-																						</tr>
-																						<tr>
-																							<td>{$t('common.etiology')}</td>
-																							<td>:</td>
-																							<td>
-																								<span>{find_progress_note?.etiology}</span>
-																							</td>
-																						</tr>
-																						<tr>
-																							<td></td>
-																							<td>:</td>
-																							<td>
-																								<a
-																									on:click={() =>
-																										document
-																											.getElementById('close_view_room')
-																											?.click()}
-																									href="/ipd?patient_id={find_progress_note.patient_id}&progress_note_id={find_progress_note.id}"
-																								>
-																									<span>Chagne Room</span>
-																								</a>
-																							</td>
-																						</tr>
-																					</thead>
-																				</table>
-																			</div>
-																		{/if}
-																	</td>
-																</tr>
-															</thead>
-														</table>
-													{/each}
-												</td>
-											</tr>
-										{/each}
-									</tbody>
-								</table>
+				<div class="">
+					{#each get_wards as item}
+						{@const rooms = item.room}
+						<div style="border:2px solid blue;" class=" position-relative rounded">
+							<div
+								style="
+									left: 10%;
+									-ms-transform: translate(-50%, -50%);
+									transform: translate(-50%, -50%);"
+								class="position-absolute top-0 m-0"
+							>
+								<button class="btn btn-primary btn-lg">{item.ward ?? ''}</button>
 							</div>
+							<br />
+							{#each rooms as room}
+								{@const beds = room.bed}
+				
+								<div class="separator"><button class="btn btn-success">{room.room}</button></div>
+								<br />
+								<div class="">
+									<div class="row justify-content-start">
+										{#each beds as bed}
+											{@const find_progress_note = get_progress_note.find((e) => e.bed_id === bed.id)}
+											<div class="card mb-3 ms-4" style="max-width: 500px;">
+												<div class="row g-0">
+													<div class:text-danger={find_progress_note} class="col-md-4 text-primary">
+														<i class="fa-solid fa-bed fa-6x ms-2"></i>
+													</div>
+													<div class="col-md-8">
+														<div class="card-body">
+															<h5
+																class:btn-danger={find_progress_note}
+																class="card-title btn btn-primary btn-sm"
+															>
+																{bed.bed}
+															</h5>
+															<table class=" table-sm">
+																<thead>
+																	{#if find_progress_note}
+																		<tr>
+																			<td>Name khmer </td>
+																			<td> : </td>
+																			<td>
+																				<p class="card-text">
+																					{find_progress_note?.patient.name_khmer ?? ''}
+																				</p>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>Name latin</td>
+																			<td> : </td>
+																			<td>
+																				<p class="card-text">
+																					{find_progress_note?.patient.name_latin ?? ''}
+																				</p>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>Etiology</td>
+																			<td> : </td>
+																			<td>
+																				<p class="card-text">
+																					{find_progress_note?.etiology ?? ''}
+																				</p>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>Date</td>
+																			<td> : </td>
+																			<td>
+																				<p class="card-text">
+																					{new Intl.DateTimeFormat('en-GB', {
+																						dateStyle: 'short',
+																						timeStyle: 'short',
+																						hour12: true
+																					}).format(new Date(String(find_progress_note?.date_checkup)))}
+																				</p>
+																			</td>
+																		</tr>
+																	{:else}
+																		<tr>
+																			<td>Name khmer </td>
+																			<td> : </td>
+																			<td> </td>
+																		</tr>
+																		<tr>
+																			<td>Name latin</td>
+																			<td> : </td>
+																			<td> </td>
+																		</tr>
+																		<tr>
+																			<td>Etiology</td>
+																			<td> : </td>
+																			<td> </td>
+																		</tr>
+																		<tr>
+																			<td>Date</td>
+																			<td> : </td>
+																			<td> </td>
+																		</tr>
+																	{/if}
+																</thead>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										{/each}
+									</div>
+								</div>
+							{/each}
+							<br />
 						</div>
-					</div>
+						<br />
+						<br />
+					{/each}
 				</div>
 			</div>
 		</div>

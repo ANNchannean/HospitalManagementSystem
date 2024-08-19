@@ -10,8 +10,11 @@
 	const { get_visit, get_progress_note } = data;
 	let etiology = get_visit?.etiology || get_progress_note?.etiology || '';
 	$: ({ get_staffs, get_patient, get_departments, get_words, get_wards } = data);
-	let ward_id: number = get_progress_note?.room.ward_id || 0;
+	let ward_id: number = get_progress_note?.bed.room?.ward_id || 0;
+	let room_id: number = get_progress_note?.bed.room_id || 0;
+	let bed_id: number = get_progress_note?.bed.id || 0;
 	$: find_ward = get_wards.find((e) => e.id === ward_id);
+	$: find_room = find_ward?.room.find((e) => e.id === room_id);
 </script>
 
 <div class="row">
@@ -63,7 +66,7 @@
 	>
 		{#if get_progress_note}
 			<input value={get_progress_note?.id ?? ''} type="hidden" name="progress_note_id" />
-			<input value={get_progress_note?.room_id ?? ''} type="hidden" name="old_room_id" />
+			<input value={get_progress_note?.bed_id ?? ''} type="hidden" name="old_bed_id" />
 		{/if}
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
 		<input value={get_visit?.id ?? ''} type="hidden" name="visit_id" />
@@ -108,27 +111,39 @@
 				</div>
 			</div>
 			<div class="form-group row pb-3">
-				<label for="department_id" class="col-sm-3 col-form-label">Room</label>
+				<label for="ward_id" class="col-sm-3 col-form-label">Ward</label>
 				<div class="col-sm-9">
-					<div class="row">
-						<div class="col">
-							<Select
-								bind:value={ward_id}
-								name="ward_id"
-								items={get_wards.map((e) => ({ id: e.id, name: e.ward }))}
-							/>
-						</div>
-						<div class="col">
-							<Select
-								value={get_progress_note?.room_id || ''}
-								name="room_id"
-								items={find_ward?.room?.map((e) => ({
-									id: e.id,
-									name: e.room?.concat(' ').concat(e.product?.products ?? '')
-								})) || []}
-							/>
-						</div>
-					</div>
+					<Select
+						bind:value={ward_id}
+						name="ward_id"
+						items={get_wards.map((e) => ({ id: e.id, name: e.ward }))}
+					/>
+				</div>
+			</div>
+			<div class="form-group row pb-3">
+				<label for="room_id" class="col-sm-3 col-form-label">Room</label>
+				<div class="col-sm-9">
+					<Select
+						bind:value={room_id}
+						name="room_id"
+						items={find_ward?.room?.map((e) => ({
+							id: e.id,
+							name: e.room?.concat(' ').concat(e.product?.products ?? '')
+						})) || []}
+					/>
+				</div>
+			</div>
+			<div class="form-group row pb-3">
+				<label for="bed_id" class="col-sm-3 col-form-label">Bed</label>
+				<div class="col-sm-9">
+					<Select
+						bind:value={bed_id}
+						name="bed_id"
+						items={find_room?.bed?.map((e) => ({
+							id: e.id,
+							name: e.bed ?? ''
+						})) || []}
+					/>
 				</div>
 			</div>
 		</div>

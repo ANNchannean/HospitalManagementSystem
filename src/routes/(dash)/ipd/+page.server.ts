@@ -12,7 +12,11 @@ export const load = (async ({ url, parent }) => {
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, +progress_note_id || 0),
 		with: {
-			room: true
+			bed: {
+				with: {
+					room: true
+				}
+			}
 		}
 	});
 	const patient_id = url.searchParams.get('patient_id') ?? '';
@@ -43,7 +47,8 @@ export const load = (async ({ url, parent }) => {
 		with: {
 			room: {
 				with: {
-					product: true
+					product: true,
+					bed: true
 				}
 			}
 		}
@@ -64,16 +69,16 @@ export const actions: Actions = {
 	create_visit_ipd: async ({ request }) => {
 		const body = await request.formData();
 		const created_at = now_datetime();
-		const { patient_id, staff_id, department_id, etiology, room_id, visit_id, progress_note_id } =
+		const { patient_id, staff_id, department_id, etiology, bed_id, visit_id, progress_note_id } =
 			Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			patient_id: false,
 			staff_id: false,
 			department_id: false,
 			etiology: false,
-			room_id: false
+			bed_id: false
 		};
-		if (!room_id) validErr.room_id = true;
+		if (!bed_id) validErr.bed_id = true;
 		if (!etiology) validErr.etiology = true;
 		if (!patient_id) validErr.patient_id = true;
 		if (!department_id) validErr.department_id = true;
@@ -84,7 +89,7 @@ export const actions: Actions = {
 				.update(progressNote)
 				.set({
 					date_checkup: created_at,
-					room_id: +room_id,
+					bed_id: +bed_id,
 					staff_id: Number(staff_id),
 					department_id: Number(department_id),
 					etiology: etiology
@@ -100,7 +105,7 @@ export const actions: Actions = {
 				.values({
 					date_checkup: created_at,
 					patient_id: +patient_id,
-					room_id: +room_id,
+					bed_id: +bed_id,
 					staff_id: Number(staff_id),
 					department_id: Number(department_id),
 					etiology: etiology

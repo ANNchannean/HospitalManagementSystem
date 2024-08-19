@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { progressNote, room, visit } from '$lib/server/schema';
+import { progressNote, visit } from '$lib/server/schema';
 import { logErrorMessage } from '$lib/server/telegram';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
@@ -10,13 +10,17 @@ export const load = (async ({ parent }) => {
 	const get_pregress_notes = await db.query.progressNote.findMany({
 		with: {
 			patient: true,
-			room: {
+			bed: {
 				with: {
-					product: true
+					room: {
+						with: {
+							product: true
+						}
+					}
 				}
 			},
 			staff: true,
-			department:true
+			department: true
 		},
 		orderBy: desc(visit.date_checkup)
 	});
@@ -45,10 +49,6 @@ export const actions: Actions = {
 	delete_progress_note: async ({ request }) => {
 		const body = (await request.formData()).entries();
 		const { id } = Object.fromEntries(body) as Record<string, string>;
-		const getProgressNote = await db.query.progressNote.findFirst({
-			where: eq(progressNote.id, +id)
-		});
-		await db.update(room).set({ status: false }).where(eq(room.id, getProgressNote!.room_id!));
 		await db
 			.delete(progressNote)
 			.where(eq(progressNote.id, +id))

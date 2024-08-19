@@ -13,7 +13,7 @@ import { presrciption } from './presrciption';
 import { service } from './service';
 import { document } from './document';
 import { vaccine } from './vaccine';
-import { room } from './wardRoomBed';
+import { bed } from './wardRoomBed';
 
 export const visit = mysqlTable('visit', {
 	id: int('id').primaryKey().autoincrement(),
@@ -94,8 +94,8 @@ export const progressNote = mysqlTable('progress_note', {
 	patient_id: int('patient_id')
 		.references(() => patient.id, { onDelete: 'cascade', onUpdate: 'cascade' })
 		.notNull(),
-	room_id: int('room_id')
-		.references(() => room.id)
+	bed_id: int('bed_id')
+		.references(() => bed.id)
 		.notNull()
 });
 
@@ -107,9 +107,9 @@ export const progressNoteRelations = relations(progressNote, ({ one, many }) => 
 		fields: [progressNote.patient_id],
 		references: [patient.id]
 	}),
-	room: one(room, {
-		fields: [progressNote.room_id],
-		references: [room.id]
+	bed: one(bed, {
+		fields: [progressNote.bed_id],
+		references: [bed.id]
 	}),
 	staff: one(staff, {
 		fields: [progressNote.staff_id],

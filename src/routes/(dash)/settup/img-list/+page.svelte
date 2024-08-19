@@ -168,7 +168,11 @@
 								<td class="text-center">{index + 1}</td>
 								<td>{item.products}</td>
 								<td>{item.imagerieGroup?.imagerie_group ?? ''}</td>
-								<td>{new Intl.NumberFormat().format(item.price)}</td>
+								<td
+									>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+										item.price
+									)}</td
+								>
 								<td>
 									<div>
 										<a

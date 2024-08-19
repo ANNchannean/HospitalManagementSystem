@@ -4,6 +4,7 @@
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
 	import { inerHight } from '$lib/store';
+	import { int } from 'drizzle-orm/mysql-core';
 	export let data: PageServerData;
 	let ward_id: number;
 	let loading = false;
@@ -177,22 +178,21 @@
 												<tr>
 													<td
 														style="width: 50%;"
-														class:text-bg-success={!get_progress_note.some(
-															(e) => e.room_id === iitem.id
-														)}
-														class:text-bg-danger={get_progress_note.some(
-															(e) => e.room_id === iitem.id
-														)}
-														class="justify-content-center align-content-center text-start fs-5 m-0"
+														class="justify-content-center align-content-center text-bg-success text-start fs-5 m-0"
 													>
 														&nbsp;<i class="fa-regular fa-window-maximize"></i>&nbsp;
 														{iitem.room}
 														{iitem.product ? `( ${iitem?.product?.products} )` : ''}
 													</td>
-
 													<td style="width: 50%;">
 														{#each beds as bed}
-															<button class="btn btn-info rounded-0 me-2" type="button">
+															<button
+																class:btn-danger={get_progress_note.some(
+																	(e) => e.bed_id === bed.id
+																)}
+																class="btn btn-info rounded-0 me-2 mb-2"
+																type="button"
+															>
 																<i class="fa-solid fa-bed"></i>
 																{bed.bed}
 															</button>
@@ -211,3 +211,4 @@
 		</div>
 	</div>
 </div>
+

@@ -83,7 +83,7 @@
 							<th style="width: 10%;">Doc</th>
 							<th style="width: 5%;">Visit</th>
 							<th style="width: 5%;">Pay</th>
-							<th style="width: 7%;">send to IPD</th>
+							<th style="width: 7%;">Transfer to IPD</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -103,15 +103,27 @@
 								</td>
 								<td>{item.patient_id ?? ''}</td>
 								<td>
-									<a href="/opd/{item.id}/subjective">
-										<span>
-											{item.patient?.name_khmer}
-										</span>
-										<br />
-										<span class="badge text-bg-primary">
-											{item.patient?.name_latin}
-										</span>
-									</a>
+									{#if item.transfer}
+										<button class="btn btn-link opacity-75">
+											<span>
+												{item.patient?.name_khmer}
+											</span>
+											<br />
+											<span class="badge text-bg-primary">
+												{item.patient?.name_latin}
+											</span>
+										</button>
+									{:else}
+										<a href="/opd/{item.id}/subjective">
+											<span>
+												{item.patient?.name_khmer}
+											</span>
+											<br />
+											<span class="badge text-bg-primary">
+												{item.patient?.name_latin}
+											</span>
+										</a>
+									{/if}
 								</td>
 								<td>
 									{#if editEtiology && item.id === visit_id}
@@ -144,7 +156,8 @@
 										</form>
 									{:else}
 										<button
-											class="btn"
+											disabled={item.transfer}
+											class="btn btn-link text-decoration-none text-dark"
 											on:click={() => {
 												editEtiology = true;
 												editDepartment = false;
@@ -190,7 +203,8 @@
 										</form>
 									{:else}
 										<button
-											class="btn"
+											disabled={item.transfer}
+											class="btn btn-link text-decoration-none text-dark"
 											on:click={(e) => {
 												if (e.target) editDepartment = true;
 												editEtiology = false;
@@ -238,7 +252,8 @@
 										</form>
 									{:else}
 										<button
-											class="btn"
+											disabled={item.transfer}
+											class="btn btn-link text-decoration-none text-dark"
 											on:click={() => {
 												editDepartment = false;
 												editEtiology = false;
@@ -301,11 +316,11 @@
 								<td>
 									<div>
 										{#if item.transfer}
-											<button type="button" class="btn btn-dark btn-sm">Send to IPD</button>
+											<button type="button" class="btn btn-danger btn-sm">Admitted to IPD</button>
 										{:else}
 											<a
 												href="/ipd?patient_id={item.patient_id}&visit_id={item.id}"
-												class="btn btn-light btn-sm">Send to IPD</a
+												class="btn btn-light btn-sm">Transfer to IPD</a
 											>
 										{/if}
 									</div>
@@ -313,6 +328,7 @@
 								<td>
 									<div>
 										<button
+											disabled={item.transfer}
 											on:click={() => {
 												visit_id = 0;
 												visit_id = item.id;
