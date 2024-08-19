@@ -111,39 +111,9 @@
 				</div>
 			</div>
 			<div class="form-group row pb-3">
-				<label for="ward_id" class="col-sm-3 col-form-label">Ward</label>
+				<label for="ward_id" class="col-sm-3 col-form-label">Ward/Room/Bed</label>
 				<div class="col-sm-9">
-					<Select
-						bind:value={ward_id}
-						name="ward_id"
-						items={get_wards.map((e) => ({ id: e.id, name: e.ward }))}
-					/>
-				</div>
-			</div>
-			<div class="form-group row pb-3">
-				<label for="room_id" class="col-sm-3 col-form-label">Room</label>
-				<div class="col-sm-9">
-					<Select
-						bind:value={room_id}
-						name="room_id"
-						items={find_ward?.room?.map((e) => ({
-							id: e.id,
-							name: e.room?.concat(' ').concat(e.product?.products ?? '')
-						})) || []}
-					/>
-				</div>
-			</div>
-			<div class="form-group row pb-3">
-				<label for="bed_id" class="col-sm-3 col-form-label">Bed</label>
-				<div class="col-sm-9">
-					<Select
-						bind:value={bed_id}
-						name="bed_id"
-						items={find_room?.bed?.map((e) => ({
-							id: e.id,
-							name: e.bed ?? ''
-						})) || []}
-					/>
+					<button type="button" class="form-control text-start">s</button>
 				</div>
 			</div>
 		</div>

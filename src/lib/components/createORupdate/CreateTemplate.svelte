@@ -68,7 +68,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group pb-3">
-								<label for="template_">Template</label>
+								<label for="template">Template</label>
 								<TextEditor
 									id={find_template?.id.toString()}
 									name="template_"

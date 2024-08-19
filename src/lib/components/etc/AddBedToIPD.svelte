@@ -1,18 +1,19 @@
 <script lang="ts">
-	import type { LayoutServerData } from '../../../routes/(dash)/$types';
-	export let data: LayoutServerData;
-	$: ({ get_wards, get_progress_note } = data);
+	import type { PageServerData } from '../../../routes/(dash)/ipd/$types';
+	export let data: PageServerData;
+	$: ({ get_wards, get_progress_notes } = data);
+	export let bed_id = 0;
 </script>
 
+<button type="button" class="form-control text-start">s</button>
 <!-- @_List_Parameter -->
-<div class="modal fade" id="view_room">
+<div class="modal fade" id="add_bed_ipd">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Ward/Room/Bed</h4>
-
 				<button
-					id="close_view_room"
+					id="close_add_bed_ipd"
 					type="button"
 					class="btn-close"
 					data-bs-dismiss="modal"
@@ -42,7 +43,7 @@
 								<div class="">
 									<div class="row justify-content-start">
 										{#each beds as bed}
-											{@const find_progress_note = get_progress_note.find(
+											{@const find_progress_note = get_progress_notes.find(
 												(e) => e.bed_id === bed.id
 											)}
 											<div class="card text-bg-light mb-3 ms-4" style="max-width: 500px;">
@@ -53,6 +54,11 @@
 													<div class="col-md-8">
 														<div class="card-body">
 															<button
+																type="button"
+																on:click={() => {
+																	bed_id = 0;
+																	bed_id = bed.id;
+																}}
 																class:btn-danger={find_progress_note}
 																class="card-title btn btn-primary m-0 btn-sm"
 															>

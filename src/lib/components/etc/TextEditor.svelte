@@ -84,7 +84,7 @@
 
 						// (window as any).editor = editor;
 						theEditor = editor;
-						editor?.sourceElement?.focus()
+						editor?.sourceElement?.focus();
 					})
 					.catch((error) => {
 						console.error(error);
@@ -105,8 +105,6 @@
 	}
 </script>
 
-{#if id}
-	<textarea class="form-control" {name} {id}>
-		{getValue}
-	</textarea>
-{/if}
+<textarea class="form-control" {name} {id}>
+	{getValue}
+</textarea>
