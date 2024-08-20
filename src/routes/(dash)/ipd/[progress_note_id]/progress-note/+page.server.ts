@@ -78,7 +78,9 @@ export const actions: Actions = {
 				patient_id: Number(get_pregress_note?.patient_id),
 				date_checkup: created_at,
 				staff_id: Number(staff_id),
-				progress_note_id: +progress_note_id
+				progress_note_id: +progress_note_id,
+				etiology: get_pregress_note?.etiology ?? '',
+				department_id: Number(get_pregress_note?.department_id )
 			})
 			.catch((e) => {
 				logErrorMessage(e);

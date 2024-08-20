@@ -7,10 +7,11 @@
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import Words from '$lib/components/etc/Words.svelte';
 	import { onMount } from 'svelte';
+	import { globalLoading } from '$lib/store';
+	import { invalidateAll } from '$app/navigation';
 	export let data: PageServerData;
-
 	let loading = false;
-	$: ({ get_exams, get_visit, get_physical_exam, get_words } = data);
+	$: ({ get_exams, get_visit, get_words } = data);
 	const { get_physicals } = data;
 	let physicalExam_name = '';
 	$: mean_arterial_pressure =
@@ -70,12 +71,13 @@
 					<td class="text-center"
 						>{mean_arterial_pressure ? mean_arterial_pressure?.toFixed(0).concat(' mmHg') : ''}</td
 					>
-					<td class="text-center">{get_visit?.vitalSign?.pulse?.toFixed(0).concat(' min') ?? ''}</td
+					<td class="text-center"
+						>{get_visit?.vitalSign?.pulse?.toFixed(0).concat(' /min') ?? ''}</td
 					>
 					<td class="text-center"
 						><Athtml html={get_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''} /></td
 					>
-					<td class="text-center">{get_visit?.vitalSign?.rr?.toFixed(0).concat(' min') ?? ''}</td>
+					<td class="text-center">{get_visit?.vitalSign?.rr?.toFixed(0).concat(' /min') ?? ''}</td>
 					<td class="text-center">{get_visit?.vitalSign?.sp02?.toFixed(0).concat(' %') ?? ''}</td>
 					<td class="text-center">{get_visit?.vitalSign?.height?.toFixed(0).concat(' cm') ?? ''}</td
 					>
@@ -135,15 +137,20 @@
 									class="bg-light py-3"
 									use:enhance={() => {
 										loading = true;
-										return async ({ update }) => {
+										$globalLoading = true;
+										return async ({ update, result }) => {
 											await update({ reset: false });
 											loading = false;
+											$globalLoading = false;
+											if (result.type !== 'failure') {
+												invalidateAll();
+											}
 										};
 									}}
 								>
 									<div class="row px-4 pt-2">
 										{#each item.physical as element}
-											{@const exam_result = get_physical_exam.find(
+											{@const exam_result = get_visit?.physicalExam.find(
 												(e) => e.physical_id === element.id
 											)}
 
@@ -171,7 +178,7 @@
 												/>
 												<!-- <p class="pb-0 mb-0">{element?.physical ?? ''}</p> -->
 												<input
-													value={obj[element.id]}
+													bind:value={obj[element.id]}
 													name="physical"
 													class="form-control"
 													type="text"
@@ -181,7 +188,7 @@
 									</div>
 
 									<div class=" px-4 pb-2 pt-2 d-grid gap-2 d-md-flex justify-content-md-end">
-										<SubmitButton />
+										<SubmitButton {loading} />
 									</div>
 								</form>
 							{/if}

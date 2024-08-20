@@ -6,7 +6,7 @@
 
 <!-- @_List_Parameter -->
 <div class="modal fade" id="view_room">
-	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
+	<div class="modal-dialog modal-dialog-scrollabl modal-fullscreen">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Ward/Room/Bed</h4>
@@ -52,18 +52,20 @@
 													</div>
 													<div class="col-md-8">
 														<div class="card-body">
-															<button
+															<a
+																on:click={() => document.getElementById('close_view_room')?.click()}
+																href="/ipd/{find_progress_note?.id}/progress-note"
 																class:btn-danger={find_progress_note}
 																class="card-title btn btn-primary m-0 btn-sm"
 															>
 																{bed.bed}
-															</button>
+															</a>
 															{#if find_progress_note}
 																<a
 																	on:click={() =>
 																		document.getElementById('close_view_room')?.click()}
 																	href="/ipd?patient_id={find_progress_note?.patient_id}&progress_note_id={find_progress_note?.id}"
-																	class:btn-danger={find_progress_note}
+																	class:btn-warning={find_progress_note}
 																	class="card-title btn btn-primary m-0 btn-sm"
 																>
 																	Chagne Bed

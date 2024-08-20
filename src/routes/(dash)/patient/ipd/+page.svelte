@@ -77,7 +77,6 @@
 							<th>Doctor</th>
 							<th>Room</th>
 							<th>Doc</th>
-							<th>Visit</th>
 							<th>Payment</th>
 							<th>Action</th>
 						</tr>
@@ -250,7 +249,7 @@
 										>{item.bed?.room?.product?.products ?? ''}</span
 									>
 								</td>
-								<td></td>
+					
 								<td
 									><div>
 										<a class="btn btn-secondary btn-sm" href="/{item.id}/subjective"

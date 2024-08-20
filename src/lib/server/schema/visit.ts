@@ -17,7 +17,7 @@ import { bed } from './wardRoomBed';
 
 export const visit = mysqlTable('visit', {
 	id: int('id').primaryKey().autoincrement(),
-	date_checkup: datetime('date_checkup', { mode: 'string' }),
+	date_checkup: datetime('date_checkup', { mode: 'string' }).notNull(),
 	patient_id: int('patient_id')
 		.references(() => patient.id, { onDelete: 'cascade' })
 		.notNull(),

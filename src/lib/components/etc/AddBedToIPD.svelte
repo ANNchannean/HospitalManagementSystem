@@ -5,7 +5,6 @@
 	export let bed_id = 0;
 </script>
 
-<button type="button" class="form-control text-start">s</button>
 <!-- @_List_Parameter -->
 <div class="modal fade" id="add_bed_ipd">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
@@ -48,7 +47,10 @@
 											)}
 											<div class="card text-bg-light mb-3 ms-4" style="max-width: 500px;">
 												<div class="row g-0">
-													<div class:text-danger={find_progress_note} class="col-md-4 text-primary">
+													<div
+														class:text-danger={find_progress_note || bed.id === bed_id}
+														class="col-md-4 text-primary"
+													>
 														<i class="fa-solid fa-bed fa-6x ms-2"></i>
 													</div>
 													<div class="col-md-8">
@@ -56,10 +58,15 @@
 															<button
 																type="button"
 																on:click={() => {
-																	bed_id = 0;
-																	bed_id = bed.id;
+																	if (bed_id === bed.id) {
+																		bed_id = 0;
+																	} else {
+																		bed_id = 0;
+
+																		bed_id = bed.id;
+																	}
 																}}
-																class:btn-danger={find_progress_note}
+																class:btn-danger={find_progress_note || bed.id === bed_id}
 																class="card-title btn btn-primary m-0 btn-sm"
 															>
 																{bed.bed}

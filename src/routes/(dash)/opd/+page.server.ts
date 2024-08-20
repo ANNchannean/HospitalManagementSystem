@@ -97,7 +97,6 @@ export const actions: Actions = {
 		if (visit_id > 0) {
 			// doing billing
 			await preBilling(visit_id);
-
 			// creae vital sign
 			if (asign_vitalsing === 'on') {
 				await db
@@ -110,7 +109,7 @@ export const actions: Actions = {
 						pulse: +pulse,
 						sp02: +sp02,
 						t: +t,
-						visit_id: visit_id,
+						visit_id: +visit_id,
 						sbp: +sbp,
 						dbp: +dbp
 					})
@@ -119,7 +118,7 @@ export const actions: Actions = {
 					});
 			}
 
-			if (assign_subjective === 'one') {
+			if (assign_subjective === 'on') {
 				await db
 					.insert(subjective)
 					.values({
@@ -128,7 +127,7 @@ export const actions: Actions = {
 						past_medical_history: past_medical_history,
 						history_of_present_illness: history_of_present_illness,
 						surgical_history: surgical_history,
-						visit_id: Number(visit_id),
+						visit_id: +visit_id,
 						current_medication: current_medication,
 						family_and_social_history: family_and_social_history
 					})
@@ -137,6 +136,7 @@ export const actions: Actions = {
 					});
 			}
 		}
+
 		redirect(303, '/patient/opd');
 	}
 };

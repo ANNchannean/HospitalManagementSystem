@@ -1,0 +1,1 @@
+ALTER TABLE `visit` MODIFY COLUMN `date_checkup` datetime NOT NULL;

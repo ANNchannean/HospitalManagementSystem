@@ -44,7 +44,7 @@
 						</tr>
 						<tr>
 							<td>Type</td>
-							<td>{get_progress_note?.visit[0]?.checkin_type ?? ''}</td>
+							<td>IPD</td>
 							<td>Ward/Room/Bed</td>
 							<td> ... </td>
 

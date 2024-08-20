@@ -81,8 +81,7 @@
 							<th style="width: 20%;">Department</th>
 							<th style="width: 10%;">Doctor</th>
 							<th style="width: 10%;">Doc</th>
-							<th style="width: 5%;">Visit</th>
-							<th style="width: 5%;">Pay</th>
+							<th style="width: 5%;">Payment</th>
 							<th style="width: 7%;">Transfer to IPD</th>
 							<th></th>
 						</tr>
@@ -265,6 +264,7 @@
 								</td>
 								<td>
 									<button
+										disabled={item.transfer}
 										on:click={() => {
 											visit_id = 0;
 											visit_id = Number(item?.id);
@@ -285,12 +285,11 @@
 										{/if}
 									</button>
 								</td>
-								<td>
-									{item.checkin_type ?? ''}
-								</td>
+
 								<td>
 									{#if item.billing?.status === 'active'}
 										<button
+											disabled={item.transfer}
 											type="button"
 											on:click={() => {
 												billing_id = 0;
@@ -309,7 +308,7 @@
 											type="button"
 											data-bs-toggle="modal"
 											data-bs-target="#confirme_modal"
-											class="btn btn-danger btn-sm">DeActive</button
+											class="btn btn-danger btn-sm">Discharge</button
 										>
 									{/if}
 								</td>

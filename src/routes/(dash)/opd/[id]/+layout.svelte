@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { LayoutServerData } from './$types';
 	let visit_id = $page.params.id;
 	export let data: LayoutServerData;
-	$: ({ get_visit } = data);
+	$: ({ get_visit, get_visits, get_exams } = data);
+	let old_visit_id = 0;
+	$: find_old_visit = get_visits.find((e) => e.id === old_visit_id);
+	$: mean_arterial_pressure =
+		(1 / 3) * Number(find_old_visit?.vitalSign?.sbp) +
+		(2 / 3) * Number(find_old_visit?.vitalSign?.dbp);
 </script>
 
 <div class="row">
@@ -174,3 +180,197 @@
 </div>
 
 <slot />
+
+<hr />
+<div class="row">
+	{#each get_visits as item}
+		<div class="col-auto">
+			<button
+				on:click={() => {
+					if (old_visit_id === item.id) {
+						old_visit_id = 0;
+					} else {
+						old_visit_id = 0;
+						old_visit_id = item.id;
+					}
+				}}
+				class="btn mb-3"
+				class:btn-outline-primary={old_visit_id !== item.id}
+				class:btn-primary={old_visit_id === item.id}
+				>{new Intl.DateTimeFormat('en-GB', {
+					dateStyle: 'short',
+					timeStyle: 'short',
+					hour12: true
+				}).format(Date.parse(item.date_checkup))}</button
+			>
+		</div>
+	{/each}
+</div>
+{#if find_old_visit}
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<tbody>
+				<tr>
+					<td style="width: 33.33%;">
+						<div class="border rounded border-1 p-2 mb-2">
+							<span class="fs-4 text-decoration-underline text-primary">VitalSign</span>
+							<table class="table-sm table">
+								<thead>
+									<tr>
+										<td style="width: 40%;">BP(mmHg)</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.sbp?.toFixed(0).concat(' /') ?? ''}
+											{find_old_visit?.vitalSign?.dbp?.toFixed(0).concat(' mmHg') ?? ''}
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 40%;">MAP</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{mean_arterial_pressure
+												? mean_arterial_pressure?.toFixed(0).concat(' mmHg')
+												: ''}</td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Pulse (min)</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.pulse?.toFixed(0).concat(' /min') ?? ''}</td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Temperature °C/td </td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											><Athtml
+												html={find_old_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''}
+											/></td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">RR (min)</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.rr?.toFixed(0).concat(' /min') ?? ''}</td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">SpO2 (%)</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.sp02?.toFixed(0).concat(' %') ?? ''}</td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Height (cm)</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.height?.toFixed(0).concat(' cm') ?? ''}</td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Weight (kg)</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.weight?.toFixed(0).concat(' kg') ?? ''}</td
+										>
+									</tr>
+									<tr>
+										<td style="width: 40%;">BMI</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;"
+											>{find_old_visit?.vitalSign?.bmi?.toFixed(1).concat(' kg/m2') ?? ''}</td
+										>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="border rounded border-1 p-2 mb-2">
+							<span class="fs-4 text-decoration-underline text-primary">Cheif complaint</span>
+							<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
+						</div>
+						<div class="border rounded border-1 p-2 mb-2">
+							<span class="fs-4 text-decoration-underline text-primary"
+								>History of Present illness</span
+							>
+							<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
+						</div>
+						<div class="border rounded border-1 p-2 mb-2">
+							<span class="fs-4 text-decoration-underline text-primary">Past medicine history</span>
+							<table class="table-sm table">
+								<thead>
+									<tr>
+										<td style="width: 40%;"> Current Medication</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;">
+											{find_old_visit.subjective?.current_medication ?? ''}
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Past medical history</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;">
+											{find_old_visit.subjective?.past_medical_history ?? ''}
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Allergy medicine</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;">
+											{find_old_visit.subjective?.allesgy_medicine ?? ''}
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Surgical history</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;">
+											{find_old_visit.subjective?.surgical_history ?? ''}
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 40%;">Family and social history</td>
+										<td style="width: 30%;">:</td>
+										<td style="width: 30%;">
+											{find_old_visit.subjective?.family_and_social_history ?? ''}
+										</td>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						{#each get_exams as exam, index}
+							{@const physicals = exam.physical}
+							{#if find_old_visit.physicalExam.some((e) => e.physical?.exam_id === exam.id)}
+								<div class="border rounded border-1 p-2 mb-2">
+									<span class="fs-5 text-decoration-underline text-primary"
+										>{index + 1} {exam.examination ?? ''}</span
+									>
+									<table class=" table table-sm">
+										<thead>
+											{#each physicals as physical}
+												{#each find_old_visit.physicalExam as physical_exam}
+													{#if physical_exam.physical_id === physical.id}
+														<tr>
+															<td style="width: 40%;"> {physical.physical}</td>
+															<td style="width: 30%;">:</td>
+															<td style="width: 30%;">
+																{physical_exam.result ?? ''}
+															</td>
+														</tr>
+													{/if}
+												{/each}
+											{/each}
+										</thead>
+									</table>
+								</div>
+							{/if}
+						{/each}
+					</td>
+					<td style="width: 33.33%;">2</td>
+					<td style="width: 33.33%;">3</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{/if}

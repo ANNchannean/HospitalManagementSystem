@@ -5,18 +5,19 @@
 	import Select from '$lib/components/etc/Select.svelte';
 	import Words from '$lib/components/etc/Words.svelte';
 	import { globalLoading } from '$lib/store';
+	import AddBedToIpd from '$lib/components/etc/AddBedToIPD.svelte';
 	let loading = false;
 	export let data: PageServerData;
-	const { get_visit, get_progress_note } = data;
+	const { get_visit, get_progress_note, get_beds } = data;
 	let etiology = get_visit?.etiology || get_progress_note?.etiology || '';
-	$: ({ get_staffs, get_patient, get_departments, get_words, get_wards } = data);
-	let ward_id: number = get_progress_note?.bed.room?.ward_id || 0;
-	let room_id: number = get_progress_note?.bed.room_id || 0;
+	$: ({ get_staffs, get_patient, get_departments, get_words } = data);
+
 	let bed_id: number = get_progress_note?.bed.id || 0;
-	$: find_ward = get_wards.find((e) => e.id === ward_id);
-	$: find_room = find_ward?.room.find((e) => e.id === room_id);
+
+	$: find_bed = get_beds.find((e) => e.id === bed_id);
 </script>
 
+<AddBedToIpd bind:bed_id {data} />
 <div class="row">
 	<div class="col-sm-6">
 		<h2 class="">New Visit IPD</h2>
@@ -68,6 +69,7 @@
 			<input value={get_progress_note?.id ?? ''} type="hidden" name="progress_note_id" />
 			<input value={get_progress_note?.bed_id ?? ''} type="hidden" name="old_bed_id" />
 		{/if}
+		<input value={bed_id} type="hidden" name="bed_id" />
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
 		<input value={get_visit?.id ?? ''} type="hidden" name="visit_id" />
 		<div class="card-body">
@@ -113,7 +115,20 @@
 			<div class="form-group row pb-3">
 				<label for="ward_id" class="col-sm-3 col-form-label">Ward/Room/Bed</label>
 				<div class="col-sm-9">
-					<button type="button" class="form-control text-start">s</button>
+					<button
+						type="button"
+						data-bs-toggle="modal"
+						data-bs-target="#add_bed_ipd"
+						class="form-control text-start"
+						>{#if find_bed}
+							{find_bed?.ward?.ward},
+							{find_bed?.room?.room}
+							{find_bed?.room?.product?.products},
+							{find_bed?.bed}
+						{:else}
+							Select Bed
+						{/if}
+					</button>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { department, staff, patient, visit, progressNote } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
-import { asc, eq, isNotNull } from 'drizzle-orm';
+import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
 import { fail, redirect } from '@sveltejs/kit';
@@ -15,31 +15,29 @@ export const load = (async ({ url, parent }) => {
 			bed: {
 				with: {
 					room: {
-						with:{
-							bed:true,
-							product:true
-						},
-						
+						with: {
+							bed: true,
+							product: true
+						}
 					}
 				}
 			}
 		}
 	});
 	const get_progress_notes = await db.query.progressNote.findMany({
-		where: isNotNull(progressNote.date_checkout),
+		where: isNull(progressNote.date_checkout),
 		with: {
 			bed: {
 				with: {
 					room: {
-						with:{
-							bed:true,
-							product:true
-						},
-						
+						with: {
+							bed: true,
+							product: true
+						}
 					}
 				}
 			},
-			patient:true
+			patient: true
 		}
 	});
 	const patient_id = url.searchParams.get('patient_id') ?? '';
@@ -71,9 +69,28 @@ export const load = (async ({ url, parent }) => {
 			room: {
 				with: {
 					product: true,
-					bed: true
+					bed: {
+						with: {
+							room: {
+								with: {
+									product: true
+								}
+							},
+							ward: true
+						}
+					}
 				}
 			}
+		}
+	});
+	const get_beds = await db.query.bed.findMany({
+		with: {
+			room: {
+				with: {
+					product: true
+				}
+			},
+			ward: true
 		}
 	});
 	const get_words = await db.query.words.findMany();
@@ -85,7 +102,8 @@ export const load = (async ({ url, parent }) => {
 		get_wards,
 		get_visit,
 		get_progress_note,
-		get_progress_notes
+		get_progress_notes,
+		get_beds
 	};
 }) satisfies PageServerLoad;
 

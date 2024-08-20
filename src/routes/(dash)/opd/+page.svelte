@@ -301,7 +301,7 @@
 					bind:checked={assign_subjective}
 					class="form-check-input"
 					type="checkbox"
-					name="asign_vitalsing"
+					name="assign_subjective"
 					id="assign_subjective"
 				/>
 				<label class="form-check-label" for="assign_subjective">Accept Subjective</label>
