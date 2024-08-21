@@ -14,10 +14,10 @@
 		"format": "prettier --write .",
 		"db:generate": "drizzle-kit generate ",
 		"db:push": "drizzle-kit push ",
-		"db:migrate": "vite-note src/lib/server/migrate.ts ",
-		"db:seed": "vite-note src/lib/server/seed.ts ",
-		"db:drop": "vite-note src/lib/server/drop.ts && npm run db:create",
-		"db:create": "vite-note src/lib/server/create.ts "
+		"db:migrate": "vite-node src/lib/server/migrate.ts ",
+		"db:seed": "vite-node src/lib/server/seed.ts ",
+		"db:drop": "vite-node src/lib/server/drop.ts && vite-node src/lib/server/create.ts",
+		"db:create": "vite-node src/lib/server/create.ts "
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.2.2",
@@ -25,7 +25,7 @@
 		"@sveltejs/enhanced-img": "^0.3.1",
 		"@sveltejs/kit": "^2.5.18",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
-		"@types/eslint": "^9.6.0",
+		"@types/eslint": "^8.56.0",
 		"@types/express": "^4.17.21",
 		"@types/node": "^22.0.0",
 		"@types/nprogress": "^0.2.3",
@@ -33,7 +33,7 @@
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
 		"drizzle-kit": "^0.23.1",
-		"eslint": "^9.6.0",
+		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-drizzle": "^0.2.3",
 		"eslint-plugin-svelte": "^2.36.0",
