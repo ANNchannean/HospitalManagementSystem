@@ -105,7 +105,7 @@
 	}
 
 	onDestroy(() => {
-		if (browser) {
+		if (browser && theEditor) {
 			theEditor.destroy();
 		}
 	});

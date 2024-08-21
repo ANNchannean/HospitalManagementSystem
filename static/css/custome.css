@@ -145,7 +145,7 @@ td {
 .ck-powered-by {
 	display: none;
 }
-:root {
+/* :root {
     --ck-z-default: 100;
     --ck-z-panel: calc( var(--ck-z-default) + 999 );
 }
@@ -154,4 +154,4 @@ td {
 }
 .ck-content .table th td {
     width: 100vh;
-}
+} */

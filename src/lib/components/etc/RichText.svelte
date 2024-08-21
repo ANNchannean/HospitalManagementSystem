@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from '../../../routes/(dash)/settup/img-template/$types';
 	import Athtml from './Athtml.svelte';
+	import Renderhtml from './Renderhtml.svelte';
 	export let data: PageServerData;
 	export let template_id: number;
 	$: ({ get_templates } = data);
@@ -21,7 +22,7 @@
 				>
 				</button>
 			</div>
-			<div class="modal-body ">
+			<div class="modal-body">
 				<!-- <textarea
 					value={find_template?.template ?? ''}
 					name="template_view"
@@ -29,7 +30,8 @@
 					rows="10"
 					class="form-control"
 				/> -->
-				<Athtml html={find_template?.template ?? ''} />
+				<Renderhtml value={find_template?.template ?? ''} />
+				<!-- <Athtml html={find_template?.template ?? ''} /> -->
 			</div>
 		</div>
 	</div>

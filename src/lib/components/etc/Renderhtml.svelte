@@ -3,7 +3,7 @@
 	import type { ClassicEditor } from 'ckeditor5';
 	import { onDestroy, onMount } from 'svelte';
 	export let value: string;
-	export let id: string;
+	const id = Date.now().toString();
 	let theEditor: ClassicEditor;
 	$: {
 		onMount(async () => {
@@ -23,7 +23,7 @@
 				TableColumnResize
 			} = await import('ckeditor5');
 			if (browser) {
-				const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
+				const editorPlaceholder = document.getElementById(id) as HTMLElement;
 				await ClassicEditor.create(editorPlaceholder, {
 					fontFamily: {
 						options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
@@ -79,7 +79,7 @@
 						// (window as any).editor = editor;
 						const toolbarElement = editor.ui.view.toolbar.element as HTMLElement;
 						toolbarElement.style.display = 'none';
-						editor.enableReadOnlyMode(`#${id}`);
+						editor.enableReadOnlyMode(id);
 						theEditor = editor;
 						editor?.sourceElement?.focus();
 					})
@@ -91,12 +91,15 @@
 	}
 
 	onDestroy(() => {
-		if (browser) {
+		if (browser && theEditor) {
 			theEditor.destroy();
 		}
 	});
+	$: {
+		if (browser) {
+			theEditor?.setData(value);
+		}
+	}
 </script>
 
-<div {id}>
-	{value}
-</div>
+<div {id}></div>
