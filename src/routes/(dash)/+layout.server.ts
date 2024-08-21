@@ -12,8 +12,8 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	const get_clinich_info = await db.query.clinicinfo.findFirst({ with: { fileOrPicture: true } });
 	const get_progress_note = await db.query.progressNote.findMany({
 		where: isNull(progressNote.date_checkout),
-		with:{
-			patient:true
+		with: {
+			patient: true
 		}
 	});
 	const get_wards = await db.query.ward.findMany({
@@ -21,7 +21,7 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 			room: {
 				with: {
 					product: true,
-					bed:true
+					bed: true
 				}
 			}
 		}

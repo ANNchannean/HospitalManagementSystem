@@ -10,7 +10,7 @@
 <TextEditor name="okay" id="s" bind:getValue {setValue} />
 <!-- <input type="text" name="" bind:value id="" /> -->
 
-<Renderhtml  value={getValue} />
+<Renderhtml value={getValue} />
 
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

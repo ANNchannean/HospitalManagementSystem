@@ -249,7 +249,7 @@
 										>{item.bed?.room?.product?.products ?? ''}</span
 									>
 								</td>
-					
+
 								<td
 									><div>
 										<a class="btn btn-secondary btn-sm" href="/{item.id}/subjective"

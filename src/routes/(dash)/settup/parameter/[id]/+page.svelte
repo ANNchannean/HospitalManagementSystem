@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import UpdateParameter from '$lib/components/createORupdate/UpdateParameter.svelte';
 	import { inerHight } from '$lib/store';

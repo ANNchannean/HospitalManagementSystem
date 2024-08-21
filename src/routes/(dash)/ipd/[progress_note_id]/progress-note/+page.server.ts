@@ -80,7 +80,7 @@ export const actions: Actions = {
 				staff_id: Number(staff_id),
 				progress_note_id: +progress_note_id,
 				etiology: get_pregress_note?.etiology ?? '',
-				department_id: Number(get_pregress_note?.department_id )
+				department_id: Number(get_pregress_note?.department_id)
 			})
 			.catch((e) => {
 				logErrorMessage(e);

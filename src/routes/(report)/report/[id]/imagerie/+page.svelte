@@ -259,7 +259,7 @@
 									Imagerie Result
 								</h1>
 							</u>
-					
+
 							<div>
 								<Renderhtml value={get_imagerie_request?.result ?? ''} />
 

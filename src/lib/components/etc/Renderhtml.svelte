@@ -44,8 +44,8 @@
 						List,
 						Alignment,
 						TableColumnResize
-					],
-					
+					]
+
 					// table: {
 					// 	contentToolbar: [
 					// 		'tableColumn',
@@ -83,6 +83,8 @@
 	}
 </script>
 
-<div style="border: none
-;" {id}></div>
-
+<div
+	style="border: none
+;"
+	{id}
+></div>

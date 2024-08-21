@@ -177,7 +177,6 @@
 <div class="modal fade" id="create_document">
 	<div class="modal-dialog modal-xl">
 		<form
-		
 			action="?/create_document"
 			use:enhance={() => {
 				loading = true;
