@@ -50,8 +50,7 @@
 						Undo,
 						List,
 						Alignment,
-						TableColumnResize,
-						
+						TableColumnResize
 					],
 					toolbar: [
 						'undo',
@@ -71,9 +70,8 @@
 						'insertTable',
 						'tableColumn',
 						'tableRow',
-						'mergeTableCells',
-						
-					],
+						'mergeTableCells'
+					]
 					// table: {
 					// 	contentToolbar: [
 					// 		'tableColumn',
@@ -119,8 +117,8 @@
 	}
 </script>
 
-<div >
-	<textarea  {name} {id}>
+<div>
+	<textarea {name} {id}>
 		{getValue}
 	</textarea>
 </div>
