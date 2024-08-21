@@ -78,7 +78,7 @@
 								/>
 							</div>
 							<div class="col-auto">
-								<SubmitButton name="Add" />
+								<SubmitButton {loading} name="Add" />
 							</div>
 						</div>
 					</div>

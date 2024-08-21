@@ -24,6 +24,12 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 					provice: true,
 					village: true
 				}
+			},
+			bed: {
+				with: {
+					room: true,
+					ward: true
+				}
 			}
 		}
 	});

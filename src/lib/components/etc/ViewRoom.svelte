@@ -21,7 +21,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="">
+				<div class="pt-4">
 					{#each get_wards as item}
 						{@const rooms = item.room}
 						<div style="border:2px solid blue;" class=" position-relative rounded">

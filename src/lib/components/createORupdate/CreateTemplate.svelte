@@ -16,7 +16,7 @@
 </script>
 
 <!-- @_List_Parameter -->
-<div class="modal fade" id="create_template" data-bs-backdrop="static">
+<div class="modal fade" id="create_template" data-bs-backdrop="static" data-bs-focus="false">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
 		<form
 			enctype="multipart/form-data"
@@ -70,7 +70,7 @@
 							<div class="form-group pb-3">
 								<label for="template">Template</label>
 								<TextEditor
-									id={find_template?.id.toString()}
+									id={find_template?.id.toString().concat('template_')}
 									name="template_"
 									setValue={find_template?.template ?? ''}
 								/>

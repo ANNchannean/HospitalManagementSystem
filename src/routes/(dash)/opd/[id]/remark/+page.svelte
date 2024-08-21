@@ -6,6 +6,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
 	$: ({ get_remark } = data);
 	let loading = false;
@@ -18,12 +19,13 @@
 		<span># Remark</span>
 	</div>
 	<form
-		enctype="multipart/form-data"
 		use:enhance={() => {
 			loading = true;
-			return async ({ update, result }) => {
+			$globalLoading = true;
+			return async ({ update }) => {
 				await update();
 				loading = false;
+				$globalLoading = false;
 			};
 		}}
 		action="?/create_remark"
@@ -36,7 +38,7 @@
 				<div class="col-sm-9">
 					<TextEditor
 						height={200}
-						id={get_remark?.id.toString()}
+						id="description"
 						name="description"
 						setValue={get_remark?.description ?? ''}
 					/>

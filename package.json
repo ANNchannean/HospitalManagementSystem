@@ -14,10 +14,10 @@
 		"format": "prettier --write .",
 		"db:generate": "drizzle-kit generate ",
 		"db:push": "drizzle-kit push ",
-		"db:migrate": "bun src/lib/server/migrate.ts ",
-		"db:seed": "bun src/lib/server/seed.ts ",
-		"db:drop": "bun src/lib/server/drop.ts && npm run db:create",
-		"db:create": "bun src/lib/server/create.ts "
+		"db:migrate": "vite-note src/lib/server/migrate.ts ",
+		"db:seed": "vite-note src/lib/server/seed.ts ",
+		"db:drop": "vite-note src/lib/server/drop.ts && npm run db:create",
+		"db:create": "vite-note src/lib/server/create.ts "
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.2.2",

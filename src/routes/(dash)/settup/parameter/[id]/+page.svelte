@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 
 	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
 	import UpdateParameter from '$lib/components/createORupdate/UpdateParameter.svelte';
@@ -11,29 +10,6 @@
 	let parameter_id: number;
 	$: ({ get_parameters, get_product_labo } = data);
 	$: find_parameter = get_parameters.find((e) => e.id === parameter_id);
-
-	function create_summernote() {
-		if (browser) {
-			const $ = (window as any).$;
-			$(document).ready(function () {
-				$('#summernote').summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	}
 </script>
 
 <DeleteModal action="?/delete_parameter" id={find_parameter?.id} />
@@ -124,7 +100,6 @@
 									on:click={() => {
 										parameter_id = 0;
 										parameter_id = item.id;
-										create_summernote();
 									}}
 									type="button"
 									class="btn btn-primary btn-sm"

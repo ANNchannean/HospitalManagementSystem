@@ -4,11 +4,10 @@
 </script>
 
 {#if contenteditable}
-	<div contenteditable="true" bind:innerHTML={html} />
+	<div style="max-width:100%;" contenteditable="true" bind:innerHTML={html} />
 {:else}
-	<div contenteditable="false" bind:innerHTML={html} />
+	<div style="max-width:100%;" contenteditable="false" bind:innerHTML={html} />
 {/if}
-
 <!-- <style>
 	[contenteditable] {
 		padding: 0.5em;

@@ -21,7 +21,7 @@
 				>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body ">
 				<!-- <textarea
 					value={find_template?.template ?? ''}
 					name="template_view"

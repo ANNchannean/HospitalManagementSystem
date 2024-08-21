@@ -46,7 +46,10 @@
 							<td>Type</td>
 							<td>IPD</td>
 							<td>Ward/Room/Bed</td>
-							<td> ... </td>
+							<td
+								>{get_progress_note?.bed.ward?.ward},{get_progress_note?.bed.room
+									?.room},{get_progress_note?.bed.bed}</td
+							>
 
 							<td></td>
 						</tr>

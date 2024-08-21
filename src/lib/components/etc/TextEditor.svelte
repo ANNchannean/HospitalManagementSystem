@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { ClassicEditor } from 'ckeditor5';
-	import 'ckeditor5/ckeditor5.css';
+	// import 'ckeditor5/ckeditor5.css';
 	import { onDestroy, onMount } from 'svelte';
 	export let name: string;
 	export let height = 400;
@@ -23,7 +23,11 @@
 				Table,
 				Undo,
 				List,
-				Alignment
+				Alignment,
+				TableColumnResize,
+				TableProperties,
+				TableCellProperties,
+				FullPage
 			} = await import('ckeditor5');
 			if (browser) {
 				const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
@@ -35,6 +39,7 @@
 						options: [9, 11, 13, 'default', 17, 19, 21]
 					},
 					plugins: [
+						FullPage,
 						Essentials,
 						Paragraph,
 						Bold,
@@ -44,7 +49,9 @@
 						TableToolbar,
 						Undo,
 						List,
-						Alignment
+						Alignment,
+						TableColumnResize,
+						
 					],
 					toolbar: [
 						'undo',
@@ -61,14 +68,21 @@
 						'|',
 						'fontColor',
 						'fontBackgroundColor',
-						'insertTable'
+						'insertTable',
+						'tableColumn',
+						'tableRow',
+						'mergeTableCells',
+						
 					],
-					table: {
-						contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-					},
-					ui: {
-						viewportOffset: {}
-					}
+					// table: {
+					// 	contentToolbar: [
+					// 		'tableColumn',
+					// 		'tableRow',
+					// 		'mergeTableCells',
+					// 		'tableProperties',
+					// 		'tableCellProperties'
+					// 	]
+					// }
 				})
 					.then((editor) => {
 						editor.model.document.on('change:data', () => {
@@ -105,6 +119,8 @@
 	}
 </script>
 
-<textarea class="form-control" {name} {id}>
-	{getValue}
-</textarea>
+<div >
+	<textarea  {name} {id}>
+		{getValue}
+	</textarea>
+</div>

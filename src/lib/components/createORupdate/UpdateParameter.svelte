@@ -15,13 +15,6 @@
 	let loading = false;
 	$: ({ get_units, get_parameters } = data);
 	$: find_parameter = get_parameters.find((e) => e.id === parameter_id);
-
-	function destroy_summernote() {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery('#summernote').summernote('destroy');
-		});
-	}
 </script>
 
 <!-- @_Add_Parameter -->
@@ -47,7 +40,6 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Paramater</h4>
 				<button
-					on:click={destroy_summernote}
 					id="close_update_parameter"
 					type="button"
 					class="btn-close"
@@ -105,7 +97,7 @@
 												href="/settup/unit"
 												type="button"
 												class=" btn btn-default ml-1"
-												on:click={() => document.getElementById('close-parameter')?.click()}
+												on:click={() => document.getElementById('close_update_parameter')?.click()}
 												><i class="fas fa-share-square"></i>
 											</a>
 										</div>

@@ -1,1 +1,2 @@
 JavaScript Real Code => ' \u17DB'
+npm config set legacy-peer-deps true

@@ -1,8 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { progressNote, visit } from '$lib/server/schema';
-import { and, eq, ne } from 'drizzle-orm';
+import { laboratoryResult, parameter, progressNote, visit } from '$lib/server/schema';
+import { and, asc, desc, eq, isNull } from 'drizzle-orm';
 export const load: LayoutServerLoad = async ({ params, parent }) => {
 	await parent();
 	const visit_id = params.id;
@@ -26,11 +26,34 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	if (!get_visit) redirect(303, '/patient/all');
 	const get_visits = await db.query.visit.findMany({
 		where: and(
-			ne(visit.id, get_visit.id),
+			isNull(visit.progress_note_id),
 			eq(visit.checkin_type, 'OPD'),
-			eq(visit.transfer, false)
+			eq(visit.patient_id, get_visit.patient_id)
 		),
 		with: {
+			laboratoryRequest: {
+				with: {
+					product: {
+						with: {
+							parameter: {
+								with: {
+									unit: true,
+									laboratoryResult: true
+								},
+								orderBy: asc(parameter.id)
+							}
+						}
+					},
+					laboratoryResult: true
+				},
+				orderBy: desc(laboratoryResult.id)
+			},
+			imagerieRequest: {
+				with: {
+					product: true,
+					fileOrPicture: true
+				}
+			},
 			subjective: true,
 			physicalExam: {
 				with: {

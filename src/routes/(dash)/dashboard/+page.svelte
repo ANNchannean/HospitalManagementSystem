@@ -1,14 +1,16 @@
 <script lang="ts">
-	import Ckeditor from '$lib/components/etc/Ckeditor.svelte';
-	import RichText from '$lib/components/etc/RichText.svelte';
+	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	let setValue = '';
 	let getValue = '';
 </script>
 
-<input type="text" name="" bind:value={setValue} id="" />
-<TextEditor name="okay"  id="ok" {setValue} {getValue}  />
+<input type="text" class="form-control" required />
+<TextEditor name="okay" id="s" bind:getValue {setValue} />
 <!-- <input type="text" name="" bind:value id="" /> -->
+
+{@html getValue}
+
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>

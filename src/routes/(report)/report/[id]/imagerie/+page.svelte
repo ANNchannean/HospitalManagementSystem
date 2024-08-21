@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
-	import { browser } from '$app/environment';
 	import { dobToAge } from '$lib/helper';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	export let data: PageServerData;
@@ -259,7 +258,7 @@
 								</h1>
 							</u>
 							<hr />
-							<div class="row">
+							<div style="width: 100%;" class="row">
 								<Athtml html={get_imagerie_request?.result ?? ''} />
 							</div>
 							<div class="row">
