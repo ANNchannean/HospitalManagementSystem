@@ -2,7 +2,9 @@
 	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	import { dobToAge } from '$lib/helper';
+
 	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
 	onMount(async () => {
@@ -257,9 +259,11 @@
 									Imagerie Result
 								</h1>
 							</u>
-							<hr />
-							<div style="width: 100%;" class="row">
-								<Athtml html={get_imagerie_request?.result ?? ''} />
+					
+							<div>
+								<Renderhtml value={get_imagerie_request?.result ?? ''} />
+
+								<!-- <Athtml html={get_imagerie_request?.result ?? ''} /> -->
 							</div>
 							<div class="row">
 								{#each get_imagerie_request?.fileOrPicture || [] as item}

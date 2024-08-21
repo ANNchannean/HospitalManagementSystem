@@ -45,26 +45,7 @@
 						Alignment,
 						TableColumnResize
 					],
-					toolbar: [
-						'undo',
-						'redo',
-						'|',
-						'fontFamily',
-						'fontSize',
-						'|',
-						'alignment',
-						'bulletedList',
-						'numberedList',
-						'bold',
-						'italic',
-						'|',
-						'fontColor',
-						'fontBackgroundColor',
-						'insertTable',
-						'tableColumn',
-						'tableRow',
-						'mergeTableCells'
-					]
+					
 					// table: {
 					// 	contentToolbar: [
 					// 		'tableColumn',
@@ -102,4 +83,6 @@
 	}
 </script>
 
-<div {id}></div>
+<div style="border: none
+;" {id}></div>
+
