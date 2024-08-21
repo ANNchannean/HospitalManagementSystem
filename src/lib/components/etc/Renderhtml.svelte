@@ -1,32 +1,26 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { ClassicEditor } from 'ckeditor5';
-	// import 'ckeditor5/ckeditor5.css';
 	import { onDestroy, onMount } from 'svelte';
-	export let name: string;
-	export let height = 400;
-	export let setValue = '';
-	export let getValue = '';
-	export let id = 'myid';
+	export let value: string;
+	export let id: string;
 	let theEditor: ClassicEditor;
 	$: {
 		onMount(async () => {
 			const {
 				ClassicEditor,
+				FullPage,
 				Essentials,
+				Paragraph,
 				Bold,
 				Italic,
 				Font,
-				Paragraph,
-				TableToolbar,
 				Table,
+				TableToolbar,
 				Undo,
 				List,
 				Alignment,
-				TableColumnResize,
-				TableProperties,
-				TableCellProperties,
-				FullPage
+				TableColumnResize
 			} = await import('ckeditor5');
 			if (browser) {
 				const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
@@ -82,18 +76,10 @@
 					// }
 				})
 					.then((editor) => {
-						editor.model.document.on('change:data', () => {
-							getValue = editor.getData();
-						});
-						editor.editing.view.change((writer: any) => {
-							writer.setStyle(
-								'height',
-								String(height).concat('px'),
-								editor.editing.view.document.getRoot()
-							);
-						});
-
 						// (window as any).editor = editor;
+						const toolbarElement = editor.ui.view.toolbar.element as HTMLElement;
+						toolbarElement.style.display = 'none';
+						editor.enableReadOnlyMode(`#${id}`);
 						theEditor = editor;
 						editor?.sourceElement?.focus();
 					})
@@ -109,15 +95,8 @@
 			theEditor.destroy();
 		}
 	});
-	$: {
-		if (browser) {
-			theEditor?.setData(setValue);
-		}
-	}
 </script>
 
-<div>
-	<textarea {name} {id}>
-		{getValue}
-	</textarea>
+<div {id}>
+	{value}
 </div>

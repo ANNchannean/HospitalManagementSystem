@@ -1,15 +1,16 @@
 <script lang="ts">
 	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	let setValue = '';
 	let getValue = '';
 </script>
 
 <input type="text" class="form-control" required />
-<TextEditor name="okay" id="s" bind:getValue {setValue} />
+<!-- <TextEditor name="okay" id="s" bind:getValue {setValue} /> -->
 <!-- <input type="text" name="" bind:value id="" /> -->
 
-{@html getValue}
+<Renderhtml id="dsfsd" value="helow" />
 
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

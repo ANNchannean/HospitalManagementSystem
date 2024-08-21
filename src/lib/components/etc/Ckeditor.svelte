@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import type { ClassicEditor } from 'ckeditor5';
-	import 'ckeditor5/ckeditor5.css';
 	import { onDestroy, onMount } from 'svelte';
 	export let name: string;
 	export let height = '400';
