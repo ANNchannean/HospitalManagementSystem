@@ -2,10 +2,52 @@
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import 'quill/dist/quill.snow.css';
+	import { onMount } from 'svelte';
 	let setValue = '';
 	let getValue = '';
+	onMount(async () => {
+		const Quill = await import('quill');
+		const container = document.getElementById('editor') as HTMLElement;
+		const q = Quill.default || undefined;
+		const toolbarOptions = [
+			// font options
+			[{ font: [] }],
+
+			//   header options
+			[{ header: [1, 2, 3] }],
+
+			// text utilities
+			['bold', 'italic', 'underline', 'strike'],
+
+			// text colors and bg colors
+			[{ color: [] }, { background: [] }],
+
+			// lists
+			[{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+
+			// block quotes and code blocks
+			['blockquote', 'code-block'],
+
+			// media
+			['link', 'image', 'video'],
+
+			// alignment
+			[{ align: [] }]
+		];
+
+		const quill = new q(container, {
+			modules: {
+				toolbar: toolbarOptions,
+				table:true
+			},
+
+			theme: 'snow'
+		});
+	});
 </script>
 
+<div id="editor"></div>
 <input type="text" class="form-control" required />
 <TextEditor name="okay" id="s" bind:getValue {setValue} />
 <!-- <input type="text" name="" bind:value id="" /> -->
