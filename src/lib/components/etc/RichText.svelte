@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { PageServerData } from '../../../routes/(dash)/settup/img-template/$types';
-	import Athtml from './Athtml.svelte';
 	import Renderhtml from './Renderhtml.svelte';
 	export let data: PageServerData;
 	export let template_id: number;

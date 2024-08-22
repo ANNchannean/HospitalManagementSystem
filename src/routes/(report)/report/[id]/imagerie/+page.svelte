@@ -2,11 +2,11 @@
 	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	import { dobToAge } from '$lib/helper';
-
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
+
 	onMount(async () => {
 		// setTimeout(async () => {
 		// 	window.print();

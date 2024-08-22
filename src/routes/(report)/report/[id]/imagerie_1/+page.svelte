@@ -3,6 +3,7 @@
 	import type { PageServerData } from './$types';
 	import { dobToAge } from '$lib/helper';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
 	onMount(async () => {
@@ -15,7 +16,7 @@
 
 <div class="col-12">
 	<div class="row justify-content-center">
-		<div style="width: 1200px;">
+		<div  style="width: 1200px;">
 			<table class="super-table">
 				<thead class="pageheader">
 					<tr>
@@ -263,7 +264,7 @@
 									{/each}
 								</div>
 								<div class="col-8">
-									<Athtml html={get_imagerie_request?.result ?? ''} />
+									<Renderhtml value={get_imagerie_request?.result ?? ''} />
 								</div>
 							</div>
 						</td>
@@ -281,5 +282,6 @@
 		margin-left: 5mm;
 		margin-top: 5mm;
 		margin-right: 5mm;
+		page-break-before: always; 
 	}
 </style>

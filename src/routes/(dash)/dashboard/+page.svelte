@@ -1,10 +1,6 @@
 <script lang="ts">
-	// import 'quill/dist/quill.snow.css';
-	import { onMount } from 'svelte';
-	let setValue = '';
-	let getValue = '';
+
 	
-	// onMount(async () => {
 	// 	const Quill = await import('quill');
 	// 	const container = document.getElementById('editor') as HTMLElement;
 	// 	const q = Quill.default || undefined;

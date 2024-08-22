@@ -26,7 +26,7 @@
 				TableColumnResize,
 				TableProperties,
 				TableCellProperties,
-				FullPage
+			
 			} = await import('ckeditor5');
 			if (browser) {
 				const editorPlaceholder = document.querySelector(`#${id}`) as HTMLElement;
@@ -38,7 +38,7 @@
 						options: [9, 11, 13, 'default', 17, 19, 21]
 					},
 					plugins: [
-						FullPage,
+				
 						Essentials,
 						Paragraph,
 						Bold,
@@ -49,9 +49,8 @@
 						Undo,
 						List,
 						Alignment,
-						TableColumnResize,
-						TableProperties,
-						TableCellProperties
+						TableColumnResize
+					
 					],
 					toolbar: [
 						'undo',
@@ -72,18 +71,17 @@
 						'tableColumn',
 						'tableRow',
 						'mergeTableCells',
-						'tableProperties',
-						'tableCellProperties'
+					
 					],
-					table: {
-						contentToolbar: [
-							'tableColumn',
-							'tableRow',
-							'mergeTableCells',
-							'tableCellProperties',
-							'tableProperties'
-						]
-					}
+					// table: {
+					// 	contentToolbar: [
+					// 		'tableColumn',
+					// 		'tableRow',
+					// 		'mergeTableCells',
+					// 		'tableCellProperties',
+					// 		'tableProperties'
+					// 	]
+					// }
 				})
 					.then((editor) => {
 						editor.model.document.on('change:data', () => {

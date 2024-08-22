@@ -25,12 +25,6 @@
 			if (browser) {
 				const editorPlaceholder = document.getElementById(id) as HTMLElement;
 				await ClassicEditor.create(editorPlaceholder, {
-					fontFamily: {
-						options: ['TimesNewRoman', 'KhmerOSMuol', 'KhmerOSMuolLight', 'KhmerOSBattambang']
-					},
-					fontSize: {
-						options: [9, 11, 13, 'default', 17, 19, 21]
-					},
 					plugins: [
 						FullPage,
 						Essentials,
