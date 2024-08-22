@@ -155,3 +155,8 @@ td {
 .ck-content .table th td {
     width: 100vh;
 } */
+
+:root {
+    --ck-z-default: 100;
+    --ck-z-panel: calc( var(--ck-z-default) + 999 );
+}

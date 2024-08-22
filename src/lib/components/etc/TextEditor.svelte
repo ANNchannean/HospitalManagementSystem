@@ -49,7 +49,9 @@
 						Undo,
 						List,
 						Alignment,
-						TableColumnResize
+						TableColumnResize,
+						TableProperties,
+						TableCellProperties
 					],
 					toolbar: [
 						'undo',
@@ -69,17 +71,19 @@
 						'insertTable',
 						'tableColumn',
 						'tableRow',
-						'mergeTableCells'
-					]
-					// table: {
-					// 	contentToolbar: [
-					// 		'tableColumn',
-					// 		'tableRow',
-					// 		'mergeTableCells',
-					// 		'tableProperties',
-					// 		'tableCellProperties'
-					// 	]
-					// }
+						'mergeTableCells',
+						'tableProperties',
+						'tableCellProperties'
+					],
+					table: {
+						contentToolbar: [
+							'tableColumn',
+							'tableRow',
+							'mergeTableCells',
+							'tableCellProperties',
+							'tableProperties'
+						]
+					}
 				})
 					.then((editor) => {
 						editor.model.document.on('change:data', () => {

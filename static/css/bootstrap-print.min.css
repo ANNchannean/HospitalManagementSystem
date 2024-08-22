@@ -34,7 +34,7 @@
 		page-break-after: avoid;
 	}
 	@page {
-		size: a3;
+		size: a4;
 	}
 	body {
 		min-width: 992px !important;
@@ -45,24 +45,5 @@
 	.badge {
 		border: 1px solid #000;
 	}
-	.table {
-		border-collapse: collapse !important;
-	}
-	.table td,
-	.table th {
-		background-color: #fff !important;
-	}
-	.table-bordered td,
-	.table-bordered th {
-		border: 1px solid #dee2e6 !important;
-	}
-	.table-dark {
-		color: inherit;
-	}
-	.table-dark tbody + tbody,
-	.table-dark td,
-	.table-dark th,
-	.table-dark thead th {
-		border-color: #dee2e6;
-	}
+	
 }

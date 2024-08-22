@@ -8,7 +8,7 @@
 	$: find_template = get_templates.find((e) => e.id === template_id);
 </script>
 
-<div class="modal fade" id="template_view" data-bs-backdrop="static">
+<div class="modal fade" id="template_view" data-bs-backdrop="static" data-bs-focus="false">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">

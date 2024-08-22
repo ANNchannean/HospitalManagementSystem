@@ -45,7 +45,7 @@
 	.badge {
 		border: 1px solid #000;
 	}
-	.table {
+	/* .table {
 		border-collapse: collapse !important;
 	}
 	.table td,
@@ -64,5 +64,5 @@
 	.table-dark thead th,
 	.table-dark tbody + tbody {
 		border-color: #dee2e6;
-	}
+	} */
 }

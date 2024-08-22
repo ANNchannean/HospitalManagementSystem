@@ -1,58 +1,63 @@
 <script lang="ts">
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
-	import TextEditor from '$lib/components/etc/TextEditor.svelte';
-	import 'quill/dist/quill.snow.css';
+	// import 'quill/dist/quill.snow.css';
 	import { onMount } from 'svelte';
 	let setValue = '';
 	let getValue = '';
-	onMount(async () => {
-		const Quill = await import('quill');
-		const container = document.getElementById('editor') as HTMLElement;
-		const q = Quill.default || undefined;
-		const toolbarOptions = [
-			// font options
-			[{ font: [] }],
+	
+	// onMount(async () => {
+	// 	const Quill = await import('quill');
+	// 	const container = document.getElementById('editor') as HTMLElement;
+	// 	const q = Quill.default || undefined;
+	// 	const toolbarOptions = [
+	// 		// font options
+	// 		[{ font: [] }],
 
-			//   header options
-			[{ header: [1, 2, 3] }],
+	// 		//   header options
+	// 		[{ header: [1, 2, 3] }],
 
-			// text utilities
-			['bold', 'italic', 'underline', 'strike'],
+	// 		// text utilities
+	// 		['bold', 'italic', 'underline', 'strike'],
 
-			// text colors and bg colors
-			[{ color: [] }, { background: [] }],
+	// 		// text colors and bg colors
+	// 		[{ color: [] }, { background: [] }],
 
-			// lists
-			[{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+	// 		// lists
+	// 		[{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
 
-			// block quotes and code blocks
-			['blockquote', 'code-block'],
+	// 		// block quotes and code blocks
+	// 		['blockquote', 'code-block'],
 
-			// media
-			['link', 'image', 'video'],
+	// 		// media
+	// 		['link', 'image', 'video'],
 
-			// alignment
-			[{ align: [] }]
-		];
+	// 		// alignment
+	// 		[{ align: [] }]
+	// 	];
 
-		const quill = new q(container, {
-			modules: {
-				toolbar: toolbarOptions,
-				table:true
-			},
+	// 	const quill = new q(container, {
+	// 		theme: 'snow',
+	// 		modules: {
+	// 			toolbar: toolbarOptions,
+	// 			table: true
+	// 		}
+	// 	});
 
-			theme: 'snow'
-		});
-	});
+	// 	const toolbar = quill.getModule('table-embed') as any;
+	// 	if (toolbar) {
+	// 		toolbar.addHandler('table', () => {
+	// 			var table = quill.getModule('table') as any;
+
+	// 			if (table) {
+	// 				table.insertTable(3, 3);
+	// 			}
+	// 		});
+	// 	}
+	// });
 </script>
 
-<div id="editor"></div>
-<input type="text" class="form-control" required />
-<TextEditor name="okay" id="s" bind:getValue {setValue} />
-<!-- <input type="text" name="" bind:value id="" /> -->
-
-<Renderhtml value={getValue} />
+<div class="container">
+	<div id="editor">This is the inline text</div>
+</div>
 
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
