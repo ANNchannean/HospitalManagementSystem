@@ -283,6 +283,7 @@
 		</div>
 	</div>
 </div>
+<!-- <div class="divFooter">UNCLASSIFIED</div> -->
 
 <style>
 	@page {
@@ -291,5 +292,16 @@
 		margin-left: 5mm;
 		margin-top: 5mm;
 		margin-right: 5mm;
+	}
+	@media screen {
+		div.divFooter {
+			display: none;
+		}
+	}
+	@media print {
+		div.divFooter {
+			position: fixed;
+			bottom: 0;
+		}
 	}
 </style>

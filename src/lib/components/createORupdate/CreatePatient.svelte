@@ -103,6 +103,8 @@
 								<label for="name_khmer">Name Khmer</label>
 								<input
 									value={find_patient?.name_khmer ?? ''}
+									required
+									minlength="1"
 									name="name_khmer"
 									type="text"
 									class="form-control"
@@ -117,6 +119,7 @@
 							<div class="form-group pb-3">
 								<label for="name_latin">Name Latin</label>
 								<input
+									required
 									value={find_patient?.name_latin ?? ''}
 									name="name_latin"
 									type="text"
@@ -132,12 +135,13 @@
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group pb-3">
-								<label for="village">Gender</label>
+								<label for="gender">Gender</label>
 								<select
+									required
 									value={find_patient?.gender ?? ''}
 									name="gender"
 									class="form-control"
-									id="village"
+									id="gender"
 								>
 									<option value="">Other</option>
 									<option selected value="Male">Male</option>

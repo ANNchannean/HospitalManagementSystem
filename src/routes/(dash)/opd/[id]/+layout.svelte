@@ -8,6 +8,10 @@
 	$: ({ get_visit, get_visits, get_exams } = data);
 	let old_visit_id = 0;
 	$: find_old_visit = get_visits.find((e) => e.id === old_visit_id);
+	$: sort_laboraytor = find_old_visit?.laboratoryRequest.sort((a) => {
+		if (a.product?.products.includes('CBC')) return -1;
+		else return 1;
+	});
 	$: mean_arterial_pressure =
 		(1 / 3) * Number(find_old_visit?.vitalSign?.sbp) +
 		(2 / 3) * Number(find_old_visit?.vitalSign?.dbp);
@@ -373,7 +377,7 @@
 						{/each}
 					</td>
 					<td style="width: 33.33%;vertical-align: top;">
-						{#each find_old_visit.laboratoryRequest as laboratory_request}
+						{#each sort_laboraytor || [] as laboratory_request}
 							{@const laboratory_results = laboratory_request.laboratoryResult}
 							{@const parameters = laboratory_request.product?.parameter}
 
