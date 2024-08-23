@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { LayoutServerData } from './$types';
-	import 'ckeditor5/ckeditor5.css';
 	export let data: LayoutServerData;
 	import { page, navigating } from '$app/stores';
 	import { t, locale } from '$lib/translations';

@@ -58,6 +58,10 @@
 			// The value of the option argument put in the "create" function call takes precedence
 			font: ['KhmerOSMuolLight', 'KhmerOSMuol', 'KhmerOSBattambang', 'TimesNewRoman']
 		});
+		editor.setOptions({
+			width: '100%',
+			height: '100%'
+		});
 		editor.readOnly(true);
 		editor.toolbar.hide();
 	});
@@ -73,6 +77,4 @@
 	}
 </script>
 
-<div>
-	<textarea class="form-control h-100 " {id}>{value} </textarea>
-</div>
+<textarea class="" {id}>{value} </textarea>
