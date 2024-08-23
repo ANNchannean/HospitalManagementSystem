@@ -16,7 +16,7 @@
 
 <div class="col-12">
 	<div class="row justify-content-center">
-		<div  style="width: 1200px;">
+		<div style="width: 1200px;">
 			<table class="super-table">
 				<thead class="pageheader">
 					<tr>
@@ -282,6 +282,6 @@
 		margin-left: 5mm;
 		margin-top: 5mm;
 		margin-right: 5mm;
-		page-break-before: always; 
+		page-break-before: always;
 	}
 </style>

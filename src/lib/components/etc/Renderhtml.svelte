@@ -56,7 +56,8 @@
 		});
 		editor = initEditor.create(element, {
 			// The value of the option argument put in the "create" function call takes precedence
-			font: ['KhmerOSMuolLight', 'KhmerOSMuol', 'KhmerOSBattambang', 'TimesNewRoman']
+			font: ['KhmerOSBattambang', 'KhmerOSMuolLight', 'KhmerOSMuol', 'TimesNewRoman'],
+			defaultStyle: 'font-size:18px;font-family:KhmerOSBattambang'
 		});
 		editor.setOptions({
 			width: '100%',
@@ -77,4 +78,4 @@
 	}
 </script>
 
-<textarea class="" {id}>{value} </textarea>
+<textarea class="form-control" {id}>{value} </textarea>
