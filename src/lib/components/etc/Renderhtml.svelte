@@ -1,84 +1,78 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import type { ClassicEditor } from 'ckeditor5';
+	import 'suneditor/dist/css/suneditor.min.css';
 	import { onDestroy, onMount } from 'svelte';
 	export let value: string;
 	const id = Date.now().toString();
-	let theEditor: ClassicEditor;
-	$: {
-		onMount(async () => {
-			const {
-				ClassicEditor,
-				FullPage,
-				Essentials,
-				Paragraph,
-				Bold,
-				Italic,
-				Font,
-				Table,
-				TableToolbar,
-				Undo,
-				List,
-				Alignment,
-				TableColumnResize
-			} = await import('ckeditor5');
-			if (browser) {
-				const editorPlaceholder = document.getElementById(id) as HTMLElement;
-				await ClassicEditor.create(editorPlaceholder, {
-					plugins: [
-						FullPage,
-						Essentials,
-						Paragraph,
-						Bold,
-						Italic,
-						Font,
-						Table,
-						TableToolbar,
-						Undo,
-						List,
-						Alignment,
-						TableColumnResize
-					]
+	let editor: any;
+	onMount(async () => {
+		const suneditor = await import('suneditor');
+		const plugins = await import('suneditor/src/plugins');
+		const sum = suneditor.default as any;
+		const element = document.getElementById(id);
+		const initEditor = sum.init({
+			plugins: plugins,
+			buttonList: [
+				[
+					'undo',
+					'redo',
+					'font',
+					'fontSize',
+					'formatBlock',
+					'paragraphStyle',
+					'blockquote',
+					'bold',
+					'underline',
+					'italic',
+					'strike',
+					'subscript',
+					'superscript',
+					'fontColor',
+					'hiliteColor',
+					'textStyle',
+					'removeFormat',
+					'outdent',
+					'indent',
+					'align',
+					'horizontalRule',
+					'list',
+					'lineHeight',
+					'table',
+					'link',
+					'image',
+					'video',
+					'audio' /** 'math', */, // You must add the 'katex' library at options to use the 'math' plugin.
+					/** 'imageGallery', */ // You must add the "imageGalleryUrl".
+					'fullScreen',
+					'showBlocks',
+					'codeView',
+					'preview',
+					'print',
+					'save'
 
-					// table: {
-					// 	contentToolbar: [
-					// 		'tableColumn',
-					// 		'tableRow',
-					// 		'mergeTableCells',
-					// 		'tableProperties',
-					// 		'tableCellProperties'
-					// 	]
-					// }
-				})
-					.then((editor) => {
-						// (window as any).editor = editor;
-						const toolbarElement = editor.ui.view.toolbar.element as HTMLElement;
-						toolbarElement.style.display = 'none';
-						editor.enableReadOnlyMode(id);
-						theEditor = editor;
-						editor?.sourceElement?.focus();
-					})
-					.catch((error) => {
-						console.error(error);
-					});
-			}
+					/** 'dir', 'dir_ltr', 'dir_rtl' */ // "dir": Toggle text direction, "dir_ltr": Right to Left, "dir_rtl": Left to Right
+				]
+			]
 		});
-	}
-
+		editor = initEditor.create(element, {
+			// The value of the option argument put in the "create" function call takes precedence
+			font: ['KhmerOSMuolLight', 'KhmerOSMuol', 'KhmerOSBattambang', 'TimesNewRoman']
+		});
+		editor.readOnly(true);
+		editor.toolbar.hide();
+	});
 	onDestroy(() => {
-		if (browser && theEditor) {
-			theEditor.destroy();
+		if (browser && editor) {
+			editor.destroy();
 		}
 	});
 	$: {
-		if (browser) {
-			theEditor?.setData(value);
+		if (browser && editor) {
+			editor.setContents(value);
 		}
 	}
 </script>
 
-<div
-	style="border: none
-;"
-	{id}
-></div>
+<div>
+	<textarea class="form-control h-100 " {id}>{value} </textarea>
+</div>

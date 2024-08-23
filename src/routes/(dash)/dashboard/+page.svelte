@@ -1,60 +1,85 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import 'suneditor/dist/css/suneditor.min.css';
+	import { onDestroy, onMount } from 'svelte';
+	let getValue = '';
+	let setValue = '';
+	let editor: any;
+	onMount(async () => {
+		const suneditor = await import('suneditor');
+		const plugins = await import('suneditor/src/plugins');
+		const sum = suneditor.default as any;
+		const id = document.getElementById('one');
+		const initEditor = sum.init({
+			plugins: plugins,
+			height: 500,
+			buttonList: [
+				[
+					'undo',
+					'redo',
+					'font',
+					'fontSize',
+					'formatBlock',
+					'paragraphStyle',
+					'blockquote',
+					'bold',
+					'underline',
+					'italic',
+					'strike',
+					'subscript',
+					'superscript',
+					'fontColor',
+					'hiliteColor',
+					'textStyle',
+					'removeFormat',
+					'outdent',
+					'indent',
+					'align',
+					'horizontalRule',
+					'list',
+					'lineHeight',
+					'table',
+					'link',
+					'image',
+					'video',
+					'audio' /** 'math', */, // You must add the 'katex' library at options to use the 'math' plugin.
+					/** 'imageGallery', */ // You must add the "imageGalleryUrl".
+					'fullScreen',
+					'showBlocks',
+					'codeView',
+					'preview',
+					'print',
+					'save'
 
-	
-	// 	const Quill = await import('quill');
-	// 	const container = document.getElementById('editor') as HTMLElement;
-	// 	const q = Quill.default || undefined;
-	// 	const toolbarOptions = [
-	// 		// font options
-	// 		[{ font: [] }],
-
-	// 		//   header options
-	// 		[{ header: [1, 2, 3] }],
-
-	// 		// text utilities
-	// 		['bold', 'italic', 'underline', 'strike'],
-
-	// 		// text colors and bg colors
-	// 		[{ color: [] }, { background: [] }],
-
-	// 		// lists
-	// 		[{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
-
-	// 		// block quotes and code blocks
-	// 		['blockquote', 'code-block'],
-
-	// 		// media
-	// 		['link', 'image', 'video'],
-
-	// 		// alignment
-	// 		[{ align: [] }]
-	// 	];
-
-	// 	const quill = new q(container, {
-	// 		theme: 'snow',
-	// 		modules: {
-	// 			toolbar: toolbarOptions,
-	// 			table: true
-	// 		}
-	// 	});
-
-	// 	const toolbar = quill.getModule('table-embed') as any;
-	// 	if (toolbar) {
-	// 		toolbar.addHandler('table', () => {
-	// 			var table = quill.getModule('table') as any;
-
-	// 			if (table) {
-	// 				table.insertTable(3, 3);
-	// 			}
-	// 		});
-	// 	}
-	// });
+					/** 'dir', 'dir_ltr', 'dir_rtl' */ // "dir": Toggle text direction, "dir_ltr": Right to Left, "dir_rtl": Left to Right
+				]
+			]
+		});
+		editor = initEditor.create(id, {
+			// The value of the option argument put in the "create" function call takes precedence
+			font: ['KhmerOSMuolLight', 'KhmerOSMuol', 'KhmerOSBattambang', 'TimesNewRoman']
+		});
+		editor.onChange = function (contents: any, core: any) {
+			console.log('onChange', contents);
+			getValue = contents;
+		};
+	});
+	onDestroy(() => {
+		if (browser && editor) {
+			editor.destroy();
+		}
+	});
+	$: {
+		if (browser && editor) {
+			editor.setContents(setValue);
+		}
+	}
 </script>
 
-<div class="container">
-	<div id="editor">This is the inline text</div>
-</div>
-
+<textarea class="form-control" id="one">fsdfsdf</textarea>
+<hr />
+{@html getValue}
+<input class="form-control" type="text" name="" bind:value={setValue} id="" />
 <h1 class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>
