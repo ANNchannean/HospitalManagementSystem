@@ -31,11 +31,14 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 			eq(visit.patient_id, get_visit.patient_id)
 		),
 		with: {
-			remark:true,
-			presrciption:{
-				with:{
-					product:true,
-				
+			remark: true,
+			presrciption: {
+				with: {
+					product: {
+						with: {
+							unit: true
+						}
+					}
 				}
 			},
 			laboratoryRequest: {

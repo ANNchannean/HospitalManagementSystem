@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
 	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
@@ -16,6 +17,8 @@
 	$: mean_arterial_pressure =
 		(1 / 3) * Number(find_old_visit?.vitalSign?.sbp) +
 		(2 / 3) * Number(find_old_visit?.vitalSign?.dbp);
+	$: console.log(new Date().toJSON().slice(5, 7));
+	$: console.log(Number(get_visit?.date_checkup.slice(5, 7)) ?? '');
 </script>
 
 <div class="row">
@@ -76,22 +79,22 @@
 							<td>Gender</td>
 							<td
 								>{get_visit.patient?.gender}, អាយុ {dobToAge({
-									d: new Date(get_visit.patient?.dob ?? '').getDate(),
-									m: new Date(get_visit.patient?.dob ?? '').getMonth() + 1,
-									y: new Date(get_visit.patient?.dob ?? '').getFullYear(),
+									d: new Date(get_visit.patient.dob).getDate(),
+									m: Number(get_visit.patient.dob.slice(5, 7)),
+									y: new Date(get_visit.patient.dob).getFullYear(),
 									date: new Date(get_visit?.date_checkup ?? '')
 								}).y} ឆ្នាំ ,
 								{dobToAge({
-									d: new Date(get_visit.patient?.dob ?? '').getDate(),
-									m: new Date(get_visit.patient?.dob ?? '').getMonth() + 1,
-									y: new Date(get_visit.patient?.dob ?? '').getFullYear(),
+									d: new Date(get_visit.patient.dob).getDate(),
+									m: new Date(get_visit.patient.dob).getMonth() + 1,
+									y: new Date(get_visit.patient.dob).getFullYear(),
 									date: new Date(get_visit?.date_checkup ?? '')
 								}).m} ខែ ,
 								{dobToAge({
-									d: new Date(get_visit.patient?.dob ?? '').getDate(),
-									m: new Date(get_visit.patient?.dob ?? '').getMonth() + 1,
-									y: new Date(get_visit.patient?.dob ?? '').getFullYear(),
-									date: new Date(get_visit?.date_checkup ?? '')
+									d: new Date(get_visit.patient.dob).getDate(),
+									m: new Date(get_visit.patient.dob).getMonth() + 1,
+									y: new Date(get_visit.patient.dob).getFullYear(),
+									date: new Date(get_visit.date_checkup)
 								}).d} ថ្ងៃ
 							</td>
 							<td></td>
@@ -194,6 +197,7 @@
 			<div class="col-auto">
 				<button
 					on:click={() => {
+						invalidateAll();
 						if (old_visit_id === item.id) {
 							old_visit_id = 0;
 						} else {
@@ -217,253 +221,319 @@
 	</div>
 {/if}
 {#if find_old_visit}
-	<div style="font-size: 90%;" class="table-responsive">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<td style="width: 33.33%; vertical-align: top;">
-						<div class="border rounded border-1 p-2 mb-2">
-							<span class="fs-6 text-decoration-underline text-primary">VitalSign</span>
-							<table class="table table-sm">
-								<thead>
-									<tr>
-										<td style="width: 40%;">BP(mmHg)</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.sbp?.toFixed(0).concat(' /') ?? ''}
-											{find_old_visit?.vitalSign?.dbp?.toFixed(0).concat(' mmHg') ?? ''}
-										</td>
-									</tr>
-									<tr>
-										<td style="width: 40%;">MAP</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{mean_arterial_pressure
-												? mean_arterial_pressure?.toFixed(0).concat(' mmHg')
-												: ''}</td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Pulse (min)</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.pulse?.toFixed(0).concat(' /min') ?? ''}</td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Temperature °C/td </td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											><Athtml
-												html={find_old_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''}
-											/></td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">RR (min)</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.rr?.toFixed(0).concat(' /min') ?? ''}</td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">SpO2 (%)</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.sp02?.toFixed(0).concat(' %') ?? ''}</td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Height (cm)</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.height?.toFixed(0).concat(' cm') ?? ''}</td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Weight (kg)</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.weight?.toFixed(0).concat(' kg') ?? ''}</td
-										>
-									</tr>
-									<tr>
-										<td style="width: 40%;">BMI</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;"
-											>{find_old_visit?.vitalSign?.bmi?.toFixed(1).concat(' kg/m2') ?? ''}</td
-										>
-									</tr>
-								</thead>
-							</table>
-						</div>
-						<div class="border rounded border-1 p-2 mb-2">
-							<span class="fs-6 text-decoration-underline text-primary">Cheif complaint</span>
-							<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
-						</div>
+	<div class="card">
+		<div class="card-header">
+			<span class="fs-5">SOAB</span>
+		</div>
+		<div style="font-size: 90%;" class="row card-body">
+			<div class="col-sm-4">
+				<div class="border rounded border-1 p-2 mb-2">
+					<span class="fs-6 text-decoration-underline text-primary">VitalSign</span>
+					<table class="table table-sm">
+						<thead>
+							<tr>
+								<td style="width: 40%;">BP(mmHg)</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.sbp?.toFixed(0).concat(' /') ?? ''}
+									{find_old_visit?.vitalSign?.dbp?.toFixed(0).concat(' mmHg') ?? ''}
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;">MAP</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{mean_arterial_pressure
+										? mean_arterial_pressure?.toFixed(0).concat(' mmHg')
+										: ''}</td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Pulse (min)</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.pulse?.toFixed(0).concat(' /min') ?? ''}</td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Temperature °C/td </td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									><Athtml
+										html={find_old_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''}
+									/></td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">RR (min)</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.rr?.toFixed(0).concat(' /min') ?? ''}</td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">SpO2 (%)</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.sp02?.toFixed(0).concat(' %') ?? ''}</td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Height (cm)</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.height?.toFixed(0).concat(' cm') ?? ''}</td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Weight (kg)</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.weight?.toFixed(0).concat(' kg') ?? ''}</td
+								>
+							</tr>
+							<tr>
+								<td style="width: 40%;">BMI</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;"
+									>{find_old_visit?.vitalSign?.bmi?.toFixed(1).concat(' kg/m2') ?? ''}</td
+								>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="border rounded border-1 p-2 mb-2">
+					<span class="fs-6 text-decoration-underline text-primary">Cheif complaint</span>
+					<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
+				</div>
+				<div class="border rounded border-1 p-2 mb-2">
+					<span class="fs-6 text-decoration-underline text-primary">History of Present illness</span
+					>
+					<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
+				</div>
+				<div class="border rounded border-1 p-2 mb-2">
+					<span class="fs-6 text-decoration-underline text-primary">Past medicine history</span>
+					<table class="table-sm table">
+						<thead>
+							<tr>
+								<td style="width: 40%;"> Current Medication</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;">
+									{find_old_visit.subjective?.current_medication ?? ''}
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Past medical history</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;">
+									{find_old_visit.subjective?.past_medical_history ?? ''}
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Allergy medicine</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;">
+									{find_old_visit.subjective?.allesgy_medicine ?? ''}
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Surgical history</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;">
+									{find_old_visit.subjective?.surgical_history ?? ''}
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 40%;">Family and social history</td>
+								<td style="width: 10%;">:</td>
+								<td style="width: 20%;">
+									{find_old_visit.subjective?.family_and_social_history ?? ''}
+								</td>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				{#each get_exams as exam, index}
+					{@const physicals = exam.physical}
+					{#if find_old_visit.physicalExam.some((e) => e.physical?.exam_id === exam.id)}
 						<div class="border rounded border-1 p-2 mb-2">
 							<span class="fs-6 text-decoration-underline text-primary"
-								>History of Present illness</span
+								>{index + 1} {exam.examination ?? ''}</span
 							>
-							<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
-						</div>
-						<div class="border rounded border-1 p-2 mb-2">
-							<span class="fs-6 text-decoration-underline text-primary">Past medicine history</span>
-							<table class="table-sm table">
+							<table class=" table table-sm">
 								<thead>
-									<tr>
-										<td style="width: 40%;"> Current Medication</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;">
-											{find_old_visit.subjective?.current_medication ?? ''}
-										</td>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Past medical history</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;">
-											{find_old_visit.subjective?.past_medical_history ?? ''}
-										</td>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Allergy medicine</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;">
-											{find_old_visit.subjective?.allesgy_medicine ?? ''}
-										</td>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Surgical history</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;">
-											{find_old_visit.subjective?.surgical_history ?? ''}
-										</td>
-									</tr>
-									<tr>
-										<td style="width: 40%;">Family and social history</td>
-										<td style="width: 10%;">:</td>
-										<td style="width: 20%;">
-											{find_old_visit.subjective?.family_and_social_history ?? ''}
-										</td>
-									</tr>
+									{#each physicals as physical}
+										{#each find_old_visit.physicalExam as physical_exam}
+											{#if physical_exam.physical_id === physical.id}
+												<tr>
+													<td style="width: 40%;"> {physical.physical}</td>
+													<td style="width: 10%;">:</td>
+													<td style="width: 20%;">
+														{physical_exam.result ?? ''}
+													</td>
+												</tr>
+											{/if}
+										{/each}
+									{/each}
 								</thead>
 							</table>
 						</div>
-						{#each get_exams as exam, index}
-							{@const physicals = exam.physical}
-							{#if find_old_visit.physicalExam.some((e) => e.physical?.exam_id === exam.id)}
-								<div class="border rounded border-1 p-2 mb-2">
-									<span class="fs-6 text-decoration-underline text-primary"
-										>{index + 1} {exam.examination ?? ''}</span
-									>
-									<table class=" table table-sm">
-										<thead>
-											{#each physicals as physical}
-												{#each find_old_visit.physicalExam as physical_exam}
-													{#if physical_exam.physical_id === physical.id}
-														<tr>
-															<td style="width: 40%;"> {physical.physical}</td>
-															<td style="width: 10%;">:</td>
-															<td style="width: 20%;">
-																{physical_exam.result ?? ''}
-															</td>
-														</tr>
+					{/if}
+				{/each}
+			</div>
+
+			<div class="col-sm-4">
+				{#each sort_laboraytor || [] as laboratory_request}
+					{@const laboratory_results = laboratory_request.laboratoryResult}
+					{@const parameters = laboratory_request.product?.parameter}
+
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary"
+							>{laboratory_request.product?.products ?? ''}</span
+						>
+						<table class="table-sm table">
+							<thead>
+								{#each parameters || [] as parameter}
+									<tr>
+										<td style="width: 40%;"> {parameter.parameter ?? ''}</td>
+										<td style="width: 10%;">:</td>
+										{#each laboratory_results as laboratory_result}
+											{#if laboratory_result.parameter_id === parameter.id}
+												<td style="width: 15%;">
+													{#if laboratory_result.result === 'Positive' || laboratory_result.result === '1/160' || laboratory_result.result === '1/320' || laboratory_result.result === '+' || laboratory_result.result === '++' || laboratory_result.result === '+++' || laboratory_result.result === '++++'}
+														<span style="color: #FF0000;">
+															{laboratory_result.result}
+														</span>
+													{:else if Number(laboratory_result.result) >= Number(parameter?.mini) && Number(laboratory_result.result) <= Number(parameter?.maxi)}
+														<span>{laboratory_result.result}</span>
+													{:else if Number(laboratory_result.result) < Number(parameter?.mini)}
+														<span style="color: #0000FF;">{laboratory_result.result} L</span>
+													{:else if Number(laboratory_result.result) > Number(parameter?.maxi)}
+														<span style="color: #FF0000;">{laboratory_result.result} H</span>
+													{:else}
+														<span style="color: #0000FF;">
+															{laboratory_result.result}
+														</span>
 													{/if}
-												{/each}
-											{/each}
-										</thead>
-									</table>
-								</div>
-							{/if}
-						{/each}
-					</td>
-					<td style="width: 33.33%;vertical-align: top;">
-						{#each sort_laboraytor || [] as laboratory_request}
-							{@const laboratory_results = laboratory_request.laboratoryResult}
-							{@const parameters = laboratory_request.product?.parameter}
-
-							<div class="border rounded border-1 p-2 mb-2">
-								<span class="fs-6 text-decoration-underline text-primary"
-									>{laboratory_request.product?.products ?? ''}</span
-								>
-								<table class="table-sm table">
-									<thead>
-										{#each parameters || [] as parameter}
-											<tr>
-												<td style="width: 40%;"> {parameter.parameter ?? ''}</td>
-												<td style="width: 10%;">:</td>
-												{#each laboratory_results as laboratory_result}
-													{#if laboratory_result.parameter_id === parameter.id}
-														<td style="width: 15%;">
-															{#if laboratory_result.result === 'Positive' || laboratory_result.result === '1/160' || laboratory_result.result === '1/320' || laboratory_result.result === '+' || laboratory_result.result === '++' || laboratory_result.result === '+++' || laboratory_result.result === '++++'}
-																<span style="color: #FF0000;">
-																	{laboratory_result.result}
-																</span>
-															{:else if Number(laboratory_result.result) >= Number(parameter?.mini) && Number(laboratory_result.result) <= Number(parameter?.maxi)}
-																<span>{laboratory_result.result}</span>
-															{:else if Number(laboratory_result.result) < Number(parameter?.mini)}
-																<span style="color: #0000FF;">{laboratory_result.result} L</span>
-															{:else if Number(laboratory_result.result) > Number(parameter?.maxi)}
-																<span style="color: #FF0000;">{laboratory_result.result} H</span>
-															{:else}
-																<span style="color: #0000FF;">
-																	{laboratory_result.result}
-																</span>
-															{/if}
-														</td>
-													{/if}
-												{/each}
-
-												<td style="width: 15%;"> <Athtml html={parameter.unit?.unit ?? ''} /> </td>
-
-												<td style="width: 20%;">
-													{parameter.mini === 0 ? '' : `( ${parameter.mini}`}
-													{parameter.sign ?? ''}
-													{parameter.maxi === 0 ? '' : `${parameter.maxi} )`}
 												</td>
-											</tr>
+											{/if}
 										{/each}
-									</thead>
-								</table>
-							</div>
-						{/each}
-						{#each find_old_visit.imagerieRequest as imagerie_request}
-							<div class="border rounded border-1 p-2 mb-2">
-								<table class="table">
-									<thead>
-										<tr>
-											<td style="width: 80%;">
-												<span class="fs-6 text-decoration-underline text-primary"
-													>{imagerie_request.product?.products ?? ''}</span
-												>
-											</td>
-											<td style="width: 20;">
-												<a
-													target="_blank"
-													class="fs-6 text-decoration-underline text-primary"
-													href="/report/{imagerie_request.id}/imagerie">View</a
-												>
-											</td>
-										</tr>
-									</thead>
-								</table>
-							</div>
-						{/each}
-					</td>
-					<td style="width: 33.33%;vertical-align: top;">
-						<div class="border rounded border-1 p-2 mb-2">
-							<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
-							<Renderhtml value={find_old_visit.remark?.description ?? ''} />
-						</div>
-					</td>
-					<td style="width: 33.33%;vertical-align: top;">
-						<div class="border rounded border-1 p-2 mb-2">
-							<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
-							<Renderhtml value={find_old_visit.remark?.description ?? ''} />
-						</div>
-					</td>
-				</tr>
-			</thead>
-		</table>
+
+										<td style="width: 15%;"> <Athtml html={parameter.unit?.unit ?? ''} /> </td>
+
+										<td style="width: 20%;">
+											{parameter.mini === 0 ? '' : `( ${parameter.mini}`}
+											{parameter.sign ?? ''}
+											{parameter.maxi === 0 ? '' : `${parameter.maxi} )`}
+										</td>
+									</tr>
+								{/each}
+							</thead>
+						</table>
+					</div>
+				{/each}
+				{#if find_old_visit.imagerieRequest.length}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary">Imagerie</span>
+						<table class="table table-sm">
+							<thead>
+								{#each find_old_visit.imagerieRequest as imagerie_request}
+									<tr>
+										<td style="width: 40%;">
+											<span class="">{imagerie_request.product?.products ?? ''}</span>
+										</td>
+										<td style="width: 20%;">:</td>
+										<td style="width: 20%;">
+											<a target="_blank" class="" href="/report/{imagerie_request.id}/imagerie"
+												>View</a
+											>
+										</td>
+									</tr>
+								{/each}
+							</thead>
+						</table>
+					</div>
+				{/if}
+			</div>
+			<div class="col-sm-4">
+				{#if find_old_visit.remark?.description}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
+						<Renderhtml value={find_old_visit.remark?.description ?? ''} />
+					</div>
+				{/if}
+				{#each find_old_visit.presrciption as item}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary"
+							>{item.product?.products ?? ''}</span
+						>
+						<table class="table">
+							<thead>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Use</span>
+									</td>
+									<td style="width: 20%;">:</td>
+									<td style="width: 20%;">
+										<span class="">{item.use ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 20%;">
+										<span class="">Time</span>
+									</td>
+									<td style="width: 20%;">:</td>
+									<td style="width: 60%;">
+										<span class="badge text-bg-warning">
+											{#if item.morning !== 0}
+												Morning {item.morning}
+											{/if}
+										</span>
+										<span class="badge text-bg-warning">
+											{#if item.noon !== 0}
+												Noon {item.noon}
+											{/if}
+										</span>
+										<span class="badge text-bg-warning">
+											{#if item.afternoon !== 0}
+												Afternoon {item.afternoon}
+											{/if}
+										</span>
+										<span class="badge text-bg-warning">
+											{#if item.evening !== 0}
+												Evening {item.evening}
+											{/if}
+										</span>
+										<span class="badge text-bg-warning">
+											{#if item.night !== 0}
+												Night {item.night}
+											{/if}
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Duration </span>
+									</td>
+									<td style="width: 20%;">:</td>
+									<td style="width: 20%;">
+										<span class="">{item.duration ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Amount </span>
+									</td>
+									<td style="width: 20%;">:</td>
+									<td style="width: 20%;">
+										<span class="">{item.amount ?? ''} {item.product?.unit?.unit}</span>
+									</td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				{/each}
+			</div>
+		</div>
 	</div>
 {/if}

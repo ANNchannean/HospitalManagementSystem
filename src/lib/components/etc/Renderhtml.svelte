@@ -3,7 +3,7 @@
 	import 'suneditor/dist/css/suneditor.min.css';
 	import { onDestroy, onMount } from 'svelte';
 	export let value: string;
-	const id = Date.now().toString();
+	const id = crypto.randomUUID();
 	let editor: any;
 	onMount(async () => {
 		const suneditor = await import('suneditor');
