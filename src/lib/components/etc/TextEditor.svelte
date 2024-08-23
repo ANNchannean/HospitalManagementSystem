@@ -23,8 +23,8 @@
 					'font',
 					'fontSize',
 					'formatBlock',
-					'paragraphStyle',
-					'blockquote',
+					// 'paragraphStyle',
+					// 'blockquote',
 					'bold',
 					'underline',
 					'italic',
@@ -33,7 +33,7 @@
 					'superscript',
 					'fontColor',
 					'hiliteColor',
-					'textStyle',
+					// 'textStyle',
 					'removeFormat',
 					'outdent',
 					'indent',
@@ -42,17 +42,17 @@
 					'list',
 					'lineHeight',
 					'table',
-					'link',
-					'image',
-					'video',
-					'audio' /** 'math', */, // You must add the 'katex' library at options to use the 'math' plugin.
+					// 'link',
+					// 'image',
+					// 'video',
+					// 'audio' /** 'math', */, // You must add the 'katex' library at options to use the 'math' plugin.
 					/** 'imageGallery', */ // You must add the "imageGalleryUrl".
 					'fullScreen',
 					'showBlocks',
-					'codeView',
-					'preview',
-					'print',
-					'save'
+					'codeView'
+					// 'preview',
+					// 'print',
+					// 'save'
 
 					/** 'dir', 'dir_ltr', 'dir_rtl' */ // "dir": Toggle text direction, "dir_ltr": Right to Left, "dir_rtl": Left to Right
 				]

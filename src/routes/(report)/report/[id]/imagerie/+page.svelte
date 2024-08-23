@@ -237,7 +237,7 @@
 </div>
 
 <style>
-		@page {
+	@page {
 		size: A4;
 		margin-bottom: 1mm;
 		margin-left: 5mm;

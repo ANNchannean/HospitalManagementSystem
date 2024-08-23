@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { LayoutServerData } from './$types';
 	let visit_id = $page.params.id;
@@ -449,7 +450,18 @@
 							</div>
 						{/each}
 					</td>
-					<td style="width: 33.33%;">3</td>
+					<td style="width: 33.33%;vertical-align: top;">
+						<div class="border rounded border-1 p-2 mb-2">
+							<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
+							<Renderhtml value={find_old_visit.remark?.description ?? ''} />
+						</div>
+					</td>
+					<td style="width: 33.33%;vertical-align: top;">
+						<div class="border rounded border-1 p-2 mb-2">
+							<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
+							<Renderhtml value={find_old_visit.remark?.description ?? ''} />
+						</div>
+					</td>
 				</tr>
 			</thead>
 		</table>
