@@ -31,6 +31,13 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 			eq(visit.patient_id, get_visit.patient_id)
 		),
 		with: {
+			service: {
+				with: {
+					operationProtocol: true,
+					product: true
+				}
+			},
+			accessment: true,
 			remark: true,
 			presrciption: {
 				with: {

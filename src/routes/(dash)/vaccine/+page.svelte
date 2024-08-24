@@ -6,6 +6,7 @@
 	import { globalLoading, inerHight } from '$lib/store';
 	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
 	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
 	export let data: PageServerData;
 	let vaccin_id: number;
 	let loading = false;
@@ -246,7 +247,9 @@
 
 				<hr />
 				<div class="card-body table-responsive p-0">
-					<Athtml html={find_injection?.unit?.vaccine_dose ?? ''} />
+					{#if find_injection?.unit?.vaccine_dose}
+						<Renderhtml value={find_injection?.unit?.vaccine_dose ?? ''} />
+					{/if}
 					<table class="table table-sm text-nowrap">
 						<thead>
 							<tr>

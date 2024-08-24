@@ -223,12 +223,12 @@
 {#if find_old_visit}
 	<div class="card">
 		<div class="card-header">
-			<span class="fs-5">SOAB</span>
+			<span class="fs-5">SAOP</span>
 		</div>
 		<div style="font-size: 90%;" class="row card-body">
 			<div class="col-sm-4">
 				<div class="border rounded border-1 p-2 mb-2">
-					<span class="fs-6 text-decoration-underline text-primary">VitalSign</span>
+					<span class="btn btn-success btn-sm mb-2 py-0">VitalSign</span>
 					<table class="table table-sm">
 						<thead>
 							<tr>
@@ -353,25 +353,31 @@
 						</thead>
 					</table>
 				</div>
-				{#each get_exams as exam, index}
+
+				{#if get_exams}
+					<button class="btn btn-success btn-sm mb-2 py-0">Physical Exam</button>
+				{/if}
+				{#each get_exams as exam}
 					{@const physicals = exam.physical}
 					{#if find_old_visit.physicalExam.some((e) => e.physical?.exam_id === exam.id)}
 						<div class="border rounded border-1 p-2 mb-2">
 							<span class="fs-6 text-decoration-underline text-primary"
-								>{index + 1} {exam.examination ?? ''}</span
+								>{exam.examination ?? ''}</span
 							>
-							<table class=" table table-sm">
+							<table class="table table-sm">
 								<thead>
 									{#each physicals as physical}
 										{#each find_old_visit.physicalExam as physical_exam}
 											{#if physical_exam.physical_id === physical.id}
-												<tr>
-													<td style="width: 40%;"> {physical.physical}</td>
-													<td style="width: 10%;">:</td>
-													<td style="width: 20%;">
-														{physical_exam.result ?? ''}
-													</td>
-												</tr>
+												{#if physical_exam.result}
+													<tr>
+														<td style="width: 40%;"> {physical.physical}</td>
+														<td style="width: 10%;">:</td>
+														<td style="width: 20%;">
+															{physical_exam.result ?? ''}
+														</td>
+													</tr>
+												{/if}
 											{/if}
 										{/each}
 									{/each}
@@ -380,13 +386,225 @@
 						</div>
 					{/if}
 				{/each}
+				{#if find_old_visit.accessment}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary">Diagnosis</span>
+						<p>
+							{find_old_visit.accessment.diagnosis_or_problem ?? ''}
+						</p>
+					</div>
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary">Differential </span>
+						<p>
+							{find_old_visit.accessment.differential_diagnosis ?? ''}
+						</p>
+					</div>
+				{/if}
+				{#if find_old_visit.remark?.description}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
+						<Renderhtml value={find_old_visit.remark?.description ?? ''} />
+					</div>
+				{/if}
+
+				{#if find_old_visit.service}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="fs-6 text-decoration-underline text-primary"
+							>{find_old_visit.service.product?.products ?? ''}</span
+						>
+						<table class="table">
+							<thead>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Surgeon</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class="">{find_old_visit.service.operationProtocol?.surgeon ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Assistant Surgeon</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class=""
+											>{find_old_visit.service.operationProtocol?.assistant_surgeon ?? ''}</span
+										>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Anesthetist</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class=""
+											>{find_old_visit.service.operationProtocol?.anesthetist ?? ''}</span
+										>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Assistant Anesthetist</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class=""
+											>{find_old_visit.service.operationProtocol?.assistant_anesthetist ?? ''}</span
+										>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Scrub Nurse</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class=""
+											>{find_old_visit.service.operationProtocol?.scrub_nurse ?? ''}</span
+										>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Circulation / Nurse block</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class=""
+											>{find_old_visit.service.operationProtocol?.cirulating_nurse_block ??
+												''}</span
+										>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Midwife</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span class="">{find_old_visit.service.operationProtocol?.midwife ?? ''}</span>
+									</td>
+								</tr>
+								{#if find_old_visit.service.operationProtocol?.date}
+									<tr>
+										<td style="width: 40%;">
+											<span class="">Dates</span>
+										</td>
+										<td style="width: 10%;">:</td>
+										<td style="width:50%;">
+											<span class=""
+												>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
+													Date.parse(find_old_visit.service.operationProtocol?.date)
+												)}</span
+											>
+										</td>
+									</tr>
+								{/if}
+								{#if find_old_visit.service.operationProtocol?.start_time}
+									<tr>
+										<td style="width: 40%;">
+											<span class="">StartTime</span>
+										</td>
+										<td style="width: 10%;">:</td>
+										<td style="width:50%;">
+											<input
+												disabled
+												class=""
+												type="time"
+												name=""
+												value={find_old_visit.service.operationProtocol?.start_time.substring(0, 5)}
+												id=""
+											/>
+										</td>
+									</tr>
+								{/if}
+								{#if find_old_visit.service.operationProtocol?.finish_time}
+									<tr>
+										<td style="width: 40%;">
+											<span class="">FinishTime</span>
+										</td>
+										<td style="width: 10%;">:</td>
+										<td style="width:50%;">
+											<input
+												disabled
+												class=""
+												type="time"
+												name=""
+												value={find_old_visit.service.operationProtocol?.finish_time.substring(
+													0,
+													5
+												)}
+												id=""
+											/>
+										</td>
+									</tr>
+								{/if}
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Pre-Diagnosis</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span>{find_old_visit.service.operationProtocol?.pre_diagnosis ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Post Diagnosis</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span>{find_old_visit.service.operationProtocol?.post_diagnosis ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Type Anesthesia</span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span>{find_old_visit.service.operationProtocol?.type_anesthesia ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="width: 100%;">
+										<span class="">Opertive Technique</span>
+										<Renderhtml
+											value={find_old_visit.service.operationProtocol?.opertive_technique ?? ''}
+										/>
+									</td>
+								</tr>
+								<tr>
+									<td style="width: 40%;">
+										<span class="">Blood Less </span>
+									</td>
+									<td style="width: 10%;">:</td>
+									<td style="width:50%;">
+										<span>{find_old_visit.service.operationProtocol?.blood_less ?? ''}</span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" style="width: 100%;">
+										<span class="">Notes</span>
+										<Renderhtml value={find_old_visit.service.operationProtocol?.notes ?? ''} />
+									</td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				{/if}
 			</div>
 
 			<div class="col-sm-4">
+				{#if sort_laboraytor}
+					<button class="btn btn-success btn-sm mb-2 py-0">Laboratory</button>
+				{/if}
 				{#each sort_laboraytor || [] as laboratory_request}
 					{@const laboratory_results = laboratory_request.laboratoryResult}
 					{@const parameters = laboratory_request.product?.parameter}
-
 					<div class="border rounded border-1 p-2 mb-2">
 						<span class="fs-6 text-decoration-underline text-primary"
 							>{laboratory_request.product?.products ?? ''}</span
@@ -432,9 +650,10 @@
 						</table>
 					</div>
 				{/each}
+
 				{#if find_old_visit.imagerieRequest.length}
 					<div class="border rounded border-1 p-2 mb-2">
-						<span class="fs-6 text-decoration-underline text-primary">Imagerie</span>
+						<span class="btn btn-success btn-sm mb-2 py-0">Imagerie</span>
 						<table class="table table-sm">
 							<thead>
 								{#each find_old_visit.imagerieRequest as imagerie_request}
@@ -456,11 +675,8 @@
 				{/if}
 			</div>
 			<div class="col-sm-4">
-				{#if find_old_visit.remark?.description}
-					<div class="border rounded border-1 p-2 mb-2">
-						<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
-						<Renderhtml value={find_old_visit.remark?.description ?? ''} />
-					</div>
+				{#if find_old_visit.presrciption}
+					<button class="btn btn-success btn-sm mb-2 py-0">Presrciption</button>
 				{/if}
 				{#each find_old_visit.presrciption as item}
 					<div class="border rounded border-1 p-2 mb-2">
