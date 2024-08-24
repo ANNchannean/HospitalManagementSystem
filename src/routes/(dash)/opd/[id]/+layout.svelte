@@ -166,12 +166,7 @@
 				? 'btn btn-dark mb-2'
 				: 'btn btn-outline-dark mb-2'}>Appointment</a
 		>
-		<a
-			href="/opd/{visit_id}/remark "
-			class={$page.url.pathname.includes('remark')
-				? 'btn btn-dark mb-2'
-				: 'btn btn-outline-dark mb-2'}>Remark</a
-		>
+
 		<a
 			href="/opd/{visit_id}/service "
 			class={$page.url.pathname.includes('service')
@@ -233,16 +228,16 @@
 						<thead>
 							<tr>
 								<td style="width: 40%;">BP(mmHg)</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{find_old_visit?.vitalSign?.sbp?.toFixed(0).concat(' /') ?? ''}
 									{find_old_visit?.vitalSign?.dbp?.toFixed(0).concat(' mmHg') ?? ''}
 								</td>
 							</tr>
 							<tr>
 								<td style="width: 40%;">MAP</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{mean_arterial_pressure
 										? mean_arterial_pressure?.toFixed(0).concat(' mmHg')
 										: ''}</td
@@ -250,15 +245,15 @@
 							</tr>
 							<tr>
 								<td style="width: 40%;">Pulse (min)</td>
-								<td style="width: 10%;">:</td>
+								<td style="width: 5%;">:</td>
 								<td style="width: 20%;"
 									>{find_old_visit?.vitalSign?.pulse?.toFixed(0).concat(' /min') ?? ''}</td
 								>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Temperature °C/td </td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									><Athtml
 										html={find_old_visit?.vitalSign?.t?.toFixed(1).concat(' &deg;C') ?? ''}
 									/></td
@@ -266,36 +261,36 @@
 							</tr>
 							<tr>
 								<td style="width: 40%;">RR (min)</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{find_old_visit?.vitalSign?.rr?.toFixed(0).concat(' /min') ?? ''}</td
 								>
 							</tr>
 							<tr>
 								<td style="width: 40%;">SpO2 (%)</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{find_old_visit?.vitalSign?.sp02?.toFixed(0).concat(' %') ?? ''}</td
 								>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Height (cm)</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{find_old_visit?.vitalSign?.height?.toFixed(0).concat(' cm') ?? ''}</td
 								>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Weight (kg)</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{find_old_visit?.vitalSign?.weight?.toFixed(0).concat(' kg') ?? ''}</td
 								>
 							</tr>
 							<tr>
 								<td style="width: 40%;">BMI</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;"
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;"
 									>{find_old_visit?.vitalSign?.bmi?.toFixed(1).concat(' kg/m2') ?? ''}</td
 								>
 							</tr>
@@ -303,50 +298,49 @@
 					</table>
 				</div>
 				<div class="border rounded border-1 p-2 mb-2">
-					<span class="fs-6 text-decoration-underline text-primary">Cheif complaint</span>
+					<span class="btn btn-success btn-sm mb-2 py-0">Cheif complaint</span>
 					<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
 				</div>
 				<div class="border rounded border-1 p-2 mb-2">
-					<span class="fs-6 text-decoration-underline text-primary">History of Present illness</span
-					>
+					<span class="btn btn-success btn-sm mb-2 py-0">History of Present illness</span>
 					<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
 				</div>
 				<div class="border rounded border-1 p-2 mb-2">
-					<span class="fs-6 text-decoration-underline text-primary">Past medicine history</span>
+					<span class="btn btn-success btn-sm mb-2 py-0">Past medicine history</span>
 					<table class="table-sm table">
 						<thead>
 							<tr>
 								<td style="width: 40%;"> Current Medication</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;">
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;">
 									{find_old_visit.subjective?.current_medication ?? ''}
 								</td>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Past medical history</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;">
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;">
 									{find_old_visit.subjective?.past_medical_history ?? ''}
 								</td>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Allergy medicine</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;">
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;">
 									{find_old_visit.subjective?.allesgy_medicine ?? ''}
 								</td>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Surgical history</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;">
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;">
 									{find_old_visit.subjective?.surgical_history ?? ''}
 								</td>
 							</tr>
 							<tr>
 								<td style="width: 40%;">Family and social history</td>
-								<td style="width: 10%;">:</td>
-								<td style="width: 20%;">
+								<td style="width: 5%;">:</td>
+								<td style="width: 55%;">
 									{find_old_visit.subjective?.family_and_social_history ?? ''}
 								</td>
 							</tr>
@@ -372,8 +366,8 @@
 												{#if physical_exam.result}
 													<tr>
 														<td style="width: 40%;"> {physical.physical}</td>
-														<td style="width: 10%;">:</td>
-														<td style="width: 20%;">
+														<td style="width: 5%;">:</td>
+														<td style="width: 55%;">
 															{physical_exam.result ?? ''}
 														</td>
 													</tr>
@@ -388,13 +382,13 @@
 				{/each}
 				{#if find_old_visit.accessment}
 					<div class="border rounded border-1 p-2 mb-2">
-						<span class="fs-6 text-decoration-underline text-primary">Diagnosis</span>
+						<span class="btn btn-success btn-sm mb-2 py-0">Diagnosis</span>
 						<p>
 							{find_old_visit.accessment.diagnosis_or_problem ?? ''}
 						</p>
 					</div>
 					<div class="border rounded border-1 p-2 mb-2">
-						<span class="fs-6 text-decoration-underline text-primary">Differential </span>
+						<span class="btn btn-success btn-sm mb-2 py-0">Differential </span>
 						<p>
 							{find_old_visit.accessment.differential_diagnosis ?? ''}
 						</p>
@@ -402,11 +396,13 @@
 				{/if}
 				{#if find_old_visit.remark?.description}
 					<div class="border rounded border-1 p-2 mb-2">
-						<span class="fs-6 text-decoration-underline text-primary">Doctor's Comment</span>
+						<span class="btn btn-success btn-sm mb-2 py-0">Doctor's Comment</span>
 						<Renderhtml value={find_old_visit.remark?.description ?? ''} />
 					</div>
 				{/if}
-
+				{#if find_old_visit.service}
+					<button class="btn btn-success btn-sm mb-2 py-0">Service</button>
+				{/if}
 				{#if find_old_visit.service}
 					<div class="border rounded border-1 p-2 mb-2">
 						<span class="fs-6 text-decoration-underline text-primary"
@@ -418,7 +414,7 @@
 									<td style="width: 40%;">
 										<span class="">Surgeon</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class="">{find_old_visit.service.operationProtocol?.surgeon ?? ''}</span>
 									</td>
@@ -427,7 +423,7 @@
 									<td style="width: 40%;">
 										<span class="">Assistant Surgeon</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class=""
 											>{find_old_visit.service.operationProtocol?.assistant_surgeon ?? ''}</span
@@ -438,7 +434,7 @@
 									<td style="width: 40%;">
 										<span class="">Anesthetist</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class=""
 											>{find_old_visit.service.operationProtocol?.anesthetist ?? ''}</span
@@ -449,7 +445,7 @@
 									<td style="width: 40%;">
 										<span class="">Assistant Anesthetist</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class=""
 											>{find_old_visit.service.operationProtocol?.assistant_anesthetist ?? ''}</span
@@ -460,7 +456,7 @@
 									<td style="width: 40%;">
 										<span class="">Scrub Nurse</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class=""
 											>{find_old_visit.service.operationProtocol?.scrub_nurse ?? ''}</span
@@ -471,7 +467,7 @@
 									<td style="width: 40%;">
 										<span class="">Circulation / Nurse block</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class=""
 											>{find_old_visit.service.operationProtocol?.cirulating_nurse_block ??
@@ -483,7 +479,7 @@
 									<td style="width: 40%;">
 										<span class="">Midwife</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span class="">{find_old_visit.service.operationProtocol?.midwife ?? ''}</span>
 									</td>
@@ -493,7 +489,7 @@
 										<td style="width: 40%;">
 											<span class="">Dates</span>
 										</td>
-										<td style="width: 10%;">:</td>
+										<td style="width: 5%;">:</td>
 										<td style="width:50%;">
 											<span class=""
 												>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
@@ -508,11 +504,11 @@
 										<td style="width: 40%;">
 											<span class="">StartTime</span>
 										</td>
-										<td style="width: 10%;">:</td>
+										<td style="width: 5%;">:</td>
 										<td style="width:50%;">
 											<input
+												class="text-bg-danger"
 												disabled
-												class=""
 												type="time"
 												name=""
 												value={find_old_visit.service.operationProtocol?.start_time.substring(0, 5)}
@@ -526,11 +522,11 @@
 										<td style="width: 40%;">
 											<span class="">FinishTime</span>
 										</td>
-										<td style="width: 10%;">:</td>
+										<td style="width: 5%;">:</td>
 										<td style="width:50%;">
 											<input
 												disabled
-												class=""
+												class="text-bg-primary"
 												type="time"
 												name=""
 												value={find_old_visit.service.operationProtocol?.finish_time.substring(
@@ -546,7 +542,7 @@
 									<td style="width: 40%;">
 										<span class="">Pre-Diagnosis</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span>{find_old_visit.service.operationProtocol?.pre_diagnosis ?? ''}</span>
 									</td>
@@ -555,7 +551,7 @@
 									<td style="width: 40%;">
 										<span class="">Post Diagnosis</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span>{find_old_visit.service.operationProtocol?.post_diagnosis ?? ''}</span>
 									</td>
@@ -564,7 +560,7 @@
 									<td style="width: 40%;">
 										<span class="">Type Anesthesia</span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span>{find_old_visit.service.operationProtocol?.type_anesthesia ?? ''}</span>
 									</td>
@@ -581,7 +577,7 @@
 									<td style="width: 40%;">
 										<span class="">Blood Less </span>
 									</td>
-									<td style="width: 10%;">:</td>
+									<td style="width: 5%;">:</td>
 									<td style="width:50%;">
 										<span>{find_old_visit.service.operationProtocol?.blood_less ?? ''}</span>
 									</td>
@@ -614,10 +610,10 @@
 								{#each parameters || [] as parameter}
 									<tr>
 										<td style="width: 40%;"> {parameter.parameter ?? ''}</td>
-										<td style="width: 10%;">:</td>
+										<td style="width: 5%;">:</td>
 										{#each laboratory_results as laboratory_result}
 											{#if laboratory_result.parameter_id === parameter.id}
-												<td style="width: 15%;">
+												<td style="width: 20%;">
 													{#if laboratory_result.result === 'Positive' || laboratory_result.result === '1/160' || laboratory_result.result === '1/320' || laboratory_result.result === '+' || laboratory_result.result === '++' || laboratory_result.result === '+++' || laboratory_result.result === '++++'}
 														<span style="color: #FF0000;">
 															{laboratory_result.result}
@@ -630,7 +626,7 @@
 														<span style="color: #FF0000;">{laboratory_result.result} H</span>
 													{:else}
 														<span style="color: #0000FF;">
-															{laboratory_result.result}
+															{laboratory_result.result ?? ''}
 														</span>
 													{/if}
 												</td>
@@ -661,8 +657,8 @@
 										<td style="width: 40%;">
 											<span class="">{imagerie_request.product?.products ?? ''}</span>
 										</td>
-										<td style="width: 20%;">:</td>
-										<td style="width: 20%;">
+										<td style="width: 5%;">:</td>
+										<td style="width: 55%;">
 											<a target="_blank" class="" href="/report/{imagerie_request.id}/imagerie"
 												>View</a
 											>
@@ -689,8 +685,8 @@
 									<td style="width: 40%;">
 										<span class="">Use</span>
 									</td>
-									<td style="width: 20%;">:</td>
-									<td style="width: 20%;">
+									<td style="width: 5%;">:</td>
+									<td style="width: 55%;">
 										<span class="">{item.use ?? ''}</span>
 									</td>
 								</tr>
@@ -698,8 +694,8 @@
 									<td style="width: 20%;">
 										<span class="">Time</span>
 									</td>
-									<td style="width: 20%;">:</td>
-									<td style="width: 60%;">
+									<td style="width: 5%;">:</td>
+									<td style="width: 55%;">
 										<span class="badge text-bg-warning">
 											{#if item.morning !== 0}
 												Morning {item.morning}
@@ -731,8 +727,8 @@
 									<td style="width: 40%;">
 										<span class="">Duration </span>
 									</td>
-									<td style="width: 20%;">:</td>
-									<td style="width: 20%;">
+									<td style="width: 5%;">:</td>
+									<td style="width: 55%;">
 										<span class="">{item.duration ?? ''}</span>
 									</td>
 								</tr>
@@ -740,8 +736,8 @@
 									<td style="width: 40%;">
 										<span class="">Amount </span>
 									</td>
-									<td style="width: 20%;">:</td>
-									<td style="width: 20%;">
+									<td style="width: 5%;">:</td>
+									<td style="width: 55%;">
 										<span class="">{item.amount ?? ''} {item.product?.unit?.unit}</span>
 									</td>
 								</tr>

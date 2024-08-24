@@ -3,8 +3,9 @@
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 	import Select from '$lib/components/etc/Select.svelte';
+	import TextEditor from '$lib/components/etc/TextEditor.svelte';
 	export let data: PageServerData;
-	$: ({ get_diagnosis, get_diagnosisTypes } = data);
+	$: ({ get_diagnosis, get_diagnosisTypes, get_remark } = data);
 	let diagnosis_type_id: number;
 	$: find_diagnosis = get_diagnosis.filter(
 		(e) => e.diagnosis_type_id === Number(diagnosis_type_id)
@@ -111,7 +112,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group row">
+			<div class="form-group row pb-3">
 				<label for="diagnosis_differential" class="col-sm-3 col-form-label"
 					>Differential Diagnosis :</label
 				>
@@ -125,6 +126,19 @@
 							class="form-control"
 						/>
 					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="diagnosis_differential" class="col-sm-3 col-form-label"
+					>Doctor's Comment :</label
+				>
+				<div class="col-sm-9">
+					<TextEditor
+						height={200}
+						id="description"
+						name="description"
+						setValue={get_remark?.description ?? ''}
+					/>
 				</div>
 			</div>
 

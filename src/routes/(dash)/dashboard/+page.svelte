@@ -1,4 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		const htmlpdf = await import('html2pdf.js');
+	});
 </script>
 
 <h1 class="m-0">Dashbaord</h1>

@@ -52,14 +52,20 @@
 													</div>
 													<div class="col-md-8">
 														<div class="card-body">
-															<a
-																on:click={() => document.getElementById('close_view_room')?.click()}
-																href="/ipd/{find_progress_note?.id}/progress-note"
-																class:btn-danger={find_progress_note}
-																class="card-title btn btn-primary m-0 btn-sm"
-															>
-																{bed.bed}
-															</a>
+															{#if find_progress_note}
+																<a
+																	on:click={() =>
+																		document.getElementById('close_view_room')?.click()}
+																	href="/ipd/{find_progress_note?.id}/progress-note"
+																	class="card-title btn btn-danger m-0 btn-sm"
+																>
+																	{bed.bed}
+																</a>
+															{:else}
+																<button class="card-title btn btn-primary m-0 btn-sm">
+																	{bed.bed}
+																</button>
+															{/if}
 															{#if find_progress_note}
 																<a
 																	on:click={() =>
