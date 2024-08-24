@@ -1,12 +1,10 @@
 <script lang="ts">
+	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
 	import { onMount } from 'svelte';
-
-	onMount(async () => {
-		const htmlpdf = await import('html2pdf.js');
-	});
 </script>
 
-<h1 class="m-0">Dashbaord</h1>
+<Html2Pdf id="one" />
+<h1 id="one" class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>
 	<li class="breadcrumb-item active">Dashboard</li>
