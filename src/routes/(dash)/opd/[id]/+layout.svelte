@@ -595,7 +595,7 @@
 			</div>
 
 			<div class="col-sm-4">
-				{#if sort_laboraytor}
+				{#if sort_laboraytor?.length}
 					<button class="btn btn-success btn-sm mb-2 py-0">Laboratory</button>
 				{/if}
 				{#each sort_laboraytor || [] as laboratory_request}
