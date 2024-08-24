@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import CreateVitalSign from '$lib/components/createORupdate/CreateVitalSign.svelte';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import CreateVitalSign from '$lib/coms-cu/CreateVitalSign.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import { slide } from 'svelte/transition';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import Words from '$lib/components/etc/Words.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import Words from '$lib/coms/Words.svelte';
 	import { onMount } from 'svelte';
 	import { globalLoading } from '$lib/store';
 	import { invalidateAll } from '$app/navigation';

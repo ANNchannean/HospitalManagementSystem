@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	import { dobToAge } from '$lib/helper';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_visit, removeDuplicateName, sort_laboraytor, get_clinic_info, get_imagers, url_qr } =
 		data);

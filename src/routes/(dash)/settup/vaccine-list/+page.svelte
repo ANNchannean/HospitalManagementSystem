@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import { inerHight } from '$lib/store';
-	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import TextEditor from '$lib/coms/TextEditor.svelte';
 	export let data: PageServerData;
 	let unit_id: number;
 	let loading = false;

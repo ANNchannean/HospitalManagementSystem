@@ -1,11 +1,11 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import Select from '$lib/components/etc/Select.svelte';
-	import Words from '$lib/components/etc/Words.svelte';
+	import Select from '$lib/coms/Select.svelte';
+	import Words from '$lib/coms/Words.svelte';
 	import { globalLoading } from '$lib/store';
-	import AddBedToIpd from '$lib/components/etc/AddBedToIPD.svelte';
+	import AddBedToIpd from '$lib/coms/AddBedToIPD.svelte';
 	let loading = false;
 	export let data: PageServerData;
 	const { get_visit, get_progress_note, get_beds } = data;

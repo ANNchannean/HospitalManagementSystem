@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import { inerHight } from '$lib/store';
 	export let form: ActionData;

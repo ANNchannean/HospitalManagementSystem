@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { page } from '$app/stores';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	export let data: PageServerData;
 	let room_id: number;
 	let ward_id: number;

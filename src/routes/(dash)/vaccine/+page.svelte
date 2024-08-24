@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
-	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
+	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	export let data: PageServerData;
 	let vaccin_id: number;
 	let loading = false;

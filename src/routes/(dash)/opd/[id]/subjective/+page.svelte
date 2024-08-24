@@ -1,9 +1,9 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
-	import TextEditor from '$lib/components/etc/TextEditor.svelte';
-	import Words from '$lib/components/etc/Words.svelte';
+	import TextEditor from '$lib/coms/TextEditor.svelte';
+	import Words from '$lib/coms/Words.svelte';
 	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
 	$: ({ get_words } = data);

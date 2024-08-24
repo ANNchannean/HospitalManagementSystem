@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
 	import { inerHight, globalLoading } from '$lib/store';
-	import ViewRoom from '$lib/components/etc/ViewRoom.svelte';
+	import ViewRoom from '$lib/coms/ViewRoom.svelte';
 	$: ({ get_clinich_info, get_progress_note } = data);
 	// onNavigate((navigation) => {
 	// 	if (!document.startViewTransition) return;

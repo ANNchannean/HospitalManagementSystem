@@ -1,9 +1,9 @@
 <script lang="ts">
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import UpdateParameter from '$lib/components/createORupdate/UpdateParameter.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import UpdateParameter from '$lib/coms-cu/UpdateParameter.svelte';
 	import { inerHight } from '$lib/store';
 	import type { ActionData, PageServerData } from './$types';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let parameter_id: number;

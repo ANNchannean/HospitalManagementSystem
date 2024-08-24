@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import CreateParameterGroup from '$lib/components/createORupdate/CreateParameterGroup.svelte';
-	import CreateParameter from '$lib/components/createORupdate/CreateParameter.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import CreateParameterGroup from '$lib/coms-cu/CreateParameterGroup.svelte';
+	import CreateParameter from '$lib/coms-cu/CreateParameter.svelte';
 	import { inerHight } from '$lib/store';
 	export let form: ActionData;
 	export let data: PageServerData;

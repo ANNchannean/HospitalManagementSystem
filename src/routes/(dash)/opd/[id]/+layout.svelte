@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import Renderhtml from '$lib/components/etc/Renderhtml.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { LayoutServerData } from './$types';
 	let visit_id = $page.params.id;

@@ -3,7 +3,7 @@
 	export let data: PageServerData;
 	$: ({ get_pregress_notes, get_departments, get_staffs, get_form_documents } = data);
 	import { globalLoading, inerHight } from '$lib/store';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import { enhance } from '$app/forms';
 	let progress_note_id = 0;
 	let editEtiology = false;

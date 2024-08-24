@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Athtml from '$lib/components/etc/Athtml.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
 	import type { PageServerData } from './$types';
 
 	export let data: PageServerData;

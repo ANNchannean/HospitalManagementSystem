@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import CreatePatient from '$lib/components/createORupdate/CreatePatient.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import CreatePatient from '$lib/coms-cu/CreatePatient.svelte';
 	import { inerHight } from '$lib/store';
-	import VIewProfilePatient from '$lib/components/etc/VIewProfilePatient.svelte';
+	import VIewProfilePatient from '$lib/coms/VIewProfilePatient.svelte';
 	import { invalidateAll } from '$app/navigation';
 	export let form: ActionData;
 	export let data: PageServerData;

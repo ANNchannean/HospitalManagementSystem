@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import RichText from '$lib/components/etc/RichText.svelte';
-	import CreateTemplate from '$lib/components/createORupdate/CreateTemplate.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import RichText from '$lib/coms/RichText.svelte';
+	import CreateTemplate from '$lib/coms-cu/CreateTemplate.svelte';
 	import { inerHight } from '$lib/store';
 	export let data: PageServerData;
 	export let form: ActionData;

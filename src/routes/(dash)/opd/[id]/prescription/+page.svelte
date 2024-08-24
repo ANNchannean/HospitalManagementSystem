@@ -1,9 +1,9 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageServerData } from './$types';
-	import CreatePresrciption from '$lib/components/createORupdate/CreatePresrciption.svelte';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import CreatePresrciption from '$lib/coms-cu/CreatePresrciption.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	let prescription_id: number;

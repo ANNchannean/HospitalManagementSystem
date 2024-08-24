@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Toast from '$lib/components/etc/Toast.svelte';
+	import Toast from '$lib/coms/Toast.svelte';
 	import type { ActionData, PageServerData } from './$types';
 	export let form: ActionData;
 	export let data: PageServerData;

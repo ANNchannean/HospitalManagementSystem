@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { EventHandler } from 'svelte/elements';
 	export let data: PageServerData;

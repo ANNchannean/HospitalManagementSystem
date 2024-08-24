@@ -2,8 +2,8 @@
 	import type { EventHandler } from 'svelte/elements';
 	import type { PageServerData, ActionData } from './$types';
 	import { inerHight } from '$lib/store';
-	import ViewPayBilling from '$lib/components/etc/ViewPayBilling.svelte';
-	import AddPayBilling from '$lib/components/etc/AddPayBilling.svelte';
+	import ViewPayBilling from '$lib/coms/ViewPayBilling.svelte';
+	import AddPayBilling from '$lib/coms/AddPayBilling.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_billings } = data);

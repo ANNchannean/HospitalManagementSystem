@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import CreateMedicineType from '$lib/components/createORupdate/CreateMedicineType.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import CreateMedicineType from '$lib/coms-cu/CreateMedicineType.svelte';
 	import { inerHight } from '$lib/store';
 	export let form: ActionData;
 	export let data: PageServerData;

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import type { PageServerData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import Select from '$lib/components/etc/Select.svelte';
-	import Toast from '$lib/components/etc/Toast.svelte';
-	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import Select from '$lib/coms/Select.svelte';
+	import Toast from '$lib/coms/Toast.svelte';
+	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { t } from '$lib/translations';
-	import Words from '$lib/components/etc/Words.svelte';
+	import Words from '$lib/coms/Words.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_staffs, get_patient, get_departments, get_words } = data);

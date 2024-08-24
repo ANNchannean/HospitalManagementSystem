@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import CreateDocument from '$lib/components/createORupdate/CreateDocument.svelte';
-	import ConfirmeModal from '$lib/components/etc/ConfirmeModal.svelte';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import CreateDocument from '$lib/coms-cu/CreateDocument.svelte';
+	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;

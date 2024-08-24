@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import CreateImgResult from '$lib/components/createORupdate/CreateImgResult.svelte';
+	import CreateImgResult from '$lib/coms-cu/CreateImgResult.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;

@@ -3,12 +3,12 @@
 	import type { ActionData, PageServerData } from './$types';
 	import { page } from '$app/stores';
 	import { onDestroy, onMount } from 'svelte';
-	import SelectRef from '$lib/components/etc/SelectRef.svelte';
+	import SelectRef from '$lib/coms/SelectRef.svelte';
 	import { enhance } from '$app/forms';
-	import Toast from '$lib/components/etc/Toast.svelte';
+	import Toast from '$lib/coms/Toast.svelte';
 	import { globalLoading } from '$lib/store';
-	import SubmiteSearch from '$lib/components/etc/SubmiteSearch.svelte';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { browser } from '$app/environment';
 	export let data: PageServerData;
 	export let form: ActionData;

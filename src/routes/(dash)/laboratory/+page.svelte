@@ -1,6 +1,6 @@
 <script lang="ts">
-	import CreateLaboratoryResult from '$lib/components/createORupdate/CreateLaboratoryResult.svelte';
-	import UpdateLaboratoryReq from '$lib/components/createORupdate/UpdateLaboratoryReq.svelte';
+	import CreateLaboratoryResult from '$lib/coms-cu/CreateLaboratoryResult.svelte';
+	import UpdateLaboratoryReq from '$lib/coms-cu/UpdateLaboratoryReq.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	import { invalidateAll } from '$app/navigation';

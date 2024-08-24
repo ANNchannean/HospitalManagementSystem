@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import CreateProduct from '$lib/components/createORupdate/CreateProduct.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import CreateProduct from '$lib/coms-cu/CreateProduct.svelte';
 	import type { EventHandler } from 'svelte/elements';
 	import { inerHight } from '$lib/store';
-	import Toast from '$lib/components/etc/Toast.svelte';
+	import Toast from '$lib/coms/Toast.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;

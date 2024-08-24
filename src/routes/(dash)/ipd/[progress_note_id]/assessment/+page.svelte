@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
-	import Select from '$lib/components/etc/Select.svelte';
+	import Select from '$lib/coms/Select.svelte';
 	export let data: PageServerData;
 	$: ({ get_diagnosis, get_diagnosisTypes } = data);
 	let diagnosis_type_id: number;

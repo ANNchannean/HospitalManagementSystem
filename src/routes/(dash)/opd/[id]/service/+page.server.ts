@@ -63,8 +63,9 @@ export const actions: Actions = {
 			}
 		});
 
-		if (get_visit?.service.some((e) => e.product_id === +product_id))
+		if (get_visit?.service?.product_id === +product_id) {
 			return fail(400, { errId: true });
+		}
 		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
 		await db.insert(service).values({
 			product_id: get_product?.id,

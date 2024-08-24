@@ -1,7 +1,7 @@
 <script lang="ts">
-	import CreateUnit from '$lib/components/createORupdate/CreateUnit.svelte';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import CreateUnit from '$lib/coms-cu/CreateUnit.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import { inerHight } from '$lib/store';
 	import type { ActionData, PageServerData } from './$types';
 	export let form: ActionData;

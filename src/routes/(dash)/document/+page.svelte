@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Athtml from '$lib/components/etc/Athtml.svelte';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
-	import Select from '$lib/components/etc/Select.svelte';
-	import SubmitButton from '$lib/components/etc/SubmitButton.svelte';
-	import TextEditor from '$lib/components/etc/TextEditor.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import Select from '$lib/coms/Select.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
+	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;

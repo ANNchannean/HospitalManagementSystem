@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import DeleteModal from '$lib/components/etc/DeleteModal.svelte';
+	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import { inerHight } from '$lib/store';
-	import CreateUser from '$lib/components/createORupdate/CreateUser.svelte';
+	import CreateUser from '$lib/coms-cu/CreateUser.svelte';
 	export let data: PageServerData;
 
 	let user_id: string;
