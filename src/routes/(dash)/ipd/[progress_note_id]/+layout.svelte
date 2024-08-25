@@ -5,6 +5,10 @@
 	let progress_note_id = $page.params.progress_note_id;
 	export let data: LayoutServerData;
 	$: ({ get_progress_note } = data);
+	$: age_p_visit = dobToAge({
+		dob: get_progress_note!.patient.dob,
+		date: get_progress_note!.date_checkup
+	});
 </script>
 
 <div class="row">
@@ -60,25 +64,12 @@
 									?.name_latin}</td
 							>
 							<td>Gender</td>
-							<td
-								>{get_progress_note?.patient?.gender}, អាយុ {dobToAge({
-									d: new Date(get_progress_note?.patient?.dob ?? '').getDate(),
-									m: new Date(get_progress_note?.patient?.dob ?? '').getMonth() + 1,
-									y: new Date(get_progress_note?.patient?.dob ?? '').getFullYear(),
-									date: new Date(get_progress_note?.date_checkup ?? '')
-								}).y} ឆ្នាំ ,
-								{dobToAge({
-									d: new Date(get_progress_note?.patient?.dob ?? '').getDate(),
-									m: new Date(get_progress_note?.patient?.dob ?? '').getMonth() + 1,
-									y: new Date(get_progress_note?.patient?.dob ?? '').getFullYear(),
-									date: new Date(get_progress_note?.date_checkup ?? '')
-								}).m} ខែ ,
-								{dobToAge({
-									d: new Date(get_progress_note?.patient?.dob ?? '').getDate(),
-									m: new Date(get_progress_note?.patient?.dob ?? '').getMonth() + 1,
-									y: new Date(get_progress_note?.patient?.dob ?? '').getFullYear(),
-									date: new Date(get_progress_note?.date_checkup ?? '')
-								}).d} ថ្ងៃ
+							<td>
+								{#if get_progress_note?.patient.dob}
+									{get_progress_note?.patient?.gender}, អាយុ {age_p_visit?.y ?? ''} ឆ្នាំ ,
+									{age_p_visit?.m ?? ''} ខែ ,
+									{age_p_visit?.d ?? ''} ថ្ងៃ
+								{/if}
 							</td>
 							<td></td>
 						</tr>

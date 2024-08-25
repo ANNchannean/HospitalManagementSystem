@@ -5,6 +5,7 @@
 	import { inerHight } from '$lib/store';
 	import VIewProfilePatient from '$lib/coms/VIewProfilePatient.svelte';
 	import { invalidateAll } from '$app/navigation';
+	import { dobToAge } from '$lib/helper';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let patient_id: number;
@@ -156,7 +157,7 @@
 										.split('/')
 										.join('-')}</td
 								>
-								<td>{item.age}</td>
+								<td>{dobToAge({ date: new Date().toJSON(), dob: item.dob }).y ?? ''} years </td>
 								<td>
 									{item.village?.type ?? ''}
 									{item.village?.name_khmer.concat(',') ?? ''}

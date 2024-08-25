@@ -6,6 +6,10 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	export let data: PageServerData;
 	$: ({ get_progress_note, get_staffs } = data);
+	$: age_p_visit = dobToAge({
+		dob: get_progress_note!.patient.dob,
+		date: get_progress_note!.date_checkup
+	});
 	let loading = false;
 </script>
 
@@ -64,24 +68,11 @@
 								<td> : </td>
 
 								<td>
-									{dobToAge({
-										d: new Date(get_progress_note?.patient?.dob ?? '').getDate(),
-										m: new Date(get_progress_note?.patient?.dob ?? '').getMonth() + 1,
-										y: new Date(get_progress_note?.patient?.dob ?? '').getFullYear(),
-										date: new Date(get_progress_note?.date_checkup ?? '')
-									}).y} ឆ្នាំ ,
-									{dobToAge({
-										d: new Date(get_progress_note?.patient?.dob ?? '').getDate(),
-										m: new Date(get_progress_note?.patient?.dob ?? '').getMonth() + 1,
-										y: new Date(get_progress_note?.patient?.dob ?? '').getFullYear(),
-										date: new Date(get_progress_note?.date_checkup ?? '')
-									}).m} ខែ ,
-									{dobToAge({
-										d: new Date(get_progress_note?.patient?.dob ?? '').getDate(),
-										m: new Date(get_progress_note?.patient?.dob ?? '').getMonth() + 1,
-										y: new Date(get_progress_note?.patient?.dob ?? '').getFullYear(),
-										date: new Date(get_progress_note?.date_checkup ?? '')
-									}).d} ថ្ងៃ
+									{#if get_progress_note?.patient.dob}
+										{get_progress_note?.patient?.gender}, អាយុ {age_p_visit?.y ?? ''} ឆ្នាំ ,
+										{age_p_visit?.m ?? ''} ខែ ,
+										{age_p_visit?.d ?? ''} ថ្ងៃ
+									{/if}
 								</td>
 							</tr>
 

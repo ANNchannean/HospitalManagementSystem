@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
-	const get_diagnosis = await db.query.diagnosis_or_problem.findMany({});
+	const get_diagnosis = await db.query.diagnosis.findMany()
 	const get_diagnosisTypes = await db.query.diagnosisType.findMany({});
 	const get_remark = await db.query.remark.findFirst({
 		where: eq(remark.visit_id, +visit_id)

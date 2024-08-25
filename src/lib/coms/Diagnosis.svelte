@@ -17,8 +17,9 @@
 	let q: string = '';
 	let diagnosis_type_id: number;
 	$: get_diagnosis_by_type = diagnosis.filter((e) => e.diagnosis_type_id === diagnosis_type_id);
-	$: find_diagnosis = get_diagnosis_by_type.filter((el: Diagnosis) =>
-		el?.diagnosis?.toLowerCase().includes(q.toLowerCase())
+	$: find_diagnosis = get_diagnosis_by_type.filter(
+		(el: Diagnosis) =>
+			el?.diagnosis?.toLowerCase().includes(q.toLowerCase()) || el.diagnosis_khmer?.includes(q)
 	);
 	let loading = false;
 	export let modal_name: string;
@@ -137,7 +138,7 @@
 											value={item.diagnosis}
 										/>
 										<label for={item.id.toString()} class="custom-control-label"
-											>{item.diagnosis}{item.diagnosis_khmer}</label
+											>{item.diagnosis} {item.diagnosis_khmer}</label
 										>
 										<button
 											type="button"

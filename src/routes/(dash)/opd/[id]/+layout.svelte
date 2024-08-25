@@ -17,6 +17,7 @@
 	$: mean_arterial_pressure =
 		(1 / 3) * Number(find_old_visit?.vitalSign?.sbp) +
 		(2 / 3) * Number(find_old_visit?.vitalSign?.dbp);
+	$: age_p_visit = dobToAge({ dob: get_visit.patient.dob, date: get_visit.date_checkup });
 </script>
 
 <div class="row">
@@ -76,24 +77,9 @@
 							<td>{get_visit.patient?.name_khmer},{get_visit.patient?.name_latin}</td>
 							<td>Gender</td>
 							<td
-								>{get_visit.patient?.gender}, អាយុ {dobToAge({
-									d: new Date(get_visit.patient.dob).getDate(),
-									m: Number(get_visit.patient.dob.slice(5, 7)),
-									y: new Date(get_visit.patient.dob).getFullYear(),
-									date: new Date(get_visit?.date_checkup ?? '')
-								}).y} ឆ្នាំ ,
-								{dobToAge({
-									d: new Date(get_visit.patient.dob).getDate(),
-									m: new Date(get_visit.patient.dob).getMonth() + 1,
-									y: new Date(get_visit.patient.dob).getFullYear(),
-									date: new Date(get_visit?.date_checkup ?? '')
-								}).m} ខែ ,
-								{dobToAge({
-									d: new Date(get_visit.patient.dob).getDate(),
-									m: new Date(get_visit.patient.dob).getMonth() + 1,
-									y: new Date(get_visit.patient.dob).getFullYear(),
-									date: new Date(get_visit.date_checkup)
-								}).d} ថ្ងៃ
+								>{get_visit.patient?.gender}, អាយុ {age_p_visit?.y} ឆ្នាំ ,
+								{age_p_visit?.m} ខែ ,
+								{age_p_visit?.d} ថ្ងៃ
 							</td>
 							<td></td>
 						</tr>
@@ -568,11 +554,13 @@
 									</td>
 								</tr>
 								<tr>
-									<td colspan="3" style="width: 100%;">
-										<span class="">Opertive Technique</span>
-										<Renderhtml
-											value={find_old_visit.service.operationProtocol?.opertive_technique ?? ''}
-										/>
+									<td colspan="3" class="text-wrap" style="width: 100%;">
+										<div>
+											<span class="">Opertive Technique</span>
+											<Renderhtml
+												value={find_old_visit.service.operationProtocol?.opertive_technique ?? ''}
+											/>
+										</div>
 									</td>
 								</tr>
 								<tr>
@@ -585,9 +573,11 @@
 									</td>
 								</tr>
 								<tr>
-									<td colspan="3" style="width: 100%;">
-										<span class="">Notes</span>
-										<Renderhtml value={find_old_visit.service.operationProtocol?.notes ?? ''} />
+									<td colspan="3" class="text-wrap" style="min-width: 100%;">
+										<div>
+											<span class="">Notes</span>
+											<Renderhtml value={find_old_visit.service.operationProtocol?.notes ?? ''} />
+										</div>
 									</td>
 								</tr>
 							</thead>
