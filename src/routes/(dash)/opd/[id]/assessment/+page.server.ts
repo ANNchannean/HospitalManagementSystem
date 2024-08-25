@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
-	const get_diagnosis = await db.query.diagnosis.findMany({});
+	const get_diagnosis = await db.query.diagnosis_or_problem.findMany({});
 	const get_diagnosisTypes = await db.query.diagnosisType.findMany({});
 	const get_remark = await db.query.remark.findFirst({
 		where: eq(remark.visit_id, +visit_id)
@@ -26,7 +26,7 @@ export const actions: Actions = {
 	create_accessment: async ({ request, params }) => {
 		const visit_id = params.id;
 		const body = await request.formData();
-		const { diagnosis_differential, diagnosis,description } = Object.fromEntries(body) as Record<
+		const { diagnosis_differential, diagnosis_or_problem,description } = Object.fromEntries(body) as Record<
 			string,
 			string
 		>;
@@ -37,7 +37,7 @@ export const actions: Actions = {
 			await db
 				.update(accessment)
 				.set({
-					diagnosis_or_problem: diagnosis,
+					diagnosis_or_problem: diagnosis_or_problem,
 					differential_diagnosis: diagnosis_differential
 				})
 				.where(eq(accessment.id, check_accessment.id))
@@ -49,7 +49,7 @@ export const actions: Actions = {
 			await db
 				.insert(accessment)
 				.values({
-					diagnosis_or_problem: diagnosis,
+					diagnosis_or_problem: diagnosis_or_problem,
 					differential_diagnosis: diagnosis_differential,
 					visit_id: +visit_id
 				})

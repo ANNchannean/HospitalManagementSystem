@@ -17,8 +17,6 @@
 	$: mean_arterial_pressure =
 		(1 / 3) * Number(find_old_visit?.vitalSign?.sbp) +
 		(2 / 3) * Number(find_old_visit?.vitalSign?.dbp);
-	$: console.log(new Date().toJSON().slice(5, 7));
-	$: console.log(Number(get_visit?.date_checkup.slice(5, 7)) ?? '');
 </script>
 
 <div class="row">
@@ -297,14 +295,18 @@
 						</thead>
 					</table>
 				</div>
-				<div class="border rounded border-1 p-2 mb-2">
-					<span class="btn btn-success btn-sm mb-2 py-0">Cheif complaint</span>
-					<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
-				</div>
-				<div class="border rounded border-1 p-2 mb-2">
-					<span class="btn btn-success btn-sm mb-2 py-0">History of Present illness</span>
-					<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
-				</div>
+				{#if find_old_visit.subjective?.cheif_complaint}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="btn btn-success btn-sm mb-2 py-0">Cheif complaint</span>
+						<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
+					</div>
+				{/if}
+				{#if find_old_visit.subjective?.history_of_present_illness}
+					<div class="border rounded border-1 p-2 mb-2">
+						<span class="btn btn-success btn-sm mb-2 py-0">History of Present illness</span>
+						<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
+					</div>
+				{/if}
 				<div class="border rounded border-1 p-2 mb-2">
 					<span class="btn btn-success btn-sm mb-2 py-0">Past medicine history</span>
 					<table class="table-sm table">
@@ -671,7 +673,7 @@
 				{/if}
 			</div>
 			<div class="col-sm-4">
-				{#if find_old_visit.presrciption}
+				{#if find_old_visit.presrciption.length}
 					<button class="btn btn-success btn-sm mb-2 py-0">Presrciption</button>
 				{/if}
 				{#each find_old_visit.presrciption as item}

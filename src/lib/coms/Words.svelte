@@ -63,9 +63,6 @@
 					<input type="hidden" name="id" value={words_id ?? ''} />
 					<div class="form-group pb-3">
 						<div class="row">
-							<div class="col">
-								<input bind:value={q} type="search" placeholder="Search" class="form-control" />
-							</div>
 							<input type="hidden" name="type" value={modal_name} />
 							<div class="col">
 								<input
@@ -83,58 +80,67 @@
 						</div>
 					</div>
 				</form>
-				<div class=" form-group row pb-3">
-					{#each find_words as item}
-						{#if item.text}
-							<div class="col-3 p-2">
-								<form
-									use:enhance={() => {
-										loading = true;
-										return async ({ update }) => {
-											await update({ reset: true });
-											loading = false;
-											words_id = 0;
-											isEdit = false;
-										};
-									}}
-									action="/opd/words/?/delete_words"
-									method="post"
-								>
-									<input type="hidden" name="id" value={item.id} />
-
-									<input
-										on:click={() => {
-											handleText(item.text);
-										}}
-										checked={value.includes(' '.concat(item.text).concat(','))}
-										class="form-check-input"
-										type="checkbox"
-										id={item.id.toString()}
-										value={item.text}
-									/>
-									<label for={item.id.toString()} class="custom-control-label">{item.text}</label>
-									<button
-										type="button"
-										class={words_id === item.id && isEdit
-											? 'btn btn-link m-0 p-0'
-											: 'btn btn-link text-secondary m-0 p-0'}
-										on:click={() => {
-											words_id = 0;
-											words_id = item.id;
-											isEdit = !isEdit;
-											words_ = '';
-											words_ = item.text;
-										}}><i class="fa-solid fa-file-pen"></i></button
-									>
-									{#if words_id === item.id && isEdit}
-										<button class="btn btn-link text-danger m-0 p-0" type="submit"
-											><i class="fa-solid fa-x"></i></button
+				<div class="card">
+					<div class="card-header">
+						<input bind:value={q} type="search" placeholder="Search" class="form-control" />
+					</div>
+					<div style="height: 500px;" class="card-body overflow-auto">
+						<div class=" row">
+							{#each find_words as item}
+								{#if item.text}
+									<div class="col-3 p-2">
+										<form
+											use:enhance={() => {
+												loading = true;
+												return async ({ update }) => {
+													await update({ reset: true });
+													loading = false;
+													words_id = 0;
+													isEdit = false;
+												};
+											}}
+											action="/opd/words/?/delete_words"
+											method="post"
 										>
-									{/if}
-								</form>
-							</div>
-						{/if}
-					{/each}
+											<input type="hidden" name="id" value={item.id} />
+
+											<input
+												on:click={() => {
+													handleText(item.text);
+												}}
+												checked={value.includes(' '.concat(item.text).concat(','))}
+												class="form-check-input"
+												type="checkbox"
+												id={item.id.toString()}
+												value={item.text}
+											/>
+											<label for={item.id.toString()} class="custom-control-label"
+												>{item.text}</label
+											>
+											<button
+												type="button"
+												class={words_id === item.id && isEdit
+													? 'btn btn-link m-0 p-0'
+													: 'btn btn-link text-secondary m-0 p-0'}
+												on:click={() => {
+													words_id = 0;
+													words_id = item.id;
+													isEdit = !isEdit;
+													words_ = '';
+													words_ = item.text;
+												}}><i class="fa-solid fa-file-pen"></i></button
+											>
+											{#if words_id === item.id && isEdit}
+												<button class="btn btn-link text-danger m-0 p-0" type="submit"
+													><i class="fa-solid fa-x"></i></button
+												>
+											{/if}
+										</form>
+									</div>
+								{/if}
+							{/each}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

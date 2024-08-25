@@ -56,8 +56,10 @@
 				{#each data as item}
 					<button
 						type="button"
+					
 						class:active={item.id === items.find((e) => e.id === value)?.id}
-						on:click={() => {
+						on:click={(e) => {
+							e.preventDefault()
 							value = item.id;
 						}}
 						class="dropdown-item"
