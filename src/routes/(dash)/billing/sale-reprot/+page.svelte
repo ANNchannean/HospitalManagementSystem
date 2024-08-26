@@ -4,6 +4,7 @@
 	import { inerHight } from '$lib/store';
 	import ViewPayBilling from '$lib/coms/ViewPayBilling.svelte';
 	import AddPayBilling from '$lib/coms/AddPayBilling.svelte';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_billings } = data);
@@ -114,25 +115,38 @@
 								<td>{item.visit?.patient?.age ?? ''}</td>
 								<td>{item.visit?.patient?.telephone ?? ''}</td>
 								<td></td>
-								<td
-									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-										item.sub_total
-									)}</td
-								>
+								<td>
+									<CurrencySimble
+										break_line={true}
+										plan_text={true}
+										show="both"
+										value={item.sub_total}
+										exchange={item.exchang}
+									/>
+								</td>
+
 								<td>
 									{#if item.discount.includes('%')}
 										{item.discount}
 									{:else if Number(item.discount) > 0}
-										{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-											Number(item.discount)
-										)}
+										<CurrencySimble
+											break_line={true}
+											plan_text={true}
+											show="both"
+											value={+item.discount}
+											exchange={item.exchang}
+										/>
 									{/if}
 								</td>
-								<td
-									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-										item.total
-									)}</td
-								>
+								<td>
+									<CurrencySimble
+										break_line={true}
+										plan_text={true}
+										show="both"
+										value={+item.total}
+										exchange={item.exchang}
+									/>
+								</td>
 								<td>{item.tax}</td>
 								<td
 									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
@@ -140,15 +154,23 @@
 									)}</td
 								>
 								<td
-									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-										item.paid
-									)}</td
+									><CurrencySimble
+										break_line={true}
+										plan_text={true}
+										show="both"
+										value={+item.paid}
+										exchange={item.exchang}
+									/></td
 								>
-								<td
-									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-										item.balance
-									)}</td
-								>
+								<td>
+									<CurrencySimble
+										break_line={true}
+										plan_text={true}
+										show="both"
+										value={+item.balance}
+										exchange={item.exchang}
+									/>
+								</td>
 								<td>
 									{#if item.status === 'paid'}
 										<span class="badge text-bg-success">{item.status ?? ''}</span>

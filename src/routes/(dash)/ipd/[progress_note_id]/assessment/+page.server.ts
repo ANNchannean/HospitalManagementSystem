@@ -22,7 +22,7 @@ export const actions: Actions = {
 	create_accessment: async ({ request, params }) => {
 		const { progress_note_id } = params;
 		const body = await request.formData();
-		const { diagnosis_differential, diagnosis } = Object.fromEntries(body) as Record<
+		const { diagnosis_differential, diagnosis_or_problem } = Object.fromEntries(body) as Record<
 			string,
 			string
 		>;
@@ -33,7 +33,7 @@ export const actions: Actions = {
 			await db
 				.update(accessment)
 				.set({
-					diagnosis_or_problem: diagnosis,
+					diagnosis_or_problem: diagnosis_or_problem,
 					differential_diagnosis: diagnosis_differential
 				})
 				.where(eq(accessment.id, check_accessment.id))
@@ -45,7 +45,7 @@ export const actions: Actions = {
 			await db
 				.insert(accessment)
 				.values({
-					diagnosis_or_problem: diagnosis,
+					diagnosis_or_problem: diagnosis_or_problem,
 					differential_diagnosis: diagnosis_differential,
 					progress_note_id: +progress_note_id
 				})

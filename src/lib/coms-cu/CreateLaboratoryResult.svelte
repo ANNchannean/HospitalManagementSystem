@@ -6,12 +6,16 @@
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { PageServerData } from '../../routes/(dash)/laboratory/$types';
-	
+
 	export let visit_id: number;
 	export let data: PageServerData;
 	$: ({ get_visits } = data);
 	$: find_visit = get_visits.find((e) => e.id === visit_id);
 	let loading = false;
+	$: age_p_visit = dobToAge({
+		dob: find_visit?.patient.dob ?? '',
+		date: find_visit?.date_checkup ?? ''
+	});
 </script>
 
 <!-- @_List_Parameter -->
@@ -52,8 +56,8 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-12 pb-2">
-							<div class="card-body alert alert-success">
-								<table class="table table-responsive">
+							<div class="card-body alert alert-light border p-0">
+								<table class="table table-borderless table-responsive">
 									<thead class="fs-5">
 										<tr class="">
 											<td>#Patient</td>
@@ -75,24 +79,9 @@
 											<td> : </td>
 
 											<td>
-												{dobToAge({
-													d: new Date(find_visit?.patient?.dob ?? '').getDate(),
-													m: new Date(find_visit?.patient?.dob ?? '').getMonth() + 1,
-													y: new Date(find_visit?.patient?.dob ?? '').getFullYear(),
-													date: new Date(find_visit?.date_checkup ?? '')
-												}).y} ឆ្នាំ ,
-												{dobToAge({
-													d: new Date(find_visit?.patient?.dob ?? '').getDate(),
-													m: new Date(find_visit?.patient?.dob ?? '').getMonth() + 1,
-													y: new Date(find_visit?.patient?.dob ?? '').getFullYear(),
-													date: new Date(find_visit?.date_checkup ?? '')
-												}).m} ខែ ,
-												{dobToAge({
-													d: new Date(find_visit?.patient?.dob ?? '').getDate(),
-													m: new Date(find_visit?.patient?.dob ?? '').getMonth() + 1,
-													y: new Date(find_visit?.patient?.dob ?? '').getFullYear(),
-													date: new Date(find_visit?.date_checkup ?? '')
-												}).d} ថ្ងៃ
+												អាយុ {age_p_visit?.y} ឆ្នាំ ,
+												{age_p_visit?.m} ខែ ,
+												{age_p_visit?.d} ថ្ងៃ
 											</td>
 										</tr>
 

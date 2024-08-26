@@ -5,6 +5,7 @@
 	import type { EventHandler } from 'svelte/elements';
 	import { inerHight } from '$lib/store';
 	import Toast from '$lib/coms/Toast.svelte';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
@@ -99,7 +100,8 @@
 							<th>GenericName</th>
 							<th>ProductGroup</th>
 							<th>Unit</th>
-							<th>Price</th>
+							<th>Price &#x17DB;</th>
+							<th>Price &#36;</th>
 							<th style="width: 15%;">Action</th>
 						</tr>
 					</thead>
@@ -126,11 +128,12 @@
 								<td>
 									{item.unit?.unit ?? ''}
 								</td>
-								<td
-									>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
-										item.price
-									)}</td
-								>
+								<td>
+									<CurrencySimble show="real"  break_line={true} value={item.price} />
+								</td>
+								<td>
+									<CurrencySimble show='dorlar' break_line={true} value={item.price} />
+								</td>
 								<td>
 									<div class=" m-0 p-0">
 										<button

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import '$lib/style/index.css';
 	import 'suneditor/dist/css/suneditor.min.css';
 	import { onDestroy, onMount } from 'svelte';
 	export let value: string;

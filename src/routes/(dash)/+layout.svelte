@@ -9,15 +9,7 @@
 	import { inerHight, globalLoading } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
 	$: ({ get_clinich_info, get_progress_note } = data);
-	// onNavigate((navigation) => {
-	// 	if (!document.startViewTransition) return;
-	// 	return new Promise((resolve) => {
-	// 		document.startViewTransition(async () => {
-	// 			resolve();
-	// 			await navigation.complete;
-	// 		});
-	// 	});
-	// });
+	
 	$: {
 		$locale = data.lang ?? '';
 	}

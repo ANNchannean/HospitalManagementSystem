@@ -3,6 +3,7 @@
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import CreateMedicine from '$lib/coms-cu/CreateMedicine.svelte';
 	import { inerHight } from '$lib/store';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
@@ -65,7 +66,8 @@
 							<th class="text-center" style="width: 5%;">N</th>
 							<th style="width: 30%;">Product</th>
 							<th style="width: 20%;">Medicine Type</th>
-							<th style="width: 20%;">Price</th>
+							<th>Price &#x17DB;</th>
+							<th>Price &#36;</th>
 							<th style="width: 20%;">Action</th>
 						</tr>
 					</thead>
@@ -75,11 +77,12 @@
 								<td class="text-center">{index + 1}</td>
 								<td>{item.products}</td>
 								<td>{item.unit?.unit}</td>
-								<td
-									>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
-										item.price
-									)}</td
-								>
+								<td>
+									<CurrencySimble show="real" break_line={true} value={item.price} />
+								</td>
+								<td>
+									<CurrencySimble show="dorlar" break_line={true} value={item.price} />
+								</td>
 								<td>
 									<div>
 										<button

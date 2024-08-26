@@ -26,59 +26,61 @@
 				>
 				</button>
 			</div>
-			<form
-				use:enhance={() => {
-					loading = true;
-					return async ({ update, result }) => {
-						await update({ reset: false });
-						loading = false;
-						if (result.type !== 'failure') {
-							document.getElementById('close_update_laboratory_request')?.click();
-						}
-					};
-				}}
-				action="?/update_laboratory_request"
-				method="post"
-			>
-				<div class="modal-body">
-					<input value={find_visit?.id} type="hidden" name="visit_id" />
-					{#each get_laboratory_group as item (item.id)}
-						<div class="card">
-							<div class="card-header fs-5">
-								<span>{item.laboratory_group}</span>
-							</div>
+			<fieldset disabled={find_visit?.billing?.status !== 'active'}>
+				<form
+					use:enhance={() => {
+						loading = true;
+						return async ({ update, result }) => {
+							await update({ reset: false });
+							loading = false;
+							if (result.type !== 'failure') {
+								document.getElementById('close_update_laboratory_request')?.click();
+							}
+						};
+					}}
+					action="?/update_laboratory_request"
+					method="post"
+				>
+					<div class="modal-body">
+						<input value={find_visit?.id} type="hidden" name="visit_id" />
+						{#each get_laboratory_group as item (item.id)}
+							<div class="card">
+								<div class="card-header fs-5">
+									<span>{item.laboratory_group}</span>
+								</div>
 
-							<div class="card-body">
-								<div class="form-group row">
-									{#each item.product as iitem (iitem.id)}
-										<div class="col-sm-3 mb-3">
-											<div class="form-check">
-												<input
-													name="product_id"
-													class="form-check-input"
-													type="checkbox"
-													checked={find_visit?.laboratoryRequest.some(
-														(e) => e.product_id === iitem.id
-													)}
-													id={iitem.id.toString()}
-													value={iitem.id}
-												/>
-												<label for={iitem.id.toString()} class="custom-control-label"
-													>{iitem.products}</label
-												>
+								<div class="card-body">
+									<div class="form-group row">
+										{#each item.product as iitem (iitem.id)}
+											<div class="col-sm-3 mb-3">
+												<div class="form-check">
+													<input
+														name="product_id"
+														class="form-check-input"
+														type="checkbox"
+														checked={find_visit?.laboratoryRequest.some(
+															(e) => e.product_id === iitem.id
+														)}
+														id={iitem.id.toString()}
+														value={iitem.id}
+													/>
+													<label for={iitem.id.toString()} class="custom-control-label"
+														>{iitem.products}</label
+													>
+												</div>
 											</div>
-										</div>
-									{/each}
+										{/each}
+									</div>
 								</div>
 							</div>
-						</div>
-						<br />
-					{/each}
-				</div>
-				<div class="modal-footer justify-content-end">
-					<SubmitButton {loading} />
-				</div>
-			</form>
+							<br />
+						{/each}
+					</div>
+					<div class="modal-footer justify-content-end">
+						<SubmitButton {loading} />
+					</div>
+				</form>
+			</fieldset>
 		</div>
 	</div>
 </div>

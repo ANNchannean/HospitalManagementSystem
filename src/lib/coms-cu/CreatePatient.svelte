@@ -24,12 +24,12 @@
 	$: find_commune = find_district?.commune.find((e) => e.id === commune_id);
 	$: src = '';
 	function handleAGE(e: string) {
-		age = dobToAge({
-			d: +e.slice(8, 10),
-			m: +e.slice(5, 7),
-			y: +e.slice(0, 4),
-			date: new Date()
-		}).y;
+		age = Number(
+			dobToAge({
+				dob: e,
+				date: new Date().toISOString()
+			}).y
+		);
 	}
 	function handleDOB(e: number) {
 		let plan_age = new Date().getFullYear() - e;

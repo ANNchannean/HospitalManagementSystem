@@ -206,6 +206,7 @@
 		</div>
 		<div style="font-size: 90%;" class="row card-body">
 			<div class="col-sm-4">
+				<h4 class="text-center">Observation note</h4>
 				<div class="border rounded border-1 p-2 mb-2">
 					<span class="btn btn-success btn-sm mb-2 py-0">VitalSign</span>
 					<table class="table table-sm">
@@ -587,6 +588,7 @@
 			</div>
 
 			<div class="col-sm-4">
+				<h4 class="text-center">Para-Clinic</h4>
 				{#if sort_laboraytor?.length}
 					<button class="btn btn-success btn-sm mb-2 py-0">Laboratory</button>
 				{/if}
@@ -663,28 +665,26 @@
 				{/if}
 			</div>
 			<div class="col-sm-4">
+				<h4 class="text-center">Treatment</h4>
 				{#if find_old_visit.presrciption.length}
 					<button class="btn btn-success btn-sm mb-2 py-0">Presrciption</button>
 				{/if}
-				{#each find_old_visit.presrciption as item}
+				{#each find_old_visit.presrciption as item, index}
 					<div class="border rounded border-1 p-2 mb-2">
 						<span class="fs-6 text-decoration-underline text-primary"
-							>{item.product?.products ?? ''}</span
-						>
+							>{index + 1}
+							{item.product?.products ?? ''}
+							{item.product?.generic_name ? `, (  ${item.product?.generic_name ?? ''} )` : ''}
+						</span>,
+						<span>
+							ចំនួន {item.amount ?? ''}
+							{item.product?.unit?.unit}, រយៈពេល ​{item.duration ?? ''}
+						</span>
 						<table class="table">
 							<thead>
 								<tr>
-									<td style="width: 40%;">
-										<span class="">Use</span>
-									</td>
-									<td style="width: 5%;">:</td>
-									<td style="width: 55%;">
-										<span class="">{item.use ?? ''}</span>
-									</td>
-								</tr>
-								<tr>
 									<td style="width: 20%;">
-										<span class="">Time</span>
+										<span class="">{item.use ?? ''}</span>
 									</td>
 									<td style="width: 5%;">:</td>
 									<td style="width: 55%;">
@@ -713,24 +713,6 @@
 												Night {item.night}
 											{/if}
 										</span>
-									</td>
-								</tr>
-								<tr>
-									<td style="width: 40%;">
-										<span class="">Duration </span>
-									</td>
-									<td style="width: 5%;">:</td>
-									<td style="width: 55%;">
-										<span class="">{item.duration ?? ''}</span>
-									</td>
-								</tr>
-								<tr>
-									<td style="width: 40%;">
-										<span class="">Amount </span>
-									</td>
-									<td style="width: 5%;">:</td>
-									<td style="width: 55%;">
-										<span class="">{item.amount ?? ''} {item.product?.unit?.unit}</span>
 									</td>
 								</tr>
 							</thead>

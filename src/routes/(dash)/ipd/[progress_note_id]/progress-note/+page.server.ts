@@ -1,9 +1,10 @@
 import { db } from '$lib/server/db';
 import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { progressNote, staff, visit } from '$lib/server/schema';
+import { laboratoryResult, parameter, progressNote, staff, visit } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
+import { preBilling } from '$lib/server/models';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const progress_note_id = params.progress_note_id;
@@ -16,13 +17,52 @@ export const load: PageServerLoad = async ({ params }) => {
 		with: {
 			visit: {
 				with: {
+					billing:{
+						with:{
+							charge:true
+						}
+					},
+					service: {
+						with: {
+							operationProtocol: true,
+							product: true
+						}
+					},
+					accessment: true,
+					remark: true,
+					presrciption: {
+						with: {
+							product: {
+								with: {
+									unit: true
+								}
+							}
+						}
+					},
 					laboratoryRequest: {
 						with: {
+							product: {
+								with: {
+									parameter: {
+										with: {
+											unit: true,
+											laboratoryResult: true
+										},
+										orderBy: asc(parameter.id)
+									}
+								}
+							},
 							laboratoryResult: true
+						},
+						orderBy: desc(laboratoryResult.id)
+					},
+					imagerieRequest: {
+						with: {
+							product: true,
+							fileOrPicture: true
 						}
 					},
 					subjective: true,
-
 					physicalExam: {
 						with: {
 							physical: {
@@ -31,7 +71,8 @@ export const load: PageServerLoad = async ({ params }) => {
 								}
 							}
 						}
-					}
+					},
+					vitalSign: true
 				},
 				orderBy: desc(visit.date_checkup)
 			},
@@ -54,11 +95,16 @@ export const load: PageServerLoad = async ({ params }) => {
 					new Date(value.date_checkup ?? '').toDateString()
 			)
 	);
-
+	const get_exams = await db.query.exam.findMany({
+		with: {
+			physical: true
+		}
+	});
 	return {
 		get_progress_note,
 		get_staffs,
-		removeDuplicateDate
+		removeDuplicateDate,
+		get_exams
 	};
 };
 
@@ -71,20 +117,25 @@ export const actions: Actions = {
 		const get_pregress_note = await db.query.progressNote.findFirst({
 			where: eq(progressNote.id, +progress_note_id)
 		});
-		await db
-			.insert(visit)
-			.values({
-				checkin_type: 'IPD',
-				patient_id: Number(get_pregress_note?.patient_id),
-				date_checkup: created_at,
-				staff_id: Number(staff_id),
-				progress_note_id: +progress_note_id,
-				etiology: get_pregress_note?.etiology ?? '',
-				department_id: Number(get_pregress_note?.department_id)
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
+		let visit_id: number = 0;
+		try {
+			const id = await db
+				.insert(visit)
+				.values({
+					checkin_type: 'IPD',
+					patient_id: Number(get_pregress_note?.patient_id),
+					date_checkup: created_at,
+					staff_id: Number(staff_id),
+					progress_note_id: +progress_note_id,
+					etiology: get_pregress_note?.etiology ?? '',
+					department_id: Number(get_pregress_note?.department_id)
+				})
+				.$returningId();
+			visit_id = id[0].id;
+		} catch (error) {
+			logErrorMessage(String(error));
+		}
+		if (visit_id > 0) preBilling(visit_id);
 	},
 	delete_visit_ipd: async ({ request }) => {
 		const body = await request.formData();

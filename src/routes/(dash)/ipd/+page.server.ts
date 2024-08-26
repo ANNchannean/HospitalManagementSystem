@@ -5,6 +5,7 @@ import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
 import { fail, redirect } from '@sveltejs/kit';
+import { preBilling } from '$lib/server/models';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -166,20 +167,25 @@ export const actions: Actions = {
 						logErrorMessage(e);
 					});
 			} else {
-				await db
-					.insert(visit)
-					.values({
-						checkin_type: 'IPD',
-						patient_id: Number(patient_id),
-						date_checkup: created_at,
-						staff_id: Number(staff_id),
-						department_id: Number(department_id),
-						etiology: etiology,
-						progress_note_id: progress_note_id[0].id
-					})
-					.catch((e) => {
-						logErrorMessage(e);
-					});
+				let new_id_visit: number = 0;
+				try {
+					const id = await db
+						.insert(visit)
+						.values({
+							checkin_type: 'IPD',
+							patient_id: Number(patient_id),
+							date_checkup: created_at,
+							staff_id: Number(staff_id),
+							department_id: Number(department_id),
+							etiology: etiology,
+							progress_note_id: progress_note_id[0].id
+						})
+						.$returningId();
+					new_id_visit = id[0].id;
+				} catch (error) {
+					logErrorMessage(String(error));
+				}
+				if (new_id_visit > 0) preBilling(new_id_visit);
 			}
 
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);

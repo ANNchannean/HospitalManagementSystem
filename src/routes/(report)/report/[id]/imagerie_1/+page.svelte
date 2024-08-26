@@ -6,6 +6,10 @@
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
+	$: age_p_visit = dobToAge({
+		dob: get_imagerie_request?.visit?.patient.dob ?? '',
+		date: get_imagerie_request?.visit?.date_checkup ?? ''
+	});
 	onMount(async () => {
 		// setTimeout(async () => {
 		// 	window.print();
@@ -94,36 +98,9 @@
 												>
 												<td class="p-0 m-0"> : </td>
 												<td class="p-0 m-0">
-													អាយុ {dobToAge({
-														d: new Date(get_imagerie_request?.visit?.patient?.dob ?? '').getDate(),
-														m:
-															new Date(get_imagerie_request?.visit?.patient?.dob ?? '').getMonth() +
-															1,
-														y: new Date(
-															get_imagerie_request?.visit?.patient?.dob ?? ''
-														).getFullYear(),
-														date: new Date(get_imagerie_request?.visit?.date_checkup ?? '')
-													}).y} ឆ្នាំ ,
-													{dobToAge({
-														d: new Date(get_imagerie_request?.visit?.patient?.dob ?? '').getDate(),
-														m:
-															new Date(get_imagerie_request?.visit?.patient?.dob ?? '').getMonth() +
-															1,
-														y: new Date(
-															get_imagerie_request?.visit?.patient?.dob ?? ''
-														).getFullYear(),
-														date: new Date(get_imagerie_request?.visit?.date_checkup ?? '')
-													}).m} ខែ ,
-													{dobToAge({
-														d: new Date(get_imagerie_request?.visit?.patient?.dob ?? '').getDate(),
-														m:
-															new Date(get_imagerie_request?.visit?.patient?.dob ?? '').getMonth() +
-															1,
-														y: new Date(
-															get_imagerie_request?.visit?.patient?.dob ?? ''
-														).getFullYear(),
-														date: new Date(get_imagerie_request?.visit?.date_checkup ?? '')
-													}).d} ថ្ងៃ
+													អាយុ {age_p_visit?.y} ឆ្នាំ ,
+													{age_p_visit?.m} ខែ ,
+													{age_p_visit?.d} ថ្ងៃ
 												</td>
 												<td
 													style="font-size: 110%;"

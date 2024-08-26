@@ -1,8 +1,10 @@
 <script lang="ts">
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
 	import { onMount } from 'svelte';
 </script>
 
+<CurrencySimble exchange={5000} value={2000.222} />
 <Html2Pdf id="one" />
 <h1 id="one" class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

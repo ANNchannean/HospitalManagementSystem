@@ -4,6 +4,7 @@
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { inerHight } from '$lib/store';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	export let data: PageServerData;
 	let product_id: number;
 	let loading = false;
@@ -158,7 +159,8 @@
 							<th class="text-center" style="width: 5%;">N</th>
 							<th style="width: 30%;">Product</th>
 							<th>Type</th>
-							<th>Price</th>
+							<th>Price &#x17DB;</th>
+							<th>Price &#36;</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -168,11 +170,12 @@
 								<td class="text-center">{index + 1}</td>
 								<td>{item.products}</td>
 								<td>{item.imagerieGroup?.imagerie_group ?? ''}</td>
-								<td
-									>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-										item.price
-									)}</td
-								>
+								<td>
+									<CurrencySimble show="real" break_line={true} value={item.price} />
+								</td>
+								<td>
+									<CurrencySimble show="dorlar" break_line={true} value={item.price} />
+								</td>
 								<td>
 									<div>
 										<a

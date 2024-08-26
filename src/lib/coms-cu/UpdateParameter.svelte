@@ -20,6 +20,7 @@
 <!-- @_Add_Parameter -->
 <div class="modal fade" id="update_parameter" data-bs-backdrop="static">
 	<div class="modal-dialog modal-xl">
+		
 		<form
 			enctype="multipart/form-data"
 			action="?/update_parameter"

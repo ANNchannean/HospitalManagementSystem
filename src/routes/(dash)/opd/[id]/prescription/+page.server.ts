@@ -14,6 +14,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
+import { updateCharge, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -99,6 +100,7 @@ export const actions: Actions = {
 		const charge_on_prescription = get_visit?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
+
 		await db
 			.insert(productOrder)
 			.values({
@@ -112,6 +114,7 @@ export const actions: Actions = {
 			.catch((e) => {
 				logErrorMessage(e);
 			});
+		await updateCharge(charge_on_prescription!.id);
 		await db
 			.insert(presrciption)
 			.values({
@@ -178,16 +181,22 @@ export const actions: Actions = {
 			(e) => e.product_id === +product_id
 		);
 		if (get_product_order) {
-			await db
-				.update(productOrder)
-				.set({
-					qty: +amount,
-					total: Number(get_product_order?.price) * Number(amount)
-				})
-				.where(eq(productOrder.id, get_product_order!.id))
-				.catch((e) => {
-					logErrorMessage(e);
-				});
+			await updateProductOrder({
+				disc: '',
+				price: Number(get_product_order?.price),
+				qty: +amount,
+				product_order_id: get_product_order!.id
+			});
+			// await db
+			// 	.update(productOrder)
+			// 	.set({
+			// 		qty: +amount,
+			// 		total: Number(get_product_order?.price) * Number(amount)
+			// 	})
+			// 	.where(eq(productOrder.id, get_product_order!.id))
+			// 	.catch((e) => {
+			// 		logErrorMessage(e);
+			// 	});
 		}
 		await db
 			.update(presrciption)

@@ -2,12 +2,10 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
-	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import Diagnosis from '$lib/coms/Diagnosis.svelte';
 	export let data: PageServerData;
 	$: ({ get_diagnosis, get_diagnosisTypes, get_remark } = data);
-	let diagnosis_type_id: number;
 	let diagnosis_ = data.get_accessment?.diagnosis_or_problem ?? '';
 	let differential = data.get_accessment?.differential_diagnosis ?? '';
 	let loading = false;
