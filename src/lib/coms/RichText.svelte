@@ -22,13 +22,6 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<!-- <textarea
-					value={find_template?.template ?? ''}
-					name="template_view"
-					id="template-view1"
-					rows="10"
-					class="form-control"
-				/> -->
 				<Renderhtml value={find_template?.template ?? ''} />
 				<!-- <Athtml html={find_template?.template ?? ''} /> -->
 			</div>
