@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CreateNursingProcess from '$lib/coms-cu/CreateNursingProcess.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -47,16 +48,12 @@
 			<tbody>
 				{#each get_nursing_process as item}
 					<tr class="text-center">
-						<td
-							>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-								new Date(item?.datetime ?? '')
-							)}</td
-						>
-						<td
-							>{new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', hour12: true }).format(
-								new Date(item?.datetime ?? '')
-							)}</td
-						>
+						<td>
+							<DateTimeFormat timeStyle={false} date={item.datetime} />
+						</td>
+						<td>
+							<DateTimeFormat dateStyle={false} date={item.datetime} />
+						</td>
 						<td>{item.accessment ?? ''}</td>
 						<td>{item.health_problems ?? ''}</td>
 						<td>{item.actions ?? ''}</td>

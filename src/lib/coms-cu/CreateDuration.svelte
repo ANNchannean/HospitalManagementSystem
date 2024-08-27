@@ -7,7 +7,7 @@
 		ActionData,
 		PageServerData
 	} from '../../routes/(dash)/opd/[id]/prescription/$types';
-	
+
 	export let form: ActionData;
 	let duration_id: number;
 	export let data: PageServerData;

@@ -4,6 +4,7 @@
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	import { invalidateAll } from '$app/navigation';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_visits } = data);
@@ -84,19 +85,11 @@
 							{#if item.laboratoryRequest.length}
 								<tr class="text-center">
 									<td class="text-center">{item.id}</td>
-									<td
-										>{new Date(item?.date_checkup ?? '')
-											.toJSON()
-											.slice(0, 10)
-											.split('-')
-											.reverse()
-											.join('-')}
+									<td>
+										<DateTimeFormat timeStyle={false} date={item?.date_checkup} />
 										<br />
-										{new Date(item?.date_checkup ?? '').toLocaleTimeString('en-GB', {
-											hour12: true,
-											timeStyle: 'short'
-										})}</td
-									>
+										<DateTimeFormat dateStyle={false} date={item?.date_checkup} />
+									</td>
 
 									<td>
 										{item?.patient?.name_khmer} <br />

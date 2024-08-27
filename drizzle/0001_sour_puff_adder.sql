@@ -1,0 +1,1 @@
+ALTER TABLE `presrciption` DROP COLUMN `used_at`;

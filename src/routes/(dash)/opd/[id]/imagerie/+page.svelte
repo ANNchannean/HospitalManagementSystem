@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -43,11 +44,8 @@
 									<label for={iitem.id.toString()} class="custom-control-label"
 										>{iitem.products}</label
 									>
-									<span class="badge text-bg-danger"
-										>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
-											iitem.price
-										)}</span
-									>
+
+									<CurrencySimble show="both" value={iitem.price} />
 								</div>
 							</div>
 						{/each}
@@ -59,10 +57,8 @@
 		<div class="card-footer row bg-light p-2 sticky-bottom">
 			<div class="col text-end">
 				<button class="btn btn-warning"
-					>Total Imagerie {Intl.NumberFormat('en-US', {
-						style: 'currency',
-						currency: 'USD'
-					}).format(Number(total_imagerie ?? ''))}
+					>Total Imagerie
+					<CurrencySimble plan_text={true} show="both" value={total_imagerie} />
 				</button>
 			</div>
 

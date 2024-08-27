@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -45,12 +46,7 @@
 								<label for={item.id.toString()} class="custom-control-label"
 									>{item.products}
 								</label>
-								<span class="badge text-bg-danger"
-									>{new Intl.NumberFormat('en-US', {
-										currency: 'USD',
-										style: 'currency'
-									}).format(item.price)}</span
-								>
+								<CurrencySimble show="both" value={item.price} />
 							</div>
 						</div>
 					{/each}

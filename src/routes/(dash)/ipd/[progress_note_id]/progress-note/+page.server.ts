@@ -2,6 +2,7 @@ import { db } from '$lib/server/db';
 import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import {
+	activePresrciption,
 	laboratoryResult,
 	parameter,
 	presrciption,
@@ -11,7 +12,8 @@ import {
 } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
-import { preBilling } from '$lib/server/models';
+import { createProductOrder, preBilling } from '$lib/server/models';
+import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const progress_note_id = params.progress_note_id;
@@ -42,6 +44,11 @@ export const load: PageServerLoad = async ({ params }) => {
 							product: {
 								with: {
 									unit: true
+								}
+							},
+							activePresrciption: {
+								with: {
+									user: true
 								}
 							}
 						}
@@ -156,19 +163,54 @@ export const actions: Actions = {
 	},
 	active_prescription: async ({ request }) => {
 		const body = await request.formData();
-		const { prescription_id, used_at } = Object.fromEntries(body) as Record<string, string>;
+		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
+		const datetime = now_datetime();
+		const validErr = {
+			prescription_id: false,
+			active_for: false
+		};
+		if (!prescription_id || isNaN(+prescription_id)) validErr.prescription_id = true;
+		if (!active_for) validErr.active_for = true;
+		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 		const get_prescription = await db.query.presrciption.findFirst({
-			where: eq(presrciption.id, +prescription_id)
+			where: eq(presrciption.id, +prescription_id),
+			with: {
+				product: true
+			}
 		});
-		const used_at_ = (get_prescription?.used_at || '').concat(used_at).concat(' ');
-		// if(get_prescription?.used_at?.includes(use))
-		console.log(get_prescription);
-		
-		await db
-			.update(presrciption)
-			.set({
-				used_at: used_at_
-			})
-			.where(eq(presrciption.id, +prescription_id));
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, Number(get_prescription?.visit_id)),
+			with: {
+				imagerieRequest: {
+					with: {
+						product: true
+					}
+				},
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
+				presrciption: true
+			}
+		});
+
+		const charge_on_prescription = get_visit?.billing?.charge.find(
+			(e) => e.charge_on === 'prescription'
+		);
+		await createProductOrder({
+			charge_id: Number(charge_on_prescription?.id),
+			price: Number(get_prescription?.product?.price),
+			product_id: Number(get_prescription?.product_id)
+		});
+		await db.insert(activePresrciption).values({
+			active_for: active_for,
+			presrciption_id: +prescription_id,
+			datetime: datetime
+		});
 	}
 };

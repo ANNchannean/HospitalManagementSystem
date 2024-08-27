@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import CreateImgResult from '$lib/coms-cu/CreateImgResult.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import { inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -81,19 +82,11 @@
 						{#each get_imagerie_request as item}
 							<tr class="text-center">
 								<td class="text-center">{item.visit?.id}</td>
-								<td class="text-center"
-									>{new Date(item.visit?.date_checkup ?? '')
-										.toJSON()
-										.slice(0, 10)
-										.split('-')
-										.reverse()
-										.join('-')}
+								<td class="text-center">
+									<DateTimeFormat timeStyle={false} date={item.visit?.date_checkup} />
 									<br />
-									{new Date(item?.visit?.date_checkup ?? '').toLocaleTimeString('en-GB', {
-										hour12: true,
-										timeStyle: 'short'
-									})}</td
-								>
+									<DateTimeFormat dateStyle={false} date={item.visit?.date_checkup} />
+								</td>
 								<td>
 									{item?.visit?.patient?.name_khmer} <br />
 									{item?.visit?.patient?.name_latin}

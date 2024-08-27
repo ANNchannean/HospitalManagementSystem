@@ -9,7 +9,7 @@
 	import { inerHight, globalLoading } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
 	$: ({ get_clinich_info, get_progress_note } = data);
-	
+
 	$: {
 		$locale = data.lang ?? '';
 	}
@@ -82,7 +82,7 @@
 				}}
 				data-bs-toggle="modal"
 				data-bs-target="#view_room"
-				class="nav-link btn btn-link"
+				class="nav-link btn btn-link active"
 				type="button"
 			>
 				<div class="position-relative">
@@ -99,7 +99,7 @@
 
 		<li class="nav-item dropdown">
 			<button
-				class="nav-link btn btn-link dropdown-toggle"
+				class="nav-link btn btn-link active dropdown-toggle"
 				id="navbarDropdown"
 				type="button"
 				data-bs-toggle="dropdown"
@@ -115,10 +115,9 @@
 
 		<div class="d-sm-none d-md-block d-none d-sm-block">
 			<li class="nav-item">
-				<button class="nav-link btn btn-link" type="button">
-					<span class=" badge p-2 badge-info">
-						<i class="fa-regular fa-clock fa-spin"></i> {date}</span
-					>
+				<button class="nav-link btn btn-link active" type="button">
+					<i class="fa-regular fa-clock fa-spin"></i>
+					{date}
 				</button>
 			</li>
 		</div>

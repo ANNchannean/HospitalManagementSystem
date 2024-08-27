@@ -19,7 +19,7 @@ export const load = (async ({ parent }) => {
 	await parent();
 	const get_visits = await db.query.visit.findMany({
 		with: {
-			billing:true,
+			billing: true,
 			laboratory: {
 				with: {
 					fileOrPicture: true

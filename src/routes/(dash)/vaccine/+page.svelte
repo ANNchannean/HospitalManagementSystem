@@ -5,8 +5,8 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { globalLoading, inerHight } from '$lib/store';
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
-	import Athtml from '$lib/coms/Athtml.svelte';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	let vaccin_id: number;
 	let loading = false;
@@ -78,19 +78,11 @@
 						{#each get_injection as item}
 							<tr>
 								<td class="text-center">{item.id}</td>
-								<td
-									>{new Date(item?.datetime ?? '')
-										.toJSON()
-										.slice(0, 10)
-										.split('-')
-										.reverse()
-										.join('-')}
+								<td class="text-center">
+									<DateTimeFormat timeStyle={false} date={item.datetime} />
 									<br />
-									{new Date(item?.datetime ?? '').toLocaleTimeString('en-GB', {
-										hour12: true,
-										timeStyle: 'short'
-									})}</td
-								>
+									<DateTimeFormat dateStyle={false} date={item.datetime} />
+								</td>
 								<td class="text-center">
 									{item?.patient?.id}
 								</td>
@@ -131,20 +123,14 @@
 											{#if iitem.times < 10}
 												<span class="badge text-bg-warning">
 													{'លើកទី 0'.concat(String(iitem?.times))}
-													{new Intl.DateTimeFormat('en-GB', {
-														dateStyle: 'short'
-													}).format(new Date(iitem.appointment))}
+													<DateTimeFormat timeStyle={false} date={iitem.appointment} />
 												</span>
 												{#if iitem.status}
 													<button type="button" class="btn btn-link btn-lg"
 														><i class="fa-solid fa-square-check"></i></button
 													>
 													{'បានចាក់​'}
-													{new Intl.DateTimeFormat('en-GB', {
-														dateStyle: 'short',
-														timeStyle: 'short',
-														hour12: true
-													}).format(new Date(iitem?.datetime_inject ?? ''))}
+													<DateTimeFormat date={iitem.datetime_inject} />
 												{:else}
 													<button type="button" class="btn btn-link btn-lg"
 														><i class="fa-regular fa-square"></i></button
@@ -285,17 +271,11 @@
 									<td>
 										{#if item.status}
 											<button class="btn btn-primary">
-												{new Intl.DateTimeFormat('en-GB', {
-													dateStyle: 'short',
-													hour12: true
-												}).format(new Date(item.appointment))}
+												<DateTimeFormat timeStyle={false} date={item.appointment} />
 											</button>
 										{:else}
 											<button class="btn btn-danger">
-												{new Intl.DateTimeFormat('en-GB', {
-													dateStyle: 'short',
-													hour12: true
-												}).format(new Date(item.appointment))}
+												<DateTimeFormat timeStyle={false} date={item.appointment} />
 											</button>
 										{/if}
 									</td>
@@ -328,12 +308,8 @@
 										{/if}
 									</td>
 									{#if item.status}
-										<td
-											>{new Intl.DateTimeFormat('en-GB', {
-												dateStyle: 'short',
-												hour12: true,
-												timeStyle: 'short'
-											}).format(new Date(item.datetime_inject ?? new Date()))}
+										<td>
+											<DateTimeFormat date={item.datetime_inject} />
 
 											<!-- Vaccine {find_injection?.vaccine[index].product?.products ?? ''} -->
 										</td>

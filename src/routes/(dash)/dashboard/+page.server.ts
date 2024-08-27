@@ -8,7 +8,6 @@ export const load: PageServerLoad = async () => {
 	return { picture };
 };
 export const actions: Actions = {
-	
 	img: async ({ request }) => {
 		const body = await request.formData();
 		try {

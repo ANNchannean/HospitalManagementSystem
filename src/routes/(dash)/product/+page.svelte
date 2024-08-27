@@ -129,10 +129,10 @@
 									{item.unit?.unit ?? ''}
 								</td>
 								<td>
-									<CurrencySimble show="real"  break_line={true} value={item.price} />
+									<CurrencySimble show="real" break_line={true} value={item.price} />
 								</td>
 								<td>
-									<CurrencySimble show='dorlar' break_line={true} value={item.price} />
+									<CurrencySimble show="dorlar" break_line={true} value={item.price} />
 								</td>
 								<td>
 									<div class=" m-0 p-0">

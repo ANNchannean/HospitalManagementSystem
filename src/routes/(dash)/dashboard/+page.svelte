@@ -1,8 +1,13 @@
 <script lang="ts">
 	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
-	import { onMount } from 'svelte';
 </script>
+
+<span>
+	<DateTimeFormat timeStyle={false} date={new Date().toJSON()} />
+	<DateTimeFormat dateStyle={false} date={new Date().toJSON()} />
+</span>
 
 <CurrencySimble exchange={5000} value={2000.222} />
 <Html2Pdf id="one" />

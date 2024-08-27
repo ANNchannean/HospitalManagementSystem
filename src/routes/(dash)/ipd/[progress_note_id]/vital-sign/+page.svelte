@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CreateVitalSignIpd from '$lib/coms-cu/CreateVitalSignIPD.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -58,16 +59,12 @@
 			<tbody>
 				{#each get_vital_sing_ipd as item}
 					<tr class="text-center">
-						<td
-							>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-								new Date(item?.datetime ?? '')
-							)}</td
-						>
-						<td
-							>{new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', hour12: true }).format(
-								new Date(item?.datetime ?? '')
-							)}</td
-						>
+						<td>
+							<DateTimeFormat timeStyle={false} date={item.datetime} />
+						</td>
+						<td>
+							<DateTimeFormat dateStyle={false} date={item.datetime} />
+						</td>
 						<td>{item.by ?? ''}</td>
 						<td
 							>{item.sbp?.toFixed(0).concat(' /') ?? ''}

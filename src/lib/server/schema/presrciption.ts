@@ -18,8 +18,7 @@ export const presrciption = mysqlTable('presrciption', {
 	noon: float('noon'),
 	afternoon: float('afternoon'),
 	evening: float('evening'),
-	night: float('night'),
-	used_at: varchar('used_at', { length: 255 })
+	night: float('night')
 });
 
 export const presrciptionRelations = relations(presrciption, ({ one, many }) => ({

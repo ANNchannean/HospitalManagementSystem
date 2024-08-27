@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { globalLoading } from '$lib/store';
-	import type {
-		PageServerData,
-		ActionData
-	} from '../../routes/(dash)/billing/sale-reprot/$types';
+	import type { PageServerData, ActionData } from '../../routes/(dash)/billing/sale-reprot/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	export let data: PageServerData;

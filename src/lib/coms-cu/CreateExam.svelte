@@ -1,8 +1,5 @@
 <script lang="ts">
-	import type {
-		ActionData,
-		PageServerData
-	} from '../../routes/(dash)/settup/physical-exam/$types';
+	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/physical-exam/$types';
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';

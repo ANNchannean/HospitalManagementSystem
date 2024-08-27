@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import type { PageServerData } from './$types';
@@ -66,13 +67,9 @@
 							<tbody class="table-sm">
 								{#if get_appointment}
 									<tr>
-										<td style="width: 20%;"
-											>{get_appointment?.date
-												? Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-														new Date(get_appointment?.date ?? new Date())
-													)
-												: ''}</td
-										>
+										<td style="width: 20%;">
+											<DateTimeFormat timeStyle={false} date={get_appointment?.date} />
+										</td>
 										<td>{get_appointment?.description ?? ''}</td>
 										<td style="width: 10%;">
 											<div>

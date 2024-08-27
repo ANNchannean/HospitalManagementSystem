@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
-	export let show = 'real';
+	export let show = 'both';
 	export let value = 0;
 	export let break_line = false;
 	export let exchange = 4000;

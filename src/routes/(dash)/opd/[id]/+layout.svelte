@@ -2,6 +2,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Athtml from '$lib/coms/Athtml.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { LayoutServerData } from './$types';
@@ -51,17 +52,12 @@
 						<tr>
 							<td>Date</td>
 							<td>
-								{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
-									.format(new Date(get_visit.date_checkup ?? ''))
-									.split('/')
-									.join('-')}
+								<DateTimeFormat timeStyle={false} date={get_visit.date_checkup} />
 							</td>
 							<td>Hour</td>
-							<td
-								>{new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', hour12: true }).format(
-									new Date(get_visit.date_checkup ?? '')
-								)}</td
-							>
+							<td>
+								<DateTimeFormat dateStyle={false} date={get_visit.date_checkup} />
+							</td>
 							<td></td>
 						</tr>
 						<tr>
@@ -187,11 +183,7 @@
 					class:btn-outline-primary={old_visit_id !== item.id}
 					class:btn-primary={old_visit_id === item.id}
 					>{item?.checkin_type}
-					{new Intl.DateTimeFormat('en-GB', {
-						dateStyle: 'short',
-						timeStyle: 'short',
-						hour12: true
-					}).format(Date.parse(item.date_checkup))}
+					<DateTimeFormat date={item.date_checkup} />
 					{item?.id ?? ''}
 				</button>
 			</div>
@@ -512,11 +504,12 @@
 										</td>
 										<td style="width: 5%;">:</td>
 										<td style="width:50%;">
-											<span class=""
-												>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-													Date.parse(find_old_visit.service.operationProtocol?.date)
-												)}</span
-											>
+											<span class="">
+												<DateTimeFormat
+													timeStyle={false}
+													date={find_old_visit.service.operationProtocol.date}
+												/>
+											</span>
 										</td>
 									</tr>
 								{/if}
@@ -709,7 +702,7 @@
 						</span>,
 						<span>
 							ចំនួន {item.amount ?? ''}
-							{item.product?.unit?.unit}, រយៈពេល ​{item.duration ?? ''}
+							{item.product?.unit?.unit}, រយៈពេល {item.duration ?? ''}
 						</span>
 						<table class="table">
 							<thead>

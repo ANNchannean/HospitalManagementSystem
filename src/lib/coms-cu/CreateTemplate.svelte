@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
-	import type {
-		ActionData,
-		PageServerData
-	} from '../../routes/(dash)/settup/img-template/$types';
+	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/img-template/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	export let form: ActionData;

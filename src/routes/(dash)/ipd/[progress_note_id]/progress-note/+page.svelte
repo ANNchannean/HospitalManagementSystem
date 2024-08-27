@@ -6,10 +6,12 @@
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import { enhance } from '$app/forms';
 	import ActivePrescription from '$lib/coms/ActivePrescription.svelte';
+	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams } = data);
-	let used_at = '';
+	let active_for = '';
 </script>
 
 <DeleteModal id={visit_id} action="?/delete_visit_ipd" />
@@ -52,11 +54,9 @@
 					<table class="table table-bordered">
 						<thead class="table-light table-active">
 							<tr>
-								<th class="text-center"
-									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
-										new Date(date_checkup ?? '')
-									)}</th
-								>
+								<th class="text-center">
+									<DateTimeFormat timeStyle={false} date={date_checkup} />
+								</th>
 								<th>Observation Medical or SAOP note</th>
 								<th>Para-Clinic</th>
 								<th>Treatment</th>
@@ -93,10 +93,7 @@
 												data-bs-toggle="modal"
 												data-bs-target="#create-product"
 											>
-												{new Intl.DateTimeFormat('en-GB', {
-													timeStyle: 'short',
-													hour12: true
-												}).format(new Date(item?.date_checkup ?? ''))}
+												<DateTimeFormat dateStyle={false} date={item.date_checkup} />
 											</button>
 											<a
 												href="/opd/{item?.id}/subjective"
@@ -457,13 +454,12 @@
 																		</td>
 																		<td style="width: 5%;">:</td>
 																		<td style="width:50%;">
-																			<span class=""
-																				>{new Intl.DateTimeFormat('en-GB', {
-																					dateStyle: 'short'
-																				}).format(
-																					Date.parse(find_old_visit.service.operationProtocol?.date)
-																				)}</span
-																			>
+																			<span class="">
+																				<DateTimeFormat
+																					timeStyle={false}
+																					date={find_old_visit.service.operationProtocol.date}
+																				/>
+																			</span>
 																		</td>
 																	</tr>
 																{/if}
@@ -699,8 +695,8 @@
 																		<div class="row">
 																			{#if item.morning !== 0}
 																				<ActivePrescription
-																					value={item.used_at ?? ''}
-																					used_at="morning"
+																					value={item.activePresrciption}
+																					active_for="morning"
 																					prescription_id={item.id}
 																				>
 																					{item.morning}
@@ -708,8 +704,8 @@
 																			{/if}
 																			{#if item.noon !== 0}
 																				<ActivePrescription
-																					value={item.used_at ?? ''}
-																					used_at="noon"
+																					value={item.activePresrciption}
+																					active_for="noon"
 																					prescription_id={item.id}
 																				>
 																					{item.noon}
@@ -717,8 +713,8 @@
 																			{/if}
 																			{#if item.afternoon !== 0}
 																				<ActivePrescription
-																					value={item.used_at ?? ''}
-																					used_at="afternoon"
+																					value={item.activePresrciption}
+																					active_for="afternoon"
 																					prescription_id={item.id}
 																				>
 																					{item.afternoon}
@@ -726,8 +722,8 @@
 																			{/if}
 																			{#if item.evening !== 0}
 																				<ActivePrescription
-																					value={item.used_at ?? ''}
-																					used_at="evening"
+																					value={item.activePresrciption}
+																					active_for="evening"
 																					prescription_id={item.id}
 																				>
 																					{item.evening}
@@ -735,8 +731,8 @@
 																			{/if}
 																			{#if item.night !== 0}
 																				<ActivePrescription
-																					value={item.used_at ?? ''}
-																					used_at="night"
+																					value={item.activePresrciption}
+																					active_for="night"
 																					prescription_id={item.id}
 																				>
 																					{item.night}
@@ -759,32 +755,23 @@
 																<tr>
 																	<td>Total Laboratory </td>
 																	<td>:</td>
-																	<td
-																		>{new Intl.NumberFormat('en-US', {
-																			style: 'currency',
-																			currency: 'USD'
-																		}).format(total_laboratory)}</td
-																	>
+																	<td>
+																		<CurrencySimble value={total_laboratory} />
+																	</td>
 																</tr>
 																<tr>
 																	<td>Total Imagrie </td>
 																	<td>:</td>
-																	<td
-																		>{new Intl.NumberFormat('en-US', {
-																			style: 'currency',
-																			currency: 'USD'
-																		}).format(total_imagerie)}</td
-																	>
+																	<td>
+																		<CurrencySimble value={total_imagerie} />
+																	</td>
 																</tr>
 																<tr>
 																	<td>Total Treatment </td>
 																	<td>:</td>
-																	<td
-																		>{new Intl.NumberFormat('en-US', {
-																			style: 'currency',
-																			currency: 'USD'
-																		}).format(total_prescription)}</td
-																	>
+																	<td>
+																		<CurrencySimble value={total_prescription} />
+																	</td>
 																</tr>
 															</thead>
 														</table>

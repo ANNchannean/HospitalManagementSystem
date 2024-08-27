@@ -40,7 +40,8 @@ export default [
 			'@typescript-eslint/no-explicit-any': 'off',
 			'svelte/no-unused-svelte-ignore': 'off',
 			'@typescript-eslint/no-unused-vars': 'off',
-			'no-undef': 'off'
+			'no-undef': 'off',
+			'@typescript-eslint/ban-ts-comment':'off'
 		}
 	},
 	{

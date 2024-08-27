@@ -6,6 +6,7 @@
 	import VIewProfilePatient from '$lib/coms/VIewProfilePatient.svelte';
 	import { invalidateAll } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let patient_id: number;
@@ -151,12 +152,9 @@
 								</td>
 								<td>{item.name_khmer} <br /> {item.name_latin}</td>
 								<td>{item.gender}</td>
-								<td
-									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
-										.format(new Date(item.dob))
-										.split('/')
-										.join('-')}</td
-								>
+								<td>
+									<DateTimeFormat timeStyle={false} date={item.dob} />
+								</td>
 								<td>{dobToAge({ date: new Date().toJSON(), dob: item.dob }).y ?? ''} years </td>
 								<td>
 									{item.village?.type ?? ''}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { LayoutServerData } from './$types';
 	let progress_note_id = $page.params.progress_note_id;
@@ -33,17 +34,12 @@
 						<tr>
 							<td>Date</td>
 							<td>
-								{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
-									.format(new Date(get_progress_note?.date_checkup ?? ''))
-									.split('/')
-									.join('-')}
+								<DateTimeFormat timeStyle={false} date={get_progress_note?.date_checkup} />
 							</td>
 							<td>Hour</td>
-							<td
-								>{new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', hour12: true }).format(
-									new Date(get_progress_note?.date_checkup ?? '')
-								)}</td
-							>
+							<td>
+								<DateTimeFormat dateStyle={false} date={get_progress_note?.date_checkup} />
+							</td>
 							<td></td>
 						</tr>
 						<tr>
