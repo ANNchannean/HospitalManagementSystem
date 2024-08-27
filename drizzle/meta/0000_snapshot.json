@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "26c534b4-55a1-4a2e-a785-097977ae5af6",
+  "id": "6902df1c-7b75-4125-94fa-4b1b230b90e4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "commune": {
@@ -1230,8 +1230,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "physical_exam_visit_id_visit_id_fk": {
           "name": "physical_exam_visit_id_visit_id_fk",
@@ -1535,28 +1535,28 @@
         },
         "cheif_complaint": {
           "name": "cheif_complaint",
-          "type": "longtext",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "past_history": {
-          "name": "past_history",
+        "current_medication": {
+          "name": "current_medication",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "present_illness": {
-          "name": "present_illness",
+        "history_of_present_illness": {
+          "name": "history_of_present_illness",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "past_medicine_history": {
-          "name": "past_medicine_history",
-          "type": "varchar(255)",
+        "past_medical_history": {
+          "name": "past_medical_history",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -1575,8 +1575,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "familly_history": {
-          "name": "familly_history",
+        "family_and_social_history": {
+          "name": "family_and_social_history",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
@@ -2177,7 +2177,7 @@
           "name": "date_checkup",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "date_checkout": {
@@ -2187,16 +2187,70 @@
           "notNull": false,
           "autoincrement": false
         },
+        "staff_id": {
+          "name": "staff_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "etiology": {
+          "name": "etiology",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "department_id": {
+          "name": "department_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "patient_id": {
           "name": "patient_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "bed_id": {
+          "name": "bed_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {
+        "progress_note_staff_id_staff_id_fk": {
+          "name": "progress_note_staff_id_staff_id_fk",
+          "tableFrom": "progress_note",
+          "tableTo": "staff",
+          "columnsFrom": [
+            "staff_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "progress_note_department_id_department_id_fk": {
+          "name": "progress_note_department_id_department_id_fk",
+          "tableFrom": "progress_note",
+          "tableTo": "department",
+          "columnsFrom": [
+            "department_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
         "progress_note_patient_id_patient_id_fk": {
           "name": "progress_note_patient_id_patient_id_fk",
           "tableFrom": "progress_note",
@@ -2209,6 +2263,19 @@
           ],
           "onDelete": "cascade",
           "onUpdate": "cascade"
+        },
+        "progress_note_bed_id_bed_id_fk": {
+          "name": "progress_note_bed_id_bed_id_fk",
+          "tableFrom": "progress_note",
+          "tableTo": "bed",
+          "columnsFrom": [
+            "bed_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -2235,28 +2302,28 @@
           "name": "date_checkup",
           "type": "datetime",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "patient_id": {
           "name": "patient_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "department_id": {
           "name": "department_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "staff_id": {
           "name": "staff_id",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "checkin_type": {
@@ -2270,8 +2337,16 @@
           "name": "etiology",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
+        },
+        "transfer": {
+          "name": "transfer",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         },
         "progress_note_id": {
           "name": "progress_note_id",
@@ -2730,6 +2805,84 @@
       },
       "uniqueConstraints": {}
     },
+    "active_presrciption": {
+      "name": "active_presrciption",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "active_for": {
+          "name": "active_for",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "presrciption_id": {
+          "name": "presrciption_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "active_presrciption_presrciption_id_presrciption_id_fk": {
+          "name": "active_presrciption_presrciption_id_presrciption_id_fk",
+          "tableFrom": "active_presrciption",
+          "tableTo": "presrciption",
+          "columnsFrom": [
+            "presrciption_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "active_presrciption_user_id_user_id_fk": {
+          "name": "active_presrciption_user_id_user_id_fk",
+          "tableFrom": "active_presrciption",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "active_presrciption_id": {
+          "name": "active_presrciption_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "presrciption": {
       "name": "presrciption",
       "columns": {
@@ -2806,6 +2959,13 @@
         "night": {
           "name": "night",
           "type": "float",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "used_at": {
+          "name": "used_at",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -2927,6 +3087,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "progress_note_id": {
+          "name": "progress_note_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "date": {
           "name": "date",
           "type": "datetime",
@@ -2950,6 +3117,19 @@
           "tableTo": "visit",
           "columnsFrom": [
             "visit_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "appointment_progress_note_id_progress_note_id_fk": {
+          "name": "appointment_progress_note_id_progress_note_id_fk",
+          "tableFrom": "appointment",
+          "tableTo": "progress_note",
+          "columnsFrom": [
+            "progress_note_id"
           ],
           "columnsTo": [
             "id"
@@ -3036,6 +3216,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "progress_note_id": {
+          "name": "progress_note_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "product_id": {
           "name": "product_id",
           "type": "int",
@@ -3052,6 +3239,19 @@
           "tableTo": "visit",
           "columnsFrom": [
             "visit_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "service_progress_note_id_progress_note_id_fk": {
+          "name": "service_progress_note_id_progress_note_id_fk",
+          "tableFrom": "service",
+          "tableTo": "progress_note",
+          "columnsFrom": [
+            "progress_note_id"
           ],
           "columnsTo": [
             "id"
@@ -3449,6 +3649,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "progress_note_id": {
+          "name": "progress_note_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "diagnosis_or_problem": {
           "name": "diagnosis_or_problem",
           "type": "text",
@@ -3477,7 +3684,20 @@
             "id"
           ],
           "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "cascade"
+        },
+        "accessment_progress_note_id_progress_note_id_fk": {
+          "name": "accessment_progress_note_id_progress_note_id_fk",
+          "tableFrom": "accessment",
+          "tableTo": "progress_note",
+          "columnsFrom": [
+            "progress_note_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -4223,6 +4443,43 @@
       "compositePrimaryKeys": {
         "test_id": {
           "name": "test_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "words": {
+      "name": "words",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "words_id": {
+          "name": "words_id",
           "columns": [
             "id"
           ]

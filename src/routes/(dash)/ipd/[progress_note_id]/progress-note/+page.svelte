@@ -4,9 +4,12 @@
 	import type { PageServerData } from './$types';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import Athtml from '$lib/coms/Athtml.svelte';
+	import { enhance } from '$app/forms';
+	import ActivePrescription from '$lib/coms/ActivePrescription.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams } = data);
+	let used_at = '';
 </script>
 
 <DeleteModal id={visit_id} action="?/delete_visit_ipd" />
@@ -15,7 +18,7 @@
 <div class="card-header">
 	<div class="row">
 		<div class="col"></div>
-		<div class="col-auto">
+		<div class="col-auto mt-2">
 			<button
 				on:click={() => {}}
 				type="button"
@@ -683,7 +686,7 @@
 														</span>,
 														<span>
 															ចំនួន {item.amount ?? ''}
-															{item.product?.unit?.unit}, រយៈពេល ​{item.duration ?? ''}
+															{item.product?.unit?.unit}, រយៈពេល {item.duration ?? ''}
 														</span>
 														<table class="table">
 															<thead>
@@ -693,31 +696,53 @@
 																	</td>
 																	<td style="width: 5%;">:</td>
 																	<td style="width: 55%;">
-																		<span class="badge text-bg-warning">
+																		<div class="row">
 																			{#if item.morning !== 0}
-																				Morning {item.morning}
+																				<ActivePrescription
+																					value={item.used_at ?? ''}
+																					used_at="morning"
+																					prescription_id={item.id}
+																				>
+																					{item.morning}
+																				</ActivePrescription>
 																			{/if}
-																		</span>
-																		<span class="badge text-bg-warning">
 																			{#if item.noon !== 0}
-																				Noon {item.noon}
+																				<ActivePrescription
+																					value={item.used_at ?? ''}
+																					used_at="noon"
+																					prescription_id={item.id}
+																				>
+																					{item.noon}
+																				</ActivePrescription>
 																			{/if}
-																		</span>
-																		<span class="badge text-bg-warning">
 																			{#if item.afternoon !== 0}
-																				Afternoon {item.afternoon}
+																				<ActivePrescription
+																					value={item.used_at ?? ''}
+																					used_at="afternoon"
+																					prescription_id={item.id}
+																				>
+																					{item.afternoon}
+																				</ActivePrescription>
 																			{/if}
-																		</span>
-																		<span class="badge text-bg-warning">
 																			{#if item.evening !== 0}
-																				Evening {item.evening}
+																				<ActivePrescription
+																					value={item.used_at ?? ''}
+																					used_at="evening"
+																					prescription_id={item.id}
+																				>
+																					{item.evening}
+																				</ActivePrescription>
 																			{/if}
-																		</span>
-																		<span class="badge text-bg-warning">
 																			{#if item.night !== 0}
-																				Night {item.night}
+																				<ActivePrescription
+																					value={item.used_at ?? ''}
+																					used_at="night"
+																					prescription_id={item.id}
+																				>
+																					{item.night}
+																				</ActivePrescription>
 																			{/if}
-																		</span>
+																		</div>
 																	</td>
 																</tr>
 															</thead>

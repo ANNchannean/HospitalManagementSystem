@@ -1,1 +1,0 @@
-ALTER TABLE `room` ADD `status` boolean DEFAULT false NOT NULL;

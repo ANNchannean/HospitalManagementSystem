@@ -1,7 +1,14 @@
 import { db } from '$lib/server/db';
 import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { laboratoryResult, parameter, progressNote, staff, visit } from '$lib/server/schema';
+import {
+	laboratoryResult,
+	parameter,
+	presrciption,
+	progressNote,
+	staff,
+	visit
+} from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
 import { preBilling } from '$lib/server/models';
@@ -17,9 +24,9 @@ export const load: PageServerLoad = async ({ params }) => {
 		with: {
 			visit: {
 				with: {
-					billing:{
-						with:{
-							charge:true
+					billing: {
+						with: {
+							charge: true
 						}
 					},
 					service: {
@@ -146,5 +153,22 @@ export const actions: Actions = {
 			.catch((e) => {
 				logErrorMessage(e);
 			});
+	},
+	active_prescription: async ({ request }) => {
+		const body = await request.formData();
+		const { prescription_id, used_at } = Object.fromEntries(body) as Record<string, string>;
+		const get_prescription = await db.query.presrciption.findFirst({
+			where: eq(presrciption.id, +prescription_id)
+		});
+		const used_at_ = (get_prescription?.used_at || '').concat(used_at).concat(' ');
+		// if(get_prescription?.used_at?.includes(use))
+		console.log(get_prescription);
+		
+		await db
+			.update(presrciption)
+			.set({
+				used_at: used_at_
+			})
+			.where(eq(presrciption.id, +prescription_id));
 	}
 };

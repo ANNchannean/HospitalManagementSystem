@@ -1,1 +1,0 @@
-ALTER TABLE `room` DROP COLUMN `status`;

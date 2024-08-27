@@ -14,10 +14,10 @@
 		"format": "prettier --write .",
 		"db:generate": "drizzle-kit generate ",
 		"db:push": "drizzle-kit push ",
-		"db:migrate": "vite-node src/lib/server/migrate.ts ",
-		"db:seed": "vite-node src/lib/server/seed.ts ",
-		"db:drop": "vite-node src/lib/server/drop.ts && vite-node src/lib/server/create.ts",
-		"db:create": "vite-node src/lib/server/create.ts "
+		"db:migrate": "tsx src/lib/server/migrate.ts ",
+		"db:seed": "tsx src/lib/server/seed.ts ",
+		"db:drop": "tsx src/lib/server/drop.ts && tsx src/lib/server/create.ts",
+		"db:create": "tsx src/lib/server/create.ts "
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.2.2",
@@ -45,10 +45,10 @@
 		"svelte": "^4.2.18",
 		"svelte-check": "^3.8.5",
 		"tslib": "^2.6.3",
+		"tsx": "^4.18.0",
 		"typescript": "^5.5.4",
 		"typescript-eslint": "^8.2.0",
-		"vite": "^5.4.2",
-		"vite-node": "^2.0.4"
+		"vite": "^5.4.2"
 	},
 	"dependencies": {
 		"@lucia-auth/adapter-drizzle": "^1.0.7",

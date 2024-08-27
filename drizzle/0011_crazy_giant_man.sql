@@ -1,1 +1,0 @@
-ALTER TABLE `visit` ADD `transfer` boolean DEFAULT false NOT NULL;

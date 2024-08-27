@@ -14,7 +14,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
-import { updateCharge, updateProductOrder } from '$lib/server/models';
+import { deleteProductOrder, updateCharge, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -69,10 +69,8 @@ export const actions: Actions = {
 			amount: false,
 			price: false
 		};
-
 		if (!product_id || isNaN(+product_id)) validErr.product_id = true;
 		if (!amount || isNaN(+amount)) validErr.amount = true;
-
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 		const get_product = await db.query.product.findFirst({ where: eq(product.id, +product_id) });
 		const get_visit = await db.query.visit.findFirst({
@@ -95,26 +93,30 @@ export const actions: Actions = {
 				presrciption: true
 			}
 		});
-		if (get_visit?.presrciption.some((e) => e.product_id === +product_id))
+		if (get_visit?.presrciption.some((e) => e.product_id === +product_id)) {
 			validErr.product_id = true;
+		}
 		const charge_on_prescription = get_visit?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
 
-		await db
-			.insert(productOrder)
-			.values({
-				charge_id: charge_on_prescription!.id,
-				product_id: +product_id,
-				created_at: now_datetime(),
-				price: get_product?.price,
-				qty: +amount,
-				total: Number(get_product?.price) * Number(amount)
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-		await updateCharge(charge_on_prescription!.id);
+		if (!get_visit?.progress_note_id) {
+			await db
+				.insert(productOrder)
+				.values({
+					charge_id: charge_on_prescription!.id,
+					product_id: +product_id,
+					created_at: now_datetime(),
+					price: get_product?.price,
+					qty: +amount,
+					total: Number(get_product?.price) * Number(amount)
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
+			await updateCharge(charge_on_prescription!.id);
+		}
+
 		await db
 			.insert(presrciption)
 			.values({
@@ -180,23 +182,13 @@ export const actions: Actions = {
 		const get_product_order = charge_on_prescription?.productOrder.find(
 			(e) => e.product_id === +product_id
 		);
-		if (get_product_order) {
+		if (get_product_order && !get_visit?.progress_note_id) {
 			await updateProductOrder({
 				disc: '',
 				price: Number(get_product_order?.price),
 				qty: +amount,
 				product_order_id: get_product_order!.id
 			});
-			// await db
-			// 	.update(productOrder)
-			// 	.set({
-			// 		qty: +amount,
-			// 		total: Number(get_product_order?.price) * Number(amount)
-			// 	})
-			// 	.where(eq(productOrder.id, get_product_order!.id))
-			// 	.catch((e) => {
-			// 		logErrorMessage(e);
-			// 	});
 		}
 		await db
 			.update(presrciption)
@@ -249,8 +241,8 @@ export const actions: Actions = {
 		const get_product_order = charge_on_prescription?.productOrder.find(
 			(e) => e.product_id === get_prescription?.product_id
 		);
-		if (get_product_order) {
-			await db.delete(productOrder).where(eq(productOrder.id, get_product_order!.id));
+		if (get_product_order && !get_visit?.progress_note_id) {
+			await deleteProductOrder(get_product_order!.id);
 		}
 		await db
 			.delete(presrciption)

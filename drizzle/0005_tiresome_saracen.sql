@@ -1,1 +1,0 @@
-ALTER TABLE `subjective` RENAME COLUMN `present_illness` TO `history_of_present_illness`;
