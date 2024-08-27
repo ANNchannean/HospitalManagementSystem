@@ -53,7 +53,7 @@
 									await update();
 									loading = false;
 									if (result.type !== 'failure') {
-										window.location.reload();
+										
 									}
 								};
 							}}

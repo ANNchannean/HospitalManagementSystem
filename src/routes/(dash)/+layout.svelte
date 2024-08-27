@@ -37,6 +37,11 @@
 			clearInterval(interval);
 		};
 	});
+	function toggleSidebar() {
+		const value = localStorage.getItem('sb|sidebar-toggle');
+		document.body.classList.toggle('sb-sidenav-toggled');
+		localStorage.setItem('sb|sidebar-toggle', value === 'false' ? 'true' : 'false');
+	}
 </script>
 
 <svelte:head>
@@ -50,7 +55,10 @@
 	<a class="navbar-brand ps-3" href="/dashboard">Hospital Systeme </a>
 	<!-- Sidebar Toggle-->
 	<!-- Navbar Search-->
-	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"
+	<button
+		on:click={toggleSidebar}
+		class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+		id="sidebarToggle"
 		><i class="fas fa-bars"></i>
 	</button>
 	{#if $navigating || $globalLoading}

@@ -18,7 +18,7 @@ export const load = (async ({ params }) => {
 export const actions: Actions = {
 	create_document: async ({ request }) => {
 		const body = await request.formData();
-		console.log(body);
+
 		const { title, content } = Object.fromEntries(body) as Record<string, string>;
 		await db.insert(formDocument).values({
 			content: content,

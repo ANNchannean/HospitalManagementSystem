@@ -7,23 +7,23 @@
 </script>
 
 {#if show === 'dorlar'}
-	<span class:btn={plan_text ? '' : 'btn'} class=" btn-warning active btn-sm py-0"
+	<span class:btn={plan_text ? '' : 'btn'} class=" btn-info active btn-sm py-0"
 		>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
 			.format(value)
 			.replace('$', '')}&nbsp;&#36;</span
 	>
 {:else if show === 'real'}
-	<span class:btn={plan_text ? '' : 'btn'} class=" btn-danger active btn-sm py-0"
+	<span class:btn={plan_text ? '' : 'btn'} class=" btn-warning active btn-sm py-0"
 		>{new Intl.NumberFormat('en-US').format(value * exchange).replace('$', '')}&nbsp;&#x17DB;</span
 	>
 {:else}
-	<span class:btn={plan_text ? '' : 'btn'} class=" btn-danger active btn-sm py-0"
+	<span class:btn={plan_text ? '' : 'btn'} class=" btn-warning active btn-sm py-0"
 		>{new Intl.NumberFormat('en-US').format(value * exchange).replace('$', '')}&nbsp;&#x17DB;</span
 	>
 	{#if break_line}
 		<br />
 	{/if}
-	<span class:btn={plan_text ? '' : 'btn'} class=" btn-warning active btn-sm py-0"
+	<span class:btn={plan_text ? '' : 'btn'} class=" btn-info active btn-sm py-0"
 		>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
 			.format(value)
 			.replace('$', '')}&nbsp;&#36;</span

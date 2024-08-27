@@ -21,5 +21,3 @@ export const now_datetime_number = function () {
 			Intl.DateTimeFormat('en-GB', { timeStyle: 'medium' }).format(new Date()).split(':').join('')
 		);
 };
-
-console.log('work');

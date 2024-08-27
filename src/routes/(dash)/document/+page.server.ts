@@ -21,8 +21,6 @@ export const load = (async ({ parent }) => {
 export const actions: Actions = {
 	create_document: async ({ request }) => {
 		const body = await request.formData();
-		console.log(body);
-
 		const { title, content, id } = Object.fromEntries(body) as Record<string, string>;
 		if (+id !== 0) {
 			await db

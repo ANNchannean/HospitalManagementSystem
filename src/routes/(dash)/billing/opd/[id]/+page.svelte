@@ -46,10 +46,6 @@
 		Number(charge_on_prescription?.productOrder.length || 0) +
 		Number(charge_on_vaccine?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
-	onMount(() => {
-		inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
-		inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
-	});
 	let disc = '';
 	$: final_disc = disc.includes('%')
 		? Number(get_billing?.sub_total) -
@@ -59,16 +55,25 @@
 	$: cash_pay = (final_disc - bank_pay).toFixed(2);
 	$: return_or_credit = (Number(bank_pay) + Number(cash_pay) - final_disc).toFixed(2);
 	onMount(() => {
+		inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
+		inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
+		const sidebarToggle = localStorage.getItem('sb|sidebar-toggle')
 		if (browser) {
 			if (window.innerWidth > 990) {
-				document.getElementById('sidebarToggle')?.click();
+				if(sidebarToggle === 'false') {
+					document.getElementById('sidebarToggle')?.click();
+				}
 			}
 		}
 	});
 	onDestroy(() => {
+		const sidebarToggle = localStorage.getItem('sb|sidebar-toggle')
 		if (browser) {
 			if (window.innerWidth > 990) {
-				document.getElementById('sidebarToggle')?.click();
+				if (sidebarToggle === 'true') {
+					
+					document.getElementById('sidebarToggle')?.click();
+				}
 			}
 		}
 	});

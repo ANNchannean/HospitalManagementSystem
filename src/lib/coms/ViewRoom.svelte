@@ -74,7 +74,7 @@
 																	class:btn-warning={find_progress_note}
 																	class="card-title btn btn-primary m-0 btn-sm"
 																>
-																	Chagne Bed
+																	Change Bed
 																</a>
 															{/if}
 															<table class="">
