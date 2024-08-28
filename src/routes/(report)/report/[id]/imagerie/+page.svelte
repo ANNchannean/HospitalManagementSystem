@@ -177,7 +177,7 @@
 					Imagerie Result
 				</h1>
 			</u>
-			<div>
+			<div style="width: 100%;">
 				<Renderhtml value={get_imagerie_request?.result ?? ''} />
 			</div>
 			<div class="row">
@@ -223,14 +223,3 @@
 		</footer>
 	</div>
 </div>
-
-<style>
-	@page {
-		size: A4;
-		margin-bottom: 1mm;
-		margin-left: 5mm;
-		margin-top: 5mm;
-		margin-right: 5mm;
-		page-break-before: always;
-	}
-</style>

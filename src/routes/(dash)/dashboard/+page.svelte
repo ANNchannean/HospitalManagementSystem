@@ -11,7 +11,6 @@
 	<DateTimeFormat dateStyle={false} date={new Date().toJSON()} />
 </span>
 <hr>
-<CurrencyInput/>
 <hr>
 <CurrencySimble exchange={5000} value={2000.222} />
 <Html2Pdf id="one" />

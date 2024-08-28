@@ -11,35 +11,31 @@
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams } = data);
-	let active_for = '';
 </script>
 
 <DeleteModal id={visit_id} action="?/delete_visit_ipd" />
 <CreateVisitIpd {data} />
 
 <div class="card-header">
-	<div class="row">
-		<div class="col"></div>
-		<div class="col-auto mt-2">
-			<button
-				on:click={() => {}}
-				type="button"
-				class="btn btn-success"
-				data-bs-toggle="modal"
-				data-bs-target="#create_visit_ipd"
-				><i class="fa-solid fa-square-plus"></i>
-				New Progress note
-			</button>
-			<button
-				on:click={() => {}}
-				type="button"
-				class="btn btn-danger"
-				data-bs-toggle="modal"
-				data-bs-target="#create-product"
-			>
-				Discharge
-			</button>
-		</div>
+	<div class="d-grid gap-2 d-md-flex justify-content-between">
+		<button
+			on:click={() => {}}
+			type="button"
+			class="btn btn-success"
+			data-bs-toggle="modal"
+			data-bs-target="#create_visit_ipd"
+			><i class="fa-solid fa-square-plus"></i>
+			New Progress note
+		</button>
+		<button
+			on:click={() => {}}
+			type="button"
+			class="btn btn-danger"
+			data-bs-toggle="modal"
+			data-bs-target="#create-product"
+		>
+			Discharge
+		</button>
 	</div>
 </div>
 <br />
@@ -54,12 +50,12 @@
 					<table class="table table-bordered">
 						<thead class="table-light table-active">
 							<tr>
-								<th class="text-center">
+								<td class="text-center">
 									<DateTimeFormat timeStyle={false} date={date_checkup} />
-								</th>
-								<th>Observation Medical or SAOP note</th>
-								<th>Para-Clinic</th>
-								<th>Treatment</th>
+								</td>
+								<td>Observation Medical or SAOP note</td>
+								<td>Para-Clinic</td>
+								<td>Treatment</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -745,38 +741,46 @@
 														</table>
 													</div>
 												{/each}
-												<div class="card">
-													<div class="card-header">
-														<span class="fs-5">invoice Daily</span>
+												{#if total_imagerie || total_laboratory || total_prescription}
+													<div class="card">
+														<div class="card-header">
+															<span class="fs-5">invoice Daily</span>
+														</div>
+														<div class="card-body">
+															<table class="table">
+																<thead>
+																	{#if total_laboratory}
+																		<tr>
+																			<td>Total Laboratory </td>
+																			<td>:</td>
+																			<td>
+																				<CurrencySimble value={total_laboratory} />
+																			</td>
+																		</tr>
+																	{/if}
+																	{#if total_imagerie}
+																		<tr>
+																			<td>Total Imagrie </td>
+																			<td>:</td>
+																			<td>
+																				<CurrencySimble value={total_imagerie} />
+																			</td>
+																		</tr>
+																	{/if}
+																	{#if total_prescription}
+																		<tr>
+																			<td>Total Treatment </td>
+																			<td>:</td>
+																			<td>
+																				<CurrencySimble value={total_prescription} />
+																			</td>
+																		</tr>
+																	{/if}
+																</thead>
+															</table>
+														</div>
 													</div>
-													<div class="card-body">
-														<table class="table">
-															<thead>
-																<tr>
-																	<td>Total Laboratory </td>
-																	<td>:</td>
-																	<td>
-																		<CurrencySimble value={total_laboratory} />
-																	</td>
-																</tr>
-																<tr>
-																	<td>Total Imagrie </td>
-																	<td>:</td>
-																	<td>
-																		<CurrencySimble value={total_imagerie} />
-																	</td>
-																</tr>
-																<tr>
-																	<td>Total Treatment </td>
-																	<td>:</td>
-																	<td>
-																		<CurrencySimble value={total_prescription} />
-																	</td>
-																</tr>
-															</thead>
-														</table>
-													</div>
-												</div>
+												{/if}
 											</div>
 										</td>
 									</tr>

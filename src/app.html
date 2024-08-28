@@ -8,34 +8,12 @@
 	<link rel="stylesheet" href="%sveltekit.assets%/plugins/fontawesome-free/css/all.min.css" />
 	<link href="%sveltekit.assets%/css/styles.css" rel="stylesheet" />
 	<link href="%sveltekit.assets%/css/custome.css" rel="stylesheet" />
-	<link href="%sveltekit.assets%/css/bootstrap-print.min.css" rel="stylesheet" media="print" />
 	%sveltekit.head%
 </head>
 
 <body class="sb-nav-fixed" data-sveltekit-preload-data="hover">
 	<div style="display: contents">%sveltekit.body%</div>
 	<script src="%sveltekit.assets%/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	<!-- <script>
-			window.addEventListener('DOMContentLoaded', (event) => {
-				// Toggle the side navigation
-				
-				const sidebarToggle = document.body.querySelector('#sidebarToggle');
-				if (sidebarToggle) {
-					// Uncomment Below to persist sidebar toggle between refreshes
-					// if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-					//     document.body.classList.toggle('sb-sidenav-toggled');
-					// }
-					sidebarToggle.addEventListener('click', (event) => {
-						event.preventDefault();
-						document.body.classList.toggle('sb-sidenav-toggled');
-						localStorage.setItem(
-							'sb|sidebar-toggle',
-							document.body.classList.contains('sb-sidenav-toggled')
-						);
-					});
-				}
-			});
-		</script> -->
 </body>
 
 </html>

@@ -8,15 +8,38 @@
 		html2pdf_ = new html2pdf.default();
 	});
 	function handleClick() {
+		const element = document.getElementById(id);
 		const opt = {
-			margin: 4,
+			margin: 15,
 			filename: 'filename',
 			image: { type: 'jpeg', quality: 1 },
-			html2canvas: { scale: 3, letterRendering: true, useCORS: true },
-			jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', pagesplit: true }
+			pagebreak: { avoid: [], mode: 'css' },
+			html2canvas: { scale: 2, letterRendering: true, useCORS: true },
+			jsPDF: { unit: 'mm', format: [463, 297], orientation: 'portrait', pagesplit: true }
 		};
-		const element = document.getElementById(id);
-		html2pdf_.set(opt).from(element).save();
+		html2pdf_
+			.from(element)
+			.set(opt)
+
+			.toPdf()
+			.get('pdf')
+			.then(function (pdf: any) {
+				const totalPages = pdf.internal.getNumberOfPages();
+				//print current pdf width & height to console
+				console.log('getHeight:' + pdf.internal.pageSize.getHeight());
+				console.log('getWidth:' + pdf.internal.pageSize.getWidth());
+				for (let i = 1; i <= totalPages; i++) {
+					pdf.setPage(i);
+					pdf.setFontSize(10);
+					pdf.setTextColor(150);
+					pdf.text(
+						pdf.internal.pageSize.getWidth() - 30,
+						pdf.internal.pageSize.getHeight() - 10,
+						'Page ' + i + ' of ' + totalPages
+					);
+				}
+			})
+			.save();
 	}
 </script>
 

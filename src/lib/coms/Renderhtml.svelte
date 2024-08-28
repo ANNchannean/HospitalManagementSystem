@@ -61,7 +61,8 @@
 			defaultStyle: 'font-size:18px;font-family:KhmerOSBattambang'
 		});
 		editor.setOptions({
-			height: '100%'
+			height: '100%',
+			width: '100%'
 		});
 		editor.readOnly(true);
 		editor.toolbar.hide();
@@ -79,5 +80,5 @@
 </script>
 
 <div>
-	<textarea class="form-control" {id}>{value} </textarea>
+	<textarea class="form-control text-wrap" {id}>{value} </textarea>
 </div>

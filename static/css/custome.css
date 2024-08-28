@@ -158,3 +158,19 @@ td {
     width: 100vh;
 } */
 
+
+
+
+
+@media print {
+	@page {
+		size: a4;
+		margin: 7mm;
+	}
+	body {
+		width: 282mm;
+		
+	}
+	
+	
+}

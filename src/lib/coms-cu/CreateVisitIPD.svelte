@@ -45,8 +45,8 @@
 				</button>
 			</div>
 			<div class="modal-body pb-0">
-				<div class="card-body border p-0">
-					<table class="table text-nowrap table-responsive">
+				<div class="card border p-0">
+					<table class="table text-nowrap table-borderless">
 						<thead class="text-bold">
 							<tr class="">
 								<td>#Patient</td>
@@ -69,26 +69,15 @@
 
 								<td>
 									{#if get_progress_note?.patient.dob}
-										{get_progress_note?.patient?.gender}, អាយុ {age_p_visit?.y ?? ''} ឆ្នាំ ,
+										អាយុ {age_p_visit?.y ?? ''} ឆ្នាំ ,
 										{age_p_visit?.m ?? ''} ខែ ,
 										{age_p_visit?.d ?? ''} ថ្ងៃ
 									{/if}
 								</td>
 							</tr>
-
-							<!-- <tr>
-								<td>#Request Check</td>
-								<td> : </td>
-
-								<td
-									>{get_progress_note?.product?.products ??
-										''}</td
-								>
-							</tr> -->
 						</thead>
 					</table>
 				</div>
-
 				<div class="pt-4 pb-2">
 					<input value={get_progress_note?.patient_id} type="hidden" name="patient_id" />
 					<div class="form-group row">

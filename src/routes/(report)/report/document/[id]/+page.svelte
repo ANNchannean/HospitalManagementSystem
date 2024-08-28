@@ -13,7 +13,7 @@
 				<tbody>
 					<tr>
 						<td>
-							<div class="row">
+							<div id="print" class="row">
 								<Athtml html={get_form_document?.content ?? ''} />
 							</div>
 						</td>
