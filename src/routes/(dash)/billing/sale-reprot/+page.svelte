@@ -148,11 +148,15 @@
 									/>
 								</td>
 								<td>{item.tax}</td>
-								<td
-									>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-										item.total_after_tax
-									)}</td
-								>
+								<td>
+									<CurrencySimble
+										break_line={true}
+										plan_text={true}
+										show="both"
+										exchange={item.exchang}
+										value={item.total_after_tax}
+									/>
+								</td>
 								<td
 									><CurrencySimble
 										break_line={true}

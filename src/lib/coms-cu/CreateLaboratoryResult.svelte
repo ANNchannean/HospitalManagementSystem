@@ -25,6 +25,7 @@
 			action="?/create_laboratory_result"
 			enctype="multipart/form-data"
 			method="post"
+			data-sveltekit-noscroll
 			use:enhance={() => {
 				loading = true;
 				return async ({ update, result }) => {
@@ -130,7 +131,6 @@
 															>{iitem.parameter} <br />
 															<span class="text-sm text-wrap">
 																<Athtml html={iitem?.description ?? ''} />
-																<!-- {@html browser ? iitem.description ?? '' : ''} -->
 															</span>
 														</td>
 														<td>
@@ -158,7 +158,6 @@
 														</td>
 														<td class="text-center">
 															<Athtml html={iitem.unit?.unit ?? ''} />
-															<!-- {@html browser ? iitem.unit?.unit ?? '' : ''} -->
 														</td>
 														<td class="text-center">
 															<span>
@@ -216,16 +215,27 @@
 							</div>
 						</div>
 						{#each find_visit?.laboratory?.fileOrPicture || [] as item}
-							<form use:enhance method="post" action="?/delete_picture" class="p-2 col-3">
+							<form
+								data-sveltekit-noscroll
+								use:enhance={() => {
+									loading = true;
+									return async ({ update }) => {
+										await update();
+										loading = false;
+									};
+								}}
+								method="post"
+								action="?/delete_picture"
+								class="p-2 col-3"
+							>
 								<input type="hidden" name="laboratory_id" value={find_visit?.laboratory?.id} />
 								<input type="hidden" name="file_name" value={item.filename} />
 								<img
 									class="rounded mx-auto img-thumbnail d-block"
 									src="/files/{item?.filename}"
 									alt=""
-									style="width: 100%; height: 100%;"
 								/>
-								<button class="btn btn-danger w-100">Delete</button>
+								<button type="submit" class="btn btn-danger w-100">Delete</button>
 							</form>
 						{/each}
 					</div>

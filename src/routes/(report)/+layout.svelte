@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '$lib/style/index.css'
+	import '$lib/style/print.css';
 </script>
 
 <slot />

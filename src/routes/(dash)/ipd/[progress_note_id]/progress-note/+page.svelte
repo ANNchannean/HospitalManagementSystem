@@ -228,7 +228,7 @@
 												{#if find_old_visit.subjective?.cheif_complaint}
 													<div class="border rounded border-1 p-2 mb-2">
 														<span class="btn btn-success btn-sm mb-2 py-0">Cheif complaint</span>
-														<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
+														<Renderhtml value={find_old_visit.subjective?.cheif_complaint ?? ''} />
 													</div>
 												{/if}
 												{#if find_old_visit.subjective?.history_of_present_illness}
@@ -236,8 +236,8 @@
 														<span class="btn btn-success btn-sm mb-2 py-0"
 															>History of Present illness</span
 														>
-														<Athtml
-															html={find_old_visit.subjective?.history_of_present_illness ?? ''}
+														<Renderhtml
+															value={find_old_visit.subjective?.history_of_present_illness ?? ''}
 														/>
 													</div>
 												{/if}

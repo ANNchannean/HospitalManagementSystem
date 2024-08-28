@@ -105,27 +105,22 @@
 								</td>
 								<td>
 									{#if item.status}
-										<button class="btn btn-success btn-sm"
+										<!-- <button class="btn btn-success btn-sm mb-2"
 											><i class="fa-solid fa-check"></i> Done</button
 										>
-										<div class="btn-group">
-											<button
-												class="btn btn-secondary btn-sm dropdown-toggle"
-												type="button"
-												data-bs-toggle="dropdown"
-												aria-expanded="false"
-											>
-												View
-											</button>
-											<div class="dropdown-menu">
-												<a class="dropdown-item" target="_blank" href="/report/{item.id}/imagerie"
-													><i class="fa-regular fa-image"></i> Row</a
-												>
-												<a class="dropdown-item" target="_blank" href="/report/{item.id}/imagerie_1"
-													><i class="fa-regular fa-file-image"></i> Col</a
-												>
-											</div>
-										</div>
+										<br /> -->
+										<a
+											class="btn btn-light btn-sm"
+											target="_blank"
+											href="/report/{item.id}/imagerie?row=true"
+											><i class="fa-regular fa-image"></i> View
+										</a>
+										<a
+											class="btn btn-light btn-sm"
+											target="_blank"
+											href="/report/{item.id}/imagerie?row=false"
+											><i class="fa-regular fa-file-image"></i> View
+										</a>
 									{/if}
 								</td>
 								<td class="text-center">

@@ -57,21 +57,20 @@
 	onMount(() => {
 		inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
 		inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
-		const sidebarToggle = localStorage.getItem('sb|sidebar-toggle')
+		const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 		if (browser) {
 			if (window.innerWidth > 990) {
-				if(sidebarToggle === 'false') {
+				if (sidebarToggle === 'true') {
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
 		}
 	});
 	onDestroy(() => {
-		const sidebarToggle = localStorage.getItem('sb|sidebar-toggle')
+		const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 		if (browser) {
 			if (window.innerWidth > 990) {
-				if (sidebarToggle === 'true') {
-					
+				if (sidebarToggle === 'false') {
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import '$lib/style/index.css';
 	import 'suneditor/dist/css/suneditor.min.css';
 	import { onDestroy, onMount } from 'svelte';
 	export let value: string;
 	const id = crypto.randomUUID();
+	export let setWidth = '';
 	let editor: any;
 	onMount(async () => {
 		const suneditor = await import('suneditor');
@@ -61,9 +61,17 @@
 			defaultStyle: 'font-size:18px;font-family:KhmerOSBattambang'
 		});
 		editor.setOptions({
-			height: '100%',
-			width: '100%'
+			height: '100%'
 		});
+		setWidth
+			? editor.setOptions({
+					height: '100%',
+					width: setWidth
+				})
+			: editor.setOptions({
+					height: '100%'
+				});
+
 		editor.readOnly(true);
 		editor.toolbar.hide();
 	});

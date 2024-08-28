@@ -191,11 +191,12 @@
 	</div>
 {/if}
 {#if find_old_visit}
-	<div class="card">
+	<div  class="card">
 		<div class="card-header">
 			<span class="fs-5">SAOP</span>
+
 		</div>
-		<div style="font-size: 90%;" class="row card-body">
+		<div style="font-size: 90%" class="row card-body">
 			<div class="col-sm-4">
 				<h4 class="text-center">Observation note</h4>
 				{#if find_old_visit.vitalSign}
@@ -298,13 +299,13 @@
 				{#if find_old_visit.subjective?.cheif_complaint}
 					<div class="border rounded border-1 p-2 mb-2">
 						<span class="btn btn-success btn-sm mb-2 py-0">Cheif complaint</span>
-						<Athtml html={find_old_visit.subjective?.cheif_complaint ?? ''} />
+						<Renderhtml value={find_old_visit.subjective?.cheif_complaint ?? ''} />
 					</div>
 				{/if}
 				{#if find_old_visit.subjective?.history_of_present_illness}
 					<div class="border rounded border-1 p-2 mb-2">
 						<span class="btn btn-success btn-sm mb-2 py-0">History of Present illness</span>
-						<Athtml html={find_old_visit.subjective?.history_of_present_illness ?? ''} />
+						<Renderhtml value={find_old_visit.subjective?.history_of_present_illness ?? ''} />
 					</div>
 				{/if}
 				{#if find_old_visit.subjective}

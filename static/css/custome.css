@@ -147,30 +147,6 @@ td {
 }
 
 
-/* :root {
-    --ck-z-default: 100;
-    --ck-z-panel: calc( var(--ck-z-default) + 999 );
-}
-.ck-content .table {
-    width: 100vh;
-}
-.ck-content .table th td {
-    width: 100vh;
-} */
-
-
-
-
-
-@media print {
-	@page {
-		size: a4;
-		margin: 7mm;
-	}
-	body {
-		width: 282mm;
-		
-	}
-	
-	
+.sun-editor .se-resizing-bar {
+	display: none !important;
 }
