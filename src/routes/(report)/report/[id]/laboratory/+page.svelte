@@ -137,7 +137,7 @@
 				</table>
 			</div>
 		</div>
-		<table class="">
+		<table class="w-100">
 			<thead>
 				<div class="header-space">&nbsp;</div>
 			</thead>
