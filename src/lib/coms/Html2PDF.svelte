@@ -15,7 +15,7 @@
 			image: { type: 'jpeg', quality: 1 },
 			pagebreak: { avoid: [], mode: 'css' },
 			html2canvas: { scale: 2, letterRendering: true, useCORS: true },
-			jsPDF: { unit: 'mm', format: [463, 297], orientation: 'portrait', pagesplit: true }
+			jsPDF: { unit: 'mm', format: [463, 282], orientation: 'portrait', pagesplit: true }
 		};
 		html2pdf_
 			.from(element)

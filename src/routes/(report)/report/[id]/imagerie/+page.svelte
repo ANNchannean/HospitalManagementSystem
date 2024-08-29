@@ -6,6 +6,7 @@
 	import ClinichInfo from '$lib/coms/ClinichInfo.svelte';
 	import { page } from '$app/stores';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
+	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
 	$: age_p_visit = dobToAge({
@@ -14,10 +15,16 @@
 	});
 	let isPrint = $page.url.searchParams.get('print');
 	let row = $page.url.searchParams.get('row');
+
 	onMount(async () => {
-		document.getElementsByTagName('body')[0].onbeforeprint = function () {
+		document.addEventListener('keydown', function (event) {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
-		};
+			if (event.ctrlKey && event.key === 'p') {
+				// event.preventDefault();
+				// alert('View only');
+			}
+		});
+
 		if (isPrint === 'true') {
 			setTimeout(async () => {
 				window.print();
@@ -27,7 +34,7 @@
 	});
 </script>
 
-<div class="row pt-4 justify-content-center">
+<div id="pdf" class="row pt-4 justify-content-center">
 	<div style="width: 1200px;">
 		<div class="header">
 			<ClinichInfo {get_clinic_info} />
@@ -156,9 +163,10 @@
 						{#each get_imagerie_request?.fileOrPicture || [] as item}
 							<div class="col-4 p-2">
 								<img
+									class="img-fluid"
 									style="width: 100%;height: 100%;"
 									src="/files/{item.filename}"
-									alt="some alt text"
+									alt="t"
 								/>
 							</div>
 						{/each}
@@ -169,9 +177,10 @@
 							{#each get_imagerie_request?.fileOrPicture || [] as item}
 								<div class="p-2">
 									<img
+										class="img-fluid"
 										style="width: 100%;height: 100%;"
 										src="/files/{item.filename}"
-										alt="some alt text"
+										alt=""
 									/>
 								</div>
 							{/each}
@@ -215,7 +224,7 @@
 	@media print {
 		.footer,
 		.footer-space {
-			height: 200px;
+			min-height: 250px;
 		}
 		.header,
 		.header-space {
@@ -229,9 +238,15 @@
 		.footer {
 			width: 100%;
 			position: fixed;
-			bottom: 1mm;
-			padding-top: 15px;
-			margin-top: 10px;
+			bottom: 0;
+
+			/* padding-bottom: 10mm; */
+			/* margin-top: 20mm; */
+			padding-top: 10mm;
+			/* margin-bottom: 5mm; */
+		}
+		.noprint {
+			visibility: hidden;
 		}
 	}
 </style>

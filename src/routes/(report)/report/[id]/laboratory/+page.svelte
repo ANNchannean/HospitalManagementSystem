@@ -16,9 +16,13 @@
 	});
 	let isPrint = $page.url.searchParams.get('print');
 	onMount(async () => {
-		document.getElementsByTagName('body')[0].onbeforeprint = function () {
+		document.addEventListener('keydown', function (event) {
 			window.scrollTo({ top: 0, behavior: 'smooth' });
-		};
+			if (event.ctrlKey && event.key === 'p') {
+				// event.preventDefault();
+				// alert('View only');
+			}
+		});
 		if (isPrint === 'true') {
 			setTimeout(async () => {
 				window.print();
@@ -234,6 +238,7 @@
 					{#each get_imagers || [] as item}
 						<div class="col-6 p-2">
 							<img
+								class="img-fluid"
 								style="width: 100%;height: 100%;"
 								src="/files/{item.filename}"
 								alt="some alt text"
@@ -293,11 +298,11 @@
 	@media print {
 		.footer,
 		.footer-space {
-			height: 200px;
+			min-height: 250px;
 		}
 		.header,
 		.header-space {
-			height: 345px;
+			height: 355px;
 		}
 		.header {
 			width: 99%;
@@ -307,7 +312,12 @@
 		.footer {
 			width: 100%;
 			position: fixed;
-			bottom: 1mm;
+			bottom: 0;
+
+			/* padding-bottom: 10mm; */
+			/* margin-top: 20mm; */
+			padding-top: 10mm;
+			/* margin-bottom: 5mm; */
 		}
 	}
 </style>
