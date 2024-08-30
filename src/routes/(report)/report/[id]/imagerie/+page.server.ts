@@ -1,8 +1,8 @@
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import QRCode from 'qrcode';
 import { imagerieRequest } from '$lib/server/schema';
+import { generateQR } from '$lib/server/utils';
 export const load: PageServerLoad = async ({ params, url }) => {
 	const imagerie_request_id = params.id;
 	const get_imagerie_request = await db.query.imagerieRequest.findFirst({
@@ -31,14 +31,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 			fileOrPicture: true
 		}
 	});
-	const generateQR = async (text: string) => {
-		try {
-			// console.log(await QRCode.toDataURL(text));
-			return await QRCode.toDataURL(text);
-		} catch (err) {
-			console.error(err);
-		}
-	};
+	
 	return {
 		url_qr: await generateQR(url.href),
 		get_imagerie_request,

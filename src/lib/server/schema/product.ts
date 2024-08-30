@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { int, mysqlTable, text, datetime, decimal } from 'drizzle-orm/mysql-core';
+import { int, mysqlTable, text, datetime, decimal, boolean } from 'drizzle-orm/mysql-core';
 import { productGroupType } from './productGroupType';
 import { laboratoryGroup } from './laboratory';
 import { imagerieGroup } from './imagerie';
@@ -37,5 +37,48 @@ export const productRelations = relations(product, ({ one, many }) => ({
 	}),
 	parameter: many(parameter),
 	laboratoryRequest: many(laboratoryRequest),
-	fileOrPicture: one(fileOrPicture)
+	fileOrPicture: one(fileOrPicture),
+	inventory: many(inventory)
+}));
+
+export const inventory = mysqlTable('inventory', {
+	id: int('id').primaryKey().autoincrement(),
+	product_id: int('product_id')
+		.references(() => product.id)
+		.notNull(),
+	original_price: decimal('original_price', { precision: 10, scale: 2 })
+		.notNull()
+		.$type<number>()
+		.default(0),
+	exchange: int('exchange').default(4000).notNull(),
+	expier_date: datetime('expier_date', { mode: 'string' }),
+	outstock: boolean('outstock').default(false).notNull(),
+	stock: int('stock').default(0).notNull(),
+	count_stock: boolean('count_stock').default(false).notNull()
+});
+
+export const inventoryRelations = relations(inventory, ({ one, many }) => ({
+	product: one(product, {
+		fields: [inventory.product_id],
+		references: [product.id]
+	}),
+	subUnit: many(subUnit)
+}));
+
+export const subUnit = mysqlTable('sub_unit', {
+	id: int('id').primaryKey().autoincrement(),
+	items: int('items').notNull().default(0),
+	inventory_id: int('inventory_id').references(() => inventory.id).notNull(),
+	unit_id: int('unit_id').references(() => unit.id).notNull()
+});
+
+export const subUnitRelations = relations(subUnit, ({ one }) => ({
+	inventory: one(inventory, {
+		fields: [subUnit.inventory_id],
+		references: [inventory.id]
+	}),
+	unit: one(unit, {
+		fields: [subUnit.unit_id],
+		references: [unit.id]
+	})
 }));

@@ -1,8 +1,9 @@
 import { db } from '$lib/server/db';
 import { asc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import QRCode from 'qrcode';
+
 import { fileOrPicture, parameter, visit } from '$lib/server/schema';
+import { generateQR } from '$lib/server/utils';
 export const load: PageServerLoad = async ({ params, url }) => {
 	const visit_id = params.id ?? '';
 	const get_visit = await db.query.visit.findFirst({
@@ -63,14 +64,6 @@ export const load: PageServerLoad = async ({ params, url }) => {
 		where: eq(fileOrPicture.laboratory_id, get_visit?.laboratory?.id || 0)
 	});
 
-	const generateQR = async (text: string) => {
-		try {
-			// console.log(await QRCode.toDataURL(text));
-			return await QRCode.toDataURL(text);
-		} catch (err) {
-			console.error(err);
-		}
-	};
 	return {
 		get_visit,
 		removeDuplicateName,

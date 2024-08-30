@@ -6,7 +6,6 @@
 	import ClinichInfo from '$lib/coms/ClinichInfo.svelte';
 	import { page } from '$app/stores';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
 	export let data: PageServerData;
 	$: ({ get_imagerie_request, url_qr, get_clinic_info } = data);
 	$: age_p_visit = dobToAge({

@@ -161,7 +161,8 @@ export const actions: Actions = {
 				logErrorMessage(e);
 			});
 	},
-	active_prescription: async ({ request }) => {
+	active_prescription: async ({ request, locals }) => {
+		const { user } = locals;
 		const body = await request.formData();
 		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
 		const datetime = now_datetime();
@@ -210,7 +211,8 @@ export const actions: Actions = {
 		await db.insert(activePresrciption).values({
 			active_for: active_for,
 			presrciption_id: +prescription_id,
-			datetime: datetime
+			datetime: datetime,
+			user_id: user?.id
 		});
 	}
 };
