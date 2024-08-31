@@ -55,9 +55,9 @@
 				<form
 					data-sveltekit-keepfocus
 					on:change={(e) => e.currentTarget.requestSubmit()}
-					class=" row"
+					class=" row gap-1"
 				>
-					<div class="col">
+					<div class="col-sm-3">
 						<select id="group_type_id" class="form-control" name="group_type_id">
 							<option value="">ProductGroup</option>
 							{#each get_product_group_type as item}
@@ -65,7 +65,7 @@
 							{/each}
 						</select>
 					</div>
-					<div class="col">
+					<div class="col-sm-3">
 						<input
 							on:input={handleQ}
 							type="search"
@@ -74,7 +74,7 @@
 							placeholder="Search"
 						/>
 					</div>
-					<div class="col-auto">
+					<div class="col text-end">
 						<button
 							on:click={() => {
 								product_id = 0;
@@ -93,16 +93,16 @@
 				<table class="table table-hover table-bordered">
 					<thead class="position-sticky top-0 bg-light table-active">
 						<tr>
-							<th style="width: 5%;" class="text-center">N</th>
+							<th style="width: 3%;" class="text-center">N</th>
 							<th style="width: 3%;" class="text-center">#</th>
-							<th>Picture</th>
-							<th>Product</th>
-							<th>GenericName</th>
-							<th>ProductGroup</th>
-							<th>Unit</th>
-							<th>Price &#x17DB;</th>
-							<th>Price &#36;</th>
-							<th style="width: 15%;">Action</th>
+							<th style="width: 4%;">Picture</th>
+							<th style="width: 15%;">Product</th>
+							<th style="width: 10%;">GenericName</th>
+							<th style="width: 10%;">ProductGroup</th>
+							<th style="width: 10%;">Unit</th>
+							<th style="width: 5%;">Real &#x17DB;</th>
+							<th style="width: 5%;">Dorlar &#36;</th>
+							<th style="width: 10%;">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -157,6 +157,17 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
+										</button>
+										<button
+											on:click={() => {
+												product_id = 0;
+												product_id = item.id;
+											}}
+											type="button"
+											class="btn btn-info btn-sm"
+											data-bs-toggle="modal"
+											data-bs-target="#delete_modal"
+											><i class="fa-solid fa-boxes-stacked"></i>
 										</button>
 									</div>
 								</td>

@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { fileOrPicture, product, productGroupType } from '$lib/server/schema';
+import { fileOrPicture, inventory, product, productGroupType } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq, like, or } from 'drizzle-orm';
@@ -26,7 +26,10 @@ export const load = (async ({ url, parent }) => {
 			unit: true,
 			parameter: true,
 			productGroupType: true,
-			fileOrPicture: true
+			fileOrPicture: true,
+			inventory: {
+				where: eq(inventory.outstock, false)
+			}
 		},
 		orderBy: asc(product.products)
 	});

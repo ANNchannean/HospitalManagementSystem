@@ -1,11 +1,12 @@
-import { generateIdFromEntropySize } from 'lucia';
-import { db } from './db';
-import { user } from './schema';
 // import { generateIdFromEntropySize } from 'lucia';
-import { hash } from '@node-rs/argon2';
+// import { db } from './db';
+// import { inventory, user } from './schema';
+// import { generateIdFromEntropySize } from 'lucia';
+// import { hash } from '@node-rs/argon2';
 // import { eq } from 'drizzle-orm';
 async function main() {
-	console.log('Seed start');
+	console.log('Processing...');
+	/*
 	const userId = generateIdFromEntropySize(10);
 	const password = 'aaaa1111';
 	const passwordHash = await hash(password, {
@@ -21,15 +22,15 @@ async function main() {
 		password_hash: passwordHash,
 		username: 'doctor'
 	});
-	console.log('Seed done');
-	// const products = await db.query.product.findMany()
-	// for(const e of products){
-	// 	let price = (e.price * 4000) / 4000
-	// 	await db.update(product).set({
-	// 		price: Number(price.toFixed(2))
-	// 	}).where(eq(product.id,e.id))
-	// }
+	const products = await db.query.product.findMany();
+	for (const e of products) {
+		await db.insert(inventory).values({
+			product_id: e.id
+		});
+	}
+	*/
 
+	console.log('Done');
 	process.exit(0);
 }
 
