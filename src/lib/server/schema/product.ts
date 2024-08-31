@@ -54,7 +54,7 @@ export const inventory = mysqlTable('inventory', {
 	exchange: int('exchange').default(4000).notNull(),
 	expier_date: datetime('expier_date', { mode: 'string' }),
 	outstock: boolean('outstock').default(false).notNull(),
-	stock: int('stock').default(0).notNull(),
+	qty: int('qty').default(0).notNull(),
 	count_stock: boolean('count_stock').default(false).notNull()
 });
 
@@ -68,8 +68,8 @@ export const inventoryRelations = relations(inventory, ({ one, many }) => ({
 
 export const subUnit = mysqlTable('sub_unit', {
 	id: int('id').primaryKey().autoincrement(),
-	per_item: int('per_item').notNull().default(0),
-	pcs: int('pcs').notNull().default(0),
+	qty_in_item: int('qty_in_item').notNull().default(0),
+	qty: int('qty').notNull().default(0),
 	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	inventory_id: int('inventory_id')
 		.references(() => inventory.id)

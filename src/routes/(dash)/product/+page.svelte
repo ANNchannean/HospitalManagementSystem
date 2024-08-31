@@ -19,6 +19,10 @@
 			form.requestSubmit();
 		}, 400);
 	};
+	function pushId(id: number) {
+		product_id = 0;
+		product_id = id;
+	}
 </script>
 
 <DeleteModal action="?/delete_product" id={get_products.find((e) => e.id === product_id)?.id} />
@@ -138,8 +142,7 @@
 									<div class=" m-0 p-0">
 										<button
 											on:click={() => {
-												product_id = 0;
-												product_id = item.id;
+												pushId(item.id);
 											}}
 											type="button"
 											class="btn btn-primary btn-sm"
@@ -149,7 +152,6 @@
 										</button>
 										<button
 											on:click={() => {
-												product_id = 0;
 												product_id = item.id;
 											}}
 											type="button"

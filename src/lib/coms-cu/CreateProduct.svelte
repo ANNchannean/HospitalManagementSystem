@@ -17,6 +17,8 @@
 	}
 	$: ({ get_product_group_type, get_units, get_products } = data);
 	$: units = get_units.filter((e) => e.product_group_type_id === Number(product_group_type_id));
+	$: inventory = find_product?.inventory.length ? find_product?.inventory[0] : undefined;
+	$: console.log(inventory);
 	let loading = false;
 </script>
 
@@ -100,8 +102,7 @@
 											name: e.group_type
 										}))}
 									/>
-									<a
-										href={'#'}
+									<button
 										type="button"
 										data-bs-toggle="modal"
 										data-bs-dismiss="modal"
@@ -109,7 +110,7 @@
 										class="btn btn-link ms-2"
 										on:click={() => document.getElementById('close_create_prescription')?.click()}
 										><i class="fas fa-share-square"></i>
-									</a>
+									</button>
 
 									{#if form?.product_id}
 										<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
@@ -117,46 +118,64 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12">
-							<div class="form-group pb-3">
-								<label for="unit_id">Unit </label>
-								<div class="input-group">
-									<Select
-										value={data.get_products.find((e) => e.id === product_id)?.unit_id}
-										name="unit_id"
-										items={units.map((e) => ({ id: e.id, name: e.unit }))}
-									/>
 
-									{#if form?.product_id}
-										<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
-									{/if}
-									<!-- <div class="input-group-append">
-										<a
-											href="/settup/unit"
-											type="button"
-											class=" input-group-text btn btn-default btn-sm"
-											><i class="fas fa-share-square"></i>
-										</a>
-									</div> -->
+						<div class="col-12">
+							<div class=" alert alert-success">
+								<div class="row">
+									<div class="col-3">
+										<div class="form-group pb-3">
+											<label for="price">Price</label>
+											<input
+												value={find_product?.price ?? ''}
+												name="price"
+												type="text"
+												class="form-control"
+												id="price"
+											/>
+											{#if form?.price}
+												<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											{/if}
+										</div>
+									</div>
+									<div class="col-3">
+										<div class="form-group pb-3">
+											<label for="qty">Qty </label>
+											<div class="input-group">
+												<input
+													class="form-control"
+													value={inventory?.qty ?? ''}
+													name="qty"
+													type="number"
+													id="qty"
+												/>
+											</div>
+										</div>
+									</div>
+									<div class="col-3">
+										<div class="form-group pb-3">
+											<label for="unit_id">Unit </label>
+											<div class="input-group">
+												<Select
+													value={data.get_products.find((e) => e.id === product_id)?.unit_id}
+													name="unit_id"
+													items={units.map((e) => ({ id: e.id, name: e.unit }))}
+												/>
+
+												{#if form?.product_id}
+													<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+												{/if}
+											</div>
+										</div>
+									</div>
+									<div class="col-3">
+										<label for="item"> </label>
+										<div class="input-group">
+											<button type="button" class="btn btn-primary w-100">Item</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-12">
-							<div class="form-group pb-3">
-								<label for="price">Price</label>
-								<input
-									value={find_product?.price ?? ''}
-									name="price"
-									type="text"
-									class="form-control"
-									id="price"
-								/>
-								{#if form?.price}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
-								{/if}
-							</div>
-						</div>
-
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="picture">Picture</label>
