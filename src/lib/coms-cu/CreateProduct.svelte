@@ -5,6 +5,7 @@
 	import Select from '$lib/coms/Select.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import CreateProductGroup from '$lib/coms-cu/CreateProductGroup.svelte';
+	import CreateSubUnitForm from './CreateSubUnitForm.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	export let product_id: number;
@@ -18,8 +19,9 @@
 	$: ({ get_product_group_type, get_units, get_products } = data);
 	$: units = get_units.filter((e) => e.product_group_type_id === Number(product_group_type_id));
 	$: inventory = find_product?.inventory.length ? find_product?.inventory[0] : undefined;
-	$: console.log(inventory);
 	let loading = false;
+	let subUnitForm = inventory?.subUnit.length || 0;
+	$: main_unit_id = data.get_products.find((e) => e.id === product_id)?.unit_id;
 </script>
 
 <CreateProductGroup {data} />
@@ -64,7 +66,6 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<input value={find_product?.id} type="hidden" name="product_id" />
-
 								<label for="name_product">Product Name</label>
 								<input
 									value={find_product?.products ?? ''}
@@ -76,6 +77,18 @@
 								{#if form?.name_product}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if}
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group pb-3">
+								<label for="barcode">Barcode</label>
+								<input
+									value={find_product?.barcode ?? ''}
+									name="barcode"
+									type="text"
+									class="form-control"
+									id="barcode"
+								/>
 							</div>
 						</div>
 						<div class="col-12">
@@ -118,9 +131,8 @@
 								</div>
 							</div>
 						</div>
-
 						<div class="col-12">
-							<div class=" alert alert-success">
+							<div class="alert alert-secondary">
 								<div class="row">
 									<div class="col-3">
 										<div class="form-group pb-3">
@@ -151,12 +163,12 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-3">
+									<div class="col-5">
 										<div class="form-group pb-3">
 											<label for="unit_id">Unit </label>
 											<div class="input-group">
 												<Select
-													value={data.get_products.find((e) => e.id === product_id)?.unit_id}
+													bind:value={main_unit_id}
 													name="unit_id"
 													items={units.map((e) => ({ id: e.id, name: e.unit }))}
 												/>
@@ -167,13 +179,18 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-3">
-										<label for="item"> </label>
+									<div class="col-1">
+										<label for="item"> {subUnitForm} </label>
 										<div class="input-group">
-											<button type="button" class="btn btn-primary w-100">Item</button>
+											<button
+												on:click={() => (subUnitForm = subUnitForm + 1)}
+												type="button"
+												class="btn btn-primary w-100"><i class="fa-solid fa-percent"></i></button
+											>
 										</div>
 									</div>
 								</div>
+								<!-- <CreateSubUnitForm main_unit_id={main_unit_id} unit_id={0} price={0} qty={0} {units} /> -->
 							</div>
 						</div>
 						<div class="col-12">

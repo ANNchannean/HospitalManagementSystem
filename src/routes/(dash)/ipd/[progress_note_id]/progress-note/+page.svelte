@@ -688,7 +688,7 @@
 																	</td>
 																	<td style="width: 5%;">:</td>
 																	<td style="width: 55%;">
-																		<div class="row">
+																		<div class="col">
 																			{#if item.morning !== 0}
 																				<ActivePrescription
 																					value={item.activePresrciption}
@@ -697,7 +697,7 @@
 																				>
 																					{item.morning}
 																				</ActivePrescription>
-																			{/if}
+																			{/if} 
 																			{#if item.noon !== 0}
 																				<ActivePrescription
 																					value={item.activePresrciption}

@@ -12,7 +12,7 @@ import {
 } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
-import { createProductOrder, preBilling } from '$lib/server/models';
+import { createProductOrder, preBilling, updateProductOrder } from '$lib/server/models';
 import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -164,6 +164,8 @@ export const actions: Actions = {
 	active_prescription: async ({ request, locals }) => {
 		const { user } = locals;
 		const body = await request.formData();
+		console.log(body);
+
 		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
 		const datetime = now_datetime();
 		const validErr = {
@@ -199,7 +201,6 @@ export const actions: Actions = {
 				presrciption: true
 			}
 		});
-
 		const charge_on_prescription = get_visit?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
@@ -214,5 +215,127 @@ export const actions: Actions = {
 			datetime: datetime,
 			user_id: user?.id
 		});
+	},
+	add: async ({ request, locals }) => {
+		const { user } = locals;
+		const body = await request.formData();
+
+		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
+		const datetime = now_datetime();
+		const validErr = {
+			prescription_id: false,
+			active_for: false
+		};
+		if (!prescription_id || isNaN(+prescription_id)) validErr.prescription_id = true;
+		if (!active_for) validErr.active_for = true;
+		if (Object.values(validErr).includes(true)) return fail(400, validErr);
+		const get_prescription = await db.query.presrciption.findFirst({
+			where: eq(presrciption.id, +prescription_id),
+			with: {
+				product: true
+			}
+		});
+		await db
+			.update(presrciption)
+			.set({
+				amount: Number(get_prescription?.amount) + 1
+			})
+			.where(eq(presrciption.id, +prescription_id));
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, Number(get_prescription?.visit_id)),
+			with: {
+				imagerieRequest: {
+					with: {
+						product: true
+					}
+				},
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
+				presrciption: true
+			}
+		});
+		const charge_on_prescription = get_visit?.billing?.charge.find(
+			(e) => e.charge_on === 'prescription'
+		);
+		await createProductOrder({
+			charge_id: Number(charge_on_prescription?.id),
+			price: Number(get_prescription?.product?.price),
+			product_id: Number(get_prescription?.product_id)
+		});
+		await db.insert(activePresrciption).values({
+			active_for: active_for,
+			presrciption_id: +prescription_id,
+			datetime: datetime,
+			user_id: user?.id
+		});
+	},
+	remove: async ({ request }) => {
+		console.log('remove');
+
+		const body = await request.formData();
+		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
+		const validErr = {
+			prescription_id: false,
+			active_for: false
+		};
+		if (!prescription_id || isNaN(+prescription_id)) validErr.prescription_id = true;
+		if (!active_for) validErr.active_for = true;
+		if (Object.values(validErr).includes(true)) return fail(400, validErr);
+		const get_prescription = await db.query.presrciption.findFirst({
+			where: eq(presrciption.id, +prescription_id),
+			with: {
+				product: true,
+				activePresrciption: true
+			}
+		});
+		await db
+			.update(presrciption)
+			.set({
+				amount: Number(get_prescription?.amount) - 1
+			})
+			.where(eq(presrciption.id, +prescription_id));
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, Number(get_prescription?.visit_id)),
+			with: {
+				imagerieRequest: {
+					with: {
+						product: true
+					}
+				},
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
+				presrciption: true
+			}
+		});
+		const charge_on_prescription = get_visit?.billing?.charge.find(
+			(e) => e.charge_on === 'prescription'
+		);
+		const get_product_order = charge_on_prescription?.productOrder.find(
+			(e) => e.product_id === get_prescription?.product_id
+		);
+		await updateProductOrder({
+			disc: get_product_order?.discount ?? '',
+			price: Number(get_product_order?.price),
+			product_order_id: Number(get_product_order?.id),
+			qty: Number(get_product_order?.qty) - 1
+		});
+		const active_prescription_id = get_prescription?.activePresrciption?.pop()?.id;
+		if (active_prescription_id) {
+			await db.delete(activePresrciption).where(eq(activePresrciption.id, active_prescription_id));
+		}
 	}
 };

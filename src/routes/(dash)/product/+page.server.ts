@@ -28,7 +28,14 @@ export const load = (async ({ url, parent }) => {
 			productGroupType: true,
 			fileOrPicture: true,
 			inventory: {
-				where: eq(inventory.outstock, false)
+				where: eq(inventory.outstock, false),
+				with:{
+					subUnit:{
+						with:{
+							unit:true
+						}
+					}
+				}
 			}
 		},
 		orderBy: asc(product.products)
