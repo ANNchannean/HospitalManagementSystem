@@ -59,7 +59,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{#each get_progress_note?.visit || [] as item}
+							{#each get_progress_note?.visit || [] as item (item.id)}
 								{@const find_old_visit = item}
 								{@const total_laboratory =
 									find_old_visit?.billing?.charge.find((e) => e.charge_on === 'laboratory')
@@ -300,7 +300,7 @@
 												{#if find_old_visit.physicalExam.length}
 													<button class="btn btn-success btn-sm mb-2 py-0">Physical Exam</button>
 												{/if}
-												{#each get_exams as exam}
+												{#each get_exams as exam (exam.id)}
 													{@const physicals = exam.physical}
 													{#if find_old_visit.physicalExam.some((e) => e.physical?.exam_id === exam.id)}
 														<div class="border rounded border-1 p-2 mb-2">
@@ -309,8 +309,8 @@
 															>
 															<table class="table table-sm">
 																<thead>
-																	{#each physicals as physical}
-																		{#each find_old_visit.physicalExam as physical_exam}
+																	{#each physicals as physical (physical.id)}
+																		{#each find_old_visit.physicalExam as physical_exam (physical_exam.id)}
 																			{#if physical_exam.physical_id === physical.id}
 																				{#if physical_exam.result}
 																					<tr>
@@ -582,7 +582,7 @@
 												{#if sort_laboraytor?.length}
 													<button class="btn btn-success btn-sm mb-2 py-0">Laboratory</button>
 												{/if}
-												{#each sort_laboraytor || [] as laboratory_request}
+												{#each sort_laboraytor || [] as laboratory_request (laboratory_request.id)}
 													{@const laboratory_results = laboratory_request.laboratoryResult}
 													{@const parameters = laboratory_request.product?.parameter}
 													<div class="border rounded border-1 p-2 mb-2">
@@ -591,11 +591,11 @@
 														>
 														<table class="table-sm table">
 															<thead>
-																{#each parameters || [] as parameter}
+																{#each parameters || [] as parameter (parameter.id)}
 																	<tr>
 																		<td style="width: 40%;"> {parameter.parameter ?? ''}</td>
 																		<td style="width: 5%;">:</td>
-																		{#each laboratory_results as laboratory_result}
+																		{#each laboratory_results as laboratory_result (laboratory_result.id)}
 																			{#if laboratory_result.parameter_id === parameter.id}
 																				<td style="width: 20%;">
 																					{#if laboratory_result.result === 'Positive' || laboratory_result.result === '1/160' || laboratory_result.result === '1/320' || laboratory_result.result === '+' || laboratory_result.result === '++' || laboratory_result.result === '+++' || laboratory_result.result === '++++'}
@@ -642,7 +642,7 @@
 														<span class="btn btn-success btn-sm mb-2 py-0">Imagerie</span>
 														<table class="table table-sm">
 															<thead>
-																{#each find_old_visit.imagerieRequest as imagerie_request}
+																{#each find_old_visit.imagerieRequest as imagerie_request (imagerie_request.id)}
 																	<tr>
 																		<td style="width: 40%;">
 																			<span class=""
@@ -667,7 +667,7 @@
 										</td>
 										<td style="width: 30%;vertical-align:top;">
 											<div>
-												{#each find_old_visit.presrciption as item, index}
+												{#each find_old_visit.presrciption as item, index (item.id)}
 													<div class="border rounded border-1 p-2 mb-2">
 														<span class="fs-6 text-decoration-underline text-primary"
 															>{index + 1}
@@ -691,16 +691,20 @@
 																		<div class="col">
 																			{#if item.morning !== 0}
 																				<ActivePrescription
-																					value={item.activePresrciption}
+																					activePresrciption={item?.activePresrciption.filter(
+																						(e) => e.active_for === 'morning'
+																					)}
 																					active_for="morning"
 																					prescription_id={item.id}
 																				>
 																					{item.morning}
 																				</ActivePrescription>
-																			{/if} 
+																			{/if}
 																			{#if item.noon !== 0}
 																				<ActivePrescription
-																					value={item.activePresrciption}
+																					activePresrciption={item?.activePresrciption.filter(
+																						(e) => e.active_for === 'noon'
+																					)}
 																					active_for="noon"
 																					prescription_id={item.id}
 																				>
@@ -709,7 +713,9 @@
 																			{/if}
 																			{#if item.afternoon !== 0}
 																				<ActivePrescription
-																					value={item.activePresrciption}
+																					activePresrciption={item?.activePresrciption.filter(
+																						(e) => e.active_for === 'afternoon'
+																					)}
 																					active_for="afternoon"
 																					prescription_id={item.id}
 																				>
@@ -718,7 +724,9 @@
 																			{/if}
 																			{#if item.evening !== 0}
 																				<ActivePrescription
-																					value={item.activePresrciption}
+																					activePresrciption={item?.activePresrciption.filter(
+																						(e) => e.active_for === 'evening'
+																					)}
 																					active_for="evening"
 																					prescription_id={item.id}
 																				>
@@ -727,7 +735,9 @@
 																			{/if}
 																			{#if item.night !== 0}
 																				<ActivePrescription
-																					value={item.activePresrciption}
+																					activePresrciption={item?.activePresrciption.filter(
+																						(e) => e.active_for === 'night'
+																					)}
 																					active_for="night"
 																					prescription_id={item.id}
 																				>

@@ -164,8 +164,6 @@ export const actions: Actions = {
 	active_prescription: async ({ request, locals }) => {
 		const { user } = locals;
 		const body = await request.formData();
-		console.log(body);
-
 		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
 		const datetime = now_datetime();
 		const validErr = {
