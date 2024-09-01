@@ -12,7 +12,7 @@
 		presrciption_id: number | null;
 		user_id: any;
 	}
-	$: datetime = activePresrciption[activePresrciption.length - 1]?.datetime;
+	$: datetime = activePresrciption.at(-1)?.datetime;
 	let loading = false;
 </script>
 

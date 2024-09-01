@@ -12,7 +12,12 @@ import {
 } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
-import { createProductOrder, preBilling, updateProductOrder } from '$lib/server/models';
+import {
+	createProductOrder,
+	deleteProductOrder,
+	preBilling,
+	updateProductOrder
+} from '$lib/server/models';
 import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -275,8 +280,6 @@ export const actions: Actions = {
 		});
 	},
 	remove: async ({ request }) => {
-		console.log('remove');
-
 		const body = await request.formData();
 		const { prescription_id, active_for } = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
@@ -293,20 +296,10 @@ export const actions: Actions = {
 				activePresrciption: true
 			}
 		});
-		await db
-			.update(presrciption)
-			.set({
-				amount: Number(get_prescription?.amount) - 1
-			})
-			.where(eq(presrciption.id, +prescription_id));
+
 		const get_visit = await db.query.visit.findFirst({
 			where: eq(visit.id, Number(get_prescription?.visit_id)),
 			with: {
-				imagerieRequest: {
-					with: {
-						product: true
-					}
-				},
 				billing: {
 					with: {
 						charge: {
@@ -315,8 +308,7 @@ export const actions: Actions = {
 							}
 						}
 					}
-				},
-				presrciption: true
+				}
 			}
 		});
 		const charge_on_prescription = get_visit?.billing?.charge.find(
@@ -325,13 +317,28 @@ export const actions: Actions = {
 		const get_product_order = charge_on_prescription?.productOrder.find(
 			(e) => e.product_id === get_prescription?.product_id
 		);
-		await updateProductOrder({
-			disc: get_product_order?.discount ?? '',
-			price: Number(get_product_order?.price),
-			product_order_id: Number(get_product_order?.id),
-			qty: Number(get_product_order?.qty) - 1
-		});
-		const active_prescription_id = get_prescription?.activePresrciption?.pop()?.id;
+		const find_active_prescription = get_prescription?.activePresrciption.filter(
+			(e) => e.active_for === active_for
+		);
+
+		if (Number(find_active_prescription?.length) > 1) {
+			await db
+				.update(presrciption)
+				.set({
+					amount: Number(get_prescription?.amount) - 1
+				})
+				.where(eq(presrciption.id, +prescription_id));
+			await updateProductOrder({
+				disc: get_product_order?.discount ?? '',
+				price: Number(get_product_order?.price),
+				product_order_id: Number(get_product_order?.id),
+				qty: Number(get_product_order?.qty) - 1
+			});
+		}
+		if (Number(get_prescription?.activePresrciption.length) === 1) {
+			deleteProductOrder(Number(get_product_order?.id));
+		}
+		const active_prescription_id = find_active_prescription?.at(-1)?.id;
 		if (active_prescription_id) {
 			await db.delete(activePresrciption).where(eq(activePresrciption.id, active_prescription_id));
 		}
