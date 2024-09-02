@@ -123,7 +123,8 @@ export const load: PageServerLoad = async ({ params }) => {
 		get_progress_note,
 		get_staffs,
 		removeDuplicateDate,
-		get_exams
+		get_exams,
+		visit:get_progress_note?.visit[0]
 	};
 };
 

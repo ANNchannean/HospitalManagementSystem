@@ -244,8 +244,8 @@
 			padding-top: 10mm;
 			/* margin-bottom: 5mm; */
 		}
-		.noprint {
+		/* .noprint {
 			visibility: hidden;
-		}
+		} */
 	}
 </style>
