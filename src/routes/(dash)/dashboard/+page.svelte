@@ -1,17 +1,10 @@
 <script lang="ts">
-	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
-	
 </script>
 
-<span>
-	<DateTimeFormat timeStyle={false} date={new Date().toJSON()} />
-	<DateTimeFormat dateStyle={false} date={new Date().toJSON()} />
-</span>
-<hr>
-<hr>
+
 <CurrencySimble exchange={5000} value={2000.222} />
 <Html2Pdf id="one" />
 <h1 id="one" class="m-0">Dashbaord</h1>

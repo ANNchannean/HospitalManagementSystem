@@ -328,13 +328,13 @@ export const actions: Actions = {
 					amount: Number(get_prescription?.amount) - 1
 				})
 				.where(eq(presrciption.id, +prescription_id));
-			await updateProductOrder({
-				disc: get_product_order?.discount ?? '',
-				price: Number(get_product_order?.price),
-				product_order_id: Number(get_product_order?.id),
-				qty: Number(get_product_order?.qty) - 1
-			});
 		}
+		await updateProductOrder({
+			disc: get_product_order?.discount ?? '',
+			price: Number(get_product_order?.price),
+			product_order_id: Number(get_product_order?.id),
+			qty: Number(get_product_order?.qty) - 1
+		});
 		if (Number(get_prescription?.activePresrciption.length) === 1) {
 			deleteProductOrder(Number(get_product_order?.id));
 		}

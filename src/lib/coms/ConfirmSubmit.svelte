@@ -1,0 +1,50 @@
+<script lang="ts">
+	import { t } from '$lib/translations';
+	export let loading: boolean;
+	export let action = '';
+	export let id = 'myid';
+	let className;
+	export { className as class };
+</script>
+
+<button type="button" data-bs-toggle="modal" data-bs-target={`#${id}`} class={className}>
+	<slot />
+</button>
+
+<div class="modal fade" tabindex="-1" role="dialog" {id} data-bs-backdrop="static">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content rounded-3 shadow">
+			<div class="modal-body p-4 text-center">
+				<h5 class="mb-0">{$t('common.confirm_yes')}</h5>
+			</div>
+			<div class="modal-footer flex-nowrap p-0">
+				{#if action}
+					<button
+						data-bs-dismiss="modal"
+						formaction={action}
+						type="submit"
+						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
+					>
+						<strong>{$t('common.yes')}</strong>
+					</button>
+				{/if}
+				{#if !action}
+					<button
+						data-bs-dismiss="modal"
+						disabled={loading}
+						type="submit"
+						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
+					>
+						<strong>{$t('common.yes')}</strong>
+					</button>
+				{/if}
+				<button
+					id="close_confirm_submit"
+					type="button"
+					class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
+					data-bs-dismiss="modal">{$t('common.no')}</button
+				>
+			</div>
+		</div>
+	</div>
+</div>

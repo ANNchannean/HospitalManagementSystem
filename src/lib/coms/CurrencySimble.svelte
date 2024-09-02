@@ -22,6 +22,8 @@
 	>
 	{#if break_line}
 		<br />
+	{:else}
+		or
 	{/if}
 	<span class:btn={plan_text ? '' : 'btn'} class=" btn-info active btn-sm py-0"
 		>{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })

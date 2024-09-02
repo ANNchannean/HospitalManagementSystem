@@ -39,7 +39,7 @@
 		</button>
 		<button formaction="?/remove" type="submit" class="btn btn-sm btn-primary py-0">-</button>
 		<button type="button" class="btn btn-sm btn-info py-0">
-			{activePresrciption.filter((e) => e.active_for === active_for).length} time
+			{activePresrciption.filter((e) => e.active_for === active_for).length} times
 		</button>
 		<button formaction="?/add" type="submit" class="btn btn-sm btn-primary py-0">+</button>
 		<DateTimeFormat dateStyle={false} date={datetime} />

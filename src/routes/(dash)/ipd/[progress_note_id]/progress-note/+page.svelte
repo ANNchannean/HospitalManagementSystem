@@ -49,8 +49,8 @@
 					)}
 					<table class="table table-bordered">
 						<thead class="table-light table-active">
-							<tr>
-								<td class="text-center">
+							<tr class="text-center">
+								<td>
 									<DateTimeFormat timeStyle={false} date={date_checkup} />
 								</td>
 								<td>Observation Medical or SAOP note</td>
@@ -754,7 +754,17 @@
 												{#if total_imagerie || total_laboratory || total_prescription}
 													<div class="card">
 														<div class="card-header">
-															<span class="fs-5">invoice Daily</span>
+															<div class="row">
+																<div class="col">
+																	<span class="fs-5">invoice Daily</span>
+																</div>
+																<div class="col text-end">
+																	<a
+																		href="/billing/single/{item.billing?.id}"
+																		class="btn btn-warning btn-sm">Daily Payment</a
+																	>
+																</div>
+															</div>
 														</div>
 														<div class="card-body">
 															<table class="table">
@@ -786,6 +796,17 @@
 																			</td>
 																		</tr>
 																	{/if}
+																	<tr class="border text-bg-light">
+																		<td>Total Daily </td>
+																		<td>:</td>
+																		<td>
+																			<CurrencySimble
+																				value={total_prescription +
+																					total_imagerie +
+																					total_laboratory}
+																			/>
+																		</td>
+																	</tr>
 																</thead>
 															</table>
 														</div>

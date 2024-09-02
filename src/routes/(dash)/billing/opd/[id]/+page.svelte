@@ -10,6 +10,7 @@
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { browser } from '$app/environment';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -126,15 +127,8 @@
 									>{get_billing?.visit?.patient?.name_khmer}
 									@{get_billing?.visit?.patient?.name_latin}
 								</td>
-								<td
-									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
-										.format(new Date(get_billing?.visit?.date_checkup ?? ''))
-										.split('/')
-										.join('-')}
-									{new Intl.DateTimeFormat('en-GB', {
-										timeStyle: 'short',
-										hour12: true
-									}).format(new Date(get_billing?.visit?.date_checkup ?? ''))}
+								<td>
+									<DateTimeFormat date={get_billing?.visit?.date_checkup} />
 								</td>
 							</tr>
 						</table>
