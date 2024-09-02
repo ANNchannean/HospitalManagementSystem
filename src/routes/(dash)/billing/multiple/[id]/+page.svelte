@@ -15,12 +15,7 @@
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({
-		get_products,
-		get_product_group_type,
-		get_progress_note
-	} = data);
-
+	$: ({ get_products, get_product_group_type, get_progress_note } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -38,11 +33,11 @@
 	let bank_pay = 0;
 	onMount(() => {
 		if (browser) {
-		inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
-		inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
+			inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
+			inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
 			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
-				if (sidebarToggle === 'true') {
+				if (sidebarToggle !== 'false') {
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
@@ -52,7 +47,7 @@
 		if (browser) {
 			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
-				if (sidebarToggle === 'false') {
+				if (sidebarToggle !== 'true') {
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
@@ -68,7 +63,7 @@
 {/if}
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing OPD</h2>
+		<h2>item.Billing OPD</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
@@ -81,7 +76,7 @@
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bills"></i>
-					Billing
+					item.Billing
 				</a>
 			</li>
 			<li class="breadcrumb-item">
@@ -146,7 +141,41 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- <ChargeOn {data} /> -->
+							{#each get_progress_note?.visit || [] as item}
+								{@const charge_on_imagerie = item.billing?.charge.find(
+									(e) => e.charge_on === 'imagerie'
+								)}
+								{@const charge_on_laboratory = item.billing?.charge.find(
+									(e) => e.charge_on === 'laboratory'
+								)}
+								{@const charge_on_general = item.billing?.charge.find(
+									(e) => e.charge_on === 'general'
+								)}
+								{@const charge_on_service = item.billing?.charge.find(
+									(e) => e.charge_on === 'service'
+								)}
+								{@const charge_on_prescription = item.billing?.charge.find(
+									(e) => e.charge_on === 'prescription'
+								)}
+								{@const charge_on_vaccine = item.billing?.charge.find(
+									(e) => e.charge_on === 'vaccine'
+								)}
+								<tr>
+									<DateTimeFormat date={item.date_checkup} />
+								</tr>
+
+								<ChargeOn
+									data={{
+										charge_on_general: charge_on_general,
+										charge_on_imagerie: charge_on_imagerie,
+										charge_on_laboratory: charge_on_laboratory,
+										charge_on_service: charge_on_service,
+										charge_on_prescription: charge_on_prescription,
+										charge_on_vaccine: charge_on_vaccine,
+										get_billing: item?.billing ?? undefined
+									}}
+								/>
+							{/each}
 						</tbody>
 					</table>
 				</div>
@@ -162,17 +191,13 @@
 							<td></td>
 							<td>សរុប </td>
 							<td>:</td>
-							<td>
-								..
-							</td>
+							<td> .. </td>
 						</tr>
 						<tr>
 							<td></td>
 							<td></td>
 							<td>:</td>
-							<td>
-								..
-							</td>
+							<td> .. </td>
 						</tr>
 					</table>
 
@@ -192,8 +217,8 @@
 							<button
 								type="button"
 								data-bs-toggle="modal"
-								data-bs-target="#billing"
-								formaction="?/update_billing"
+								data-bs-target="#item.billing"
+								formaction="?/update_item.billing"
 								class="btn btn-success btn-lg w-100"
 							>
 								<i class="fa-solid fa-comments-dollar"></i> គិតលុយ</button
@@ -228,8 +253,8 @@
 					<div class="col-md-6">
 						<input
 							type="hidden"
-							name="billing_id"
-							value={$page.url.searchParams.get('billing_id')}
+							name="item.billing_id"
+							value={$page.url.searchParams.get('item.billing_id')}
 						/>
 						<input
 							on:input={handleQ}
@@ -291,4 +316,4 @@
 	</div>
 </div>
 
-<!-- <BillingModal {data} /> -->
+<!-- <item.BillingModal {data} /> -->

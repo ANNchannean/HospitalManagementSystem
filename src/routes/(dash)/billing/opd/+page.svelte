@@ -96,7 +96,7 @@
 									{item.status ?? ''}
 								</td>
 								<td>
-									<a class="btn btn-link" href="/billing/opd/{item.id}">Go to Payment</a>
+									<a class="btn btn-link" href="/billing/single/{item.id}">Go to Payment</a>
 								</td>
 							</tr>
 						{/each}

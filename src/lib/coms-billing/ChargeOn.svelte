@@ -2,7 +2,17 @@
 	import { enhance } from '$app/forms';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
-	export let data: PageServerData;
+	type Data = Pick<
+		PageServerData,
+		| 'charge_on_general'
+		| 'charge_on_imagerie'
+		| 'charge_on_laboratory'
+		| 'charge_on_prescription'
+		| 'charge_on_service'
+		| 'charge_on_vaccine'
+		| 'get_billing'
+	>;
+	export let data: Data;
 	$: ({
 		charge_on_imagerie,
 		charge_on_laboratory,

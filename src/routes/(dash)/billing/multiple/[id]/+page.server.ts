@@ -22,20 +22,34 @@ import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ url, params }) => {
-	const { progress_node_id } = params;
+	const { id: progress_node_id } = params;
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, +progress_node_id),
 		with: {
-			patient:true,
+			patient: true,
 			visit: {
 				with: {
 					billing: {
 						with: {
+							visit: {
+								with: {
+									patient: true,
+									presrciption: {
+										with: {
+											product: true
+										}
+									}
+								}
+							},
 							charge: {
 								with: {
-									productOrder: true
+									productOrder: {
+										with: {
+											product: true
+										}
+									}
 								}
 							}
 						}
@@ -66,7 +80,6 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billings = await db.query.billing.findMany({
 		where: and(eq(billing.status, 'due'), eq(billing.checkin_type, 'OPD')),
 		with: {
-			
 			visit: {
 				with: {
 					patient: true

@@ -58,12 +58,12 @@
 	$: cash_pay = (final_disc - bank_pay).toFixed(2);
 	$: return_or_credit = (Number(bank_pay) + Number(cash_pay) - final_disc).toFixed(2);
 	onMount(() => {
-		inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
-		inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
 		if (browser) {
+			inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
+			inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
 			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
-				if (sidebarToggle === 'true') {
+				if (sidebarToggle !== 'false') {
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
@@ -73,7 +73,7 @@
 		if (browser) {
 			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
-				if (sidebarToggle === 'false') {
+				if (sidebarToggle !== 'true') {
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
