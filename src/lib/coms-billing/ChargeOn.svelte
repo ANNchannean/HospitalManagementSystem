@@ -35,16 +35,18 @@
 			{/each}
 		</td>
 		<td>
-			<input type="hidden" name="charge_id" value={charge_on_laboratory.id ?? ''} />
-			<input
-				class="border-0 bg-light w-100 text-center text-primary"
-				type="number"
-				min="0"
-				step="any"
-				name="charge_on_laboratory"
-				value={charge_on_laboratory.price ?? ''}
-			/></td
-		>
+			<fieldset disabled={get_billing?.status !== 'active'}>
+				<input type="hidden" name="charge_id" value={charge_on_laboratory.id ?? ''} />
+				<input
+					class="border-0 bg-light w-100 text-center text-primary"
+					type="number"
+					min="0"
+					step="any"
+					name="charge_on_laboratory"
+					value={charge_on_laboratory.price ?? ''}
+				/>
+			</fieldset>
+		</td>
 	</tr>
 {/if}
 <!-- Imagerie  -->
@@ -56,35 +58,41 @@
 				<br />
 			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="price"
-					value={item?.price?.toFixed(2)}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="price"
+						value={item?.price?.toFixed(2)}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input type="hidden" name="product_order_id" value={item.id} />
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="qty"
-					value={item?.qty}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input type="hidden" name="product_order_id" value={item.id} />
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="qty"
+						value={item?.qty}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="text"
-					pattern="[0-9]+%?"
-					name="disc"
-					value={item?.discount}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="text"
+						pattern="[0-9]+%?"
+						name="disc"
+						value={item?.discount}
+					/>
+				</fieldset>
+			</td>
 			<td
 				>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
 					item.total ?? 0
@@ -136,35 +144,41 @@
 				<br />
 			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="price"
-					value={item?.price?.toFixed(2)}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="price"
+						value={item?.price?.toFixed(2)}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input type="hidden" name="product_order_id" value={item.id} />
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="qty"
-					value={item?.qty}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input type="hidden" name="product_order_id" value={item.id} />
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="qty"
+						value={item?.qty}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="text"
-					pattern="[0-9]+%?"
-					name="disc"
-					value={item?.discount}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="text"
+						pattern="[0-9]+%?"
+						name="disc"
+						value={item?.discount}
+					/>
+				</fieldset>
+			</td>
 			<td
 				>{Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
 					item.total ?? 0
@@ -183,35 +197,41 @@
 				<br />
 			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="price"
-					value={item?.price?.toFixed(2)}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="price"
+						value={item?.price?.toFixed(2)}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input type="hidden" name="product_order_id" value={item.id} />
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="qty"
-					value={item?.qty}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input type="hidden" name="product_order_id" value={item.id} />
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="qty"
+						value={item?.qty}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="text"
-					pattern="[0-9]+%?"
-					name="disc"
-					value={item?.discount}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="text"
+						pattern="[0-9]+%?"
+						name="disc"
+						value={item?.discount}
+					/>
+				</fieldset>
+			</td>
 			<td
 				>{Intl.NumberFormat('en-US')
 					.format(item.total ?? 0)
@@ -230,35 +250,41 @@
 				<br />
 			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="price"
-					value={item?.price?.toFixed(2)}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="price"
+						value={item?.price?.toFixed(2)}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input type="hidden" name="product_order_id" value={item.id} />
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="qty"
-					value={item?.qty}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input type="hidden" name="product_order_id" value={item.id} />
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="qty"
+						value={item?.qty}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="text"
-					pattern="[0-9]+%?"
-					name="disc"
-					value={item?.discount}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="text"
+						pattern="[0-9]+%?"
+						name="disc"
+						value={item?.discount}
+					/>
+				</fieldset>
+			</td>
 			<td
 				>{Intl.NumberFormat('en-US')
 					.format(item.total ?? 0)
@@ -277,57 +303,65 @@
 				<br />
 			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="price"
-					value={item?.price?.toFixed(2)}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="price"
+						value={item?.price?.toFixed(2)}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input type="hidden" name="product_order_id" value={item.id} />
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
-					name="qty"
-					value={item?.qty}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input type="hidden" name="product_order_id" value={item.id} />
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="number"
+						min="0"
+						step="any"
+						name="qty"
+						value={item?.qty}
+					/>
+				</fieldset>
+			</td>
 			<td>
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="text"
-					pattern="[0-9]+%?"
-					name="disc"
-					value={item?.discount}
-				/></td
-			>
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<input
+						class="border-0 bg-light w-100 text-center text-primary"
+						type="text"
+						pattern="[0-9]+%?"
+						name="disc"
+						value={item?.discount}
+					/>
+				</fieldset>
+			</td>
 			<td
 				>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
 					item.total ?? 0
 				)}</td
 			>
 			<td>
-				<form
-					action="?/remove_product_order"
-					use:enhance={() => {
-						$globalLoading = true;
-						return async ({ update }) => {
-							await update();
-							$globalLoading = false;
-						};
-					}}
-					method="post"
-				>
-					<input type="hidden" name="product_order_id" value={item.id} />
-					<button type="submit" class="btn btn-link text-danger"
-						><i class="fa-solid fa-trash"></i></button
+				<fieldset disabled={get_billing?.status !== 'active'}>
+					<form
+						action="?/remove_product_order"
+						use:enhance={() => {
+							$globalLoading = true;
+							return async ({ update }) => {
+								await update();
+								$globalLoading = false;
+							};
+						}}
+						method="post"
 					>
-				</form>
+						<input type="hidden" name="product_order_id" value={item.id} />
+						<button type="submit" class="btn btn-link text-danger"
+							><i class="fa-solid fa-trash"></i></button
+						>
+					</form>
+				</fieldset>
 			</td>
 		</tr>
 	{/each}

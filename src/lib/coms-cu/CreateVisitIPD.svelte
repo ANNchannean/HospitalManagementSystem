@@ -37,8 +37,6 @@
 					id="close_create_visit_ipd"
 					type="button"
 					class="btn-close"
-					data-bs-toggle="modal"
-					data-bs-target="#create_prescription"
 					data-bs-dismiss="modal"
 					aria-label="Close"
 				>

@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { department, staff, patient, visit, progressNote } from '$lib/server/schema';
+import { department, staff, patient, visit, progressNote, billing } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
@@ -47,7 +47,8 @@ export const load = (async ({ url, parent }) => {
 	const get_visit = await db.query.visit.findFirst({
 		where: eq(visit.id, +visit_id),
 		with: {
-			vitalSign: true
+			vitalSign: true,
+			billing: true
 		}
 	});
 	const get_departments = await db.query.department.findMany({
@@ -112,8 +113,16 @@ export const actions: Actions = {
 	create_visit_ipd: async ({ request }) => {
 		const body = await request.formData();
 		const created_at = now_datetime();
-		const { patient_id, staff_id, department_id, etiology, bed_id, visit_id, progress_note_id } =
-			Object.fromEntries(body) as Record<string, string>;
+		const {
+			patient_id,
+			staff_id,
+			department_id,
+			etiology,
+			bed_id,
+			visit_id,
+			progress_note_id,
+			billing_id
+		} = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			patient_id: false,
 			staff_id: false,
@@ -166,6 +175,16 @@ export const actions: Actions = {
 					.catch((e) => {
 						logErrorMessage(e);
 					});
+				await db
+					.update(billing)
+					.set({
+						status: 'active',
+						checkin_type: 'IPD'
+					})
+					.where(eq(billing.id, +billing_id))
+					.catch((e) => {
+						logErrorMessage(e);
+					});
 			} else {
 				try {
 					let id = 0;
@@ -182,8 +201,9 @@ export const actions: Actions = {
 						})
 						.$returningId()
 						.then((e) => e[0].id);
-					if (id > 0)
+					if (id > 0) {
 						await preBilling({ visit_id: id, progress_id: undefined, checkin_type: 'IPD' });
+					}
 				} catch (error) {
 					logErrorMessage(String(error));
 				}

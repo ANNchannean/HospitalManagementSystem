@@ -72,6 +72,7 @@
 		<input value={bed_id} type="hidden" name="bed_id" />
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
 		<input value={get_visit?.id ?? ''} type="hidden" name="visit_id" />
+		<input value={get_visit?.billing?.id ?? ''} type="hidden" name="billing_id" />
 		<div class="card-body">
 			<div class="form-group row pb-3">
 				<div class="col-sm-3">

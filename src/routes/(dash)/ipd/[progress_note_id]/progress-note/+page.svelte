@@ -72,6 +72,7 @@
 											</a>
 											<button
 												type="button"
+												disabled={item.billing?.status !== 'active'}
 												on:click={() => (visit_id = item.id)}
 												class="btn btn-outline-danger btn-sm w-100 mb-2"
 												data-bs-toggle="modal"
@@ -93,7 +94,9 @@
 											<ParaClinic {find_old_visit} />
 										</td>
 										<td style="width: 30%;vertical-align:top;">
-											<Treatment {find_old_visit} />
+											<fieldset disabled={item.billing?.status !== 'active'}>
+												<Treatment {find_old_visit} />
+											</fieldset>
 										</td>
 									</tr>
 								{/if}

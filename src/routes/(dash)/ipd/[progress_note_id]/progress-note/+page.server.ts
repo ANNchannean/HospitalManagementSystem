@@ -155,7 +155,9 @@ export const actions: Actions = {
 		} catch (error) {
 			logErrorMessage(String(error));
 		}
-		if (visit_id > 0) preBilling(visit_id, 'IPD');
+		if (visit_id > 0) {
+			await preBilling({ visit_id: visit_id, progress_id: undefined, checkin_type: 'IPD' });
+		}
 	},
 	delete_visit_ipd: async ({ request }) => {
 		const body = await request.formData();

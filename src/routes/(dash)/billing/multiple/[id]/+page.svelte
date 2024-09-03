@@ -161,9 +161,15 @@
 									(e) => e.charge_on === 'vaccine'
 								)}
 								<tr>
-									<DateTimeFormat date={item.date_checkup} />
+									<span class="">
+										#<DateTimeFormat date={item.date_checkup} />
+									</span>
+									<span class="text-danger">
+										{#if item.billing?.status !== 'active'}
+											#បានគិតលុយរូច
+										{/if}
+									</span>
 								</tr>
-
 								<ChargeOn
 									data={{
 										charge_on_general: charge_on_general,
@@ -175,6 +181,7 @@
 										get_billing: item?.billing ?? undefined
 									}}
 								/>
+								<br />
 							{/each}
 						</tbody>
 					</table>
