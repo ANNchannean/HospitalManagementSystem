@@ -9,7 +9,7 @@ import {
 	time,
 	varchar
 } from 'drizzle-orm/mysql-core';
-import { visit } from './visit';
+import { progressNote, visit } from './visit';
 import { relations } from 'drizzle-orm';
 import { product } from './product';
 import { payment } from './payment';
@@ -19,10 +19,8 @@ export const billing = mysqlTable('billing', {
 	id: int('id').primaryKey().autoincrement(),
 	date: date('date', { mode: 'string' }),
 	time: time('time'),
-	visit_id: int('visit_id')
-		.references(() => visit.id, { onDelete: 'cascade' })
-		.unique()
-		.notNull(),
+	visit_id: int('visit_id').references(() => visit.id, { onDelete: 'cascade' }),
+	progress_note_id: int('progress_note_id').references(() => progressNote.id, { onDelete: 'cascade' }),
 	discount: varchar('discount', { length: 50 }).notNull().default('0'),
 	sub_total: decimal('sub_total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	total: decimal('total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
@@ -99,6 +97,10 @@ export const billingRelations = relations(billing, ({ one, many }) => ({
 	visit: one(visit, {
 		references: [visit.id],
 		fields: [billing.visit_id]
+	}),
+	progressNote: one(progressNote, {
+		references: [progressNote.id],
+		fields: [billing.progress_note_id]
 	}),
 	charge: many(charge),
 	payment: many(payment),

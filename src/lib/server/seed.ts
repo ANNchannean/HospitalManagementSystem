@@ -1,12 +1,13 @@
-// import { generateIdFromEntropySize } from 'lucia';
-// import { db } from './db';
-// import { inventory, user } from './schema';
-// import { generateIdFromEntropySize } from 'lucia';
-// import { hash } from '@node-rs/argon2';
-// import { eq } from 'drizzle-orm';
+/*
+import { generateIdFromEntropySize } from 'lucia';
+import { db } from './db';
+import { inventory, user } from './schema';
+import { generateIdFromEntropySize } from 'lucia';
+import { hash } from '@node-rs/argon2';
+import { eq } from 'drizzle-orm';
 async function main() {
 	console.log('Processing...');
-	/*
+
 	const userId = generateIdFromEntropySize(10);
 	const password = 'aaaa1111';
 	const passwordHash = await hash(password, {
@@ -28,10 +29,11 @@ async function main() {
 			product_id: e.id
 		});
 	}
-	*/
+	
 
 	console.log('Done');
 	process.exit(0);
 }
 
 main();
+*/

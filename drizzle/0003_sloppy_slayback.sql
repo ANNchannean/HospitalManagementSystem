@@ -1,1 +1,0 @@
-ALTER TABLE `product` ADD `barcode` varchar(255);

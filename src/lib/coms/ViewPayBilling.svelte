@@ -15,7 +15,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title">
 					Invoice# {find_billing?.id}
-					{find_billing?.visit.patient?.name_khmer}
+					{find_billing?.visit?.patient?.name_khmer}
 				</h4>
 				<button
 					id="close-view_pay_billing"

@@ -63,7 +63,7 @@
 {/if}
 <div class="row">
 	<div class="col-sm-6">
-		<h2>item.Billing OPD</h2>
+		<h2>Billing IPD</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
@@ -76,13 +76,13 @@
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bills"></i>
-					item.Billing
+					Billing
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-stethoscope"></i>
-					OPD
+					IPD
 				</a>
 			</li>
 		</ol>
