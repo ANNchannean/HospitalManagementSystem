@@ -5,6 +5,7 @@
 	import ViewPayBilling from '$lib/coms/ViewPayBilling.svelte';
 	import AddPayBilling from '$lib/coms/AddPayBilling.svelte';
 	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_billings } = data);
@@ -91,15 +92,9 @@
 									{item.id}
 								</td>
 
-								<td
-									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
-										.format(new Date(item.visit?.date_checkup ?? ''))
-										.split('/')
-										.join('-')} <br />
-									{new Intl.DateTimeFormat('en-GB', {
-										timeStyle: 'short',
-										hour12: true
-									}).format(new Date(item.visit?.date_checkup ?? ''))}
+								<td>
+									<DateTimeFormat timeStyle={false} date={item.visit?.date_checkup} /> <br />
+									<DateTimeFormat dateStyle={false} date={item.visit?.date_checkup} />
 								</td>
 								<td>{item.visit?.checkin_type ?? ''}</td>
 								<td>

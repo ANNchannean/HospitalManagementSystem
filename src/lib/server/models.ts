@@ -372,7 +372,7 @@ export const preBilling = async (visit_id: number, checkin_type: 'OPD' | 'IPD') 
 	await db
 		.insert(charge)
 		.values({
-			billing_id: get_billing!.id,
+			billing_id: Number(get_billing?.id),
 			charge_on: 'general',
 			created_at: created_at
 		})
@@ -382,7 +382,7 @@ export const preBilling = async (visit_id: number, checkin_type: 'OPD' | 'IPD') 
 	await db
 		.insert(charge)
 		.values({
-			billing_id: get_billing!.id,
+			billing_id: Number(get_billing?.id),
 			charge_on: 'imagerie',
 			created_at: created_at
 		})
