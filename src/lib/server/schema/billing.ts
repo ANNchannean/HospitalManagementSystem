@@ -20,7 +20,9 @@ export const billing = mysqlTable('billing', {
 	date: date('date', { mode: 'string' }),
 	time: time('time'),
 	visit_id: int('visit_id').references(() => visit.id, { onDelete: 'cascade' }),
-	progress_note_id: int('progress_note_id').references(() => progressNote.id, { onDelete: 'cascade' }),
+	progress_note_id: int('progress_note_id').references(() => progressNote.id, {
+		onDelete: 'cascade'
+	}),
 	discount: varchar('discount', { length: 50 }).notNull().default('0'),
 	sub_total: decimal('sub_total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
 	total: decimal('total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),

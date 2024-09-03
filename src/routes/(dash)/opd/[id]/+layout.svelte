@@ -191,10 +191,9 @@
 	</div>
 {/if}
 {#if find_old_visit}
-	<div  class="card">
+	<div class="card">
 		<div class="card-header">
 			<span class="fs-5">SAOP</span>
-
 		</div>
 		<div style="font-size: 90%" class="row card-body">
 			<div class="col-sm-4">

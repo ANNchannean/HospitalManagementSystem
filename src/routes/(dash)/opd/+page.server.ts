@@ -96,7 +96,7 @@ export const actions: Actions = {
 		if (visit_id <= 0) return fail(400, { visit_id: true });
 		if (visit_id > 0) {
 			// doing billing
-			await preBilling(visit_id);
+			await preBilling(visit_id, 'OPD');
 			// creae vital sign
 			if (asign_vitalsing === 'on') {
 				await db

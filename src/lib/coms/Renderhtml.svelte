@@ -61,17 +61,13 @@
 			defaultStyle: 'font-size:18px;font-family:KhmerOSBattambang'
 		});
 		editor.setOptions({
-			height: '100%'
+			height: '100%',
+			width: setWidth ? setWidth : undefined
 		});
-		setWidth
-			? editor.setOptions({
-					height: '100%',
-					width: setWidth
-				})
-			: editor.setOptions({
-					height: '100%'
-				});
 
+		// setWidth
+		// 	? editor.setOptions({ height: '100%', width: setWidth })
+		// 	: editor.setOptions({ height: '100%' });
 		editor.readOnly(true);
 		editor.toolbar.hide();
 	});

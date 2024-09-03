@@ -41,7 +41,7 @@ export default [
 			'svelte/no-unused-svelte-ignore': 'off',
 			'@typescript-eslint/no-unused-vars': 'off',
 			'no-undef': 'off',
-			'@typescript-eslint/ban-ts-comment':'off'
+			'@typescript-eslint/ban-ts-comment': 'off'
 		}
 	},
 	{

@@ -31,7 +31,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 			fileOrPicture: true
 		}
 	});
-	
+
 	return {
 		url_qr: await generateQR(url.href),
 		get_imagerie_request,

@@ -185,7 +185,7 @@ export const actions: Actions = {
 				} catch (error) {
 					logErrorMessage(String(error));
 				}
-				if (new_id_visit > 0) preBilling(new_id_visit);
+				if (new_id_visit > 0) preBilling(new_id_visit, 'IPD');
 			}
 
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);

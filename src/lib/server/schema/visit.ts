@@ -101,14 +101,13 @@ export const progressNote = mysqlTable('progress_note', {
 	bed_id: int('bed_id')
 		.references(() => bed.id)
 		.notNull()
-	
 });
 
 export const bedIPD = mysqlTable('bed_ipd', {
 	id: int('id').primaryKey().autoincrement(),
 	check_in: datetime('check_in', { mode: 'string' }).notNull(),
 	check_out: datetime('check_out', { mode: 'string' }),
-	day:int('int'),
+	day: int('int'),
 	bed_id: int('bed_id')
 		.references(() => bed.id)
 		.notNull()
@@ -120,7 +119,6 @@ export const bedIPDRelations = relations(bedIPD, ({ one }) => ({
 		fields: [bedIPD.bed_id]
 	})
 }));
-
 
 export const progressNoteRelations = relations(progressNote, ({ one, many }) => ({
 	visit: many(visit),
@@ -142,7 +140,8 @@ export const progressNoteRelations = relations(progressNote, ({ one, many }) => 
 		fields: [progressNote.department_id],
 		references: [department.id]
 	}),
-	service: many(service)
+	service: many(service),
+	billing: one(billing)
 }));
 export const nursingProcessRelations = relations(nursingProcess, ({ one }) => ({
 	staff: one(staff, {

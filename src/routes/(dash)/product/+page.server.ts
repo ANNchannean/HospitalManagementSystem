@@ -29,10 +29,10 @@ export const load = (async ({ url, parent }) => {
 			fileOrPicture: true,
 			inventory: {
 				where: eq(inventory.outstock, false),
-				with:{
-					subUnit:{
-						with:{
-							unit:true
+				with: {
+					subUnit: {
+						with: {
+							unit: true
 						}
 					}
 				}

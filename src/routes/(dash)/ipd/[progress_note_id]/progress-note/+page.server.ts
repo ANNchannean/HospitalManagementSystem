@@ -124,7 +124,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		get_staffs,
 		removeDuplicateDate,
 		get_exams,
-		visit:get_progress_note?.visit[0]
+		visit: get_progress_note?.visit[0]
 	};
 };
 
@@ -155,7 +155,7 @@ export const actions: Actions = {
 		} catch (error) {
 			logErrorMessage(String(error));
 		}
-		if (visit_id > 0) preBilling(visit_id);
+		if (visit_id > 0) preBilling(visit_id, 'IPD');
 	},
 	delete_visit_ipd: async ({ request }) => {
 		const body = await request.formData();

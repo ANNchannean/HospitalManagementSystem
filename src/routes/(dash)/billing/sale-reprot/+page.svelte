@@ -210,9 +210,8 @@
 											class="btn btn-success"><i class="fa-solid fa-money-check-dollar"></i></button
 										>
 
-										<a
-											href="/billing/{item.checkin_type.toLowerCase()}/{billing_id}"
-											class="btn btn-primary"><i class="fa-solid fa-file-pen"></i></a
+										<a href="/billing/single/{billing_id}" class="btn btn-primary"
+											><i class="fa-solid fa-file-pen"></i></a
 										>
 										<button class="btn btn-danger"><i class="fa-solid fa-trash-alt"></i></button>
 									</div>
