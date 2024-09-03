@@ -168,20 +168,31 @@ export const actions: Actions = {
 					});
 			} else {
 				try {
-					await db.insert(visit).values({
-						checkin_type: 'IPD',
-						patient_id: Number(patient_id),
-						date_checkup: created_at,
-						staff_id: Number(staff_id),
-						department_id: Number(department_id),
-						etiology: etiology,
-						progress_note_id: progress_note_id[0].id
-					});
+					let id = 0;
+					id = await db
+						.insert(visit)
+						.values({
+							checkin_type: 'IPD',
+							patient_id: Number(patient_id),
+							date_checkup: created_at,
+							staff_id: Number(staff_id),
+							department_id: Number(department_id),
+							etiology: etiology,
+							progress_note_id: progress_note_id[0].id
+						})
+						.$returningId()
+						.then((e) => e[0].id);
+					if (id > 0)
+						await preBilling({ visit_id: id, progress_id: undefined, checkin_type: 'IPD' });
 				} catch (error) {
 					logErrorMessage(String(error));
 				}
 			}
-			await preBilling(progress_note_id[0].id, 'IPD');
+			await preBilling({
+				visit_id: undefined,
+				progress_id: progress_note_id[0].id,
+				checkin_type: 'IPD'
+			});
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);
 		}
 	}

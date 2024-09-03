@@ -349,7 +349,15 @@ export const billingProcess = async ({
 	billingMessage(message);
 };
 
-export const preBilling = async (visit_id: number, checkin_type: 'OPD' | 'IPD') => {
+export const preBilling = async <T, U>({
+	checkin_type,
+	progress_id,
+	visit_id
+}: {
+	visit_id: T;
+	progress_id: U;
+	checkin_type: 'OPD' | 'IPD';
+}) => {
 	const created_at = now_datetime();
 	const get_tax = await db.query.tax.findFirst();
 	// doing billing
@@ -357,8 +365,8 @@ export const preBilling = async (visit_id: number, checkin_type: 'OPD' | 'IPD') 
 		.insert(billing)
 		.values({
 			created_at: created_at,
-			visit_id: checkin_type === 'OPD' ? visit_id : null,
-			progress_note_id: checkin_type === 'IPD' ? visit_id : null,
+			visit_id: typeof visit_id === 'number' ? visit_id : undefined,
+			progress_note_id: typeof progress_id === 'number' ? progress_id : undefined,
 			checkin_type: checkin_type,
 			status: 'active',
 			tax: get_tax?.value || 0
