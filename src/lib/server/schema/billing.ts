@@ -24,20 +24,20 @@ export const billing = mysqlTable('billing', {
 		onDelete: 'cascade'
 	}),
 	discount: varchar('discount', { length: 50 }).notNull().default('0'),
-	sub_total: decimal('sub_total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
-	total: decimal('total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
-	total_after_tax: decimal('total_after_tax', { precision: 10, scale: 2 })
+	sub_total: decimal('sub_total', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
+	total: decimal('total', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
+	total_after_tax: decimal('total_after_tax', { precision: 18, scale: 2 })
 		.notNull()
 		.$type<number>()
 		.default(0),
-	total_after_vat: decimal('total_after_vat', { precision: 10, scale: 2 })
+	total_after_vat: decimal('total_after_vat', { precision: 18, scale: 2 })
 		.notNull()
 		.$type<number>()
 		.default(0),
-	paid: decimal('paid', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	paid: decimal('paid', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	tax: float('tax').default(0).notNull(),
 	vat: float('vat').default(0).notNull(),
-	balance: decimal('balance', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	balance: decimal('balance', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 255 })
 		.$type<'paid' | 'partial' | 'due' | 'active' | 'process'>()
 		.default('active')
@@ -51,7 +51,7 @@ export const billing = mysqlTable('billing', {
 export const charge = mysqlTable('charge', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	price: decimal('price', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 255 }).$type<'active' | 'desactive'>().default('active'),
 	charge_on: varchar('charge_on', { length: 255 }).$type<
 		'imagerie' | 'laboratory' | 'service' | 'prescription' | 'general' | 'vaccine'
@@ -64,8 +64,8 @@ export const charge = mysqlTable('charge', {
 export const productOrder = mysqlTable('product_order', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
-	total: decimal('total', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	price: decimal('price', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
+	total: decimal('total', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	qty: int('qty').default(1).notNull(),
 	discount: varchar('discount', { length: 50 }).notNull().default('0'),
 	product_id: int('product_id')

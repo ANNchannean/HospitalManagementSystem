@@ -10,7 +10,7 @@ export const paymentType = mysqlTable('payment_type', {
 
 export const payment = mysqlTable('payment', {
 	id: int('id').primaryKey().autoincrement(),
-	value: decimal('value', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	value: decimal('value', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	payment_type_id: int('payment_type_id').references(() => paymentType.id, {
 		onDelete: 'restrict'
 	}),

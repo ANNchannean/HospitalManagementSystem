@@ -15,7 +15,7 @@ export const product = mysqlTable('product', {
 	group_type_id: int('group_type_id').references(() => productGroupType.id),
 	laboratory_group_id: int('laboratory_group_id').references(() => laboratoryGroup.id),
 	imagerie_group_id: int('imagerie_group_id').references(() => imagerieGroup.id),
-	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	price: decimal('price', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	unit_id: int('unit_id').references(() => unit.id),
 	create_at: datetime('create_at', { mode: 'string' })
 });
@@ -47,7 +47,7 @@ export const inventory = mysqlTable('inventory', {
 	product_id: int('product_id')
 		.references(() => product.id)
 		.notNull(),
-	original_price: decimal('original_price', { precision: 10, scale: 2 })
+	original_price: decimal('original_price', { precision: 18, scale: 2 })
 		.notNull()
 		.$type<number>()
 		.default(0),
@@ -70,7 +70,7 @@ export const subUnit = mysqlTable('sub_unit', {
 	id: int('id').primaryKey().autoincrement(),
 	qty_in_item: int('qty_in_item').notNull().default(0),
 	qty: int('qty').notNull().default(0),
-	price: decimal('price', { precision: 10, scale: 2 }).notNull().$type<number>().default(0),
+	price: decimal('price', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	inventory_id: int('inventory_id')
 		.references(() => inventory.id)
 		.notNull(),
