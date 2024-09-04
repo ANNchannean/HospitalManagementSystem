@@ -15,3 +15,4 @@ export const currency = mysqlTable('currency', {
 	rate_to: float('rate_to').notNull(),
 	rate_from: float('rate_from').notNull()
 });
+ 
