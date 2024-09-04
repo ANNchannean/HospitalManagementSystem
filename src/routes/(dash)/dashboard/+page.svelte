@@ -4,6 +4,11 @@
 	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
 </script>
 
+<form id="myform" method="get" action="something.php">
+	<input type="text" name="name" />
+</form>
+<button type="submit" form="myform">Click me!</button>
+<input type="submit" form="myform" value="Update" />
 <CurrencySimble exchange={5000} value={2000.222} />
 <Html2Pdf id="one" />
 <h1 id="one" class="m-0">Dashbaord</h1>

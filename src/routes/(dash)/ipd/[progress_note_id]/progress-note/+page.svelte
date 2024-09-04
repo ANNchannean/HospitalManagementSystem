@@ -6,6 +6,7 @@
 	import SaopNote from '$lib/coms-ipd/SaopNote.svelte';
 	import ParaClinic from '$lib/coms-ipd/ParaClinic.svelte';
 	import Treatment from '$lib/coms-ipd/Treatment.svelte';
+	import ConfirmSubmit from '$lib/coms/ConfirmSubmit.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams } = data);
@@ -13,7 +14,6 @@
 
 <DeleteModal id={visit_id} action="?/delete_visit_ipd" />
 <CreateVisitIpd {data} />
-
 <div class="card-header">
 	<div class="d-grid gap-2 d-md-flex justify-content-between">
 		<button

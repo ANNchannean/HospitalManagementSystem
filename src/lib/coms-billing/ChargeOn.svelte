@@ -35,7 +35,7 @@
 			{/each}
 		</td>
 		<td>
-			<fieldset disabled={get_billing?.status !== 'active'}>
+			<fieldset disabled={get_billing?.status !== 'process'}>
 				<input type="hidden" name="charge_id" value={charge_on_laboratory.id ?? ''} />
 				<input
 					class="border-0 bg-light w-100 text-center text-primary"
@@ -58,7 +58,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="number"
@@ -70,7 +70,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
@@ -83,7 +83,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="text"
@@ -144,7 +144,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="number"
@@ -156,7 +156,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
@@ -169,7 +169,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="text"
@@ -197,7 +197,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="number"
@@ -209,7 +209,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
@@ -222,7 +222,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="text"
@@ -250,7 +250,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="number"
@@ -262,7 +262,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
@@ -275,7 +275,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="text"
@@ -303,7 +303,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="number"
@@ -315,7 +315,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
@@ -328,7 +328,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
 						class="border-0 bg-light w-100 text-center text-primary"
 						type="text"
@@ -344,7 +344,7 @@
 				)}</td
 			>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'active'}>
+				<fieldset disabled={get_billing?.status !== 'process'}>
 					<form
 						action="?/remove_product_order"
 						use:enhance={() => {

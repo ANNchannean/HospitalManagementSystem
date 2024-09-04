@@ -166,7 +166,7 @@
 									</span>
 									<span class="text-danger">
 										{#if item.billing?.status !== 'active'}
-											#បានគិតលុយរូច
+											#បានគិតលុយរួច
 										{/if}
 									</span>
 								</tr>
