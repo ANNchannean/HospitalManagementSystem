@@ -1,17 +1,24 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	let offTaos = true;
+	export let show = false;
 	export let toas = 'infomation' as 'success' | 'infomation' | 'error';
 	export let message = '';
-	onMount(() => {
-		setTimeout(() => {
-			offTaos = false;
-		}, 2500);
-	});
+	$: {
+		if (show === true) {
+			setTimeout(() => {
+				show = false;
+			}, 2500);
+		}
+	}
+	// onMount(() => {
+	// 	setTimeout(() => {
+	// 		show = false;
+	// 	}, 2500);
+	// });
 </script>
 
-{#if offTaos}
+{#if show}
 	<div
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}

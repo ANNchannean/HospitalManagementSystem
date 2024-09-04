@@ -34,3 +34,4 @@ export * from './payment';
 export * from './document';
 export * from './test';
 export * from './words';
+export * from './setting';
