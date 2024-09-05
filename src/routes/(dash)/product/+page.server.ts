@@ -9,6 +9,7 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
+	const get_currency = await db.query.currency.findFirst({});
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
 	const get_product_group_type = await db.query.productGroupType.findMany({
@@ -43,7 +44,8 @@ export const load = (async ({ url, parent }) => {
 	return {
 		get_products,
 		get_product_group_type,
-		get_units
+		get_units,
+		get_currency
 	};
 }) satisfies PageServerLoad;
 

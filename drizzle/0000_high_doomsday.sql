@@ -157,7 +157,7 @@ CREATE TABLE `physical_exam` (
 CREATE TABLE `inventory` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`product_id` int NOT NULL,
-	`original_price` decimal(10,2) NOT NULL DEFAULT 0,
+	`original_price` decimal(18,2) NOT NULL DEFAULT 0,
 	`exchange` int NOT NULL DEFAULT 4000,
 	`expier_date` datetime,
 	`outstock` boolean NOT NULL DEFAULT false,
@@ -174,7 +174,7 @@ CREATE TABLE `product` (
 	`group_type_id` int,
 	`laboratory_group_id` int,
 	`imagerie_group_id` int,
-	`price` decimal(10,2) NOT NULL DEFAULT 0,
+	`price` decimal(18,2) NOT NULL DEFAULT 0,
 	`unit_id` int,
 	`create_at` datetime,
 	CONSTRAINT `product_id` PRIMARY KEY(`id`)
@@ -184,7 +184,7 @@ CREATE TABLE `sub_unit` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`qty_in_item` int NOT NULL DEFAULT 0,
 	`qty` int NOT NULL DEFAULT 0,
-	`price` decimal(10,2) NOT NULL DEFAULT 0,
+	`price` decimal(18,2) NOT NULL DEFAULT 0,
 	`inventory_id` int NOT NULL,
 	`unit_id` int NOT NULL,
 	CONSTRAINT `sub_unit_id` PRIMARY KEY(`id`)
@@ -512,14 +512,14 @@ CREATE TABLE `billing` (
 	`visit_id` int,
 	`progress_note_id` int,
 	`discount` varchar(50) NOT NULL DEFAULT '0',
-	`sub_total` decimal(10,2) NOT NULL DEFAULT 0,
-	`total` decimal(10,2) NOT NULL DEFAULT 0,
-	`total_after_tax` decimal(10,2) NOT NULL DEFAULT 0,
-	`total_after_vat` decimal(10,2) NOT NULL DEFAULT 0,
-	`paid` decimal(10,2) NOT NULL DEFAULT 0,
+	`sub_total` decimal(18,2) NOT NULL DEFAULT 0,
+	`total` decimal(18,2) NOT NULL DEFAULT 0,
+	`total_after_tax` decimal(18,2) NOT NULL DEFAULT 0,
+	`total_after_vat` decimal(18,2) NOT NULL DEFAULT 0,
+	`paid` decimal(18,2) NOT NULL DEFAULT 0,
 	`tax` float NOT NULL DEFAULT 0,
 	`vat` float NOT NULL DEFAULT 0,
-	`balance` decimal(10,2) NOT NULL DEFAULT 0,
+	`balance` decimal(18,2) NOT NULL DEFAULT 0,
 	`status` varchar(255) NOT NULL DEFAULT 'active',
 	`checkin_type` varchar(255) NOT NULL,
 	`created_at` datetime,
@@ -531,7 +531,7 @@ CREATE TABLE `billing` (
 CREATE TABLE `charge` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`created_at` datetime,
-	`price` decimal(10,2) NOT NULL DEFAULT 0,
+	`price` decimal(18,2) NOT NULL DEFAULT 0,
 	`status` varchar(255) DEFAULT 'active',
 	`charge_on` varchar(255),
 	`billing_id` int NOT NULL,
@@ -547,8 +547,8 @@ CREATE TABLE `exchang` (
 CREATE TABLE `product_order` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`created_at` datetime,
-	`price` decimal(10,2) NOT NULL DEFAULT 0,
-	`total` decimal(10,2) NOT NULL DEFAULT 0,
+	`price` decimal(18,2) NOT NULL DEFAULT 0,
+	`total` decimal(18,2) NOT NULL DEFAULT 0,
 	`qty` int NOT NULL DEFAULT 1,
 	`discount` varchar(50) NOT NULL DEFAULT '0',
 	`product_id` int NOT NULL,
@@ -565,7 +565,7 @@ CREATE TABLE `tax` (
 --> statement-breakpoint
 CREATE TABLE `payment` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`value` decimal(10,2) NOT NULL DEFAULT 0,
+	`value` decimal(18,2) NOT NULL DEFAULT 0,
 	`payment_type_id` int,
 	`billing_id` int,
 	`datetime` datetime,
@@ -608,6 +608,27 @@ CREATE TABLE `words` (
 	`type` varchar(255) NOT NULL,
 	`text` text NOT NULL,
 	CONSTRAINT `words_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `currency` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`symbol` varchar(3) NOT NULL,
+	`from_symbol` varchar(3) NOT NULL,
+	`to_symbol` varchar(3) NOT NULL,
+	`iso_code` varchar(5) NOT NULL,
+	`rate_to` float NOT NULL,
+	`rate_from` float NOT NULL,
+	`dialy_rate` float NOT NULL,
+	CONSTRAINT `currency_id` PRIMARY KEY(`id`),
+	CONSTRAINT `currency_symbol_unique` UNIQUE(`symbol`),
+	CONSTRAINT `currency_from_symbol_unique` UNIQUE(`from_symbol`),
+	CONSTRAINT `currency_to_symbol_unique` UNIQUE(`to_symbol`),
+	CONSTRAINT `currency_iso_code_unique` UNIQUE(`iso_code`)
+);
+--> statement-breakpoint
+CREATE TABLE `setting` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	CONSTRAINT `setting_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 ALTER TABLE `commune` ADD CONSTRAINT `commune_district_id_district_district_id_fk` FOREIGN KEY (`district_id`) REFERENCES `district`(`district_id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint

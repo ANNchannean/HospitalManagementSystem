@@ -6,10 +6,11 @@
 	import { inerHight } from '$lib/store';
 	import Toast from '$lib/coms/Toast.svelte';
 	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
-	$: ({ get_products, get_product_group_type } = data);
+	$: ({ get_products, get_product_group_type, get_currency } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -104,8 +105,7 @@
 							<th style="width: 10%;">GenericName</th>
 							<th style="width: 10%;">ProductGroup</th>
 							<th style="width: 10%;">Unit</th>
-							<th style="width: 5%;">Real &#x17DB;</th>
-							<th style="width: 5%;">Dorlar &#36;</th>
+							<th style="width: 5%;">Price</th>
 							<th style="width: 10%;">Action</th>
 						</tr>
 					</thead>
@@ -133,11 +133,9 @@
 									{item.unit?.unit ?? ''}
 								</td>
 								<td>
-									<CurrencySimble show="real" break_line={true} value={item.price} />
+									<Currency value={item.price} {get_currency} />
 								</td>
-								<td>
-									<CurrencySimble show="dorlar" break_line={true} value={item.price} />
-								</td>
+
 								<td>
 									<div class=" m-0 p-0">
 										<button

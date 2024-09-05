@@ -1,22 +1,29 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Currency from '$lib/coms/Currency.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_setting } = data);
+	$: ({ get_currency } = data);
 	let price = 22.22;
-	let conerting: number;
+	let conerting: string;
 	$: {
-		conerting = price * Number(get_setting?.rate_from);
+		if (get_currency?.symbol === get_currency?.from_symbol) {
+			conerting = Intl.NumberFormat('en-US')
+				.format(Math.ceil(price * Number(get_currency?.rate_from)) / Number(get_currency?.rate_to))
+				.concat(` ${get_currency?.from_symbol}`);
+		} else {
+			conerting = Intl.NumberFormat('en-US').format(price).concat(` ${get_currency?.to_symbol}`);
+		}
 	}
 	let loading = false;
 	let show_toas = false;
-	let value: string;
+	let from_symbol = data.get_currency?.from_symbol ?? '';
+	let to_symbol = data.get_currency?.to_symbol ?? '';
 </script>
 
 <Toast bind:show={show_toas} toas="success" message="រក្សាទុក្ខបានជោគជ័យ!" />
-
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Setting</h2>
@@ -38,15 +45,8 @@
 		</ol>
 	</div>
 </div>
-<span class="fs-3">
-	# {conerting.toFixed(2).concat(' ' + get_setting?.currency_symbol)}
-</span>
-<div class="">
-	<div class="form-floating pb-3">
-		<input id="value" placeholder="Real" type="number" name="" class="form-control" bind:value />
-		<label for="Real">Value</label>
-	</div>
 
+<div class="col">
 	<form
 		method="post"
 		use:enhance={() => {
@@ -60,74 +60,70 @@
 			};
 		}}
 		class="alert alert-secondary"
-		action="?/update_setting"
+		action="?/create_currency"
 	>
-		<input value={get_setting?.id} type="hidden" name="setting_id" />
+		<input value={get_currency?.id ?? ''} type="hidden" name="currency_id" />
 		<div class="row">
-			<div class="col-12">
-				<div class="form-floating mb-3">
-					<input
-						type="text"
-						class="form-control"
-						id="currency_symbol"
-						name="currency_symbol"
-						value={get_setting?.currency_symbol ?? ''}
-						placeholder="CurrencySymbol"
-					/>
-					<label for="currency_symbol">CurrencySymbol</label>
-				</div>
+			<div class="col-sm-4 pb-2">
+				<label class="form-label" for="symbol">Symbol</label>
+				<input
+					value={get_currency?.symbol ?? ''}
+					class="form-control"
+					type="text"
+					name="symbol"
+					id="symbol"
+				/>
 			</div>
-			<div class="col-6">
-				<div class="form-floating mb-3">
-					<input
-						type="text"
-						class="form-control"
-						id="currency_from"
-						name="currency_from"
-						value={get_setting?.currency_from ?? ''}
-						placeholder="Currency From"
-					/>
-					<label for="currency_from">Currency From</label>
-				</div>
+			<div class="col-sm-4 pb-2">
+				<label class="form-label" for="from_symbol">From Symbol</label>
+				<input
+					bind:value={from_symbol}
+					class="form-control"
+					type="text"
+					name="from_symbol"
+					id="from_symbol"
+				/>
 			</div>
-			<div class="col-6">
-				<div class="form-floating mb-3">
-					<input
-						type="text"
-						class="form-control"
-						name="rate_from"
-						id="rate_from"
-						value={get_setting?.rate_from ?? ''}
-						placeholder="Currency Rate From"
-					/>
-					<label for="rate_from">Currency Rate From</label>
-				</div>
+			<div class="col-sm-4 pb-2">
+				<label class="form-label" for="to_symbol">To Symbol</label>
+				<input
+					disabled
+					bind:value={to_symbol}
+					class="form-control"
+					type="text"
+					name="to_symbol"
+					id="to_symbol"
+				/>
 			</div>
-			<div class="col-6">
-				<div class="form-floating mb-3">
-					<input
-						type="text"
-						class="form-control"
-						id="currency_to"
-						name="currency_to"
-						value={get_setting?.currency_to ?? ''}
-						placeholder="Currency To"
-					/>
-					<label for="currency_to">Currency To</label>
-				</div>
+			<div class="col-sm-4 pb-2">
+				<label class="form-label" for="from">From {from_symbol} </label>
+				<input
+					value={get_currency?.rate_from ?? ''}
+					class="form-control"
+					type="text"
+					name="rate_from"
+					id="from"
+				/>
 			</div>
-			<div class="col-6">
-				<div class="form-floating mb-3">
-					<input
-						type="text"
-						class="form-control"
-						name="rate_to"
-						id="rate_to"
-						value={get_setting?.rate_to ?? ''}
-						placeholder="Currency Rate To"
-					/>
-					<label for="rate_to">Currency Rate To</label>
-				</div>
+			<div class="col-sm-4 pb-2">
+				<label class="form-label" for="rate_to">To {to_symbol}</label>
+				<input
+					value={get_currency?.rate_to ?? ''}
+					class="form-control"
+					type="text"
+					name="rate_to"
+					id="rate_to"
+				/>
+			</div>
+			<div class="col-sm-4 pb-2">
+				<label class="form-label" for="dialy_rate">Dialy rate {from_symbol}</label>
+				<input
+					value={get_currency?.dialy_rate ?? ''}
+					class="form-control"
+					type="text"
+					name="dialy_rate"
+					id="dialy_rate"
+				/>
 			</div>
 		</div>
 

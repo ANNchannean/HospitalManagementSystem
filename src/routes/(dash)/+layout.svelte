@@ -6,10 +6,9 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
-	import { inerHight, globalLoading } from '$lib/store';
+	import { inerHight, globalLoading, currency } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
 	$: ({ get_clinich_info, get_progress_note } = data);
-
 	$: {
 		$locale = data.lang ?? '';
 	}

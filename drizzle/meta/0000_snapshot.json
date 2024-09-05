@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "6ccf39da-a399-4961-b64c-21c6c1cdea0e",
+  "id": "d9f5d00c-7093-4114-a566-2d796f7818e5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "commune": {
@@ -1276,7 +1276,7 @@
         },
         "original_price": {
           "name": "original_price",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -1402,7 +1402,7 @@
         },
         "price": {
           "name": "price",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -1516,7 +1516,7 @@
         },
         "price": {
           "name": "price",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4060,7 +4060,7 @@
         },
         "sub_total": {
           "name": "sub_total",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4068,7 +4068,7 @@
         },
         "total": {
           "name": "total",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4076,7 +4076,7 @@
         },
         "total_after_tax": {
           "name": "total_after_tax",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4084,7 +4084,7 @@
         },
         "total_after_vat": {
           "name": "total_after_vat",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4092,7 +4092,7 @@
         },
         "paid": {
           "name": "paid",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4116,7 +4116,7 @@
         },
         "balance": {
           "name": "balance",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4218,7 +4218,7 @@
         },
         "price": {
           "name": "price",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4323,7 +4323,7 @@
         },
         "price": {
           "name": "price",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4331,7 +4331,7 @@
         },
         "total": {
           "name": "total",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4457,7 +4457,7 @@
         },
         "value": {
           "name": "value",
-          "type": "decimal(10,2)",
+          "type": "decimal(18,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -4737,6 +4737,126 @@
       "compositePrimaryKeys": {
         "words_id": {
           "name": "words_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "currency": {
+      "name": "currency",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "symbol": {
+          "name": "symbol",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "from_symbol": {
+          "name": "from_symbol",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "to_symbol": {
+          "name": "to_symbol",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "iso_code": {
+          "name": "iso_code",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rate_to": {
+          "name": "rate_to",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rate_from": {
+          "name": "rate_from",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dialy_rate": {
+          "name": "dialy_rate",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "currency_id": {
+          "name": "currency_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "currency_symbol_unique": {
+          "name": "currency_symbol_unique",
+          "columns": [
+            "symbol"
+          ]
+        },
+        "currency_from_symbol_unique": {
+          "name": "currency_from_symbol_unique",
+          "columns": [
+            "from_symbol"
+          ]
+        },
+        "currency_to_symbol_unique": {
+          "name": "currency_to_symbol_unique",
+          "columns": [
+            "to_symbol"
+          ]
+        },
+        "currency_iso_code_unique": {
+          "name": "currency_iso_code_unique",
+          "columns": [
+            "iso_code"
+          ]
+        }
+      }
+    },
+    "setting": {
+      "name": "setting",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "setting_id": {
+          "name": "setting_id",
           "columns": [
             "id"
           ]

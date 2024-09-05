@@ -35,7 +35,7 @@ export async function logErrorMessage(text: string) {
 		})
 			.format(new Date())
 			.concat('%0A')
-			.concat(text);
+			.concat(JSON.stringify(text));
 
 		const req = await fetch(
 			`https://api.telegram.org/bot${bot_token}/sendMessage?chat_id=${chat_id}&text=${msg}`,

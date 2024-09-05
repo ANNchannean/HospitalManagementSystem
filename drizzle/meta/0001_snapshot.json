@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "940284b2-ed9e-4216-b6d0-a4c02b2fafce",
-  "prevId": "6ccf39da-a399-4961-b64c-21c6c1cdea0e",
+  "id": "4ee74b1b-0e71-4426-b330-7b77c8a5dd68",
+  "prevId": "d9f5d00c-7093-4114-a566-2d796f7818e5",
   "tables": {
     "commune": {
       "name": "commune",
@@ -4737,6 +4737,113 @@
       "compositePrimaryKeys": {
         "words_id": {
           "name": "words_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "currency": {
+      "name": "currency",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "symbol": {
+          "name": "symbol",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "from_symbol": {
+          "name": "from_symbol",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "to_symbol": {
+          "name": "to_symbol",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rate_to": {
+          "name": "rate_to",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rate_from": {
+          "name": "rate_from",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dialy_rate": {
+          "name": "dialy_rate",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "currency_id": {
+          "name": "currency_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "currency_symbol_unique": {
+          "name": "currency_symbol_unique",
+          "columns": [
+            "symbol"
+          ]
+        },
+        "currency_from_symbol_unique": {
+          "name": "currency_from_symbol_unique",
+          "columns": [
+            "from_symbol"
+          ]
+        },
+        "currency_to_symbol_unique": {
+          "name": "currency_to_symbol_unique",
+          "columns": [
+            "to_symbol"
+          ]
+        }
+      }
+    },
+    "setting": {
+      "name": "setting",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "setting_id": {
+          "name": "setting_id",
           "columns": [
             "id"
           ]

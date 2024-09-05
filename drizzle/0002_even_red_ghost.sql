@@ -1,0 +1,1 @@
+ALTER TABLE `currency` MODIFY COLUMN `to_symbol` varchar(3) NOT NULL DEFAULT '$';
