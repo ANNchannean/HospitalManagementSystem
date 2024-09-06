@@ -2,10 +2,11 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import SubmitButton from '$lib/coms//SubmitButton.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	import type { PageServerData } from '../../routes/(dash)/laboratory/./$types';
-	type Data = Pick<PageServerData, 'get_visits' | 'get_laboratory_group'>;
+	type Data = Pick<PageServerData, 'get_visits' | 'get_laboratory_group' | 'get_currency'>;
 	export let data: Data;
-	$: ({ get_visits, get_laboratory_group } = data);
+	$: ({ get_visits, get_laboratory_group, get_currency } = data);
 	$: find_visit = get_visits[0];
 	let loading = false;
 </script>
@@ -52,7 +53,7 @@
 								<div class="card-body">
 									<div class="form-group row">
 										{#each item.product as iitem (iitem.id)}
-											<div class="col-sm-3 mb-3">
+											<div class="col-sm-4 mb-3">
 												<div class="form-check">
 													<input
 														name="product_id"
@@ -67,6 +68,7 @@
 													<label for={iitem.id.toString()} class="custom-control-label"
 														>{iitem.products}</label
 													>
+													<Currency {get_currency} among={iitem.price} />
 												</div>
 											</div>
 										{/each}

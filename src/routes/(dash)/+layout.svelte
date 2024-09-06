@@ -6,7 +6,7 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { invalidateAll } from '$app/navigation';
-	import { inerHight, globalLoading, currency } from '$lib/store';
+	import { inerHight, globalLoading } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
 	$: ({ get_clinich_info, get_progress_note } = data);
 	$: {
@@ -120,6 +120,11 @@
 			</ul>
 		</li>
 
+		<div class="d-sm-none d-md-block d-none d-sm-block">
+			<li class="nav-item">
+				<a class="nav-link btn btn-link active" href="/setting"><i class="fa-solid fa-gear"></i></a>
+			</li>
+		</div>
 		<div class="d-sm-none d-md-block d-none d-sm-block">
 			<li class="nav-item">
 				<button class="nav-link btn btn-link active" type="button">

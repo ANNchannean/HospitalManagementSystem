@@ -147,6 +147,7 @@ export const actions: Actions = {
 		if (!dob.trim()) validErr.dob = true;
 		if (!gender.trim()) validErr.gender = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
+
 		try {
 			await db
 				.update(patient)

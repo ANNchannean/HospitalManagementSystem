@@ -1,13 +1,11 @@
 import { db } from '$lib/server/db';
 import {
-	charge,
 	fileOrPicture,
 	laboratory,
 	laboratoryRequest,
 	laboratoryResult,
 	parameter,
 	product,
-	productOrder,
 	visit
 } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
@@ -15,8 +13,10 @@ import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram';
+import { createProductOrder, deleteProductOrder } from '$lib/server/models';
 export const load = (async ({ parent }) => {
 	await parent();
+	const get_currency = await db.query.currency.findFirst({});
 	const get_visits = await db.query.visit.findMany({
 		with: {
 			billing: true,
@@ -64,7 +64,8 @@ export const load = (async ({ parent }) => {
 	});
 	return {
 		get_visits,
-		get_laboratory_group
+		get_laboratory_group,
+		get_currency
 	};
 }) satisfies PageServerLoad;
 
@@ -101,31 +102,15 @@ export const actions: Actions = {
 			(e) => e.charge_on === 'laboratory'
 		);
 		for (const e of product_id) {
-			const is_created = get_visit?.laboratoryRequest.find((ee) => ee.product_id === +e);
+			const is_created = get_visit?.laboratoryRequest.some((ee) => ee.product_id === +e);
 			if (!is_created) {
 				const get_product = await db.query.product.findFirst({
 					where: eq(product.id, +e)
 				});
-				await db
-					.insert(laboratoryRequest)
-					.values({
-						product_id: +e,
-						visit_id: get_visit?.id
-					})
-					.catch((e) => {
-						logErrorMessage(e);
-					});
-				await db
-					.insert(productOrder)
-					.values({
-						created_at: now_datetime(),
-						charge_id: charge_on_laboratory!.id,
-						product_id: +e,
-						price: get_product!.price
-					})
-					.catch((e) => {
-						logErrorMessage(e);
-					});
+				await db.insert(laboratoryRequest).values({
+					product_id: +e,
+					visit_id: get_visit?.id
+				});
 				if (get_visit?.laboratory?.id) {
 					await db
 						.update(laboratory)
@@ -149,10 +134,15 @@ export const actions: Actions = {
 							logErrorMessage(e);
 						});
 				}
+				await createProductOrder({
+					charge_id: Number(charge_on_laboratory?.id),
+					price: Number(get_product?.price),
+					product_id: Number(+e)
+				});
 			}
 		}
 		for (const e of get_visit!.laboratoryRequest) {
-			const is_created = product_id.find((ee) => +ee === e.product_id);
+			const is_created = product_id.some((ee) => +ee === e.product_id);
 			if (!is_created) {
 				const product_order_ = charge_on_laboratory?.productOrder.find(
 					(ee) => ee.product_id === e.product_id
@@ -163,33 +153,12 @@ export const actions: Actions = {
 					.catch((e) => {
 						logErrorMessage(e);
 					});
-				await db
-					.delete(productOrder)
-					.where(eq(productOrder.id, product_order_!.id))
-					.catch((e) => {
-						logErrorMessage(e);
-					});
+
+				await deleteProductOrder(Number(product_order_?.id)).catch((e) => {
+					logErrorMessage(e);
+				});
 			}
 		}
-		const get_charge = await db.query.charge.findFirst({
-			where: eq(charge.id, charge_on_laboratory!.id),
-			with: {
-				productOrder: true
-			}
-		});
-		const total_charge_on_imagerie = get_charge?.productOrder.reduce(
-			(store, e) => store + Number(e.price),
-			0
-		);
-		await db
-			.update(charge)
-			.set({
-				price: total_charge_on_imagerie
-			})
-			.where(eq(charge.id, charge_on_laboratory!.id))
-			.catch((e) => {
-				logErrorMessage(e);
-			});
 	},
 	create_laboratory_result: async ({ request }) => {
 		const body = await request.formData();

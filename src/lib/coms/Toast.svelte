@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	export let show = false;
 	export let toas = 'infomation' as 'success' | 'infomation' | 'error';
@@ -11,11 +10,6 @@
 			}, 2500);
 		}
 	}
-	// onMount(() => {
-	// 	setTimeout(() => {
-	// 		show = false;
-	// 	}, 2500);
-	// });
 </script>
 
 {#if show}

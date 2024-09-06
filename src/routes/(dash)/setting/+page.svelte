@@ -6,21 +6,23 @@
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	$: ({ get_currency } = data);
-	let price = 22.22;
-	let conerting: string;
-	$: {
-		if (get_currency?.symbol === get_currency?.from_symbol) {
-			conerting = Intl.NumberFormat('en-US')
-				.format(Math.ceil(price * Number(get_currency?.rate_from)) / Number(get_currency?.rate_to))
-				.concat(` ${get_currency?.from_symbol}`);
-		} else {
-			conerting = Intl.NumberFormat('en-US').format(price).concat(` ${get_currency?.to_symbol}`);
-		}
-	}
 	let loading = false;
 	let show_toas = false;
 	let from_symbol = data.get_currency?.from_symbol ?? '';
 	let to_symbol = data.get_currency?.to_symbol ?? '';
+
+	let amount: string = '';
+	let value: string = '';
+	$: {
+		if (get_currency?.symbol === get_currency?.from_symbol) {
+			const p = Number(value) / Number(get_currency?.rate_from);
+			amount = p.toFixed(2);
+		} else if (get_currency?.symbol === get_currency?.to_symbol) {
+			amount = value;
+		} else {
+			amount = value;
+		}
+	}
 </script>
 
 <Toast bind:show={show_toas} toas="success" message="រក្សាទុក្ខបានជោគជ័យ!" />
@@ -45,8 +47,21 @@
 		</ol>
 	</div>
 </div>
+<br />
+<div class="input-group">
+	<span class="input-group-text">{get_currency?.symbol ?? ''}</span>
+	<input bind:value step="any" type="number" class="form-control" />
+	<input type="hidden" value="amoung" name="amoung" />
+</div>
+{amount ?? ''}
+<br />
+<Currency among={22} {get_currency} />
+<br />
 
-<div class="col">
+<div class="card">
+	<div class="card-header">
+		<span class="fs-5">#Currency</span>
+	</div>
 	<form
 		method="post"
 		use:enhance={() => {
@@ -59,7 +74,7 @@
 				}
 			};
 		}}
-		class="alert alert-secondary"
+		class="card-body"
 		action="?/create_currency"
 	>
 		<input value={get_currency?.id ?? ''} type="hidden" name="currency_id" />
