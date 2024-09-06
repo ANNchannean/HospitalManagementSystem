@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { PageServerData } from '../../routes/(dash)/patient/all/$types';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_patients'>;
+	export let data: Data;
 	export let patient_id: number;
 	$: ({ get_patients } = data);
-	$: find_patient = get_patients.find((e) => e.id === patient_id);
+	$: find_patient = get_patients[0];
 </script>
 
 <div class="modal fade modal-xl" id="view-patient" data-bs-backdrop="static">

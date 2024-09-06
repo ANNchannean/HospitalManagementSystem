@@ -3,11 +3,12 @@
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { t } from '$lib/translations';
+	type Data = Pick<PageServerData, 'get_staffs'>;
 	export let form: ActionData;
-	export let data: PageServerData;
+	export let data: Data;
 	export let staff_id: number;
 	$: ({ get_staffs } = data);
-	$: find_staff = get_staffs.find((e) => e.id === staff_id);
+	$: find_staff = get_staffs[0];
 	let loading = false;
 </script>
 

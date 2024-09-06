@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
 	import Select from '$lib/coms/Select.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { PageServerData } from '../../routes/(dash)/imagerie/$types';
-
+	type Data = Pick<PageServerData, 'get_imagerie_templates' | 'get_imagerie_request'>;
 	export let imagerie_request_id: number;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_imagerie_templates, get_imagerie_request } = data);
-	$: find_imagerie_request = get_imagerie_request.find((e) => e.id === imagerie_request_id);
+	$: find_imagerie_request = get_imagerie_request[0];
 	let loading = false;
 	let imagerie_templage = '';
 	$: age_p_visit = dobToAge({

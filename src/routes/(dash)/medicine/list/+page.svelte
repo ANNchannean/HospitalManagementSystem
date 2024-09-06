@@ -7,12 +7,19 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
-	$: ({ get_products, get_currency } = data);
-	$: find_medicine = get_products.find((e) => e.id === product_id);
+	$: ({ get_products, get_currency, get_unit_as_medicineType } = data);
+	$: find_medicine = get_products.filter((e) => e.id === product_id);
 </script>
 
-<DeleteModal action="?/delete_medicine" id={find_medicine?.id} />
-<CreateMedicine {form} {product_id} {data} />
+<DeleteModal action="?/delete_medicine" id={find_medicine[0]?.id} />
+<CreateMedicine
+	{form}
+	bind:product_id
+	data={{
+		get_products: find_medicine,
+		get_unit_as_medicineType: get_unit_as_medicineType
+	}}
+/>
 
 <div class="row">
 	<div class="col-sm-6">
@@ -85,7 +92,6 @@
 									<div>
 										<button
 											on:click={() => {
-												product_id = 0;
 												product_id = item.id;
 											}}
 											type="button"
@@ -96,7 +102,6 @@
 										</button>
 										<button
 											on:click={() => {
-												product_id = 0;
 												product_id = item.id;
 											}}
 											type="button"

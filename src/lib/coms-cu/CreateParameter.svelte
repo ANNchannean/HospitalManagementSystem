@@ -8,8 +8,9 @@
 	import { t } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
+	type Data = Pick<PageServerData, 'get_units'>;
 	export let form: ActionData;
-	export let data: PageServerData;
+	export let data: Data;
 	export let product_id: number | undefined;
 	let loading = false;
 	$: ({ get_units } = data);

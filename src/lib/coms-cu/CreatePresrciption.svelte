@@ -9,7 +9,11 @@
 	import Select from '$lib/coms/Select.svelte';
 	import CreateDuration from '$lib/coms-cu/CreateDuration.svelte';
 	import CreateUse from '$lib/coms-cu/CreateUse.svelte';
-	export let data: PageServerData;
+	type Data = Pick<
+		PageServerData,
+		'get_products' | 'get_prescriptions' | 'get_units_as_medicine' | 'get_uses' | 'get_durations'
+	>;
+	export let data: Data;
 	export let form: ActionData;
 	export let prescription_id: number;
 	export let unit_id: number;
@@ -20,8 +24,13 @@
 </script>
 
 <DeleteModal action="?/delete_prescription" id={find_prescription?.id} />
-<CreateDuration {data} {form} />
-<CreateUse {data} {form} />
+<CreateDuration data={{ get_durations }} {form} />
+<CreateUse
+	data={{
+		get_uses
+	}}
+	{form}
+/>
 <!-- @_List_Parameter -->
 <div class="modal fade" id="create_prescription" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">

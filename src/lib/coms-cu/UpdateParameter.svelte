@@ -3,18 +3,18 @@
 		ActionData,
 		PageServerData
 	} from '../../routes/(dash)/settup/parameter/[id]/$types';
-
+	type Data = Pick<PageServerData, 'get_units' | 'get_parameters'>;
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	export let form: ActionData;
-	export let data: PageServerData;
+	export let data: Data;
 	export let parameter_id: number;
 	let loading = false;
 	$: ({ get_units, get_parameters } = data);
-	$: find_parameter = get_parameters.find((e) => e.id === parameter_id);
+	$: find_parameter = get_parameters[0];
 </script>
 
 <!-- @_Add_Parameter -->

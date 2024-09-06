@@ -6,16 +6,22 @@
 	import { globalLoading, inerHight } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_visits, get_departments, get_staffs } = data);
+	$: ({ get_visits, get_departments, get_staffs, get_form_documents } = data);
 	let editEtiology = false;
 	let editDepartment = false;
 	let editDoctor = false;
 	let visit_id = 0;
 	let billing_id = 0;
+	$: find_visit = get_visits.filter((e) => e.id === visit_id);
 </script>
 
 <DeleteModal action="?/delete_visit" id={visit_id} />
-<CreateDocument {data} {visit_id} />
+<CreateDocument
+	data={{
+		get_form_documents: get_form_documents,
+		get_visits: find_visit
+	}}
+/>
 <ConfirmeModal action="?/process_billing" id={billing_id} />
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -266,7 +272,6 @@
 									<button
 										disabled={item.transfer}
 										on:click={() => {
-											visit_id = 0;
 											visit_id = Number(item?.id);
 										}}
 										data-bs-toggle="modal"
@@ -292,7 +297,6 @@
 											disabled={item.transfer}
 											type="button"
 											on:click={() => {
-												billing_id = 0;
 												billing_id = Number(item?.billing?.id);
 											}}
 											data-bs-toggle="modal"
@@ -302,7 +306,6 @@
 									{:else}
 										<button
 											on:click={() => {
-												billing_id = 0;
 												billing_id = Number(item?.billing?.id);
 											}}
 											type="button"
@@ -329,7 +332,6 @@
 										<button
 											disabled={item.transfer}
 											on:click={() => {
-												visit_id = 0;
 												visit_id = item.id;
 											}}
 											type="button"

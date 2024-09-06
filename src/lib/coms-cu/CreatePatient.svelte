@@ -6,8 +6,9 @@
 	import { t } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
 	import { dobToAge, now_date } from '$lib/helper';
+	type Data = Pick<PageServerData, 'get_patients' | 'get_province'>;
 	export let form: ActionData;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_province, get_patients } = data);
 	let loading = false;
 	export let patient_id: number;
@@ -17,7 +18,7 @@
 	export let village_id: number;
 	export let age: number = 0;
 	export let dob: string = '';
-	$: find_patient = get_patients.find((e) => e.id === patient_id);
+	$: find_patient = get_patients[0];
 	$: dob = dob ? dob : now_date(new Date().toISOString());
 	$: find_province = get_province.find((e) => e.id === province_id);
 	$: find_district = find_province?.district.find((e) => e.id === district_id);

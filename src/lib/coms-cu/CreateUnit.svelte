@@ -4,12 +4,12 @@
 	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/unit/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Select from '$lib/coms/Select.svelte';
+	type Data = Pick<PageServerData, 'get_units' | 'get_product_group_types'>;
 	export let form: ActionData;
 	export let unit_id: number;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_units, get_product_group_types } = data);
-	$: find_unit = get_units.find((e) => e.id === unit_id);
-
+	$: find_unit = get_units[0];
 	let loading = false;
 </script>
 

@@ -2,10 +2,11 @@
 	import type { PageServerData } from '../../routes/(dash)/settup/physical-exam/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_examas'>;
+	export let data: Data;
 	export let exam_id: number;
 	$: ({ get_examas } = data);
-	$: find_exam = get_examas.find((e) => e.id === exam_id);
+	$: find_exam = get_examas[0];
 	let loading = false;
 </script>
 

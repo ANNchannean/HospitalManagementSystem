@@ -5,7 +5,6 @@
 	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
 	export let data: PageServerData;
 	$: ({ get_billing, get_payment_types } = data);
-
 	let loading = false;
 	let disc = '';
 	$: final_disc = disc.includes('%')

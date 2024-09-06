@@ -4,7 +4,7 @@
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_vaccine_group, get_visit,get_currency } = data);
+	$: ({ get_vaccine_group, get_visit, get_currency } = data);
 	$: total_vaccine_service = get_visit?.billing?.charge.find(
 		(e) => e.charge_on === 'vaccine'
 	)?.price;

@@ -3,10 +3,10 @@
 	import { goto } from '$app/navigation';
 	import SubmitButton from '$lib/coms//SubmitButton.svelte';
 	import type { PageServerData } from '../../routes/(dash)/laboratory/./$types';
-	export let data: PageServerData;
-	export let visit_id: number;
+	type Data = Pick<PageServerData, 'get_visits' | 'get_laboratory_group'>;
+	export let data: Data;
 	$: ({ get_visits, get_laboratory_group } = data);
-	$: find_visit = get_visits.find((e) => e.id === visit_id);
+	$: find_visit = get_visits[0];
 	let loading = false;
 </script>
 

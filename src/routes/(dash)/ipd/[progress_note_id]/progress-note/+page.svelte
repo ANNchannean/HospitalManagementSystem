@@ -6,14 +6,18 @@
 	import SaopNote from '$lib/coms-ipd/SaopNote.svelte';
 	import ParaClinic from '$lib/coms-ipd/ParaClinic.svelte';
 	import Treatment from '$lib/coms-ipd/Treatment.svelte';
-	import ConfirmSubmit from '$lib/coms/ConfirmSubmit.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
-	$: ({ get_progress_note, removeDuplicateDate, get_exams,get_currency } = data);
+	$: ({ get_progress_note, removeDuplicateDate, get_exams, get_currency, get_staffs } = data);
 </script>
 
 <DeleteModal id={visit_id} action="?/delete_visit_ipd" />
-<CreateVisitIpd {data} />
+<CreateVisitIpd
+	data={{
+		get_progress_note: get_progress_note,
+		get_staffs: get_staffs
+	}}
+/>
 <div class="card-header">
 	<div class="d-grid gap-2 d-md-flex justify-content-between">
 		<button
@@ -95,7 +99,7 @@
 										</td>
 										<td style="width: 30%;vertical-align:top;">
 											<fieldset disabled={item.billing?.status !== 'active'}>
-												<Treatment {get_currency} {find_old_visit}  />
+												<Treatment {get_currency} {find_old_visit} />
 											</fieldset>
 										</td>
 									</tr>

@@ -2,10 +2,11 @@
 	import type { PageServerData } from '../../routes/(dash)/ipd/[progress_note_id]/vital-sign/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_vital_sing_ipd'>;
+	export let data: Data;
 	export let vital_sign_id: number;
 	$: ({ get_vital_sing_ipd } = data);
-	$: find_vital_sign_ipd = get_vital_sing_ipd.find((e) => e.id === vital_sign_id);
+	$: find_vital_sign_ipd = get_vital_sing_ipd[0];
 	let loading = false;
 </script>
 

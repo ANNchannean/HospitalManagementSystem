@@ -3,10 +3,10 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import type { PageServerData } from '../../routes/(dash)/patient/opd/$types';
-	export let data: PageServerData;
-	export let visit_id: number;
+	type Data = Pick<PageServerData, 'get_visits' | 'get_form_documents'>;
+	export let data: Data;
 	$: ({ get_visits, get_form_documents } = data);
-	$: find_visit = get_visits.find((e) => e.id === visit_id);
+	$: find_visit = get_visits[0];
 	let loading = false;
 	let document_id = 0;
 </script>

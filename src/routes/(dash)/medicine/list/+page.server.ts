@@ -25,7 +25,8 @@ export const load = (async () => {
 	return {
 		get_products,
 		get_product_group_type,
-		get_unit_as_medicineType,get_currency
+		get_unit_as_medicineType,
+		get_currency
 	};
 }) satisfies PageServerLoad;
 

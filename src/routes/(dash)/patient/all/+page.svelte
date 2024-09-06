@@ -4,14 +4,13 @@
 	import CreatePatient from '$lib/coms-cu/CreatePatient.svelte';
 	import { inerHight } from '$lib/store';
 	import VIewProfilePatient from '$lib/coms/VIewProfilePatient.svelte';
-	import { invalidateAll } from '$app/navigation';
 	import { dobToAge } from '$lib/helper';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
+	$: ({ get_patients, get_province } = data);
+	$: find_patient = get_patients.filter((e) => e.id === patient_id);
 	let patient_id: number;
-	$: ({ get_patients } = data);
-	$: find_patient = get_patients.find((e) => e.id === patient_id);
 	let province_id: number;
 	let district_id: number;
 	let commune_id: number;
@@ -20,18 +19,26 @@
 	let dob: string = '';
 </script>
 
-<VIewProfilePatient {patient_id} {data} />
-<DeleteModal action="?/delete_patient" id={find_patient?.id} />
+<VIewProfilePatient
+	bind:patient_id
+	data={{
+		get_patients: find_patient
+	}}
+/>
+<DeleteModal action="?/delete_patient" id={find_patient[0]?.id} />
 <CreatePatient
-	{data}
+	data={{
+		get_province: get_province,
+		get_patients: find_patient
+	}}
 	{form}
-	{patient_id}
-	{province_id}
-	{district_id}
-	{commune_id}
-	{village_id}
-	{age}
-	{dob}
+	bind:patient_id
+	bind:province_id
+	bind:district_id
+	bind:commune_id
+	bind:village_id
+	bind:age
+	bind:dob
 />
 <!-- @_Visite_Modal -->
 <div class="modal fade" id="modal-visite">
@@ -47,14 +54,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<a
-					href="/opd?patient_id={find_patient?.id}"
+					href="/opd?patient_id={find_patient[0]?.id}"
 					on:click={() => document.getElementById('close_visit_modal')?.click()}
 					class="btn btn-success btn-lg"
 					><i class=" fas fa-stethoscope fa-4x"> </i> <br /> <span>OPD</span></a
 				> <br />
 
 				<a
-					href="/ipd?patient_id={find_patient?.id}"
+					href="/ipd?patient_id={find_patient[0]?.id}"
 					on:click={() => document.getElementById('close_visit_modal')?.click()}
 					class="btn btn-danger btn-lg"
 					><i class=" fas fa-procedures fa-4x"> </i> <br /> <span>IPD</span></a
@@ -190,13 +197,6 @@
 										</button>
 										<button
 											on:click={() => {
-												dob = '';
-												age = 0;
-												province_id = 0;
-												district_id = 0;
-												commune_id = 0;
-												village_id = 0;
-												patient_id = 0;
 												patient_id = item.id;
 												province_id = Number(item.province_id);
 												district_id = Number(item.district_id);
@@ -214,7 +214,6 @@
 
 										<button
 											on:click={() => {
-												patient_id = 0;
 												patient_id = item.id;
 											}}
 											type="button"

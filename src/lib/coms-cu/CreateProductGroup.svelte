@@ -3,7 +3,8 @@
 	import type { PageServerData } from '../../routes/(dash)/product/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	let product_group_id: number;
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_product_group_type'>;
+	export let data: Data;
 	$: ({ get_product_group_type } = data);
 	$: find_product_group = get_product_group_type.find((e) => e.id === product_group_id);
 	let loading = false;

@@ -10,14 +10,15 @@
 	export let data: PageServerData;
 	const { get_visit, get_progress_note, get_beds } = data;
 	let etiology = get_visit?.etiology || get_progress_note?.etiology || '';
-	$: ({ get_staffs, get_patient, get_departments, get_words } = data);
+	$: ({ get_staffs, get_patient, get_departments, get_words, get_progress_notes, get_wards } =
+		data);
 
 	let bed_id: number = get_progress_note?.bed.id || 0;
 
 	$: find_bed = get_beds.find((e) => e.id === bed_id);
 </script>
 
-<AddBedToIpd bind:bed_id {data} />
+<AddBedToIpd bind:bed_id data={{ get_progress_notes, get_wards }} />
 <div class="row">
 	<div class="col-sm-6">
 		<h2 class="">New Visit IPD</h2>

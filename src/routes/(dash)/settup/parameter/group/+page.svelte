@@ -7,13 +7,21 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_lab_id: number;
-	$: ({ get_product_labo } = data);
-	$: find_product_labo = get_product_labo.find((e) => e.id === product_lab_id);
+	$: ({ get_product_labo, get_lab_groups, get_units } = data);
+	$: find_product_labo = get_product_labo.filter((e) => e.id === product_lab_id);
 </script>
 
-<CreateParameterGroup {data} {form} {product_lab_id} />
-<DeleteModal action="?/delete_parameter_group" id={find_product_labo?.id} />
-<CreateParameter {data} {form} product_id={find_product_labo?.id} />
+<CreateParameterGroup
+	data={{
+		get_lab_groups: get_lab_groups,
+		get_product_labo: find_product_labo
+	}}
+	{form}
+	bind:product_lab_id
+/>
+
+<DeleteModal action="?/delete_parameter_group" id={find_product_labo[0]?.id} />
+<CreateParameter data={{ get_units: get_units }} {form} product_id={find_product_labo[0]?.id} />
 
 <div class="row">
 	<div class="col-sm-6">
@@ -59,7 +67,7 @@
 					<div class="col-auto">
 						<button
 							on:click={() => {
-								product_lab_id = product_lab_id;
+								product_lab_id = 0;
 							}}
 							type="button"
 							class="btn btn-success"

@@ -6,10 +6,12 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import CreateProductGroup from '$lib/coms-cu/CreateProductGroup.svelte';
 	import CreateSubUnitForm from './CreateSubUnitForm.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_product_group_type' | 'get_units' | 'get_products'>;
+	type ProductProperies = Data['get_products'] extends undefined ? never : Data['get_products'];
+	export let data: Data;
 	export let form: ActionData;
 	export let product_id: number;
-	$: find_product = get_products.find((e) => e.id === product_id);
+	$: find_product = get_products[0];
 	let product_group_type_id = data.get_products.find((e) => e.id === product_id)?.group_type_id;
 	$: {
 		if (find_product?.group_type_id && !product_group_type_id) {
@@ -24,7 +26,7 @@
 	let main_unit_id = data.get_products.find((e) => e.id === product_id)?.unit_id;
 </script>
 
-<CreateProductGroup {data} />
+<CreateProductGroup data={{ get_product_group_type: get_product_group_type }} />
 <!-- @_Add_Product -->
 <div class="modal fade" id="create-product" data-bs-backdrop="static">
 	<div class="modal-dialog modal-xl">

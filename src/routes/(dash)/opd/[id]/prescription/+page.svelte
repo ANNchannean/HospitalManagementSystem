@@ -9,11 +9,29 @@
 	let prescription_id: number;
 	let unit_id: number;
 	let loading = false;
-	$: ({ get_prescriptions, get_advice_teaching } = data);
+	$: ({
+		get_advice_teaching,
+		get_products,
+		get_prescriptions,
+		get_units_as_medicine,
+		get_uses,
+		get_durations
+	} = data);
 	$: find_prescription = get_prescriptions.find((e) => e.id === prescription_id);
 </script>
 
-<CreatePresrciption {unit_id} {prescription_id} {data} {form} />
+<CreatePresrciption
+	bind:unit_id
+	bind:prescription_id
+	data={{
+		get_products,
+		get_prescriptions,
+		get_units_as_medicine,
+		get_uses,
+		get_durations
+	}}
+	{form}
+/>
 <DeleteModal action="?/delete_prescription" id={find_prescription?.id} />
 
 <div class="row">
@@ -97,9 +115,7 @@
 										<a
 											href={'#'}
 											on:click={() => {
-												prescription_id = 0;
 												prescription_id = item.id;
-												unit_id = 0;
 												unit_id = item.product?.unit_id ?? 0;
 											}}
 											type="button"
@@ -111,7 +127,6 @@
 										<a
 											href={'#'}
 											on:click={() => {
-												prescription_id = 0;
 												prescription_id = item.id;
 											}}
 											type="button"

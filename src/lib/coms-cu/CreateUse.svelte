@@ -7,9 +7,10 @@
 	} from '../../routes/(dash)/opd/[id]/prescription/$types';
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
+	type Data = Pick<PageServerData, 'get_uses'>;
 	export let form: ActionData;
 	let use_id: number;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_uses } = data);
 	$: find_use = get_uses.find((e) => e.id === use_id);
 	let loading = false;

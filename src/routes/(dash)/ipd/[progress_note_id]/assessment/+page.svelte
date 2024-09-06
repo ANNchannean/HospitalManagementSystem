@@ -2,27 +2,10 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
-	import Select from '$lib/coms/Select.svelte';
 	import Diagnosis from '$lib/coms/Diagnosis.svelte';
 	export let data: PageServerData;
 	$: ({ get_diagnosis, get_diagnosisTypes } = data);
-	let diagnosis_type_id: number;
-	$: find_diagnosis = get_diagnosis.filter(
-		(e) => e.diagnosis_type_id === Number(diagnosis_type_id)
-	);
-	let diagnosis: string = '';
-	let diagnosis_1 = data.get_accessment?.differential_diagnosis ?? '';
 	let loading = false;
-	function add() {
-		if (diagnosis) {
-			diagnosis_ = diagnosis_.concat(diagnosis).concat(',');
-		}
-	}
-	function add1() {
-		if (diagnosis) {
-			diagnosis_1 = diagnosis_1.concat(diagnosis).concat(',');
-		}
-	}
 	let diagnosis_ = data.get_accessment?.diagnosis_or_problem ?? '';
 	let differential = data.get_accessment?.differential_diagnosis ?? '';
 </script>

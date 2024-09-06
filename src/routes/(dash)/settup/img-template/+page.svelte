@@ -8,12 +8,18 @@
 	export let form: ActionData;
 	let template_id: number;
 	$: ({ get_templates } = data);
-	$: find_template = get_templates.find((e) => e.id === template_id);
+	$: find_template = get_templates.filter((e) => e.id === template_id);
 </script>
 
-<CreateTemplate {data} {form} {template_id} />
-<RichText {data} {template_id} />
-<DeleteModal action="?/delete_template" id={find_template?.id} />
+<CreateTemplate
+	data={{
+		get_templates: find_template
+	}}
+	{form}
+	{template_id}
+/>
+<RichText data={{ get_templates: find_template }} bind:template_id />
+<DeleteModal action="?/delete_template" id={find_template[0]?.id} />
 
 <div class="row">
 	<div class="col-sm-6">
@@ -89,10 +95,8 @@
 									{item.diagnosis}
 								</td>
 								<td>
-									<a
-										href={'#'}
+									<button
 										on:click={() => {
-											template_id = 0;
 											template_id = item.id;
 										}}
 										type="button"
@@ -100,14 +104,12 @@
 										data-bs-toggle="modal"
 										data-bs-target="#template_view"
 										><i class="fa-regular fa-folder-open"></i>
-									</a>
+									</button>
 								</td>
 								<td>
 									<div>
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
-												template_id = 0;
 												template_id = item.id;
 											}}
 											type="button"
@@ -115,11 +117,9 @@
 											data-bs-toggle="modal"
 											data-bs-target="#create_template"
 											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
-												template_id = 0;
 												template_id = item.id;
 											}}
 											type="button"
@@ -127,7 +127,7 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

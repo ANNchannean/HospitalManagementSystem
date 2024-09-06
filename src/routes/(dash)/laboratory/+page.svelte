@@ -7,11 +7,17 @@
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
-	$: ({ get_visits } = data);
+	$: ({ get_visits, get_laboratory_group } = data);
+	$: find_visit = get_visits.filter((e) => e.id === visit_id);
 </script>
 
-<CreateLaboratoryResult {data} {visit_id} />
-<UpdateLaboratoryReq {data} {visit_id} />
+<CreateLaboratoryResult data={{ get_visits: find_visit }} bind:visit_id />
+<UpdateLaboratoryReq
+	data={{
+		get_laboratory_group,
+		get_visits: find_visit
+	}}
+/>
 <!-- @_Visite_Modal -->
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -120,7 +126,6 @@
 											<button
 												on:click={() => {
 													invalidateAll();
-													visit_id = 0;
 													visit_id = item.id;
 												}}
 												data-bs-toggle="modal"
@@ -133,7 +138,6 @@
 											<button
 												on:click={() => {
 													invalidateAll();
-													visit_id = 0;
 													visit_id = item.id;
 												}}
 												data-bs-toggle="modal"
@@ -150,7 +154,6 @@
 												type="button"
 												on:click={() => {
 													invalidateAll();
-													visit_id = 0;
 													visit_id = item.id;
 												}}
 												data-bs-toggle="modal"

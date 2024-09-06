@@ -9,7 +9,7 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
-	$: ({ get_products, get_product_group_type, get_currency } = data);
+	$: ({ get_products, get_product_group_type, get_currency, get_units } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -23,10 +23,19 @@
 		product_id = 0;
 		product_id = id;
 	}
+	$: find_product = get_products.filter((e) => e.id === product_id);
 </script>
 
 <DeleteModal action="?/delete_product" id={get_products.find((e) => e.id === product_id)?.id} />
-<CreateProduct {data} {form} {product_id} />
+<CreateProduct
+	data={{
+		get_product_group_type: get_product_group_type,
+		get_units: get_units,
+		get_products: find_product
+	}}
+	{form}
+	bind:product_id
+/>
 {#if form?.serverError}
 	<Toast toas="error" message="Can't delete" />
 {/if}
@@ -159,7 +168,6 @@
 										</button>
 										<button
 											on:click={() => {
-												product_id = 0;
 												product_id = item.id;
 											}}
 											type="button"

@@ -4,11 +4,12 @@
 	import type { PageServerData, ActionData } from '../../routes/(dash)/medicine/list/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Select from '$lib/coms/Select.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_unit_as_medicineType' | 'get_products'>;
+	export let data: Data;
 	export let form: ActionData;
 	export let product_id: number;
 	$: ({ get_unit_as_medicineType, get_products } = data);
-	$: find_medicine = get_products.find((e) => e.id === product_id);
+	$: find_medicine = get_products[0];
 	let loading = false;
 </script>
 

@@ -2,7 +2,8 @@
 	import type { PageServerData } from '../../routes/(dash)/opd/[id]/objective/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_visit'>;
+	export let data: Data;
 	$: ({ get_visit } = data);
 	let loading = false;
 	let height: number = data.get_visit?.vitalSign?.height || 0;

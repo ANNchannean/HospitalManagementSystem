@@ -7,12 +7,12 @@
 		ActionData,
 		PageServerData
 	} from '../../routes/(dash)/opd/[id]/prescription/$types';
-
+	type Data = Pick<PageServerData, 'get_durations'>;
 	export let form: ActionData;
 	let duration_id: number;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_durations } = data);
-	$: find_duration = get_durations.find((e) => e.id === duration_id);
+	$: find_duration = get_durations[0];
 	let loading = false;
 </script>
 

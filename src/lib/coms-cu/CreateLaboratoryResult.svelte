@@ -6,11 +6,11 @@
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { PageServerData } from '../../routes/(dash)/laboratory/$types';
-
+	type Data = Pick<PageServerData, 'get_visits'>;
 	export let visit_id: number;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_visits } = data);
-	$: find_visit = get_visits.find((e) => e.id === visit_id);
+	$: find_visit = get_visits[0];
 	let loading = false;
 	$: age_p_visit = dobToAge({
 		dob: find_visit?.patient.dob ?? '',

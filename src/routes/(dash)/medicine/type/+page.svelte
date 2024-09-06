@@ -7,12 +7,17 @@
 	export let data: PageServerData;
 	$: ({ get_unit_as_medicine } = data);
 	let unit_id: number;
-	$: find_unit = get_unit_as_medicine.find((e) => e.id === unit_id);
+	$: find_unit = get_unit_as_medicine.filter((e) => e.id === unit_id);
 </script>
 
-<DeleteModal action="?/delete_medicine_type" id={find_unit?.id} />
-<CreateMedicineType {form} {data} {unit_id} />
-
+<DeleteModal action="?/delete_medicine_type" id={find_unit[0]?.id} />
+<CreateMedicineType
+	{form}
+	data={{
+		get_unit_as_medicine: find_unit
+	}}
+	bind:unit_id
+/>
 <div class="row">
 	<div class="col-sm-6">
 		<h2 class="">Medicine Type</h2>
@@ -77,8 +82,7 @@
 
 								<td>
 									<div>
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
 												unit_id = item.id;
 											}}
@@ -87,11 +91,9 @@
 											data-bs-toggle="modal"
 											data-bs-target="#create-medicine-type"
 											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
-												unit_id = 0;
 												unit_id = item.id;
 											}}
 											type="button"
@@ -99,7 +101,7 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

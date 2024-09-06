@@ -2,10 +2,11 @@
 	import type { PageServerData } from '../../routes/(dash)/ipd/[progress_note_id]/nursing-process/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_nursing_process'>;
+	export let data: Data;
 	export let nursing_process_id: number;
 	$: ({ get_nursing_process } = data);
-	$: find_nursing_process = get_nursing_process.find((e) => e.id === nursing_process_id);
+	$: find_nursing_process = get_nursing_process[0];
 	let loading = false;
 </script>
 

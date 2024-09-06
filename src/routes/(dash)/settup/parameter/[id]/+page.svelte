@@ -7,12 +7,19 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 	let parameter_id: number;
-	$: ({ get_parameters, get_product_labo } = data);
-	$: find_parameter = get_parameters.find((e) => e.id === parameter_id);
+	$: ({ get_parameters, get_product_labo, get_units } = data);
+	$: find_parameter = get_parameters.filter((e) => e.id === parameter_id);
 </script>
 
-<DeleteModal action="?/delete_parameter" id={find_parameter?.id} />
-<UpdateParameter {data} {form} {parameter_id} />
+<DeleteModal action="?/delete_parameter" id={find_parameter[0]?.id} />
+<UpdateParameter
+	data={{
+		get_units: get_units,
+		get_parameters: find_parameter
+	}}
+	{form}
+	bind:parameter_id
+/>
 
 <div class="row">
 	<div class="col-sm-6">

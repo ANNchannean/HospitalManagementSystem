@@ -26,7 +26,11 @@
 	});
 </script>
 
-<CreateVitalSign {data} />
+<CreateVitalSign
+	data={{
+		get_visit: get_visit
+	}}
+/>
 <!-- VitalSign  -->
 
 <div class="card">

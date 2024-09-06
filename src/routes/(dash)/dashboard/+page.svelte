@@ -13,7 +13,6 @@
 <CurrencySimble exchange={5000} value={2000.222} />
 <Html2Pdf id="one" />
 
-
 <h1 id="one" class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">
 	<li class="breadcrumb-item"><a href="/">Home</a></li>

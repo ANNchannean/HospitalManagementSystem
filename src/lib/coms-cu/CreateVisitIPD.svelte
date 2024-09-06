@@ -4,7 +4,8 @@
 	import type { PageServerData } from '../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
 	import Select from '$lib/coms/Select.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_progress_note' | 'get_staffs'>;
+	export let data: Data;
 	$: ({ get_progress_note, get_staffs } = data);
 	$: age_p_visit = dobToAge({
 		dob: get_progress_note!.patient.dob,

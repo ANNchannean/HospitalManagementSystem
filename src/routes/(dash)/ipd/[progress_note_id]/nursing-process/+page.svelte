@@ -6,9 +6,15 @@
 	export let data: PageServerData;
 	let nursing_process_id: number;
 	$: ({ get_nursing_process } = data);
+	$: find_nursing_process = get_nursing_process.filter((e) => e.id === nursing_process_id);
 </script>
 
-<CreateNursingProcess {data} {nursing_process_id} />
+<CreateNursingProcess
+	data={{
+		get_nursing_process: find_nursing_process
+	}}
+	bind:nursing_process_id
+/>
 <DeleteModal action="?/delete_nursing_process" id={nursing_process_id} />
 <!-- VitalSign  -->
 
@@ -67,7 +73,6 @@
 									data-bs-toggle="modal"
 									data-bs-target="#create_nursing_process"
 									on:click={() => {
-										nursing_process_id = 0;
 										nursing_process_id = item.id;
 									}}
 									><i class="fa-solid fa-file-pen"></i>
@@ -78,7 +83,6 @@
 									data-bs-toggle="modal"
 									data-bs-target="#delete_modal"
 									on:click={() => {
-										nursing_process_id = 0;
 										nursing_process_id = item.id;
 									}}
 									><i class="fa-solid fa-trash-can"></i>

@@ -7,12 +7,13 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { t } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
+	type Data = Pick<PageServerData, 'get_lab_groups' | 'get_product_labo'>;
 	export let form: ActionData;
-	export let data: PageServerData;
+	export let data: Data;
 	export let product_lab_id: number;
 	let loading = false;
 	$: ({ get_lab_groups, get_product_labo } = data);
-	$: find_product_labo = get_product_labo.find((e) => e.id === product_lab_id);
+	$: find_product_labo = get_product_labo[0];
 </script>
 
 <!-- @_Add_ParameterGrop -->

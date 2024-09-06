@@ -6,9 +6,15 @@
 	export let data: PageServerData;
 	let vital_sign_id: number;
 	$: ({ get_vital_sing_ipd } = data);
+	$: find_vital_sind = get_vital_sing_ipd.filter((e) => e.id === vital_sign_id);
 </script>
 
-<CreateVitalSignIpd {data} {vital_sign_id} />
+<CreateVitalSignIpd
+	data={{
+		get_vital_sing_ipd: find_vital_sind
+	}}
+	bind:vital_sign_id
+/>
 <DeleteModal action="?/delete_vital_sign" id={vital_sign_id} />
 <!-- VitalSign  -->
 
@@ -92,7 +98,6 @@
 									data-bs-toggle="modal"
 									data-bs-target="#create_vital_sign_ipd"
 									on:click={() => {
-										vital_sign_id = 0;
 										vital_sign_id = item.id;
 									}}
 									><i class="fa-solid fa-file-pen"></i>
@@ -103,7 +108,6 @@
 									data-bs-toggle="modal"
 									data-bs-target="#delete_modal"
 									on:click={() => {
-										vital_sign_id = 0;
 										vital_sign_id = item.id;
 									}}
 									><i class="fa-solid fa-trash-can"></i>

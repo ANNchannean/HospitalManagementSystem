@@ -4,14 +4,13 @@
 	import { inerHight } from '$lib/store';
 	import CreateUser from '$lib/coms-cu/CreateUser.svelte';
 	export let data: PageServerData;
-
 	let user_id: string;
-	$: ({ get_users } = data);
-	$: find_user = get_users.find((e) => e.id === user_id);
+	$: ({ get_users, get_staffs } = data);
+	$: find_user = get_users.filter((e) => e.id === user_id);
 </script>
 
-<CreateUser {data} {user_id} />
-<DeleteModal action="?/delete_user" slug={find_user?.id} />
+<CreateUser data={{ get_staffs: get_staffs, get_users: find_user }} bind:user_id />
+<DeleteModal action="?/delete_user" slug={find_user[0]?.id} />
 <!-- @_Visite_Modal -->
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -96,10 +95,8 @@
 								<td>{item.role ?? ''} </td>
 								<td>
 									<div>
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
-												user_id = '';
 												user_id = item.id;
 											}}
 											type="button"
@@ -107,11 +104,9 @@
 											data-bs-toggle="modal"
 											data-bs-target="#create_user"
 											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
-												user_id = '';
 												user_id = item.id;
 											}}
 											type="button"
@@ -119,11 +114,9 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
-												user_id = '';
 												user_id = item.id;
 											}}
 											type="button"
@@ -131,7 +124,7 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-key"></i>
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

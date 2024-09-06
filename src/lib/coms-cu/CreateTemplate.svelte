@@ -2,13 +2,14 @@
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
 	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/img-template/$types';
+	type Data = Pick<PageServerData, 'get_templates'>;
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	export let form: ActionData;
 	export let template_id: number;
-	export let data: PageServerData;
+	export let data: Data;
 	$: ({ get_templates } = data);
-	$: find_template = get_templates.find((e) => e.id === template_id);
+	$: find_template = get_templates[0];
 	let loading = false;
 </script>
 

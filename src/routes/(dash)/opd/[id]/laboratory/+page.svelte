@@ -5,7 +5,7 @@
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_laboratory_group, get_visit,get_currency } = data);
+	$: ({ get_laboratory_group, get_visit, get_currency } = data);
 	$: total_laboratory = get_visit?.billing?.charge.find((e) => e.charge_on === 'laboratory')?.price;
 
 	let loading = false;
@@ -49,7 +49,6 @@
 											>{iitem.products}
 										</label>
 										<Currency {get_currency} among={iitem.price} />
-									
 									</div>
 								</div>
 							{/each}

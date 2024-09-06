@@ -7,11 +7,11 @@
 	export let data: PageServerData;
 	let staff_id: number;
 	$: ({ get_staffs } = data);
-	$: find_staff = get_staffs.find((e) => e.id === staff_id);
+	$: find_staff = get_staffs.filter((e) => e.id === staff_id);
 </script>
 
-<DeleteModal action="?/delete_staff" id={find_staff?.id} />
-<CreateStaff {data} {form} {staff_id} />
+<DeleteModal action="?/delete_staff" id={find_staff[0]?.id} />
+<CreateStaff data={{ get_staffs: find_staff }} {form} bind:staff_id />
 <!-- @_Visite_Modal -->
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">

@@ -6,10 +6,17 @@
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let imagerie_request_id: number;
-	$: ({ get_imagerie_request } = data);
+	$: ({ get_imagerie_request, get_imagerie_templates } = data);
+	$: find_imagerie_request = get_imagerie_request?.filter((e) => e.id === imagerie_request_id);
 </script>
 
-<CreateImgResult {data} {imagerie_request_id} />
+<CreateImgResult
+	data={{
+		get_imagerie_request: find_imagerie_request,
+		get_imagerie_templates: get_imagerie_templates
+	}}
+	bind:imagerie_request_id
+/>
 <!-- @_Visite_Modal -->
 <div class="modal fade" id="modal-visite">
 	<div class="modal-dialog modal-dialog-centered modal-sm">
@@ -129,7 +136,6 @@
 											type="button"
 											on:click={() => {
 												invalidateAll();
-												imagerie_request_id = 0;
 												imagerie_request_id = item.id;
 											}}
 											data-bs-toggle="modal"
@@ -142,7 +148,6 @@
 											type="button"
 											on:click={() => {
 												invalidateAll();
-												imagerie_request_id = 0;
 												imagerie_request_id = item.id;
 											}}
 											data-bs-toggle="modal"

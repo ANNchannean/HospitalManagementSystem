@@ -7,12 +7,16 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 	let unit_id: number;
-	$: ({ get_units } = data);
-	$: find_unit = get_units.find((e) => e.id === unit_id);
+	$: ({ get_units, get_product_group_types } = data);
+	$: find_unit = get_units.filter((e) => e.id === unit_id);
 </script>
 
-<DeleteModal id={find_unit?.id} action="?/delete_unit" />
-<CreateUnit {data} {form} {unit_id} />
+<DeleteModal id={find_unit[0]?.id} action="?/delete_unit" />
+<CreateUnit
+	data={{ get_product_group_types: get_product_group_types, get_units: find_unit }}
+	{form}
+	bind:unit_id
+/>
 
 <div class="row">
 	<div class="col-sm-6">
@@ -94,10 +98,8 @@
 								<td> {item.productGroupType?.group_type ?? 'None'} </td>
 								<td>
 									<div>
-										<a
-											href={'#'}
+										<button
 											on:click={() => {
-												unit_id = 0;
 												unit_id = item.id;
 											}}
 											data-bs-toggle="modal"
@@ -105,11 +107,9 @@
 											type="button"
 											class="btn btn-primary btn-sm"
 											><i class="fa-solid fa-file-pen"></i>
-										</a>
-										<a
-											href={'#'}
+										</button>
+										<button
 											on:click={() => {
-												unit_id = 0;
 												unit_id = item.id;
 											}}
 											type="button"
@@ -117,7 +117,7 @@
 											data-bs-toggle="modal"
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
-										</a>
+										</button>
 									</div>
 								</td>
 							</tr>

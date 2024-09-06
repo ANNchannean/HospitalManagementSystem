@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from '../../routes/(dash)/ipd/$types';
-	export let data: PageServerData;
+	type Data = Pick<PageServerData, 'get_progress_notes' | 'get_wards'>;
+	export let data: Data;
 	$: ({ get_wards, get_progress_notes } = data);
 	export let bed_id = 0;
 </script>
