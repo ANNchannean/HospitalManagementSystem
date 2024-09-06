@@ -8,6 +8,8 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);
+	const get_currency = await db.query.currency.findFirst({});
+
 	const get_visit = await db.query.visit.findFirst({
 		with: {
 			laboratoryRequest: {
@@ -41,7 +43,8 @@ export const load = (async ({ params }) => {
 
 	return {
 		get_vaccine_group,
-		get_visit
+		get_visit,
+		get_currency
 	};
 }) satisfies PageServerLoad;
 

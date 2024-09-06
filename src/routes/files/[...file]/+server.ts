@@ -22,12 +22,19 @@ export const GET: RequestHandler = async ({ params }) => {
 			message: 'File or Image not found'
 		});
 	}
-	const file = fs.readFileSync(path.join(dirname, 'files', get_file.filename));
+	try {
+		const file = fs.readFileSync(path.join(dirname, 'files', get_file.filename));
+		return new Response(file);
+	} catch (e) {
+		const no_image = fs.readFileSync(path.join(dirname, 'static', 'no-image.jpg'));
+		console.log(e);
+		return new Response(no_image);
+	}
+
 	// setHeaders({
 	// 	'Content-Type': get_file?.mimeType ?? '',
 	// 	'Content-Length': get_file?.size?.toString() ?? '',
 	// 	'Last-Modified': get_file?.lastModified?.toString() ?? '',
 	// 	'Cache-Control': 'public, max-age=600'
 	// });
-	return new Response(file);
 };

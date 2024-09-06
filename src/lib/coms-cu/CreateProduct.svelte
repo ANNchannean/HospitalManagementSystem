@@ -21,7 +21,7 @@
 	$: inventory = find_product?.inventory.length ? find_product?.inventory[0] : undefined;
 	let loading = false;
 	let subUnitForm = inventory?.subUnit.length || 0;
-	$: main_unit_id = data.get_products.find((e) => e.id === product_id)?.unit_id;
+	let main_unit_id = data.get_products.find((e) => e.id === product_id)?.unit_id;
 </script>
 
 <CreateProductGroup {data} />
@@ -173,9 +173,9 @@
 													items={units.map((e) => ({ id: e.id, name: e.unit }))}
 												/>
 
-												{#if form?.product_id}
+												<!-- {#if form?.product_id}
 													<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
-												{/if}
+												{/if} -->
 											</div>
 										</div>
 									</div>

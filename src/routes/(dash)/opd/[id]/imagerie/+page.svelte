@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 	let loading = false;
-	$: ({ get_imageerie_groups, get_visit } = data);
+	$: ({ get_imageerie_groups, get_visit, get_currency } = data);
 	$: total_imagerie = get_visit?.billing?.charge.find((e) => e.charge_on === 'imagerie')?.price;
 </script>
 
@@ -45,7 +45,7 @@
 										>{iitem.products}</label
 									>
 
-									<CurrencySimble show="both" value={iitem.price} />
+									<Currency among={iitem.price} {get_currency} />
 								</div>
 							</div>
 						{/each}
@@ -58,7 +58,7 @@
 			<div class="col text-end">
 				<button class="btn btn-warning"
 					>Total Imagerie
-					<CurrencySimble plan_text={true} show="both" value={total_imagerie} />
+					<Currency class="fs-6" among={total_imagerie || 0} {get_currency} />
 				</button>
 			</div>
 

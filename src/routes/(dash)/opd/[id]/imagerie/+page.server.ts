@@ -6,6 +6,7 @@ import { createProductOrder, deleteProductOrder } from '$lib/server/models';
 import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ params }) => {
+	const get_currency = await db.query.currency.findFirst({});
 	const get_imageerie_groups = await db.query.imagerieGroup.findMany({
 		with: {
 			product: {
@@ -35,7 +36,8 @@ export const load = (async ({ params }) => {
 
 	return {
 		get_imageerie_groups,
-		get_visit
+		get_visit,
+		get_currency
 	};
 }) satisfies PageServerLoad;
 export const actions: Actions = {

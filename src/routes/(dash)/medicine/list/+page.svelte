@@ -3,11 +3,11 @@
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import CreateMedicine from '$lib/coms-cu/CreateMedicine.svelte';
 	import { inerHight } from '$lib/store';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
-	$: ({ get_products } = data);
+	$: ({ get_products, get_currency } = data);
 	$: find_medicine = get_products.find((e) => e.id === product_id);
 </script>
 
@@ -66,8 +66,8 @@
 							<th class="text-center" style="width: 5%;">N</th>
 							<th style="width: 30%;">Product</th>
 							<th style="width: 20%;">Medicine Type</th>
-							<th>Price &#x17DB;</th>
-							<th>Price &#36;</th>
+
+							<th>Price </th>
 							<th style="width: 20%;">Action</th>
 						</tr>
 					</thead>
@@ -78,11 +78,9 @@
 								<td>{item.products}</td>
 								<td>{item.unit?.unit}</td>
 								<td>
-									<CurrencySimble show="real" break_line={true} value={item.price} />
+									<Currency among={item.price} {get_currency} />
 								</td>
-								<td>
-									<CurrencySimble show="dorlar" break_line={true} value={item.price} />
-								</td>
+
 								<td>
 									<div>
 										<button

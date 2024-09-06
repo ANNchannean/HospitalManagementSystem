@@ -21,6 +21,7 @@ import {
 import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
+	const get_currency = await db.query.currency.findFirst({});
 	const progress_note_id = params.progress_note_id;
 	const get_staffs = await db.query.staff.findMany({
 		orderBy: asc(staff.name)
@@ -124,7 +125,8 @@ export const load: PageServerLoad = async ({ params }) => {
 		get_staffs,
 		removeDuplicateDate,
 		get_exams,
-		visit: get_progress_note?.visit[0]
+		visit: get_progress_note?.visit[0],
+		get_currency
 	};
 };
 

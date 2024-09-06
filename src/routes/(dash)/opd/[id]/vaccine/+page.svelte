@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_vaccine_group, get_visit } = data);
+	$: ({ get_vaccine_group, get_visit,get_currency } = data);
 	$: total_vaccine_service = get_visit?.billing?.charge.find(
 		(e) => e.charge_on === 'vaccine'
 	)?.price;
@@ -46,7 +46,7 @@
 								<label for={item.id.toString()} class="custom-control-label"
 									>{item.products}
 								</label>
-								<CurrencySimble show="both" value={item.price} />
+								<Currency among={item.price} {get_currency} />
 							</div>
 						</div>
 					{/each}

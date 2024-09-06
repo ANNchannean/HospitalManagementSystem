@@ -1,13 +1,15 @@
 <script lang="ts">
 	import type { PageServerData } from '../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
-	import Athtml from '$lib/coms/Athtml.svelte';
-	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import ActivePrescription from '$lib/coms/ActivePrescription.svelte';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	type TVisit = Pick<PageServerData, 'visit'>;
+	type TCurrency = Pick<PageServerData, 'get_currency'>;
 	type VisitProperties = TVisit['visit'] extends undefined ? never : TVisit['visit'];
+	type CurrencyProperties = TCurrency['get_currency'] extends undefined
+		? never
+		: TCurrency['get_currency'];
 	export let find_old_visit: VisitProperties;
+	export let get_currency: CurrencyProperties;
 	$: total_laboratory =
 		find_old_visit?.billing?.charge.find((e) => e.charge_on === 'laboratory')?.price || 0;
 	$: total_imagerie =
@@ -121,7 +123,7 @@
 								<td>Total Laboratory </td>
 								<td>:</td>
 								<td>
-									<CurrencySimble value={total_laboratory} />
+									<Currency among={total_laboratory} {get_currency} />
 								</td>
 							</tr>
 						{/if}
@@ -130,7 +132,7 @@
 								<td>Total Imagrie </td>
 								<td>:</td>
 								<td>
-									<CurrencySimble value={total_imagerie} />
+									<Currency among={total_imagerie} {get_currency} />
 								</td>
 							</tr>
 						{/if}
@@ -139,7 +141,7 @@
 								<td>Total Treatment </td>
 								<td>:</td>
 								<td>
-									<CurrencySimble value={total_prescription} />
+									<Currency among={total_prescription} {get_currency} />
 								</td>
 							</tr>
 						{/if}
@@ -147,7 +149,10 @@
 							<td>Total Daily </td>
 							<td>:</td>
 							<td>
-								<CurrencySimble value={total_prescription + total_imagerie + total_laboratory} />
+								<Currency
+									among={total_prescription + total_imagerie + total_laboratory}
+									{get_currency}
+								/>
 							</td>
 						</tr>
 					</thead>

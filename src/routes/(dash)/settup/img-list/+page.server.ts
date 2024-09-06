@@ -6,6 +6,7 @@ import { asc, eq, like } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
+	const get_currency = await db.query.currency.findFirst({});
 	const get_imageerie_groups = await db.query.imagerieGroup.findMany({});
 	const get_product_group_type = await db.query.productGroupType.findMany({});
 	const get_templates = await db.query.template.findMany({
@@ -24,7 +25,8 @@ export const load = (async () => {
 		get_products,
 		get_product_group_type,
 		get_templates,
-		get_imageerie_groups
+		get_imageerie_groups,
+		get_currency
 	};
 }) satisfies PageServerLoad;
 

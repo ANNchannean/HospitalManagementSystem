@@ -4,11 +4,11 @@
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { inerHight } from '$lib/store';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	export let data: PageServerData;
 	let product_id: number;
 	let loading = false;
-	$: ({ get_products, get_imageerie_groups } = data);
+	$: ({ get_products, get_imageerie_groups, get_currency } = data);
 	$: find_product = get_products.find((e) => e.id === product_id);
 </script>
 
@@ -159,8 +159,7 @@
 							<th class="text-center" style="width: 5%;">N</th>
 							<th style="width: 30%;">Product</th>
 							<th>Type</th>
-							<th>Price &#x17DB;</th>
-							<th>Price &#36;</th>
+							<th>Price</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -170,11 +169,9 @@
 								<td class="text-center">{index + 1}</td>
 								<td>{item.products}</td>
 								<td>{item.imagerieGroup?.imagerie_group ?? ''}</td>
+
 								<td>
-									<CurrencySimble show="real" break_line={true} value={item.price} />
-								</td>
-								<td>
-									<CurrencySimble show="dorlar" break_line={true} value={item.price} />
+									<Currency among={item.price} {get_currency} />
 								</td>
 								<td>
 									<div>

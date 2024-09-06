@@ -6,6 +6,7 @@ import { eq, like } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async () => {
+	const get_currency = await db.query.currency.findFirst({});
 	const get_product_type = await db.query.productGroupType.findFirst({
 		where: like(productGroupType.group_type, 'Medicine')
 	});
@@ -24,7 +25,7 @@ export const load = (async () => {
 	return {
 		get_products,
 		get_product_group_type,
-		get_unit_as_medicineType
+		get_unit_as_medicineType,get_currency
 	};
 }) satisfies PageServerLoad;
 

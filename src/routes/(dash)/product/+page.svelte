@@ -5,7 +5,6 @@
 	import type { EventHandler } from 'svelte/elements';
 	import { inerHight } from '$lib/store';
 	import Toast from '$lib/coms/Toast.svelte';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
@@ -133,7 +132,7 @@
 									{item.unit?.unit ?? ''}
 								</td>
 								<td>
-									<Currency value={item.price} {get_currency} />
+									<Currency among={item.price} {get_currency} />
 								</td>
 
 								<td>

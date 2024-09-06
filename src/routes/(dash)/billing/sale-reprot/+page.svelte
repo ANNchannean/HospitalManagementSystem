@@ -4,11 +4,11 @@
 	import { inerHight } from '$lib/store';
 	import ViewPayBilling from '$lib/coms/ViewPayBilling.svelte';
 	import AddPayBilling from '$lib/coms/AddPayBilling.svelte';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_billings } = data);
+	$: ({ get_billings, get_currency } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -111,64 +111,28 @@
 								<td>{item.visit?.patient?.telephone ?? ''}</td>
 								<td></td>
 								<td>
-									<CurrencySimble
-										break_line={true}
-										plan_text={true}
-										show="both"
-										value={item.sub_total}
-										exchange={item.exchang}
-									/>
+									<Currency class="" among={item.sub_total} {get_currency} />
 								</td>
 
 								<td>
 									{#if item.discount.includes('%')}
 										{item.discount}
 									{:else if Number(item.discount) > 0}
-										<CurrencySimble
-											break_line={true}
-											plan_text={true}
-											show="both"
-											value={+item.discount}
-											exchange={item.exchang}
-										/>
+										<Currency class="" among={+item.discount} {get_currency} />
 									{/if}
 								</td>
 								<td>
-									<CurrencySimble
-										break_line={true}
-										plan_text={true}
-										show="both"
-										value={+item.total}
-										exchange={item.exchang}
-									/>
+									<Currency class="" among={+item.total} {get_currency} />
 								</td>
 								<td>{item.tax}</td>
 								<td>
-									<CurrencySimble
-										break_line={true}
-										plan_text={true}
-										show="both"
-										exchange={item.exchang}
-										value={item.total_after_tax}
-									/>
+									<Currency class="" among={item.total_after_tax} {get_currency} />
 								</td>
-								<td
-									><CurrencySimble
-										break_line={true}
-										plan_text={true}
-										show="both"
-										value={+item.paid}
-										exchange={item.exchang}
-									/></td
-								>
 								<td>
-									<CurrencySimble
-										break_line={true}
-										plan_text={true}
-										show="both"
-										value={+item.balance}
-										exchange={item.exchang}
-									/>
+									<Currency class="" among={item.paid} {get_currency} />
+								</td>
+								<td>
+									<Currency class="" among={item.balance} {get_currency} />
 								</td>
 								<td>
 									{#if item.status === 'paid'}

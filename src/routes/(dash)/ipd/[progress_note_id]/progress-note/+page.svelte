@@ -9,7 +9,7 @@
 	import ConfirmSubmit from '$lib/coms/ConfirmSubmit.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
-	$: ({ get_progress_note, removeDuplicateDate, get_exams } = data);
+	$: ({ get_progress_note, removeDuplicateDate, get_exams,get_currency } = data);
 </script>
 
 <DeleteModal id={visit_id} action="?/delete_visit_ipd" />
@@ -95,7 +95,7 @@
 										</td>
 										<td style="width: 30%;vertical-align:top;">
 											<fieldset disabled={item.billing?.status !== 'active'}>
-												<Treatment {find_old_visit} />
+												<Treatment {get_currency} {find_old_visit}  />
 											</fieldset>
 										</td>
 									</tr>

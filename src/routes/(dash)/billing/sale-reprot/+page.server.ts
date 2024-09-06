@@ -10,6 +10,7 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
+	const get_currency = await db.query.currency.findFirst({});
 	const get_billings = await db.query.billing.findMany({
 		where: and(
 			eq(billing.checkin_type, 'OPD'),
@@ -50,7 +51,8 @@ export const load: PageServerLoad = async ({ parent }) => {
 	const get_payment_types = await db.query.paymentType.findMany();
 	return {
 		get_billings,
-		get_payment_types
+		get_payment_types,
+		get_currency
 	};
 };
 
