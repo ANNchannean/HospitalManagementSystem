@@ -8,6 +8,8 @@
 	import { invalidateAll } from '$app/navigation';
 	import { inerHight, globalLoading } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
+	// import LoginTracker from '$lib/coms/LoginTracker.svelte';
+	// import { loginTracker } from '$lib/helper/loginTracker';
 	$: ({ get_clinich_info, get_progress_note, get_currency } = data);
 	$: {
 		$locale = data.lang ?? '';
@@ -48,7 +50,7 @@
 </svelte:head>
 
 <ViewRoom {data} />
-
+<!-- <LoginTracker /> -->
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 	<!-- Navbar Brand-->
 	<a class="navbar-brand ps-3" href="/dashboard">Hospital Systeme </a>

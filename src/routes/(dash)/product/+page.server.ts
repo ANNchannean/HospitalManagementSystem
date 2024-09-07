@@ -9,6 +9,7 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
+
 	const get_currency = await db.query.currency.findFirst({});
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';

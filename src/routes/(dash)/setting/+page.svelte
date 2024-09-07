@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Currency from '$lib/coms/Currency.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	import type { PageServerData } from './$types';
@@ -10,19 +9,6 @@
 	let show_toas = false;
 	let from_symbol = data.get_currency?.from_symbol ?? '';
 	let to_symbol = data.get_currency?.to_symbol ?? '';
-
-	let amount: string = '';
-	let value: string = '';
-	$: {
-		if (get_currency?.symbol === get_currency?.from_symbol) {
-			const p = Number(value) / Number(get_currency?.rate_from);
-			amount = p.toFixed(2);
-		} else if (get_currency?.symbol === get_currency?.to_symbol) {
-			amount = value;
-		} else {
-			amount = value;
-		}
-	}
 </script>
 
 <Toast bind:show={show_toas} toas="success" message="រក្សាទុក្ខបានជោគជ័យ!" />
@@ -47,15 +33,6 @@
 		</ol>
 	</div>
 </div>
-<br />
-<div class="input-group">
-	<span class="input-group-text">{get_currency?.symbol ?? ''}</span>
-	<input bind:value step="any" type="number" class="form-control" />
-	<input type="hidden" value="amoung" name="amoung" />
-</div>
-{amount ?? ''}
-<br />
-<br />
 
 <div class="card">
 	<div class="card-header">

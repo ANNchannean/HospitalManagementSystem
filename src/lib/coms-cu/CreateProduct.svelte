@@ -6,8 +6,12 @@
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import CreateProductGroup from '$lib/coms-cu/CreateProductGroup.svelte';
 	import CreateSubUnitForm from './CreateSubUnitForm.svelte';
-	type Data = Pick<PageServerData, 'get_product_group_type' | 'get_units' | 'get_products'>;
-	type ProductProperies = Data['get_products'] extends undefined ? never : Data['get_products'];
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
+	import { rateFn } from '$lib/helper';
+	type Data = Pick<
+		PageServerData,
+		'get_product_group_type' | 'get_units' | 'get_products' | 'get_currency'
+	>;
 	export let data: Data;
 	export let form: ActionData;
 	export let product_id: number;
@@ -18,7 +22,7 @@
 			product_group_type_id = find_product.group_type_id;
 		}
 	}
-	$: ({ get_product_group_type, get_units, get_products } = data);
+	$: ({ get_product_group_type, get_units, get_products, get_currency } = data);
 	$: units = get_units.filter((e) => e.product_group_type_id === Number(product_group_type_id));
 	$: inventory = find_product?.inventory.length ? find_product?.inventory[0] : undefined;
 	let loading = false;
@@ -139,12 +143,14 @@
 									<div class="col-3">
 										<div class="form-group pb-3">
 											<label for="price">Price</label>
-											<input
-												value={find_product?.price ?? ''}
+											<CurrencyInput
 												name="price"
-												type="text"
-												class="form-control"
-												id="price"
+												{get_currency}
+												value={rateFn({
+													amount: find_product.price,
+													get_currency: get_currency,
+													rate: get_currency?.dialy_rate || 0
+												})}
 											/>
 											{#if form?.price}
 												<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>

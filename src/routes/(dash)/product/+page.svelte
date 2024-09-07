@@ -31,7 +31,8 @@
 	data={{
 		get_product_group_type: get_product_group_type,
 		get_units: get_units,
-		get_products: find_product
+		get_products: find_product,
+		get_currency: get_currency
 	}}
 	{form}
 	bind:product_id
@@ -143,7 +144,6 @@
 								<td>
 									<Currency among={item.price} {get_currency} />
 								</td>
-
 								<td>
 									<div class=" m-0 p-0">
 										<button

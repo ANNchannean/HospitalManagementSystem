@@ -1,10 +1,24 @@
 <script lang="ts">
-	// export let dorlor:number
-	// export let real:number
-	// export let exhange:number
+	import type { TCurrency } from '$lib/helper';
+	export let get_currency: TCurrency;
+	export let value = 0;
+	export let amount: number = 0;
+	export let sm = false;
+	export let name = '';
+	$: {
+		if (get_currency?.symbol === get_currency?.from_symbol) {
+			const p = Number(value) / Number(get_currency?.dialy_rate);
+			amount = Number(p.toFixed(2));
+		} else if (get_currency?.symbol === get_currency?.to_symbol) {
+			amount = value;
+		} else {
+			amount = value;
+		}
+	}
 </script>
 
-<input class="form-control" type="text" name="price" id="" />
-
-<style>
-</style>
+<div class={sm ? 'input-group-sm input-group' : 'input-group'}>
+	<span class="input-group-text">{get_currency?.symbol ?? ''}</span>
+	<input type="hidden" value={amount} {name} />
+	<input bind:value step="any" type="number" class="form-control" />
+</div>
