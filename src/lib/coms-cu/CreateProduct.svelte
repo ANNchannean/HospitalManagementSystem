@@ -147,7 +147,7 @@
 												name="price"
 												{get_currency}
 												value={rateFn({
-													amount: find_product.price,
+													amount: find_product?.price,
 													get_currency: get_currency,
 													rate: get_currency?.dialy_rate || 0
 												})}

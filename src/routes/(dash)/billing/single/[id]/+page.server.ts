@@ -16,6 +16,7 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: billing_id } = params;
+	const get_currency = await db.query.currency.findFirst({});
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
 	const get_billing = await db.query.billing.findFirst({
@@ -107,7 +108,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_payment_types,
 		get_tax,
 		get_exchang,
-		charge_on_vaccine
+		charge_on_vaccine,
+		get_currency
 	};
 };
 

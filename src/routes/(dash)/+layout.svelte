@@ -123,13 +123,10 @@
 		</li>
 
 		<li class="nav-item">
-			<div class="nav-link btn btn-link">
-				<a class="btn btn-sm btn-link py-0 active text-dark" href="/setting"
-					>{get_currency?.symbol ?? ''}</a
-				>
-			</div>
+			<a href="/setting" class="nav-link btn btn-link border btn-sm py-0 mt-2 active" >
+				{get_currency?.symbol ?? ''}
+			</a>
 		</li>
-
 		<div class="d-sm-none d-md-block d-none d-sm-block">
 			<li class="nav-item">
 				<button class="nav-link btn btn-link active" type="button">

@@ -20,7 +20,6 @@
 		html2pdf_
 			.from(element)
 			.set(opt)
-
 			.toPdf()
 			.get('pdf')
 			.then(function (pdf: any) {

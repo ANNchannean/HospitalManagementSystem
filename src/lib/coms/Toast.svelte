@@ -14,8 +14,8 @@
 
 {#if show}
 	<div
-		in:fade={{ duration: 300 }}
-		out:fade={{ duration: 300 }}
+		in:fade={{ duration: 200 }}
+		out:fade={{ duration: 200 }}
 		class="position-relative justify-content-center d-flex"
 	>
 		<div

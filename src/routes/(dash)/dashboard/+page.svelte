@@ -1,8 +1,5 @@
 <script lang="ts">
-	import Currency from '$lib/coms/Currency.svelte';
-	import CurrencySimble from '$lib/coms/CurrencySimble.svelte';
-	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import Html2Pdf from '$lib/coms/Html2PDF.svelte';
+
 </script>
 
 <form id="myform" method="get" action="something.php">
@@ -10,8 +7,7 @@
 </form>
 <button type="submit" form="myform">Click me!</button>
 <input type="submit" form="myform" value="Update" />
-<CurrencySimble exchange={5000} value={2000.222} />
-<Html2Pdf id="one" />
+
 
 <h1 id="one" class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

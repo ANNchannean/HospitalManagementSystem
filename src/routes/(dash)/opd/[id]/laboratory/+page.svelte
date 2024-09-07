@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import Currency from '$lib/coms/Currency.svelte';
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
+	import { rateFn } from '$lib/helper';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -64,13 +66,14 @@
 				<button type="button" class="btn btn-warning">Total Laboratory</button>
 			</div>
 			<div class="col-auto">
-				<input
-					step="any"
-					value={total_laboratory}
-					class="form-control"
-					type="number"
+				<CurrencyInput
 					name="total_laboratory"
-					id="total_laboratory"
+					{get_currency}
+					value={rateFn({
+						amount: total_laboratory || 0,
+						get_currency: get_currency,
+						rate: get_currency?.dialy_rate || 0
+					})}
 				/>
 			</div>
 			<div class="col-auto">

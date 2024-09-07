@@ -8,7 +8,7 @@
 	$: {
 		if (get_currency?.symbol === get_currency?.from_symbol) {
 			const p = Number(value) / Number(get_currency?.dialy_rate);
-			amount = Number(p.toFixed(2));
+			amount = Number(p);
 		} else if (get_currency?.symbol === get_currency?.to_symbol) {
 			amount = value;
 		} else {
@@ -18,7 +18,7 @@
 </script>
 
 <div class={sm ? 'input-group-sm input-group' : 'input-group'}>
-	<span class="input-group-text">{get_currency?.symbol ?? ''}</span>
+	<span class="input-group-text">{get_currency?.symbol ?? ''} </span>
 	<input type="hidden" value={amount} {name} />
 	<input bind:value step="any" type="number" class="form-control" />
 </div>

@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Currency from '$lib/coms/Currency.svelte';
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
+	import { rateFn } from '$lib/helper';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
 	type Data = Pick<
@@ -11,6 +14,7 @@
 		| 'charge_on_service'
 		| 'charge_on_vaccine'
 		| 'get_billing'
+		| 'get_currency'
 	>;
 	export let data: Data;
 	$: ({
@@ -20,6 +24,7 @@
 		charge_on_prescription,
 		charge_on_service,
 		get_billing,
+		get_currency,
 		charge_on_vaccine
 	} = data);
 </script>
@@ -37,13 +42,15 @@
 		<td>
 			<fieldset disabled={get_billing?.status !== 'process'}>
 				<input type="hidden" name="charge_id" value={charge_on_laboratory.id ?? ''} />
-				<input
-					class="border-0 bg-light w-100 text-center text-primary"
-					type="number"
-					min="0"
-					step="any"
+				<CurrencyInput
+					sm={true}
 					name="charge_on_laboratory"
-					value={charge_on_laboratory.price ?? ''}
+					{get_currency}
+					value={rateFn({
+						amount: charge_on_laboratory.price || 0,
+						get_currency: get_currency,
+						rate: get_currency?.dialy_rate || 0
+					})}
 				/>
 			</fieldset>
 		</td>
@@ -59,21 +66,24 @@
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
-					<input
-						class="border-0 bg-light w-100 text-center text-primary"
-						type="number"
-						min="0"
-						step="any"
+					<CurrencyInput
+						sm={true}
 						name="price"
-						value={item?.price?.toFixed(2)}
+						{get_currency}
+						value={rateFn({
+							amount: item.price || 0,
+							get_currency: get_currency,
+							rate: get_currency?.dialy_rate || 0
+						})}
 					/>
 				</fieldset>
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
+
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="number"
 						min="0"
 						step="any"
@@ -85,7 +95,7 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="text"
 						pattern="[0-9]+%?"
 						name="disc"
@@ -93,11 +103,9 @@
 					/>
 				</fieldset>
 			</td>
-			<td
-				>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-					item.total ?? 0
-				)}</td
-			>
+			<td>
+				<Currency class="" among={item.total} {get_currency} />
+			</td>
 			<td> </td>
 		</tr>
 	{/each}
@@ -145,13 +153,15 @@
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
-					<input
-						class="border-0 bg-light w-100 text-center text-primary"
-						type="number"
-						min="0"
-						step="any"
+					<CurrencyInput
+						sm={true}
 						name="price"
-						value={item?.price?.toFixed(2)}
+						{get_currency}
+						value={rateFn({
+							amount: item.price || 0,
+							get_currency: get_currency,
+							rate: get_currency?.dialy_rate || 0
+						})}
 					/>
 				</fieldset>
 			</td>
@@ -159,7 +169,7 @@
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="number"
 						min="0"
 						step="any"
@@ -171,7 +181,7 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="text"
 						pattern="[0-9]+%?"
 						name="disc"
@@ -179,11 +189,9 @@
 					/>
 				</fieldset>
 			</td>
-			<td
-				>{Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
-					item.total ?? 0
-				)}</td
-			>
+			<td>
+				<Currency class="" among={item.total} {get_currency} />
+			</td>
 			<td> </td>
 		</tr>
 	{/each}
@@ -198,13 +206,15 @@
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
-					<input
-						class="border-0 bg-light w-100 text-center text-primary"
-						type="number"
-						min="0"
-						step="any"
+					<CurrencyInput
+						sm={true}
 						name="price"
-						value={item?.price?.toFixed(2)}
+						{get_currency}
+						value={rateFn({
+							amount: item.price || 0,
+							get_currency: get_currency,
+							rate: get_currency?.dialy_rate || 0
+						})}
 					/>
 				</fieldset>
 			</td>
@@ -212,7 +222,7 @@
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="number"
 						min="0"
 						step="any"
@@ -224,7 +234,7 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="text"
 						pattern="[0-9]+%?"
 						name="disc"
@@ -232,11 +242,9 @@
 					/>
 				</fieldset>
 			</td>
-			<td
-				>{Intl.NumberFormat('en-US')
-					.format(item.total ?? 0)
-					.concat(' \u17DB')}</td
-			>
+			<td>
+				<Currency class="" among={item.total} {get_currency} />
+			</td>
 			<td> </td>
 		</tr>
 	{/each}
@@ -251,13 +259,15 @@
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
-					<input
-						class="border-0 bg-light w-100 text-center text-primary"
-						type="number"
-						min="0"
-						step="any"
+					<CurrencyInput
+						sm={true}
 						name="price"
-						value={item?.price?.toFixed(2)}
+						{get_currency}
+						value={rateFn({
+							amount: item.price || 0,
+							get_currency: get_currency,
+							rate: get_currency?.dialy_rate || 0
+						})}
 					/>
 				</fieldset>
 			</td>
@@ -265,7 +275,7 @@
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="number"
 						min="0"
 						step="any"
@@ -277,7 +287,7 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="text"
 						pattern="[0-9]+%?"
 						name="disc"
@@ -285,11 +295,9 @@
 					/>
 				</fieldset>
 			</td>
-			<td
-				>{Intl.NumberFormat('en-US')
-					.format(item.total ?? 0)
-					.concat(' \u17DB')}</td
-			>
+			<td>
+				<Currency class="" among={item.total || 0} {get_currency} />
+			</td>
 			<td> </td>
 		</tr>
 	{/each}
@@ -304,13 +312,15 @@
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
-					<input
-						class="border-0 bg-light w-100 text-center text-primary"
-						type="number"
-						min="0"
-						step="any"
+					<CurrencyInput
+						sm={true}
 						name="price"
-						value={item?.price?.toFixed(2)}
+						{get_currency}
+						value={rateFn({
+							amount: item.price || 0,
+							get_currency: get_currency,
+							rate: get_currency?.dialy_rate || 0
+						})}
 					/>
 				</fieldset>
 			</td>
@@ -318,7 +328,7 @@
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="number"
 						min="0"
 						step="any"
@@ -330,7 +340,7 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<input
-						class="border-0 bg-light w-100 text-center text-primary"
+						class="form-control form-control-sm"
 						type="text"
 						pattern="[0-9]+%?"
 						name="disc"
@@ -338,11 +348,9 @@
 					/>
 				</fieldset>
 			</td>
-			<td
-				>{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-					item.total ?? 0
-				)}</td
-			>
+			<td>
+				<Currency class="" among={item.total || 0} {get_currency} />
+			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<form

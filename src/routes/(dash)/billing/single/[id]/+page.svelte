@@ -13,6 +13,7 @@
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -25,7 +26,7 @@
 		charge_on_service,
 		get_billing,
 		get_payment_types,
-		get_exchang,
+		get_currency,
 		charge_on_vaccine
 	} = data);
 
@@ -115,8 +116,8 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-6">
+<div class="row g-1">
+	<div class="col-md-7">
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class=" row">
@@ -167,7 +168,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<ChargeOn {data} />
+							<ChargeOn
+								data={{
+									charge_on_general: charge_on_general,
+									charge_on_imagerie: charge_on_imagerie,
+									charge_on_laboratory: charge_on_laboratory,
+									charge_on_prescription: charge_on_prescription,
+									charge_on_service: charge_on_service,
+									charge_on_vaccine: charge_on_vaccine,
+									get_billing: get_billing,
+									get_currency: get_currency
+								}}
+							/>
 						</tbody>
 					</table>
 				</div>
@@ -229,7 +241,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-5">
 		<div class="card bg-light">
 			<form
 				on:change={(e) => e.currentTarget.requestSubmit()}
@@ -298,15 +310,8 @@
 							<span
 								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
 							>
-								{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-									item.price
-								)}
+								<Currency class="" among={item.price} {get_currency} />
 							</span>
-							<!-- <span
-								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
-							>
-								{new Intl.NumberFormat('en-US').format(item.price * Number(get_exchang?.rate)).concat(' \u17DB')}
-							</span> -->
 						</button>
 						<span class="fs-6 text-wrap">{item.products}</span>
 					</form>

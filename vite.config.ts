@@ -10,10 +10,13 @@ export default defineConfig({
 	},
 	optimizeDeps: {
 		exclude: ['@sveltekit-i18n/parser-icu', 'html2pdf.js', '@sveltekit-i18n/base']
-	}
+	},
 	// server: {
 	// 	fs: {
 	// 		allow: ['/files/*']
 	// 	}
 	// }
+	// server: {
+    //     host: true
+    //   }
 });
