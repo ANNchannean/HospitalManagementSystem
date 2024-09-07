@@ -9,6 +9,8 @@ import { progressNote } from '$lib/server/schema';
 export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	// if (!locals.session) redirect(302, '/login');
 	// if (locals?.user?.role === 'DOCTOR') redirect(302, '/dashboard');
+	const get_currency = await db.query.currency.findFirst({});
+
 	const lang = cookies.get('lang');
 	const get_clinich_info = await db.query.clinicinfo.findFirst({ with: { fileOrPicture: true } });
 	const get_progress_note = await db.query.progressNote.findMany({
@@ -32,6 +34,7 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 		lang: lang,
 		get_clinich_info: get_clinich_info,
 		get_progress_note,
-		get_wards
+		get_wards,
+		get_currency
 	};
 };

@@ -8,7 +8,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { inerHight, globalLoading } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
-	$: ({ get_clinich_info, get_progress_note } = data);
+	$: ({ get_clinich_info, get_progress_note, get_currency } = data);
 	$: {
 		$locale = data.lang ?? '';
 	}
@@ -120,11 +120,14 @@
 			</ul>
 		</li>
 
-		<div class="d-sm-none d-md-block d-none d-sm-block">
-			<li class="nav-item">
-				<a class="nav-link btn btn-link active" href="/setting"><i class="fa-solid fa-gear"></i></a>
-			</li>
-		</div>
+		<li class="nav-item">
+			<div class="nav-link btn btn-link">
+				<a class="btn btn-sm btn-link py-0 active text-dark" href="/setting"
+					>{get_currency?.symbol ?? ''}</a
+				>
+			</div>
+		</li>
+
 		<div class="d-sm-none d-md-block d-none d-sm-block">
 			<li class="nav-item">
 				<button class="nav-link btn btn-link active" type="button">

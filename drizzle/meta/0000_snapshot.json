@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "d9f5d00c-7093-4114-a566-2d796f7818e5",
+  "id": "1d1dc3f6-30ca-45c9-9db0-bd830a093cec",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "commune": {
@@ -4773,14 +4773,8 @@
           "type": "varchar(3)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "iso_code": {
-          "name": "iso_code",
-          "type": "varchar(5)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'$'"
         },
         "rate_to": {
           "name": "rate_to",
@@ -4831,12 +4825,6 @@
           "name": "currency_to_symbol_unique",
           "columns": [
             "to_symbol"
-          ]
-        },
-        "currency_iso_code_unique": {
-          "name": "currency_iso_code_unique",
-          "columns": [
-            "iso_code"
           ]
         }
       }

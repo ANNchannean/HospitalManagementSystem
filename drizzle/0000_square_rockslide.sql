@@ -614,16 +614,14 @@ CREATE TABLE `currency` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`symbol` varchar(3) NOT NULL,
 	`from_symbol` varchar(3) NOT NULL,
-	`to_symbol` varchar(3) NOT NULL,
-	`iso_code` varchar(5) NOT NULL,
+	`to_symbol` varchar(3) NOT NULL DEFAULT '$',
 	`rate_to` float NOT NULL,
 	`rate_from` float NOT NULL,
 	`dialy_rate` float NOT NULL,
 	CONSTRAINT `currency_id` PRIMARY KEY(`id`),
 	CONSTRAINT `currency_symbol_unique` UNIQUE(`symbol`),
 	CONSTRAINT `currency_from_symbol_unique` UNIQUE(`from_symbol`),
-	CONSTRAINT `currency_to_symbol_unique` UNIQUE(`to_symbol`),
-	CONSTRAINT `currency_iso_code_unique` UNIQUE(`iso_code`)
+	CONSTRAINT `currency_to_symbol_unique` UNIQUE(`to_symbol`)
 );
 --> statement-breakpoint
 CREATE TABLE `setting` (

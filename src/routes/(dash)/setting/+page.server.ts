@@ -42,7 +42,7 @@ export const actions: Actions = {
 					dialy_rate: +dialy_rate,
 					from_symbol: from_symbol
 				})
-				.where(eq(currency.id, +currency_id))
+				.where(eq(currency.id, 1))
 				.catch((e) => {
 					logErrorMessage(e);
 				});

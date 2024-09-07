@@ -55,7 +55,6 @@
 </div>
 {amount ?? ''}
 <br />
-<Currency among={22} {get_currency} />
 <br />
 
 <div class="card">
