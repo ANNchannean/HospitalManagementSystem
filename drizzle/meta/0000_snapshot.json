@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "8862fd40-0771-410b-b17f-1f71bcce640f",
+  "id": "fe27a696-29d6-4441-bd3d-82a8afa84f79",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "commune": {
@@ -4754,44 +4754,36 @@
           "notNull": true,
           "autoincrement": true
         },
-        "symbol": {
-          "name": "symbol",
-          "type": "varchar(3)",
+        "currency_symbol": {
+          "name": "currency_symbol",
+          "type": "varchar(5)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "from_symbol": {
-          "name": "from_symbol",
-          "type": "varchar(3)",
+        "currency": {
+          "name": "currency",
+          "type": "varchar(5)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "to_symbol": {
-          "name": "to_symbol",
-          "type": "varchar(3)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'$'"
-        },
-        "rate_to": {
-          "name": "rate_to",
+        "currency_rate": {
+          "name": "currency_rate",
           "type": "float",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "rate_from": {
-          "name": "rate_from",
-          "type": "float",
+        "exchang_to": {
+          "name": "exchang_to",
+          "type": "varchar(5)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "dialy_rate": {
-          "name": "dialy_rate",
+        "exchang_rate": {
+          "name": "exchang_rate",
           "type": "float",
           "primaryKey": false,
           "notNull": true,
@@ -4809,22 +4801,28 @@
         }
       },
       "uniqueConstraints": {
-        "currency_symbol_unique": {
-          "name": "currency_symbol_unique",
+        "currency_currency_symbol_unique": {
+          "name": "currency_currency_symbol_unique",
           "columns": [
-            "symbol"
+            "currency_symbol"
           ]
         },
-        "currency_from_symbol_unique": {
-          "name": "currency_from_symbol_unique",
+        "currency_currency_unique": {
+          "name": "currency_currency_unique",
           "columns": [
-            "from_symbol"
+            "currency"
           ]
         },
-        "currency_to_symbol_unique": {
-          "name": "currency_to_symbol_unique",
+        "currency_currency_rate_unique": {
+          "name": "currency_currency_rate_unique",
           "columns": [
-            "to_symbol"
+            "currency_rate"
+          ]
+        },
+        "currency_exchang_to_unique": {
+          "name": "currency_exchang_to_unique",
+          "columns": [
+            "exchang_to"
           ]
         }
       }

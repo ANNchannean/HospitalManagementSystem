@@ -1,6 +1,7 @@
 // import { generateIdFromEntropySize } from 'lucia';
+import { eq,like } from 'drizzle-orm';
 import { db } from './db';
-import { setting } from './schema';
+import { product, setting } from './schema';
 // import { inventory, user } from './schema';
 // import { generateIdFromEntropySize } from 'lucia';
 // import { hash } from '@node-rs/argon2';
@@ -22,14 +23,21 @@ async function main() {
 	// 	password_hash: passwordHash,
 	// 	username: 'doctor'
 	// });
-	// const products = await db.query.product.findMany();
-	// for (const e of products) {
-	// 	await db.insert(inventory).values({
-	// 		product_id: e.id
-	// 	});
-	// }
-
-	await db.insert(setting).values({});
+	const products = await db.query.product.findMany({
+		where:like(product.price,'%20.00%')
+	});
+	for (const e of products) {
+		await db
+			.update(product)
+			.set({
+				price: e.price - 20
+			})
+			.where(eq(product.id, e.id));
+		
+	}
+	console.log((products.length));
+	
+	// await db.insert(setting).values({});
 	console.log('Done');
 	process.exit(0);
 }

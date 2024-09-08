@@ -1,27 +1,20 @@
 <script lang="ts">
-	export let among: number;
-	export let rate = '';
-	import type {TCurrency}  from '$lib/helper'
-	export let get_currency: TCurrency;
+	export let amount: number | undefined;
+	export let symbol: string | undefined;
+	export let rate: number = 0;
 	let conerting: string;
-	$: exhange_rate = rate ? rate : get_currency?.dialy_rate;
 	$: {
-		if (get_currency?.symbol === get_currency?.from_symbol) {
-			conerting = Intl.NumberFormat('en-US')
-				.format(Math.ceil(among * Number(exhange_rate)) / Number(get_currency?.rate_to))
-				.concat(` ${get_currency?.from_symbol}`);
-		} else if (get_currency?.symbol === get_currency?.to_symbol) {
-			conerting = Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
-				.format(among)
-				.replace('$', '')
-				.concat(` ${get_currency?.to_symbol}`);
+		if (rate > 0) {
+			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })
+				.format(Number(amount) / rate)
+				.concat(' ' + symbol ?? '');
 		} else {
-			conerting = Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
-				.format(among)
-				.replace('$', '')
-				.concat(` ${get_currency?.to_symbol}`);
+			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })
+				.format(amount || 0)
+				.concat(' ' + symbol ?? '');
 		}
 	}
+
 	let className = 'btn btn-sm btn-warning py-0 ';
 	export { className as class };
 </script>

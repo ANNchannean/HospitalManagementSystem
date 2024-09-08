@@ -45,7 +45,7 @@
 										>{iitem.products}</label
 									>
 
-									<Currency among={iitem.price} {get_currency} />
+									<Currency amount={iitem.price} symbol={get_currency?.currency_symbol} />
 								</div>
 							</div>
 						{/each}
@@ -58,7 +58,7 @@
 			<div class="col text-end">
 				<button class="btn btn-warning"
 					>Total Imagerie
-					<Currency class="fs-6" among={total_imagerie || 0} {get_currency} />
+					<Currency class="fs-6" amount={total_imagerie || 0} symbol={get_currency?.currency_symbol} />
 				</button>
 			</div>
 

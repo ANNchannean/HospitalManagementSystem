@@ -63,31 +63,14 @@ export const now_datetime = function (date: string) {
 export type TCurrency =
 	| {
 			id: number;
-			symbol: string;
-			from_symbol: string;
-			to_symbol: string;
-			rate_to: number;
-			rate_from: number;
-			dialy_rate: number;
+			currency_symbol: string;
+			currency: string;
+			currency_rate: number;
+			exchang_to: string;
+			exchang_rate: number;
 	  }
 	| undefined;
 
-export const rateFn = ({
-	get_currency,
-	amount,
-	rate
-}: {
-	get_currency: TCurrency;
-	amount: number;
-	rate: number;
-}) => {
-	if (get_currency?.symbol === get_currency?.from_symbol) {
-		return Math.ceil(amount * rate);
-	} else if (get_currency?.symbol === get_currency?.to_symbol) {
-		return amount;
-	} else {
-		return 0;
-	}
-};
-
-
+console.log(Math.ceil(0.22));
+console.log((0.22).toFixed(0));
+console.log(Number(0.22));

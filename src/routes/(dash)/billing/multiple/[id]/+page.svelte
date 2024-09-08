@@ -15,7 +15,7 @@
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_products, get_product_group_type, get_progress_note } = data);
+	$: ({ get_products, get_product_group_type, get_progress_note, get_currency } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -35,8 +35,9 @@
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
 			inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
-			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
+				localStorage.setItem('sb|sidebar-toggle', 'true');
+				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 				if (sidebarToggle !== 'false') {
 					document.getElementById('sidebarToggle')?.click();
 				}
@@ -45,8 +46,8 @@
 	});
 	onDestroy(() => {
 		if (browser) {
-			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
+				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 				if (sidebarToggle !== 'true') {
 					document.getElementById('sidebarToggle')?.click();
 				}
@@ -178,7 +179,8 @@
 										charge_on_service: charge_on_service,
 										charge_on_prescription: charge_on_prescription,
 										charge_on_vaccine: charge_on_vaccine,
-										get_billing: item?.billing ?? undefined
+										get_billing: item?.billing ?? undefined,
+										get_currency: get_currency
 									}}
 								/>
 								<br />

@@ -123,8 +123,8 @@
 		</li>
 
 		<li class="nav-item">
-			<a href="/setting" class="nav-link btn btn-link border btn-sm py-0 mt-2 active" >
-				{get_currency?.symbol ?? ''}
+			<a href="/setting" class="nav-link btn btn-link border btn-sm py-0 mt-2 active">
+				{get_currency?.currency_symbol ?? ''}
 			</a>
 		</li>
 		<div class="d-sm-none d-md-block d-none d-sm-block">

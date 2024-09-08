@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import Currency from '$lib/coms/Currency.svelte';
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
-	import { rateFn } from '$lib/helper';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
 	type Data = Pick<
@@ -43,14 +42,10 @@
 			<fieldset disabled={get_billing?.status !== 'process'}>
 				<input type="hidden" name="charge_id" value={charge_on_laboratory.id ?? ''} />
 				<CurrencyInput
-					sm={true}
+					class="input-group input-group-sm"
 					name="charge_on_laboratory"
-					{get_currency}
-					value={rateFn({
-						amount: charge_on_laboratory.price || 0,
-						get_currency: get_currency,
-						rate: get_currency?.dialy_rate || 0
-					})}
+					amount={charge_on_laboratory.price}
+					symbol={get_currency?.currency_symbol}
 				/>
 			</fieldset>
 		</td>
@@ -67,14 +62,10 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<CurrencyInput
-						sm={true}
+						class="input-group input-group-sm"
 						name="price"
-						{get_currency}
-						value={rateFn({
-							amount: item.price || 0,
-							get_currency: get_currency,
-							rate: get_currency?.dialy_rate || 0
-						})}
+						amount={item?.price}
+						symbol={get_currency?.currency_symbol}
 					/>
 				</fieldset>
 			</td>
@@ -104,7 +95,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<Currency class="" among={item.total} {get_currency} />
+				<Currency class="" amount={item.total} symbol={get_currency?.currency_symbol} />
 			</td>
 			<td> </td>
 		</tr>
@@ -154,14 +145,10 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<CurrencyInput
-						sm={true}
+						class="input-group input-group-sm"
 						name="price"
-						{get_currency}
-						value={rateFn({
-							amount: item.price || 0,
-							get_currency: get_currency,
-							rate: get_currency?.dialy_rate || 0
-						})}
+						amount={item?.price}
+						symbol={get_currency?.currency_symbol}
 					/>
 				</fieldset>
 			</td>
@@ -190,7 +177,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<Currency class="" among={item.total} {get_currency} />
+				<Currency class="" amount={item.total} symbol={get_currency?.currency_symbol} />
 			</td>
 			<td> </td>
 		</tr>
@@ -207,14 +194,10 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<CurrencyInput
-						sm={true}
+						class="input-group input-group-sm"
 						name="price"
-						{get_currency}
-						value={rateFn({
-							amount: item.price || 0,
-							get_currency: get_currency,
-							rate: get_currency?.dialy_rate || 0
-						})}
+						amount={item?.price}
+						symbol={get_currency?.currency_symbol}
 					/>
 				</fieldset>
 			</td>
@@ -243,7 +226,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<Currency class="" among={item.total} {get_currency} />
+				<Currency class="" amount={item.total} symbol={get_currency?.currency_symbol} />
 			</td>
 			<td> </td>
 		</tr>
@@ -260,14 +243,10 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<CurrencyInput
-						sm={true}
+						class="input-group input-group-sm"
 						name="price"
-						{get_currency}
-						value={rateFn({
-							amount: item.price || 0,
-							get_currency: get_currency,
-							rate: get_currency?.dialy_rate || 0
-						})}
+						amount={item?.price}
+						symbol={get_currency?.currency_symbol}
 					/>
 				</fieldset>
 			</td>
@@ -296,7 +275,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<Currency class="" among={item.total || 0} {get_currency} />
+				<Currency class="" amount={item.total || 0} symbol={get_currency?.currency_symbol} />
 			</td>
 			<td> </td>
 		</tr>
@@ -313,14 +292,10 @@
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>
 					<CurrencyInput
-						sm={true}
+						class="input-group input-group-sm"
 						name="price"
-						{get_currency}
-						value={rateFn({
-							amount: item.price || 0,
-							get_currency: get_currency,
-							rate: get_currency?.dialy_rate || 0
-						})}
+						amount={item?.price}
+						symbol={get_currency?.currency_symbol}
 					/>
 				</fieldset>
 			</td>
@@ -349,7 +324,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<Currency class="" among={item.total || 0} {get_currency} />
+				<Currency class="" amount={item.total || 0} symbol={get_currency?.currency_symbol} />
 			</td>
 			<td>
 				<fieldset disabled={get_billing?.status !== 'process'}>

@@ -85,7 +85,7 @@
 								<td>{item.products}</td>
 								<td>{item.unit?.unit}</td>
 								<td>
-									<Currency among={item.price} {get_currency} />
+									<Currency amount={item.price} symbol={get_currency?.currency_symbol} />
 								</td>
 
 								<td>

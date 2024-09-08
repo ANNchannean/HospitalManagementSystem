@@ -23,6 +23,8 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: progress_node_id } = params;
+	const get_currency = await db.query.currency.findFirst({});
+
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
 	const get_progress_note = await db.query.progressNote.findFirst({
@@ -110,7 +112,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_payment_types,
 		get_tax,
 		get_exchang,
-		get_progress_note
+		get_progress_note,
+		get_currency
 	};
 };
 

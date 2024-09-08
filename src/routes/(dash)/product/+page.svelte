@@ -142,7 +142,7 @@
 									{item.unit?.unit ?? ''}
 								</td>
 								<td>
-									<Currency among={item.price} {get_currency} />
+									<Currency amount={item?.price} symbol={get_currency?.currency_symbol}  />
 								</td>
 								<td>
 									<div class=" m-0 p-0">

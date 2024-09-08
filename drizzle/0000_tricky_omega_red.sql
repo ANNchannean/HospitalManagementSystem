@@ -612,16 +612,16 @@ CREATE TABLE `words` (
 --> statement-breakpoint
 CREATE TABLE `currency` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`symbol` varchar(3) NOT NULL,
-	`from_symbol` varchar(3) NOT NULL,
-	`to_symbol` varchar(3) NOT NULL DEFAULT '$',
-	`rate_to` float NOT NULL,
-	`rate_from` float NOT NULL,
-	`dialy_rate` float NOT NULL,
+	`currency_symbol` varchar(5) NOT NULL,
+	`currency` varchar(5) NOT NULL,
+	`currency_rate` float NOT NULL,
+	`exchang_to` varchar(5) NOT NULL,
+	`exchang_rate` float NOT NULL,
 	CONSTRAINT `currency_id` PRIMARY KEY(`id`),
-	CONSTRAINT `currency_symbol_unique` UNIQUE(`symbol`),
-	CONSTRAINT `currency_from_symbol_unique` UNIQUE(`from_symbol`),
-	CONSTRAINT `currency_to_symbol_unique` UNIQUE(`to_symbol`)
+	CONSTRAINT `currency_currency_symbol_unique` UNIQUE(`currency_symbol`),
+	CONSTRAINT `currency_currency_unique` UNIQUE(`currency`),
+	CONSTRAINT `currency_currency_rate_unique` UNIQUE(`currency_rate`),
+	CONSTRAINT `currency_exchang_to_unique` UNIQUE(`exchang_to`)
 );
 --> statement-breakpoint
 CREATE TABLE `setting` (

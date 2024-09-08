@@ -111,28 +111,28 @@
 								<td>{item.visit?.patient?.telephone ?? ''}</td>
 								<td></td>
 								<td>
-									<Currency class="" among={item.sub_total} {get_currency} />
+									<Currency class="" amount={item.sub_total} symbol={get_currency?.currency_symbol} />
 								</td>
 
 								<td>
 									{#if item.discount.includes('%')}
 										{item.discount}
 									{:else if Number(item.discount) > 0}
-										<Currency class="" among={+item.discount} {get_currency} />
+										<Currency class="" amount={+item.discount} symbol={get_currency?.currency_symbol} />
 									{/if}
 								</td>
 								<td>
-									<Currency class="" among={+item.total} {get_currency} />
+									<Currency class="" amount={+item.total} symbol={get_currency?.currency_symbol} />
 								</td>
 								<td>{item.tax}</td>
 								<td>
-									<Currency class="" among={item.total_after_tax} {get_currency} />
+									<Currency class="" amount={item.total_after_tax} symbol={get_currency?.currency_symbol} />
 								</td>
 								<td>
-									<Currency class="" among={item.paid} {get_currency} />
+									<Currency class="" amount={item.paid} symbol={get_currency?.currency_symbol} />
 								</td>
 								<td>
-									<Currency class="" among={item.balance} {get_currency} />
+									<Currency class="" amount={item.balance} symbol={get_currency?.currency_symbol} />
 								</td>
 								<td>
 									{#if item.status === 'paid'}

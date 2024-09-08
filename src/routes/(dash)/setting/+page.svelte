@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	import type { PageServerData } from './$types';
@@ -7,8 +8,6 @@
 	$: ({ get_currency } = data);
 	let loading = false;
 	let show_toas = false;
-	let from_symbol = data.get_currency?.from_symbol ?? '';
-	let to_symbol = data.get_currency?.to_symbol ?? '';
 </script>
 
 <Toast bind:show={show_toas} toas="success" message="រក្សាទុក្ខបានជោគជ័យ!" />
@@ -33,7 +32,7 @@
 		</ol>
 	</div>
 </div>
-
+<CurrencyInput amount={20000.22} symbol={get_currency?.currency_symbol} />
 <div class="card">
 	<div class="card-header">
 		<span class="fs-5">#Currency</span>
@@ -56,64 +55,53 @@
 		<input value={get_currency?.id ?? ''} type="hidden" name="currency_id" />
 		<div class="row">
 			<div class="col-sm-4 pb-2">
-				<label class="form-label" for="symbol">Symbol</label>
+				<label class="form-label" for="currency_symbol">Currency Symbol</label>
 				<input
-					value={get_currency?.symbol ?? ''}
+					value={get_currency?.currency_symbol ?? ''}
 					class="form-control"
 					type="text"
-					name="symbol"
-					id="symbol"
+					name="currency_symbol"
+					id="currency_symbol"
 				/>
 			</div>
 			<div class="col-sm-4 pb-2">
-				<label class="form-label" for="from_symbol">From Symbol</label>
+				<label class="form-label" for="currency">Currency</label>
 				<input
-					bind:value={from_symbol}
+					value={get_currency?.currency ?? ''}
 					class="form-control"
 					type="text"
-					name="from_symbol"
-					id="from_symbol"
+					name="currency"
+					id="currency"
 				/>
 			</div>
 			<div class="col-sm-4 pb-2">
-				<label class="form-label" for="to_symbol">To Symbol</label>
+				<label class="form-label" for="currency_rate">Currency Rate</label>
 				<input
-					disabled
-					bind:value={to_symbol}
+					value={get_currency?.currency_rate ?? ''}
 					class="form-control"
 					type="text"
-					name="to_symbol"
-					id="to_symbol"
+					name="currency_rate"
+					id="currency_rate"
 				/>
 			</div>
 			<div class="col-sm-4 pb-2">
-				<label class="form-label" for="from">From {from_symbol} </label>
+				<label class="form-label" for="exchang_to">Exchang To</label>
 				<input
-					value={get_currency?.rate_from ?? ''}
+					value={get_currency?.exchang_to ?? ''}
 					class="form-control"
 					type="text"
-					name="rate_from"
-					id="from"
+					name="exchang_to"
+					id="exchang_to"
 				/>
 			</div>
 			<div class="col-sm-4 pb-2">
-				<label class="form-label" for="rate_to">To {to_symbol}</label>
+				<label class="form-label" for="exchang_rate">Exchang Rate</label>
 				<input
-					value={get_currency?.rate_to ?? ''}
+					value={get_currency?.exchang_rate ?? ''}
 					class="form-control"
 					type="text"
-					name="rate_to"
-					id="rate_to"
-				/>
-			</div>
-			<div class="col-sm-4 pb-2">
-				<label class="form-label" for="dialy_rate">Dialy rate {from_symbol}</label>
-				<input
-					value={get_currency?.dialy_rate ?? ''}
-					class="form-control"
-					type="text"
-					name="dialy_rate"
-					id="dialy_rate"
+					name="exchang_rate"
+					id="exchang_rate"
 				/>
 			</div>
 		</div>

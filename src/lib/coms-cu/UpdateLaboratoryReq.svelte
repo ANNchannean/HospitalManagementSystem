@@ -68,7 +68,7 @@
 													<label for={iitem.id.toString()} class="custom-control-label"
 														>{iitem.products}</label
 													>
-													<Currency {get_currency} among={iitem.price} />
+													<Currency symbol={get_currency?.currency_symbol} amount={iitem.price} />
 												</div>
 											</div>
 										{/each}

@@ -6,10 +6,9 @@ export const setting = mysqlTable('setting', {
 
 export const currency = mysqlTable('currency', {
 	id: int('id').primaryKey().autoincrement(),
-	symbol: varchar('symbol', { length: 3 }).notNull().unique(),
-	from_symbol: varchar('from_symbol', { length: 3 }).notNull().unique(),
-	to_symbol: varchar('to_symbol', { length: 3 }).notNull().unique().default('$'),
-	rate_to: float('rate_to').notNull(),
-	rate_from: float('rate_from').notNull(),
-	dialy_rate: float('dialy_rate').notNull()
+	currency_symbol: varchar('currency_symbol', { length: 5 }).notNull().unique(),
+	currency: varchar('currency', { length: 5 }).notNull().unique(),
+	currency_rate: float('currency_rate').notNull().unique(),
+	exchang_to: varchar('exchang_to', { length: 5 }).notNull().unique(),
+	exchang_rate: float('exchang_rate').notNull()
 });

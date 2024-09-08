@@ -123,7 +123,7 @@
 								<td>Total Laboratory </td>
 								<td>:</td>
 								<td>
-									<Currency among={total_laboratory} {get_currency} />
+									<Currency amount={total_laboratory} symbol={get_currency?.currency_symbol} />
 								</td>
 							</tr>
 						{/if}
@@ -132,7 +132,7 @@
 								<td>Total Imagrie </td>
 								<td>:</td>
 								<td>
-									<Currency among={total_imagerie} {get_currency} />
+									<Currency amount={total_imagerie} symbol={get_currency?.currency_symbol} />
 								</td>
 							</tr>
 						{/if}
@@ -141,7 +141,7 @@
 								<td>Total Treatment </td>
 								<td>:</td>
 								<td>
-									<Currency among={total_prescription} {get_currency} />
+									<Currency amount={total_prescription} symbol={get_currency?.currency_symbol} />
 								</td>
 							</tr>
 						{/if}
@@ -150,8 +150,8 @@
 							<td>:</td>
 							<td>
 								<Currency
-									among={total_prescription + total_imagerie + total_laboratory}
-									{get_currency}
+									amount={total_prescription + total_imagerie + total_laboratory}
+									symbol={get_currency?.currency_symbol}
 								/>
 							</td>
 						</tr>

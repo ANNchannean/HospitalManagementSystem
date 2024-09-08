@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import Currency from '$lib/coms/Currency.svelte';
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
-	import { rateFn } from '$lib/helper';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -48,7 +47,7 @@
 								<label for={item.id.toString()} class="custom-control-label"
 									>{item.products}
 								</label>
-								<Currency among={item.price} {get_currency} />
+								<Currency amount={item.price} symbol={get_currency?.currency_symbol} />
 							</div>
 						</div>
 					{/each}
@@ -64,12 +63,8 @@
 			<div class="col-auto">
 				<CurrencyInput
 					name="total_vaccine"
-					{get_currency}
-					value={rateFn({
-						amount: total_vaccine_service || 0,
-						get_currency: get_currency,
-						rate: get_currency?.dialy_rate || 0
-					})}
+					symbol={get_currency?.currency_symbol}
+					amount={total_vaccine_service || 0}
 				/>
 			</div>
 			<div class="col-auto">

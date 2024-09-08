@@ -62,8 +62,9 @@
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
 			inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
-			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
+				localStorage.setItem('sb|sidebar-toggle', 'true');
+				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 				if (sidebarToggle !== 'false') {
 					document.getElementById('sidebarToggle')?.click();
 				}
@@ -72,8 +73,8 @@
 	});
 	onDestroy(() => {
 		if (browser) {
-			const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 			if (window.innerWidth > 990) {
+				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
 				if (sidebarToggle !== 'true') {
 					document.getElementById('sidebarToggle')?.click();
 				}
@@ -310,7 +311,7 @@
 							<span
 								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
 							>
-								<Currency class="" among={item.price} {get_currency} />
+								<Currency class="" amount={item.price} symbol={get_currency?.currency_symbol} />
 							</span>
 						</button>
 						<span class="fs-6 text-wrap">{item.products}</span>

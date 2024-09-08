@@ -361,7 +361,6 @@ export const preBilling = async <T, U>({
 	const created_at = now_datetime();
 	const get_tax = await db.query.tax.findFirst();
 	// doing billing
-
 	await db
 		.insert(billing)
 		.values({
@@ -380,8 +379,6 @@ export const preBilling = async <T, U>({
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.created_at, created_at)
 	});
-	console.log(get_billing);
-
 	await db
 		.insert(charge)
 		.values({

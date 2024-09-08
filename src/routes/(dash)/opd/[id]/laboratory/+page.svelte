@@ -3,7 +3,6 @@
 	import Currency from '$lib/coms/Currency.svelte';
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { rateFn } from '$lib/helper';
 	import { globalLoading } from '$lib/store';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -50,7 +49,7 @@
 										<label for={iitem.id.toString()} class="custom-control-label"
 											>{iitem.products}
 										</label>
-										<Currency {get_currency} among={iitem.price} />
+										<Currency symbol={get_currency?.currency_symbol} amount={iitem.price} />
 									</div>
 								</div>
 							{/each}
@@ -66,15 +65,7 @@
 				<button type="button" class="btn btn-warning">Total Laboratory</button>
 			</div>
 			<div class="col-auto">
-				<CurrencyInput
-					name="total_laboratory"
-					{get_currency}
-					value={rateFn({
-						amount: total_laboratory || 0,
-						get_currency: get_currency,
-						rate: get_currency?.dialy_rate || 0
-					})}
-				/>
+				<CurrencyInput name="total_laboratory" symbol={get_currency?.currency_symbol} amount={total_laboratory || 0} />
 			</div>
 			<div class="col-auto">
 				<button
