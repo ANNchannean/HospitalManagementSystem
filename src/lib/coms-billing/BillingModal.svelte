@@ -10,14 +10,19 @@
 	$: ({ get_billing, get_payment_types, get_currency } = data);
 	let loading = false;
 	let disc = '';
-	$: final_disc = disc.includes('%')
+	$: after_disc = disc.includes('%')
 		? Number(get_billing?.sub_total) -
 			(Number(get_billing?.sub_total) * Number(disc.replace('%', ''))) / 100
 		: Number(get_billing?.sub_total) - Number(disc);
 	let bank_pay = 0;
-	let cash_pay_exhagne_rate = 0
-	$: cash_pay_base_currency = final_disc - bank_pay - (cash_pay_exhagne_rate * Number(get_currency?.exchang_rate)) ;
-	$: return_or_credit = (Number(bank_pay) + Number(cash_pay_base_currency) - final_disc).toFixed(2);
+	let cash_pay_exhagne_rate = 0;
+	$: cash_pay_exhagne_to_base = cash_pay_exhagne_rate * Number(get_currency?.exchang_rate);
+	let cash_pay_base_currency = 0
+	$: total_all_pay = after_disc - bank_pay - cash_pay_exhagne_to_base - cash_pay_base_currency;
+	$: return_or_credit =
+		Number(bank_pay) + Number(cash_pay_base_currency) + cash_pay_exhagne_to_base - after_disc;
+	$:console.log(total_all_pay);
+	
 </script>
 
 <!-- Modal -->
@@ -98,11 +103,11 @@
 							<span class="fs-5">សរុបចុងក្រោយ</span>
 						</div>
 						<div class="col">
-							<Currency class="fs-5" amount={final_disc} symbol={get_currency?.currency_symbol} />
+							<Currency class="fs-5" amount={after_disc} symbol={get_currency?.currency_symbol} />
 							<br />
 							<Currency
 								class="fs-5"
-								amount={final_disc}
+								amount={after_disc}
 								symbol={get_currency?.exchang_to}
 								rate={get_currency?.exchang_rate}
 							/>
@@ -141,7 +146,7 @@
 							<CurrencyInput
 								bind:amount={cash_pay_exhagne_rate}
 								symbol={get_currency?.exchang_to}
-								name="cash_pay_base_currency"
+								name="cash_pay_exhagne_rate"
 							/>
 						</div>
 					</div>
