@@ -104,14 +104,12 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		where: notLike(paymentType.by, '%CASH%')
 	});
 	const get_tax = await db.query.tax.findFirst();
-	const get_exchang = await db.query.exchang.findFirst();
 	return {
 		get_billings,
 		get_products,
 		get_product_group_type,
 		get_payment_types,
 		get_tax,
-		get_exchang,
 		get_progress_note,
 		get_currency
 	};

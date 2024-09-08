@@ -197,9 +197,11 @@
 							<td>សរុប </td>
 							<td>:</td>
 							<td>
-								{Intl.NumberFormat('en-US')
-									.format(Number(Number(get_billing?.sub_total) * Number(get_billing?.exchang)))
-									.concat(' \u17DB')}
+								<Currency
+									class=""
+									amount={get_billing?.sub_total}
+									symbol={get_currency?.currency_symbol}
+								/>
 							</td>
 						</tr>
 						<tr>
@@ -207,9 +209,12 @@
 							<td></td>
 							<td>:</td>
 							<td>
-								{Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-									get_billing?.sub_total ?? 0
-								)}
+								<Currency
+									class=""
+									rate={get_currency?.exchang_rate}
+									amount={get_billing?.sub_total}
+									symbol={get_currency?.exchang_to}
+								/>
 							</td>
 						</tr>
 					</table>

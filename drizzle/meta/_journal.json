@@ -8,6 +8,20 @@
       "when": 1725768919474,
       "tag": "0000_tricky_omega_red",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1725785019403,
+      "tag": "0001_lethal_mauler",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1725785069848,
+      "tag": "0002_flawless_fixer",
+      "breakpoints": true
     }
   ]
 }

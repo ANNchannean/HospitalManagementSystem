@@ -45,7 +45,6 @@ export const billing = mysqlTable('billing', {
 	checkin_type: varchar('checkin_type', { length: 255 }).notNull().$type<'IPD' | 'OPD'>(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	note: text('note'),
-	exchang: int('exchang').default(4000).notNull()
 });
 
 export const charge = mysqlTable('charge', {
@@ -114,7 +113,4 @@ export const tax = mysqlTable('tax', {
 	created_at: datetime('created_at', { mode: 'string' }),
 	value: float('value').default(0).notNull()
 });
-export const exchang = mysqlTable('exchang', {
-	id: int('id').primaryKey().autoincrement(),
-	rate: int('rate').default(4000).notNull()
-});
+

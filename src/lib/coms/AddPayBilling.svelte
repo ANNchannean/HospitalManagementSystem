@@ -70,7 +70,7 @@
 							/>
 							<label class="fs-4" for="amount">
 								{new Intl.NumberFormat('en-US')
-									.format(Number(value) * Number(find_billing?.exchang))
+									.format(Number(value))
 									.concat(' \u17DB')}</label
 							>
 						</div>

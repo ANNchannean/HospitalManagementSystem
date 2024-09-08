@@ -63,7 +63,7 @@
 						<div class="col">
 							<span class="fs-5"
 								>{Intl.NumberFormat('en-US')
-									.format(Number(Number(get_billing?.sub_total) * Number(get_billing?.exchang)))
+									.format(Number(Number(get_billing?.sub_total)))
 									.concat(' \u17DB')}</span
 							> <br />
 							<span class="fs-5"
@@ -94,7 +94,7 @@
 						<div class="col">
 							<span class="fs-5"
 								>{Intl.NumberFormat('en-US')
-									.format(final_disc * Number(get_billing?.exchang))
+									.format(final_disc)
 									.concat(' \u17DB')}</span
 							><br />
 							<span class="fs-5"
@@ -115,7 +115,7 @@
 						<div class="col">
 							<span class="fs-5"
 								>{Intl.NumberFormat('en-US')
-									.format(Number(return_or_credit) * Number(get_billing?.exchang))
+									.format(Number(return_or_credit))
 									.concat(' \u17DB')}</span
 							> <br />
 							<span class="fs-5"
