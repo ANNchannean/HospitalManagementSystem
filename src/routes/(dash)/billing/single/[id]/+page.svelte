@@ -8,7 +8,6 @@
 	import Toast from '$lib/coms/Toast.svelte';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
-	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { browser } from '$app/environment';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
@@ -25,9 +24,9 @@
 		charge_on_prescription,
 		charge_on_service,
 		get_billing,
-		get_payment_types,
 		get_currency,
-		charge_on_vaccine
+		charge_on_vaccine,
+		get_payment_types
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -39,7 +38,6 @@
 			form.requestSubmit();
 		}, 400);
 	};
-	let loading = false;
 	let product_group_id: number;
 	let inerHight: string;
 	let inerHight_1: string;
@@ -50,18 +48,10 @@
 		Number(charge_on_prescription?.productOrder.length || 0) +
 		Number(charge_on_vaccine?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
-	let disc = '';
-	$: final_disc = disc.includes('%')
-		? Number(get_billing?.sub_total) -
-			(Number(get_billing?.sub_total) * Number(disc.replace('%', ''))) / 100
-		: Number(get_billing?.sub_total) - Number(disc);
-	let bank_pay = 0;
-	$: cash_pay = (final_disc - bank_pay).toFixed(2);
-	$: return_or_credit = (Number(bank_pay) + Number(cash_pay) - final_disc).toFixed(2);
 	onMount(() => {
 		if (browser) {
-			inerHight = (window.innerHeight - (window.innerHeight * 23) / 100).toString().concat('px');
-			inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
+			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
+			inerHight_1 = (window.innerHeight - (window.innerHeight * 47) / 100).toString().concat('px');
 			if (window.innerWidth > 990) {
 				localStorage.setItem('sb|sidebar-toggle', 'true');
 				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
@@ -188,7 +178,7 @@
 					<table class="table table-sm mt-2 fs-5">
 						<tr class="">
 							<td></td>
-							<td>ចំនួនទំនិញ</td>
+							<td>ចំនួនទំនិញ </td>
 							<td>:</td>
 							<td>{items} មុខ </td>
 						</tr>
@@ -221,11 +211,6 @@
 
 					<hr />
 					<div class="row">
-						<!-- <div class="col">
-							<button class="btn btn-danger btn-lg w-100">
-								<i class="fa-solid fa-eraser"></i> លុប</button
-							>
-						</div> -->
 						<div class="col">
 							<button type="button" class="btn btn-primary btn-lg w-100">
 								<i class="fa-regular fa-hand"></i> កត់ទុក</button
@@ -327,4 +312,4 @@
 	</div>
 </div>
 
-<BillingModal {data} />
+<BillingModal data={{ get_billing: get_billing, get_payment_types: get_payment_types,get_currency:get_currency }} />

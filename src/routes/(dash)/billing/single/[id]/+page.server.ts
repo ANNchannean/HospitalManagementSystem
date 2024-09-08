@@ -60,27 +60,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 			productGroupType: true,
 			fileOrPicture: true
 		},
-		orderBy: asc(product.products),
-		limit: 200
-	});
-	const get_billings = await db.query.billing.findMany({
-		where: and(eq(billing.status, 'due'), eq(billing.checkin_type, 'OPD')),
-		with: {
-			visit: {
-				with: {
-					patient: true
-				}
-			},
-			charge: {
-				with: {
-					productOrder: {
-						with: {
-							product: true
-						}
-					}
-				}
-			}
-		}
+		orderBy: asc(product.products)
 	});
 
 	const get_payment_types = await db.query.paymentType.findMany({
@@ -93,9 +73,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const charge_on_service = get_billing?.charge.find((e) => e.charge_on === 'service');
 	const charge_on_prescription = get_billing?.charge.find((e) => e.charge_on === 'prescription');
 	const charge_on_vaccine = get_billing?.charge.find((e) => e.charge_on === 'vaccine');
-	const get_tax = await db.query.tax.findFirst();
 	return {
-		get_billings,
 		get_products,
 		get_product_group_type,
 		charge_on_imagerie,
@@ -105,7 +83,6 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		charge_on_prescription,
 		get_billing,
 		get_payment_types,
-		get_tax,
 		charge_on_vaccine,
 		get_currency
 	};

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	import type { PageServerData } from './$types';
@@ -32,7 +31,6 @@
 		</ol>
 	</div>
 </div>
-<CurrencyInput amount={20000.22} symbol={get_currency?.currency_symbol} />
 <div class="card">
 	<div class="card-header">
 		<span class="fs-5">#Currency</span>

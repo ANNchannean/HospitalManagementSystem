@@ -60,17 +60,3 @@ export const now_datetime = function (date: string) {
 		.reverse()
 		.join('-');
 };
-export type TCurrency =
-	| {
-			id: number;
-			currency_symbol: string;
-			currency: string;
-			currency_rate: number;
-			exchang_to: string;
-			exchang_rate: number;
-	  }
-	| undefined;
-
-console.log(Math.ceil(0.22));
-console.log((0.22).toFixed(0));
-console.log(Number(0.22));

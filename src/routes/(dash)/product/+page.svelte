@@ -142,7 +142,7 @@
 									{item.unit?.unit ?? ''}
 								</td>
 								<td>
-									<Currency amount={item?.price} symbol={get_currency?.currency_symbol}  />
+									<Currency amount={item?.price} symbol={get_currency?.currency_symbol} />
 								</td>
 								<td>
 									<div class=" m-0 p-0">
