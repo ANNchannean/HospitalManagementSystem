@@ -45,12 +45,12 @@ export async function logErrorMessage(text: string) {
 			}
 		);
 		const res = await req.json();
-
 		if (!res.ok) {
 			console.log(res);
 		}
 		if (res.ok) {
-			console.log(res.result.text);
+			console.error(res.result.text);
+			
 		}
 	} catch (error) {
 		console.log(error);

@@ -50,7 +50,7 @@
 			</div>
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
 				<table class="table table-hover">
-					<thead class="sticky-top bg-light table-active">
+					<thead class="sticky-top top-0 bg-light table-active">
 						<tr class="text-center">
 							<th style="width: 5%;">N</th>
 							<th style="width: 10%;">Dates</th>

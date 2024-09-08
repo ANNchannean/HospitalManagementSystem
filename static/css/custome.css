@@ -148,7 +148,12 @@ td {
 	border-bottom: 2px solid blue;
 }
 
-
 .sun-editor .se-resizing-bar {
 	display: none !important;
+}
+.dropdown-menu  {
+	z-index: 1050; 
+}
+thead {
+	z-index: 1050; 
 }

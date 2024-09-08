@@ -96,8 +96,7 @@ export const actions: Actions = {
 		if (visit_id <= 0) return fail(400, { visit_id: true });
 		if (visit_id > 0) {
 			// doing billing
-			await preBilling({ visit_id: visit_id, progress_id: undefined, checkin_type: 'IPD' });
-
+			await preBilling({ visit_id: visit_id, progress_id: null, checkin_type: 'OPD' });
 			// creae vital sign
 			if (asign_vitalsing === 'on') {
 				await db
@@ -137,7 +136,6 @@ export const actions: Actions = {
 					});
 			}
 		}
-
 		redirect(303, '/patient/opd');
 	}
 };

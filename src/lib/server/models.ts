@@ -361,6 +361,7 @@ export const preBilling = async <T, U>({
 	const created_at = now_datetime();
 	const get_tax = await db.query.tax.findFirst();
 	// doing billing
+
 	await db
 		.insert(billing)
 		.values({
@@ -369,7 +370,9 @@ export const preBilling = async <T, U>({
 			progress_note_id: typeof progress_id === 'number' ? progress_id : undefined,
 			checkin_type: checkin_type,
 			status: 'active',
-			tax: get_tax?.value || 0
+			tax: get_tax?.value || 0,
+			sub_total: 0,
+			total: 0
 		})
 		.catch((e) => {
 			logErrorMessage(e);
@@ -377,6 +380,8 @@ export const preBilling = async <T, U>({
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.created_at, created_at)
 	});
+	console.log(get_billing);
+
 	await db
 		.insert(charge)
 		.values({

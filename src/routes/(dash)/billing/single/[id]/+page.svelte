@@ -157,7 +157,7 @@
 			>
 				<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
 					<table class="table table-bordered table-sm">
-						<thead class="table-primary table-active position-sticky top-0">
+						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
 								<th style="width: 45%;">Product</th>
 								<th style="width: 15%;">Price</th>
