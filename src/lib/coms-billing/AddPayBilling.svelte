@@ -4,13 +4,19 @@
 	import type { PageServerData, ActionData } from '../../routes/(dash)/billing/sale-reprot/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
-	export let data: PageServerData;
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
+	import Currency from '$lib/coms/Currency.svelte';
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
+	type Data = Pick<PageServerData, 'get_billings' | 'get_currency' | 'get_payment_types'>;
+	export let data: Data;
 	export let form: ActionData;
-	export let billing_id: number;
-	export let value: number;
-	$: ({ get_billings, get_payment_types } = data);
-	$: find_billing = get_billings.find((e) => e.id === billing_id);
+	$: ({ get_billings, get_payment_types, get_currency } = data);
+	$: find_billing = get_billings[0];
 	let loading = false;
+	let pay = 0;
+	let pay_1 = 0;
+	$: total_pay =
+		pay + (pay_1 * Number(get_currency?.currency_rate)) / Number(get_currency?.exchang_rate);
 </script>
 
 {#if form?.billing_id}
@@ -59,20 +65,17 @@
 				<div class="alert alert-success mt-2">
 					<div class="row">
 						<div class="col">
+							<input type="hidden" name="value" value={total_pay} />
 							<label for="amount">Amount</label>
-							<input
-								bind:value
-								class="form-control"
-								type="number"
-								name="value"
-								step="any"
-								id="amount"
+							<CurrencyInput
+								class="input-group pb-2"
+								bind:amount={pay}
+								symbol={get_currency?.currency_symbol}
 							/>
+							<CurrencyInput bind:amount={pay_1} symbol={get_currency?.exchang_to} />
 							<label class="fs-4" for="amount">
-								{new Intl.NumberFormat('en-US')
-									.format(Number(value))
-									.concat(' \u17DB')}</label
-							>
+								<Currency class="fs-5" amount={total_pay} symbol={get_currency?.currency_symbol} />
+							</label>
 						</div>
 						<div class="col">
 							<label for="payment_type_id">Paying By</label>

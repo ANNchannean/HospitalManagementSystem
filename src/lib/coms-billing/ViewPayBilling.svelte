@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { PageServerData } from '../../routes/(dash)/billing/sale-reprot/$types';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
-	export let data: PageServerData;
+	import Currency from '$lib/coms/Currency.svelte';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
+	type Data = Pick<PageServerData, 'get_billings' | 'get_currency'>;
+	export let data: Data;
 	export let billing_id: number;
-	$: ({ get_billings } = data);
+	$: ({ get_billings, get_currency } = data);
 	$: find_billing = get_billings.find((e) => e.id === billing_id);
 	let payment_id: number;
 </script>
@@ -41,19 +44,13 @@
 						<tbody>
 							{#each find_billing?.payment || [] as item}
 								<tr>
-									<td
-										>{new Intl.DateTimeFormat('en-GB', {
-											dateStyle: 'short',
-											timeStyle: 'short',
-											hour12: true
-										}).format(new Date(item?.datetime ?? ''))}</td
-									>
+									<td>
+										<DateTimeFormat date={item.datetime} />
+									</td>
 									<td>{item.note ?? ''}</td>
-									<td
-										>{new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' }).format(
-											item.value
-										)}</td
-									>
+									<td>
+										<Currency class="" amount={item.value} symbol={get_currency?.currency_symbol} />
+									</td>
 									<td>{item.paymentType?.by ?? ''}</td>
 									<td>
 										<!-- Example single danger button -->

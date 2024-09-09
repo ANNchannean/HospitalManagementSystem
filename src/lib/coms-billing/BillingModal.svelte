@@ -15,14 +15,17 @@
 			(Number(get_billing?.sub_total) * Number(disc.replace('%', ''))) / 100
 		: Number(get_billing?.sub_total) - Number(disc);
 	let bank_pay = 0;
+	let bank_pay_exhange = 0;
+	$: total_bank_pay =
+		bank_pay +
+		(bank_pay_exhange * Number(get_currency?.currency_rate)) / Number(get_currency?.exchang_rate);
 	let cash_pay_exhagne_rate = 0;
-	$: cash_pay_exhagne_to_base = cash_pay_exhagne_rate * Number(get_currency?.exchang_rate);
-	let cash_pay_base_currency = 0
-	$: total_all_pay = after_disc - bank_pay - cash_pay_exhagne_to_base - cash_pay_base_currency;
+	$: cash_pay_exhagne_to_base =
+		(cash_pay_exhagne_rate * Number(get_currency?.currency_rate)) /
+		Number(get_currency?.exchang_rate);
+	$: cash_pay_base_currency = after_disc - cash_pay_exhagne_to_base - total_bank_pay;
 	$: return_or_credit =
-		Number(bank_pay) + Number(cash_pay_base_currency) + cash_pay_exhagne_to_base - after_disc;
-	$:console.log(total_all_pay);
-	
+		Number(total_bank_pay) + Number(cash_pay_base_currency) + cash_pay_exhagne_to_base - after_disc;
 </script>
 
 <!-- Modal -->
@@ -64,79 +67,97 @@
 				></button>
 			</div>
 			<div class="modal-body m-2">
-				<div class=" alert alert-success">
-					<div class="row pb-2">
-						<div class="col-4">
-							<span class="fs-5">សរុប</span>
-						</div>
-						<div class="col">
-							<Currency
-								class="fs-5"
-								amount={get_billing?.sub_total}
-								symbol={get_currency?.currency_symbol}
-							/>
-							<br />
-							<Currency
-								class="fs-5"
-								amount={get_billing?.sub_total}
-								symbol={get_currency?.exchang_to}
-								rate={get_currency?.exchang_rate}
-							/>
-						</div>
-					</div>
-					<div class="row pb-2">
-						<div class="col-4">
-							<span class="fs-5">បញ្ជុះតម្លៃជា​ {get_currency?.currency_symbol} ឬ % </span>
-						</div>
-						<div class="col">
-							<input
-								name="disc"
-								pattern="[0-9]+%?"
-								bind:value={disc}
-								class="form-control"
-								type="text"
-							/>
-						</div>
-					</div>
-					<div class="row pb-2">
-						<div class="col-4">
-							<span class="fs-5">សរុបចុងក្រោយ</span>
-						</div>
-						<div class="col">
-							<Currency class="fs-5" amount={after_disc} symbol={get_currency?.currency_symbol} />
-							<br />
-							<Currency
-								class="fs-5"
-								amount={after_disc}
-								symbol={get_currency?.exchang_to}
-								rate={get_currency?.exchang_rate}
-							/>
-						</div>
-					</div>
-					<div class="row pb-2">
-						<div class="col-4">
-							{#if Number(return_or_credit) < 0}
-								<span class="fs-5">នៅសល់ </span>
-							{:else}
-								<span class="fs-5">ប្រាក់អាប់ </span>
-							{/if}
-						</div>
-						<div class="col">
-							<Currency
-								class="fs-5"
-								amount={Number(return_or_credit)}
-								symbol={get_currency?.currency_symbol}
-							/>
-						</div>
+				<div class="">
+					<div class=" pb-2">
+						<table class="table table-bordered table-success">
+							<tbody>
+								<tr>
+									<td class="fs-5">សរុប</td>
+									<td
+										><Currency
+											class="fs-5"
+											amount={get_billing?.sub_total}
+											symbol={get_currency?.currency_symbol}
+										/></td
+									>
+									<td>
+										<Currency
+											class="fs-5"
+											amount={get_billing?.sub_total}
+											symbol={get_currency?.exchang_to}
+											rate={get_currency?.currency_rate}
+											rate_to={get_currency?.exchang_rate}
+										/></td
+									>
+								</tr>
+								<tr>
+									<td class="fs-5">បញ្ជុះតម្លៃជា​ {get_currency?.currency_symbol} ឬ %</td>
+									<td colspan="2">
+										<input
+											name="disc"
+											pattern="[0-9]+%?"
+											bind:value={disc}
+											class="form-control"
+											type="text"
+										/>
+									</td>
+								</tr>
+								<tr>
+									<td class="fs-5">សរុបចុងក្រោយ</td>
+									<td
+										><Currency
+											class="fs-5"
+											amount={after_disc}
+											symbol={get_currency?.currency_symbol}
+										/></td
+									>
+									<td>
+										<Currency
+											class="fs-5"
+											amount={after_disc}
+											symbol={get_currency?.exchang_to}
+											rate={get_currency?.currency_rate}
+											rate_to={get_currency?.exchang_rate}
+										/>
+									</td></tr
+								>
+								<tr>
+									<td class="fs-5"
+										>{#if Number(return_or_credit) < 0}
+											<span class="fs-5">នៅសល់ </span>
+										{:else}
+											<span class="fs-5">ប្រាក់អាប់ </span>
+										{/if}</td
+									>
+									<td>
+										<Currency
+											class="fs-5"
+											amount={Number(return_or_credit)}
+											symbol={get_currency?.currency_symbol}
+										/>
+									</td>
+									<td>
+										<Currency
+											class="fs-5"
+											amount={Number(return_or_credit)}
+											rate={get_currency?.currency_rate}
+											rate_to={get_currency?.exchang_rate}
+											symbol={get_currency?.exchang_to}
+										/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 
-				<div class=" alert alert-success">
+				<div class=" alert alert-primary">
 					<div class="row pb-2">
 						<div class="col-4">
 							<span class="fs-5">ទឹកប្រាក់ទទួល</span>
 						</div>
 						<div class="col">
+							<input type="hidden" name="cash_pay" value={cash_pay_base_currency} />
 							<CurrencyInput
 								class="input-group mb-2"
 								bind:amount={cash_pay_base_currency}
@@ -150,16 +171,24 @@
 							/>
 						</div>
 					</div>
+					<hr />
 					<div class="row">
 						<div class="col-4">
-							<span class="fs-5">បង់តាមធនាគារ</span>
+							<span class="fs-5">បង់តាមធនាគារ </span>
 						</div>
 						<div class="col">
+							<input value={total_bank_pay} type="hidden" name="bank_pay" />
 							<CurrencyInput
 								class="input-group mb-2"
 								bind:amount={bank_pay}
 								symbol={get_currency?.currency_symbol}
-								name="bank_pay"
+								name="bank_pay_"
+							/>
+							<CurrencyInput
+								class="input-group mb-2"
+								bind:amount={bank_pay_exhange}
+								symbol={get_currency?.exchang_to}
+								name="bank_pay_exhange"
 							/>
 
 							<select class="form-control" name="payment_type_id" id="payment_type_id">

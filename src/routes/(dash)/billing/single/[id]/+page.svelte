@@ -13,6 +13,8 @@
 	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
+	import ConfirmSubmit from '$lib/coms/ConfirmSubmit.svelte';
+	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -201,7 +203,8 @@
 							<td>
 								<Currency
 									class=""
-									rate={get_currency?.exchang_rate}
+									rate={get_currency?.currency_rate}
+									rate_to={get_currency?.exchang_rate}
 									amount={get_billing?.sub_total}
 									symbol={get_currency?.exchang_to}
 								/>
@@ -212,7 +215,12 @@
 					<hr />
 					<div class="row">
 						<div class="col">
-							<button type="button" class="btn btn-primary btn-lg w-100">
+							<button
+								data-bs-toggle="modal"
+								data-bs-target="#confirme_modal"
+								type="button"
+								class="btn btn-primary btn-lg w-100"
+							>
 								<i class="fa-regular fa-hand"></i> កត់ទុក</button
 							>
 						</div>
@@ -312,4 +320,12 @@
 	</div>
 </div>
 
-<BillingModal data={{ get_billing: get_billing, get_payment_types: get_payment_types,get_currency:get_currency }} />
+<BillingModal
+	data={{
+		get_billing: get_billing,
+		get_payment_types: get_payment_types,
+		get_currency: get_currency
+	}}
+/>
+
+<ConfirmeModal action="?/hold" id={get_billing?.id} />

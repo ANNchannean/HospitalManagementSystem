@@ -57,7 +57,7 @@
 							<th style="width: 5%;">#</th>
 							<th style="width: 10%;">Patient</th>
 							<th style="width: 10%;">Status</th>
-							<th style="width: 10%;">Pay</th>
+							<th style="width: 10%;">Payment</th>
 						</tr>
 					</thead>
 					<tbody>

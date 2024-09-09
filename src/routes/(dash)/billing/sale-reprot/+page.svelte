@@ -2,13 +2,13 @@
 	import type { EventHandler } from 'svelte/elements';
 	import type { PageServerData, ActionData } from './$types';
 	import { inerHight } from '$lib/store';
-	import ViewPayBilling from '$lib/coms/ViewPayBilling.svelte';
-	import AddPayBilling from '$lib/coms/AddPayBilling.svelte';
+	import ViewPayBilling from '$lib/coms-billing/ViewPayBilling.svelte';
+	import AddPayBilling from '$lib/coms-billing/AddPayBilling.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_billings, get_currency } = data);
+	$: ({ get_billings, get_currency, get_payment_types } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -19,11 +19,11 @@
 		}, 400);
 	};
 	let billing_id = 0;
-	$: value = get_billings?.find((e) => e.id === billing_id)?.balance || 0;
+	$: find_billing = get_billings.filter((e) => e.id === billing_id);
 </script>
 
-<ViewPayBilling {data} {billing_id} />
-<AddPayBilling {value} {data} {form} {billing_id} />
+<ViewPayBilling data={{ get_billings: get_billings, get_currency: get_currency }} {billing_id} />
+<AddPayBilling data={{ get_billings: find_billing, get_currency, get_payment_types }} {form} />
 
 <div class="row">
 	<div class="col-sm-6">
@@ -111,14 +111,22 @@
 								<td>{item.visit?.patient?.telephone ?? ''}</td>
 								<td></td>
 								<td>
-									<Currency class="" amount={item.sub_total} symbol={get_currency?.currency_symbol} />
+									<Currency
+										class=""
+										amount={item.sub_total}
+										symbol={get_currency?.currency_symbol}
+									/>
 								</td>
 
 								<td>
 									{#if item.discount.includes('%')}
 										{item.discount}
 									{:else if Number(item.discount) > 0}
-										<Currency class="" amount={+item.discount} symbol={get_currency?.currency_symbol} />
+										<Currency
+											class=""
+											amount={+item.discount}
+											symbol={get_currency?.currency_symbol}
+										/>
 									{/if}
 								</td>
 								<td>
@@ -126,7 +134,11 @@
 								</td>
 								<td>{item.tax}</td>
 								<td>
-									<Currency class="" amount={item.total_after_tax} symbol={get_currency?.currency_symbol} />
+									<Currency
+										class=""
+										amount={item.total_after_tax}
+										symbol={get_currency?.currency_symbol}
+									/>
 								</td>
 								<td>
 									<Currency class="" amount={item.paid} symbol={get_currency?.currency_symbol} />

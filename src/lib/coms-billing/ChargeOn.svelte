@@ -39,7 +39,7 @@
 			{/each}
 		</td>
 		<td>
-			<fieldset disabled={get_billing?.status !== 'process'}>
+			<fieldset>
 				<input type="hidden" name="charge_id" value={charge_on_laboratory.id ?? ''} />
 				<CurrencyInput
 					class="input-group input-group-sm"
@@ -60,7 +60,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<CurrencyInput
 						class="input-group input-group-sm"
 						name="price"
@@ -70,7 +70,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input type="hidden" name="product_order_id" value={item.id} />
 
 					<input
@@ -84,7 +84,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input
 						class="form-control form-control-sm"
 						type="text"
@@ -143,7 +143,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<CurrencyInput
 						class="input-group input-group-sm"
 						name="price"
@@ -153,7 +153,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="form-control form-control-sm"
@@ -166,7 +166,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input
 						class="form-control form-control-sm"
 						type="text"
@@ -192,7 +192,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<CurrencyInput
 						class="input-group input-group-sm"
 						name="price"
@@ -202,7 +202,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="form-control form-control-sm"
@@ -215,7 +215,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input
 						class="form-control form-control-sm"
 						type="text"
@@ -241,7 +241,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<CurrencyInput
 						class="input-group input-group-sm"
 						name="price"
@@ -251,7 +251,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="form-control form-control-sm"
@@ -264,7 +264,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input
 						class="form-control form-control-sm"
 						type="text"
@@ -290,7 +290,7 @@
 				<br />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<CurrencyInput
 						class="input-group input-group-sm"
 						name="price"
@@ -300,7 +300,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input type="hidden" name="product_order_id" value={item.id} />
 					<input
 						class="form-control form-control-sm"
@@ -313,7 +313,7 @@
 				</fieldset>
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<input
 						class="form-control form-control-sm"
 						type="text"
@@ -327,7 +327,7 @@
 				<Currency class="" amount={item.total || 0} symbol={get_currency?.currency_symbol} />
 			</td>
 			<td>
-				<fieldset disabled={get_billing?.status !== 'process'}>
+				<fieldset>
 					<form
 						action="?/remove_product_order"
 						use:enhance={() => {

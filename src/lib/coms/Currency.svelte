@@ -2,11 +2,13 @@
 	export let amount: number | undefined;
 	export let symbol: string | undefined;
 	export let rate: number = 0;
+	export let rate_to: number = 0;
 	let conerting: string;
+	$: total = (Number(amount) * rate_to) / rate || 0;
 	$: {
 		if (rate > 0) {
 			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })
-				.format(Number(amount) / rate)
+				.format(total)
 				.concat(' ' + symbol ?? '');
 		} else {
 			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })

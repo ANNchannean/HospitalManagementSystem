@@ -1,4 +1,5 @@
 import {
+	boolean,
 	date,
 	datetime,
 	decimal,
@@ -44,7 +45,8 @@ export const billing = mysqlTable('billing', {
 		.notNull(),
 	checkin_type: varchar('checkin_type', { length: 255 }).notNull().$type<'IPD' | 'OPD'>(),
 	created_at: datetime('created_at', { mode: 'string' }),
-	note: text('note'),
+	hold: boolean('hold').default(false).notNull(),
+	note: text('note')
 });
 
 export const charge = mysqlTable('charge', {
@@ -113,4 +115,3 @@ export const tax = mysqlTable('tax', {
 	created_at: datetime('created_at', { mode: 'string' }),
 	value: float('value').default(0).notNull()
 });
-

@@ -265,5 +265,15 @@ export const actions: Actions = {
 		});
 
 		redirect(303, '/billing/sale-reprot');
+	},
+	hold: async ({ params }) => {
+		const { id: billing_id } = params;
+		await db
+			.update(billing)
+			.set({
+				hold: true
+			})
+			.where(eq(billing.id, +billing_id));
+		redirect(303, '/billing/sale-reprot');
 	}
 };
