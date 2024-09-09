@@ -274,6 +274,6 @@ export const actions: Actions = {
 				hold: true
 			})
 			.where(eq(billing.id, +billing_id));
-		redirect(303, '/billing/sale-reprot');
+		redirect(303, '/billing/opd');
 	}
 };

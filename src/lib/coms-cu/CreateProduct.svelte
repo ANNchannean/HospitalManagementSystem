@@ -5,7 +5,6 @@
 	import Select from '$lib/coms/Select.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import CreateProductGroup from '$lib/coms-cu/CreateProductGroup.svelte';
-	import CreateSubUnitForm from './CreateSubUnitForm.svelte';
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	type Data = Pick<
 		PageServerData,
@@ -26,7 +25,7 @@
 	$: inventory = find_product?.inventory.length ? find_product?.inventory[0] : undefined;
 	let loading = false;
 	let subUnitForm = inventory?.subUnit.length || 0;
-	let main_unit_id = data.get_products.find((e) => e.id === product_id)?.unit_id;
+	$: main_unit_id = data?.get_products[0]?.unit_id;
 </script>
 
 <CreateProductGroup data={{ get_product_group_type: get_product_group_type }} />
@@ -142,14 +141,12 @@
 									<div class="col-3">
 										<div class="form-group pb-3">
 											<label for="price">Price</label>
-											<input
-												class="form-control"
-												value={find_product?.price ?? ''}
+											<CurrencyInput
 												name="price"
-												step="any"
-												type="number"
-												id="price"
+												amount={find_product?.price}
+												symbol={get_currency?.currency_symbol}
 											/>
+
 											{#if form?.price}
 												<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 											{/if}
@@ -173,8 +170,9 @@
 										<div class="form-group pb-3">
 											<label for="unit_id">Unit </label>
 											<div class="input-group">
+												{main_unit_id}
 												<Select
-													bind:value={main_unit_id}
+													value={main_unit_id}
 													name="unit_id"
 													items={units.map((e) => ({ id: e.id, name: e.unit }))}
 												/>
