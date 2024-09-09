@@ -12,8 +12,9 @@
 	export let form: ActionData;
 	$: ({ get_billings, get_payment_types, get_currency } = data);
 	$: find_billing = get_billings[0];
+	export let balance = 0;
 	let loading = false;
-	let pay = 0;
+	$: pay = balance;
 	let pay_1 = 0;
 	$: total_pay =
 		pay + (pay_1 * Number(get_currency?.currency_rate)) / Number(get_currency?.exchang_rate);
@@ -73,9 +74,6 @@
 								symbol={get_currency?.currency_symbol}
 							/>
 							<CurrencyInput bind:amount={pay_1} symbol={get_currency?.exchang_to} />
-							<label class="fs-4" for="amount">
-								<Currency class="fs-5" amount={total_pay} symbol={get_currency?.currency_symbol} />
-							</label>
 						</div>
 						<div class="col">
 							<label for="payment_type_id">Paying By</label>
