@@ -20,11 +20,14 @@
 	};
 	let billing_id = 0;
 	$: find_billing = get_billings.filter((e) => e.id === billing_id) || [];
-	
 </script>
 
 <ViewPayBilling data={{ get_billings: get_billings, get_currency: get_currency }} {billing_id} />
-<AddPayBilling balance={find_billing[0]?.balance} data={{ get_billings: find_billing, get_currency, get_payment_types }} {form} />
+<AddPayBilling
+	balance={find_billing[0]?.balance}
+	data={{ get_billings: find_billing, get_currency, get_payment_types }}
+	{form}
+/>
 
 <div class="row">
 	<div class="col-sm-6">

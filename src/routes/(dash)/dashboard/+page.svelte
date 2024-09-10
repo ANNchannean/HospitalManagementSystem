@@ -1,5 +1,4 @@
 <script lang="ts">
-
 </script>
 
 <form id="myform" method="get" action="something.php">
@@ -7,7 +6,6 @@
 </form>
 <button type="submit" form="myform">Click me!</button>
 <input type="submit" form="myform" value="Update" />
-
 
 <h1 id="one" class="m-0">Dashbaord</h1>
 <ol class="breadcrumb float-sm-right">

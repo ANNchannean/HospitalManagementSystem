@@ -58,7 +58,11 @@
 			<div class="col text-end">
 				<button class="btn btn-warning"
 					>Total Imagerie
-					<Currency class="fs-6" amount={total_imagerie || 0} symbol={get_currency?.currency_symbol} />
+					<Currency
+						class="fs-6"
+						amount={total_imagerie || 0}
+						symbol={get_currency?.currency_symbol}
+					/>
 				</button>
 			</div>
 

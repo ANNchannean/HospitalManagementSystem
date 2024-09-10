@@ -65,7 +65,11 @@
 				<button type="button" class="btn btn-warning">Total Laboratory</button>
 			</div>
 			<div class="col-auto">
-				<CurrencyInput name="total_laboratory" symbol={get_currency?.currency_symbol} amount={total_laboratory || 0} />
+				<CurrencyInput
+					name="total_laboratory"
+					symbol={get_currency?.currency_symbol}
+					amount={total_laboratory || 0}
+				/>
 			</div>
 			<div class="col-auto">
 				<button

@@ -1,7 +1,7 @@
 // import { generateIdFromEntropySize } from 'lucia';
-import { eq,like } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 import { db } from './db';
-import { product, setting } from './schema';
+import { product } from './schema';
 // import { inventory, user } from './schema';
 // import { generateIdFromEntropySize } from 'lucia';
 // import { hash } from '@node-rs/argon2';
@@ -24,7 +24,7 @@ async function main() {
 	// 	username: 'doctor'
 	// });
 	const products = await db.query.product.findMany({
-		where:like(product.price,'%20.00%')
+		where: like(product.price, '%20.00%')
 	});
 	for (const e of products) {
 		await db
@@ -33,10 +33,9 @@ async function main() {
 				price: e.price - 20
 			})
 			.where(eq(product.id, e.id));
-		
 	}
-	console.log((products.length));
-	
+	console.log(products.length);
+
 	// await db.insert(setting).values({});
 	console.log('Done');
 	process.exit(0);

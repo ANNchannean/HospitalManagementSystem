@@ -50,7 +50,6 @@ export async function logErrorMessage(text: string) {
 		}
 		if (res.ok) {
 			console.error(res.result.text);
-			
 		}
 	} catch (error) {
 		console.log(error);

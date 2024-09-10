@@ -9,7 +9,7 @@ export const loginTracker = () => {
 		version: version,
 		userinfo: userinfo?.username,
 		ip_address: address,
-		mac_address: mac 
+		mac_address: mac
 	};
 };
 

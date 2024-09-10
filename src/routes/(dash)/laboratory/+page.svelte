@@ -7,7 +7,7 @@
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
-	$: ({ get_visits, get_laboratory_group,get_currency } = data);
+	$: ({ get_visits, get_laboratory_group, get_currency } = data);
 	$: find_visit = get_visits.filter((e) => e.id === visit_id);
 </script>
 
@@ -16,7 +16,7 @@
 	data={{
 		get_laboratory_group,
 		get_visits: find_visit,
-		get_currency:get_currency
+		get_currency: get_currency
 	}}
 />
 <!-- @_Visite_Modal -->

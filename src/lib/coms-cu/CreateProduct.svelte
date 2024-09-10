@@ -118,7 +118,7 @@
 											id: e.id,
 											name: e.group_type
 										}))}
-									/> 
+									/>
 									<button
 										type="button"
 										data-bs-toggle="modal"
