@@ -155,7 +155,11 @@
 						</div>
 						{$t('common.dashboard')}
 					</a>
-					<a class:active={$page.url.pathname === '/pos'} href="/pos" class="nav-link">
+					<a
+						class:active={$page.url.pathname === '/billing/pos'}
+						href="/billing/pos"
+						class="nav-link"
+					>
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-money-bill-1-wave"></i>
 						</div>

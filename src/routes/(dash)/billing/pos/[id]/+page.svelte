@@ -82,7 +82,7 @@
 {/if}
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing OPD</h2>
+		<h2>Billing POS</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
@@ -100,8 +100,8 @@
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
-					><i class="fas fa-stethoscope"></i>
-					OPD
+					><i class="fas fa-money-bill-1-wave"></i>
+					POS
 				</a>
 			</li>
 		</ol>

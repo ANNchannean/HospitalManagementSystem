@@ -1,6 +1,33 @@
 import { lucia } from '$lib/server/lucia';
 import { type Handle } from '@sveltejs/kit';
+import { redis } from '$lib/server/redis';
 export const handle: Handle = async ({ event, resolve }) => {
+	// @ Redis Catch
+	async function redisCatch() {
+		const { url } = event;
+		const key = `rendered:v1:${url.pathname}`;
+		let cached = await redis.hGetAll(key);
+		if (!cached.body) {
+			// if it wasn't cached, we render the pages
+			const response = await resolve(event);
+
+			// then convert it into a cachable object
+			cached = Object.fromEntries(response.headers.entries());
+			cached.body = await response.text();
+
+			if (response.status === 200) {
+				// and write it to the Redis cache ...
+				// NOTE: although this returns a promise
+				// we don't await it, so we don't delay
+				// returning the response to the client
+				// (the cache write is "fire and forget")
+				redis.hSet(key, cached);
+			}
+		}
+		const { body, ...headers } = cached;
+		return new Response(body, { headers: new Headers(headers) });
+	}
+
 	// @ Auth Lucaia
 	const lang = event.cookies.get('lang') ?? '';
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
@@ -31,6 +58,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 	event.locals.lang = lang;
 	// @ Language Emplement
-
+	// redisCatch();
 	return resolve(event);
 };

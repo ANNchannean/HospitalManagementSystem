@@ -14,18 +14,27 @@
 		? Number(get_billing?.sub_total) -
 			(Number(get_billing?.sub_total) * Number(disc.replace('%', ''))) / 100
 		: Number(get_billing?.sub_total) - Number(disc);
+
 	let bank_pay = 0;
 	let bank_pay_exhange = 0;
+	$: default_cash_pay =
+		after_disc - (total_bank_pay + cash_pay_exhange * Number(get_currency?.currency_rate));
+	let cash_pay = 0;
+	$: {
+		if (default_cash_pay > 0) {
+			cash_pay = default_cash_pay;
+		} else {
+			cash_pay = 0;
+		}
+	}
+	let cash_pay_exhange = 0;
 	$: total_bank_pay =
 		bank_pay +
 		(bank_pay_exhange * Number(get_currency?.currency_rate)) / Number(get_currency?.exchang_rate);
-	let cash_pay_exhagne_rate = 0;
-	$: cash_pay_exhagne_to_base =
-		(cash_pay_exhagne_rate * Number(get_currency?.currency_rate)) /
-		Number(get_currency?.exchang_rate);
-	$: cash_pay_base_currency = after_disc - cash_pay_exhagne_to_base - total_bank_pay;
-	$: return_or_credit =
-		Number(total_bank_pay) + Number(cash_pay_base_currency) + cash_pay_exhagne_to_base - after_disc;
+	$: total_cash_pay =
+		cash_pay +
+		(cash_pay_exhange * Number(get_currency?.currency_rate)) / Number(get_currency?.exchang_rate);
+	$: return_or_credit = Number(total_bank_pay) + Number(total_cash_pay) - after_disc;
 </script>
 
 <!-- Modal -->
@@ -157,15 +166,15 @@
 							<span class="fs-5">ទឹកប្រាក់ទទួល</span>
 						</div>
 						<div class="col">
-							<input type="hidden" name="cash_pay" value={cash_pay_base_currency} />
+							<input type="hidden" name="cash_pay" value={total_cash_pay} />
 							<CurrencyInput
 								class="input-group mb-2"
-								bind:amount={cash_pay_base_currency}
+								bind:amount={cash_pay}
 								symbol={get_currency?.currency_symbol}
 								name="cash_pay_base_currency"
 							/>
 							<CurrencyInput
-								bind:amount={cash_pay_exhagne_rate}
+								bind:amount={cash_pay_exhange}
 								symbol={get_currency?.exchang_to}
 								name="cash_pay_exhagne_rate"
 							/>
