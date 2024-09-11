@@ -17,15 +17,17 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 
-	type TAddToCard = {
-		product_id: number;
-		price: number;
-		qty: number;
-		dis: string;
-		sub_total: number;
-		total: number;
-		product_name: string;
-	};
+	type TAddToCard =
+		| {
+				product_id: number;
+				price: number;
+				qty: number;
+				dis: string;
+				sub_total: number;
+				total: number;
+				product_name: string;
+		  }
+		| undefined;
 
 	$: ({ get_products, get_product_group_type, get_currency, get_payment_types } = data);
 
@@ -41,6 +43,7 @@
 	let product_group_id: number;
 	let inerHight: string;
 	let inerHight_1: string;
+
 	onMount(() => {
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
@@ -64,7 +67,7 @@
 			}
 		}
 	});
-	let producs_order: TAddToCard[] = [];
+
 	function addToCart({
 		price,
 		product_id,
@@ -74,17 +77,33 @@
 		product_id: number;
 		product_name: string;
 	}) {
-		const get_products = localStorage.getItem('producs_order');
-		producs_order.push({
-			dis: '',
+		const get_products_order = (): TAddToCard[] => {
+			try {
+				return JSON.parse(localStorage.getItem('producs_order') || '');
+			} catch (error) {
+				return [];
+			}
+		};
+		let p: TAddToCard[] = get_products_order();
+		const _p = p?.map((e) => {
+			if (e?.product_id === product_id) {
+				return { ...e, qty: e.qty + 1, total: price * e.qty + 1 };
+			} else {
+				return e;
+			}
+		});
+
+		p?.push({
+			dis: 'a',
+			price: price,
 			product_id: product_id,
 			product_name: product_name,
 			qty: 1,
-			price: price,
-			sub_total: 1,
-			total: 1
+			sub_total: price,
+			total: price
 		});
-		localStorage.setItem('producs_order', JSON.stringify(producs_order));
+
+		localStorage.setItem('producs_order', JSON.stringify(_p));
 	}
 </script>
 
