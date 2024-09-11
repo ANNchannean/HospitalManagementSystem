@@ -16,19 +16,18 @@
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({
-		get_products,
-		get_product_group_type,
-		charge_on_imagerie,
-		charge_on_laboratory,
-		charge_on_general,
-		charge_on_prescription,
-		charge_on_service,
-		get_billing,
-		get_currency,
-		charge_on_vaccine,
-		get_payment_types
-	} = data);
+
+	type TAddToCard = {
+		product_id: number;
+		price: number;
+		qty: number;
+		dis: string;
+		sub_total: number;
+		total: number;
+		product_name: string;
+	};
+
+	$: ({ get_products, get_product_group_type, get_currency, get_payment_types } = data);
 
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
@@ -42,13 +41,6 @@
 	let product_group_id: number;
 	let inerHight: string;
 	let inerHight_1: string;
-	$: items =
-		Number(charge_on_imagerie?.productOrder.length || 0) +
-		Number(charge_on_laboratory?.productOrder.length || 0) +
-		Number(charge_on_general?.productOrder.length || 0) +
-		Number(charge_on_prescription?.productOrder.length || 0) +
-		Number(charge_on_vaccine?.productOrder.length || 0) +
-		Number(charge_on_service?.productOrder.length || 0);
 	onMount(() => {
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
@@ -72,14 +64,30 @@
 			}
 		}
 	});
+	let producs_order: TAddToCard[] = [];
+	function addToCart({
+		price,
+		product_id,
+		product_name
+	}: {
+		price: number;
+		product_id: number;
+		product_name: string;
+	}) {
+		const get_products = localStorage.getItem('producs_order');
+		producs_order.push({
+			dis: '',
+			product_id: product_id,
+			product_name: product_name,
+			qty: 1,
+			price: price,
+			sub_total: 1,
+			total: 1
+		});
+		localStorage.setItem('producs_order', JSON.stringify(producs_order));
+	}
 </script>
 
-{#if form?.disc}
-	<Toast message="ការបញ្ជុះតម្លៃត្រូវតែជា (10% ឫ 10 )" />
-{/if}
-{#if form?.errProductOrder}
-	<Toast message="សូមជ្រើសរើសឈ្មោះអ្នកជំងឺ!" />
-{/if}
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Billing POS</h2>
@@ -118,13 +126,8 @@
 							<tr>
 								<td>ឈ្មេះអ្នកជំងឺ</td>
 								<td>:</td>
-								<td
-									>{get_billing?.visit?.patient?.name_khmer}
-									@{get_billing?.visit?.patient?.name_latin}
-								</td>
-								<td>
-									<DateTimeFormat date={get_billing?.visit?.date_checkup} />
-								</td>
+								<td># </td>
+								<td> # </td>
 							</tr>
 						</table>
 					</div>
@@ -159,20 +162,7 @@
 								<th style="width: 5%;">X</th>
 							</tr>
 						</thead>
-						<tbody>
-							<ChargeOn
-								data={{
-									charge_on_general: charge_on_general,
-									charge_on_imagerie: charge_on_imagerie,
-									charge_on_laboratory: charge_on_laboratory,
-									charge_on_prescription: charge_on_prescription,
-									charge_on_service: charge_on_service,
-									charge_on_vaccine: charge_on_vaccine,
-									get_billing: get_billing,
-									get_currency: get_currency
-								}}
-							/>
-						</tbody>
+						<tbody> // </tbody>
 					</table>
 				</div>
 				<div class="card-header">
@@ -181,33 +171,19 @@
 							<td></td>
 							<td>ចំនួនទំនិញ </td>
 							<td>:</td>
-							<td>{items} មុខ </td>
+							<td> មុខ </td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>សរុប </td>
 							<td>:</td>
-							<td>
-								<Currency
-									class=""
-									amount={get_billing?.sub_total}
-									symbol={get_currency?.currency_symbol}
-								/>
-							</td>
+							<td> # </td>
 						</tr>
 						<tr>
 							<td></td>
 							<td></td>
 							<td>:</td>
-							<td>
-								<Currency
-									class=""
-									rate={get_currency?.currency_rate}
-									rate_to={get_currency?.exchang_rate}
-									amount={get_billing?.sub_total}
-									symbol={get_currency?.exchang_to}
-								/>
-							</td>
+							<td> # </td>
 						</tr>
 					</table>
 
@@ -283,23 +259,23 @@
 				{#each get_products as item}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-					<form
-						on:click={(e) => e.currentTarget.requestSubmit()}
+					<div
 						style="min-height: 200px;"
-						method="post"
-						use:enhance={() => {
-							$globalLoading = true;
-							return async ({ update }) => {
-								await update();
-								$globalLoading = false;
-							};
-						}}
-						action="?/create_product_order"
 						class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 border m-2 p-2 btn btn-light"
 					>
 						<input type="hidden" name="product_id" value={item.id} />
 						<input type="hidden" name="price" value={item.price} />
-						<button type="button" class="position-relative text-wrap btn m-0 p-0">
+						<button
+							on:click={() => {
+								addToCart({
+									price: item.price,
+									product_id: item.id,
+									product_name: item.products
+								});
+							}}
+							type="button"
+							class="position-relative text-wrap btn m-0 p-0"
+						>
 							{#if item.fileOrPicture?.filename}
 								<img class="img-thumbnail" src="/files/{item.fileOrPicture.filename}" alt="" />
 							{:else}
@@ -312,19 +288,9 @@
 							</span>
 						</button>
 						<span class="fs-6 text-wrap">{item.products}</span>
-					</form>
+					</div>
 				{/each}
 			</div>
 		</div>
 	</div>
 </div>
-
-<BillingModal
-	data={{
-		get_billing: get_billing,
-		get_payment_types: get_payment_types,
-		get_currency: get_currency
-	}}
-/>
-
-<ConfirmeModal action="?/hold" id={get_billing?.id} />
