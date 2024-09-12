@@ -9,11 +9,11 @@
 		if (rate > 0) {
 			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })
 				.format(total)
-				.concat(' ' + symbol ?? '');
+				.concat(' ' + symbol || '');
 		} else {
 			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })
 				.format(amount || 0)
-				.concat(' ' + symbol ?? '');
+				.concat(' ' + symbol || '');
 		}
 	}
 

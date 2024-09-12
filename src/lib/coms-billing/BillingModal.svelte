@@ -100,7 +100,7 @@
 									>
 								</tr>
 								<tr>
-									<td class="fs-5">បញ្ជុះតម្លៃជា​ {get_currency?.currency_symbol} ឬ %</td>
+									<td class="fs-5">បញ្ជុះតម្លៃជា​{get_currency?.currency_symbol} ឬ %</td>
 									<td colspan="2">
 										<input
 											name="disc"

@@ -17,7 +17,7 @@
 	export let data: PageServerData;
 	export let form: ActionData;
 
-	type TAddToCard =
+	type CartItem =
 		| {
 				product_id: number;
 				price: number;
@@ -26,11 +26,11 @@
 				sub_total: number;
 				total: number;
 				product_name: string;
+				change_on: string;
 		  }
 		| undefined;
 
 	$: ({ get_products, get_product_group_type, get_currency, get_payment_types } = data);
-
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -55,6 +55,7 @@
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
+			displayCart();
 		}
 	});
 	onDestroy(() => {
@@ -68,6 +69,26 @@
 		}
 	});
 
+	function increaseQuantity(id: number): void {
+		let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+		let item = cart.find((item) => item?.product_id === id);
+
+		if (item) {
+			item.qty += 1;
+			localStorage.setItem('cart', JSON.stringify(cart));
+			displayCart();
+		}
+	}
+	function decreaseQuantity(id: number): void {
+		let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+		let item = cart.find((item) => item?.product_id === id);
+
+		if (item && item.qty > 1) {
+			item.qty -= 1;
+			localStorage.setItem('cart', JSON.stringify(cart));
+			displayCart();
+		}
+	}
 	function addToCart({
 		price,
 		product_id,
@@ -77,33 +98,28 @@
 		product_id: number;
 		product_name: string;
 	}) {
-		const get_products_order = (): TAddToCard[] => {
-			try {
-				return JSON.parse(localStorage.getItem('producs_order') || '');
-			} catch (error) {
-				return [];
-			}
-		};
-		let p: TAddToCard[] = get_products_order();
-		const _p = p?.map((e) => {
-			if (e?.product_id === product_id) {
-				return { ...e, qty: e.qty + 1, total: price * e.qty + 1 };
-			} else {
-				return e;
-			}
-		});
-
-		p?.push({
-			dis: 'a',
-			price: price,
-			product_id: product_id,
-			product_name: product_name,
-			qty: 1,
-			sub_total: price,
-			total: price
-		});
-
-		localStorage.setItem('producs_order', JSON.stringify(_p));
+		let card: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+		let item = card.find((e) => e?.product_id === product_id);
+		if (item) {
+			item.qty += 1;
+		} else {
+			card.push({
+				dis: '',
+				price: price,
+				product_id: product_id,
+				product_name: product_name,
+				qty: 1,
+				sub_total: price,
+				total: price,
+				change_on: 'GENERAL'
+			});
+		}
+		localStorage.setItem('cart', JSON.stringify(card));
+		displayCart();
+	}
+	let cart: CartItem[] = [];
+	function displayCart() {
+		cart = JSON.parse(localStorage.getItem('cart') || '[]');
 	}
 </script>
 
@@ -169,7 +185,7 @@
 				action="?/update_product_order"
 				method="post"
 			>
-				<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
+				<div style="height: {inerHight_1}; " class="overflow-y-auto table-responsive">
 					<table class="table table-bordered table-sm">
 						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
@@ -181,7 +197,9 @@
 								<th style="width: 5%;">X</th>
 							</tr>
 						</thead>
-						<tbody> // </tbody>
+						<tbody>
+							{JSON.stringify(cart)}
+						</tbody>
 					</table>
 				</div>
 				<div class="card-header">
