@@ -15,6 +15,7 @@
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	import Select from '$lib/coms/Select.svelte';
+	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -24,7 +25,8 @@
 		get_billing,
 		get_currency,
 		get_payment_types,
-		get_patients
+		get_patients,
+		get_pos
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -40,6 +42,7 @@
 	let inerHight: string;
 	let inerHight_1: string;
 	$: items = Number(charge_on_general?.productOrder.length || 0);
+	let patient_id = data.get_pos?.patient_id;
 	onMount(() => {
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
@@ -104,21 +107,37 @@
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class=" row">
-					<div class="col-2">ឈ្មេះអ្នកជំងឺ</div>
+					<div class="col-2">ឈ្មេះអ្នកជំងឺ {patient_id}</div>
 					<div class="col-10">
-						<Select
-							name="patient_id"
-							items={get_patients.map((e) => ({
-								id: e.id,
-								name: e.name_khmer
-									.concat(` ${e.name_latin}`)
-									.concat(` ,${e.gender}`)
-									.concat(` ,${e.village?.type} ${e.village?.name_khmer}`)
-									.concat(` ${e.commune?.type} ${e.commune?.name_khmer}`)
-									.concat(` ${e.district?.type} ${e.district?.name_khmer}`)
-									.concat(` ${e.provice?.type} ${e.provice?.name_khmer}`)
-							}))}
-						/>
+						<form
+							on:change={(e) => e.currentTarget.requestSubmit}
+							use:enhance={() => {
+								$globalLoading = true;
+								return async ({ update }) => {
+									await update({ reset: false });
+									$globalLoading = false;
+								};
+							}}
+							action="?/add_patient"
+							method="post"
+						>
+							<input type="hidden" name="pos_id" value={get_billing?.pos_id} />
+
+							<Select
+								name="patient_id"
+								bind:value={patient_id}
+								items={get_patients.map((e) => ({
+									id: e.id,
+									name: e.name_khmer
+										.concat(` ${e.name_latin}`)
+										.concat(` ,${e.gender}`)
+										.concat(` ,${e.village?.type} ${e.village?.name_khmer}`)
+										.concat(` ${e.commune?.type} ${e.commune?.name_khmer}`)
+										.concat(` ${e.district?.type} ${e.district?.name_khmer}`)
+										.concat(` ${e.provice?.type} ${e.provice?.name_khmer}`)
+								}))}
+							/>
+						</form>
 					</div>
 					<div class="col-12 pt-2">
 						<SubmiteSearch

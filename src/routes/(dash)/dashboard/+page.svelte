@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<form id="myform" method="get" action="something.php">
+<form id="myform" method="pos" action="something.php">
 	<input type="text" name="name" />
 </form>
 <button type="submit" form="myform">Click me!</button>

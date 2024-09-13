@@ -52,7 +52,7 @@
 
 		<div style=" max-height: {height.concat('px')}; overflow-y: auto;">
 			<!-- svelte-ignore a11y-invalid-attribute -->
-			<a class="text-decoration-none" role="button" href="" on:click>
+			<span class="text-decoration-none">
 				{#each data as item}
 					<button
 						type="button"
@@ -66,7 +66,7 @@
 						<Athtml html={item.name} />
 					</button>
 				{/each}
-			</a>
+			</span>
 		</div>
 	</div>
 </div>
