@@ -10,10 +10,15 @@
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
 	import { browser } from '$app/environment';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
+	import ChargeLaboratory from '$lib/coms-billing/ChargeLaboratory.svelte';
+	import ChargeImagerie from '$lib/coms-billing/ChargeImagerie.svelte';
+	import ChargePrescription from '$lib/coms-billing/ChargePrescription.svelte';
+	import ChargeService from '$lib/coms-billing/ChargeService.svelte';
+	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
+	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -160,15 +165,40 @@
 							</tr>
 						</thead>
 						<tbody>
-							<ChargeOn
+							<ChargeLaboratory
+								data={{
+									charge_on_laboratory: charge_on_laboratory,
+									get_currency: get_currency
+								}}
+							/>
+							<ChargeImagerie
+								data={{
+									charge_on_imagerie: charge_on_imagerie,
+									get_currency: get_currency
+								}}
+							/>
+							<ChargePrescription
+								data={{
+									charge_on_prescription: charge_on_prescription,
+									get_currency: get_currency,
+									get_billing: get_billing
+								}}
+							/>
+							<ChargeService
+								data={{
+									charge_on_service: charge_on_service,
+									get_currency: get_currency
+								}}
+							/>
+							<ChargeVaccine
+								data={{
+									charge_on_vaccine: charge_on_vaccine,
+									get_currency: get_currency
+								}}
+							/>
+							<ChargeGeneral
 								data={{
 									charge_on_general: charge_on_general,
-									charge_on_imagerie: charge_on_imagerie,
-									charge_on_laboratory: charge_on_laboratory,
-									charge_on_prescription: charge_on_prescription,
-									charge_on_service: charge_on_service,
-									charge_on_vaccine: charge_on_vaccine,
-									get_billing: get_billing,
 									get_currency: get_currency
 								}}
 							/>

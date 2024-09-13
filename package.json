@@ -12,9 +12,9 @@
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"db:generate": "npx drizzle-kit generate ",
+		"db:gen": "npx drizzle-kit generate ",
 		"db:push": "npx drizzle-kit push ",
-		"db:migrate": "tsx src/lib/server/migrate.ts ",
+		"db:mig": "tsx src/lib/server/migrate.ts ",
 		"db:seed": "tsx src/lib/server/seed.ts ",
 		"db:drop": "tsx src/lib/server/drop.ts && tsx src/lib/server/create.ts",
 		"db:create": "tsx src/lib/server/create.ts "

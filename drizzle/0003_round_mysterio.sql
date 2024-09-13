@@ -1,1 +1,0 @@
-ALTER TABLE `billing` ADD `hold` boolean DEFAULT false NOT NULL;
