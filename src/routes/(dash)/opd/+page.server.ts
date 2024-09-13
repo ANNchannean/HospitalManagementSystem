@@ -75,26 +75,25 @@ export const actions: Actions = {
 		if (!department_id) validErr.department_id = true;
 		if (!staff_id) validErr.staff_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-		let visit_id: number = 0;
-		try {
-			const id = await db
-				.insert(visit)
-				.values({
-					checkin_type: 'OPD',
-					patient_id: Number(patient_id),
-					date_checkup: created_at,
-					staff_id: Number(staff_id),
-					department_id: Number(department_id),
-					etiology: etiology
-				})
-				.$returningId();
-			visit_id = id[0].id;
-		} catch (error) {
-			logErrorMessage(String(error));
-		}
 
-		if (visit_id <= 0) return fail(400, { visit_id: true });
-		if (visit_id > 0) {
+		const visit_id: { id: number }[] = await db
+			.insert(visit)
+			.values({
+				checkin_type: 'OPD',
+				patient_id: Number(patient_id),
+				date_checkup: created_at,
+				staff_id: Number(staff_id),
+				department_id: Number(department_id),
+				etiology: etiology
+			})
+			.$returningId()
+			.catch((e) => {
+				logErrorMessage(String(e));
+				return [];
+			});
+
+		if (!visit_id[0].id) return fail(400, { visit_id: true });
+		if (visit_id[0].id) {
 			// doing billing
 			await preBilling({ visit_id: visit_id, progress_id: null, checkin_type: 'OPD' });
 			// creae vital sign

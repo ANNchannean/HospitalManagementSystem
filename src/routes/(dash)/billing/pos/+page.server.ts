@@ -9,7 +9,7 @@ import { and, eq, isNotNull } from 'drizzle-orm';
 
 export const load: PageServerLoad = async () => {
 	const old_billing = await db.query.billing.findFirst({
-		where: and(isNotNull(billing.pos_id), eq(billing.total, 0))
+		where: and(isNotNull(billing.pos_id), eq(billing.total, 0), eq(billing.status, 'process'))
 	});
 	if (old_billing) {
 		await db

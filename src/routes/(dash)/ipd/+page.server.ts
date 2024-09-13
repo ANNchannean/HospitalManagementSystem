@@ -186,26 +186,25 @@ export const actions: Actions = {
 						logErrorMessage(e);
 					});
 			} else {
-				try {
-					let id = 0;
-					id = await db
-						.insert(visit)
-						.values({
-							checkin_type: 'IPD',
-							patient_id: Number(patient_id),
-							date_checkup: created_at,
-							staff_id: Number(staff_id),
-							department_id: Number(department_id),
-							etiology: etiology,
-							progress_note_id: progress_note_id[0].id
-						})
-						.$returningId()
-						.then((e) => e[0].id);
-					if (id > 0) {
-						await preBilling({ visit_id: id, progress_id: undefined, checkin_type: 'IPD' });
-					}
-				} catch (error) {
-					logErrorMessage(String(error));
+				const id: { id: number }[] = await db
+					.insert(visit)
+					.values({
+						checkin_type: 'IPD',
+						patient_id: Number(patient_id),
+						date_checkup: created_at,
+						staff_id: Number(staff_id),
+						department_id: Number(department_id),
+						etiology: etiology,
+						progress_note_id: progress_note_id[0].id
+					})
+					.$returningId()
+					.catch((e) => {
+						logErrorMessage(e);
+						return [];
+					});
+
+				if (id[0].id) {
+					await preBilling({ visit_id: id, progress_id: undefined, checkin_type: 'IPD' });
 				}
 			}
 			await preBilling({
