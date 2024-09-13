@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { and, eq, or } from 'drizzle-orm';
+import { desc, eq, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
@@ -12,11 +12,20 @@ export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
 	const get_currency = await db.query.currency.findFirst({});
 	const get_billings = await db.query.billing.findMany({
-		where: and(
-			eq(billing.checkin_type, 'OPD'),
-			or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
-		),
+		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
 		with: {
+			pos: {
+				with: {
+					patient: {
+						with: {
+							commune: true,
+							district: true,
+							provice: true,
+							village: true
+						}
+					}
+				}
+			},
 			visit: {
 				with: {
 					patient: {
@@ -46,7 +55,8 @@ export const load: PageServerLoad = async ({ parent }) => {
 					fileOrPicture: true
 				}
 			}
-		}
+		},
+		orderBy: desc(billing.created_at)
 	});
 	const get_payment_types = await db.query.paymentType.findMany();
 	return {

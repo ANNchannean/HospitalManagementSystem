@@ -5,9 +5,9 @@
 	import { t, locale } from '$lib/translations';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
-	import { invalidateAll } from '$app/navigation';
 	import { inerHight, globalLoading } from '$lib/store';
 	import ViewRoom from '$lib/coms/ViewRoom.svelte';
+	import { invalidateAll } from '$app/navigation';
 	// import LoginTracker from '$lib/coms/LoginTracker.svelte';
 	// import { loginTracker } from '$lib/helper/loginTracker';
 	$: ({ get_clinich_info, get_progress_note, get_currency } = data);
@@ -22,6 +22,7 @@
 	onMount(() => {
 		$inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
 		const interval = setInterval(() => {
+			// invalidateAll();
 			date = Intl.DateTimeFormat('en-GB', {
 				timeStyle: 'medium',
 				hour12: true,
@@ -86,9 +87,6 @@
 
 		<li class="nav-item">
 			<button
-				on:click={() => {
-					invalidateAll();
-				}}
 				data-bs-toggle="modal"
 				data-bs-target="#view_room"
 				class="nav-link btn btn-link active"

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import { inerHight } from '$lib/store';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
 	$: ({ get_billings } = data);
 </script>
@@ -67,15 +68,8 @@
 									{item.id}
 								</td>
 
-								<td
-									>{new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' })
-										.format(new Date(item.visit?.date_checkup ?? ''))
-										.split('/')
-										.join('-')} <br />
-									{new Intl.DateTimeFormat('en-GB', {
-										timeStyle: 'short',
-										hour12: true
-									}).format(new Date(item.visit?.date_checkup ?? ''))}
+								<td>
+									<DateTimeFormat date={item.visit?.date_checkup} />
 								</td>
 								<td>
 									{item.visit?.patient_id}

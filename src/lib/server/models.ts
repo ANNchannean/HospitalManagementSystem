@@ -440,3 +440,36 @@ export const preBilling = async <T, U>({
 			logErrorMessage(e);
 		});
 };
+
+export const prePOS = async (pos_id: number): Promise<number> => {
+	const get_tax = await db.query.tax.findFirst();
+	const created_at = now_datetime();
+	// doing billing
+	const get_billing: { id: number }[] = await db
+		.insert(billing)
+		.values({
+			pos_id: pos_id,
+			created_at: created_at,
+			status: 'process',
+			tax: get_tax?.value || 0,
+			sub_total: 0,
+			total: 0
+		})
+		.$returningId()
+		.catch((e) => {
+			logErrorMessage(e);
+			return e;
+		});
+	await db
+		.insert(charge)
+		.values({
+			billing_id: Number(get_billing[0].id),
+			charge_on: 'general',
+			created_at: created_at
+		})
+		.catch((e) => {
+			logErrorMessage(e);
+		});
+
+	return get_billing[0].id;
+};

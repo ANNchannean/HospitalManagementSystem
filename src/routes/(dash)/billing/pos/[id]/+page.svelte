@@ -10,27 +10,23 @@
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
 	import { browser } from '$app/environment';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
+	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
+	import Select from '$lib/coms/Select.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
+	$: ({
+		get_products,
+		get_product_group_type,
+		charge_on_general,
+		get_billing,
+		get_currency,
+		get_payment_types,
+		get_patients
+	} = data);
 
-	type CartItem =
-		| {
-				product_id: number;
-				price: number;
-				qty: number;
-				dis: string;
-				sub_total: number;
-				total: number;
-				product_name: string;
-				change_on: string;
-		  }
-		| undefined;
-
-	$: ({ get_products, get_product_group_type, get_currency, get_payment_types } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -43,7 +39,7 @@
 	let product_group_id: number;
 	let inerHight: string;
 	let inerHight_1: string;
-
+	$: items = Number(charge_on_general?.productOrder.length || 0);
 	onMount(() => {
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
@@ -55,7 +51,6 @@
 					document.getElementById('sidebarToggle')?.click();
 				}
 			}
-			displayCart();
 		}
 	});
 	onDestroy(() => {
@@ -68,61 +63,14 @@
 			}
 		}
 	});
-
-	function increaseQuantity(id: number): void {
-		let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
-		let item = cart.find((item) => item?.product_id === id);
-
-		if (item) {
-			item.qty += 1;
-			localStorage.setItem('cart', JSON.stringify(cart));
-			displayCart();
-		}
-	}
-	function decreaseQuantity(id: number): void {
-		let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
-		let item = cart.find((item) => item?.product_id === id);
-
-		if (item && item.qty > 1) {
-			item.qty -= 1;
-			localStorage.setItem('cart', JSON.stringify(cart));
-			displayCart();
-		}
-	}
-	function addToCart({
-		price,
-		product_id,
-		product_name
-	}: {
-		price: number;
-		product_id: number;
-		product_name: string;
-	}) {
-		let card: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
-		let item = card.find((e) => e?.product_id === product_id);
-		if (item) {
-			item.qty += 1;
-		} else {
-			card.push({
-				dis: '',
-				price: price,
-				product_id: product_id,
-				product_name: product_name,
-				qty: 1,
-				sub_total: price,
-				total: price,
-				change_on: 'GENERAL'
-			});
-		}
-		localStorage.setItem('cart', JSON.stringify(card));
-		displayCart();
-	}
-	let cart: CartItem[] = [];
-	function displayCart() {
-		cart = JSON.parse(localStorage.getItem('cart') || '[]');
-	}
 </script>
 
+{#if form?.disc}
+	<Toast message="ការបញ្ជុះតម្លៃត្រូវតែជា (10% ឫ 10 )" />
+{/if}
+{#if form?.errProductOrder}
+	<Toast message="សូមជ្រើសរើសឈ្មោះអ្នកជំងឺ!" />
+{/if}
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Billing POS</h2>
@@ -156,20 +104,28 @@
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class=" row">
-					<div class="col-12 pb-2">
-						<table class="table m-0">
-							<tr>
-								<td>ឈ្មេះអ្នកជំងឺ</td>
-								<td>:</td>
-								<td># </td>
-								<td> # </td>
-							</tr>
-						</table>
+					<div class="col-2">ឈ្មេះអ្នកជំងឺ</div>
+					<div class="col-10">
+						<Select
+							name="patient_id"
+							items={get_patients.map((e) => ({
+								id: e.id,
+								name: e.name_khmer
+									.concat(` ${e.name_latin}`)
+									.concat(` ,${e.gender}`)
+									.concat(` ,${e.village?.type} ${e.village?.name_khmer}`)
+									.concat(` ${e.commune?.type} ${e.commune?.name_khmer}`)
+									.concat(` ${e.district?.type} ${e.district?.name_khmer}`)
+									.concat(` ${e.provice?.type} ${e.provice?.name_khmer}`)
+							}))}
+						/>
 					</div>
-					<SubmiteSearch
-						placeholder="ស្វែករកតាមរយៈផលិតផល"
-						items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
-					/>
+					<div class="col-12 pt-2">
+						<SubmiteSearch
+							placeholder="ស្វែករកតាមរយៈផលិតផល"
+							items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
+						/>
+					</div>
 				</div>
 			</div>
 			<form
@@ -185,7 +141,7 @@
 				action="?/update_product_order"
 				method="post"
 			>
-				<div style="height: {inerHight_1}; " class="overflow-y-auto table-responsive">
+				<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
 					<table class="table table-bordered table-sm">
 						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
@@ -198,7 +154,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							{JSON.stringify(cart)}
+							<ChargeGeneral
+								data={{
+									charge_on_general: charge_on_general,
+									get_currency: get_currency
+								}}
+							/>
 						</tbody>
 					</table>
 				</div>
@@ -208,19 +169,33 @@
 							<td></td>
 							<td>ចំនួនទំនិញ </td>
 							<td>:</td>
-							<td> មុខ </td>
+							<td>{items} មុខ </td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>សរុប </td>
 							<td>:</td>
-							<td> # </td>
+							<td>
+								<Currency
+									class=""
+									amount={get_billing?.sub_total}
+									symbol={get_currency?.currency_symbol}
+								/>
+							</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td></td>
 							<td>:</td>
-							<td> # </td>
+							<td>
+								<Currency
+									class=""
+									rate={get_currency?.currency_rate}
+									rate_to={get_currency?.exchang_rate}
+									amount={get_billing?.sub_total}
+									symbol={get_currency?.exchang_to}
+								/>
+							</td>
 						</tr>
 					</table>
 
@@ -296,23 +271,23 @@
 				{#each get_products as item}
 					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-					<div
+					<form
+						on:click={(e) => e.currentTarget.requestSubmit()}
 						style="min-height: 200px;"
+						method="post"
+						use:enhance={() => {
+							$globalLoading = true;
+							return async ({ update }) => {
+								await update();
+								$globalLoading = false;
+							};
+						}}
+						action="?/create_product_order"
 						class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 border m-2 p-2 btn btn-light"
 					>
 						<input type="hidden" name="product_id" value={item.id} />
 						<input type="hidden" name="price" value={item.price} />
-						<button
-							on:click={() => {
-								addToCart({
-									price: item.price,
-									product_id: item.id,
-									product_name: item.products
-								});
-							}}
-							type="button"
-							class="position-relative text-wrap btn m-0 p-0"
-						>
+						<button type="button" class="position-relative text-wrap btn m-0 p-0">
 							{#if item.fileOrPicture?.filename}
 								<img class="img-thumbnail" src="/files/{item.fileOrPicture.filename}" alt="" />
 							{:else}
@@ -325,9 +300,19 @@
 							</span>
 						</button>
 						<span class="fs-6 text-wrap">{item.products}</span>
-					</div>
+					</form>
 				{/each}
 			</div>
 		</div>
 	</div>
 </div>
+
+<BillingModal
+	data={{
+		get_billing: get_billing,
+		get_payment_types: get_payment_types,
+		get_currency: get_currency
+	}}
+/>
+
+<ConfirmeModal action="?/hold" id={get_billing?.id} />

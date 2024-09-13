@@ -2,9 +2,6 @@ import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { isNull } from 'drizzle-orm';
 import { progressNote } from '$lib/server/schema';
-// import { redirect } from '@sveltejs/kit';
-// export const prerender = true;
-// export const ssr = false;
 
 export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	// if (!locals.session) redirect(302, '/login');

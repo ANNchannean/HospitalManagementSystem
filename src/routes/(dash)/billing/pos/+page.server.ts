@@ -1,40 +1,41 @@
 import { db } from '$lib/server/db';
-import { and, asc, eq, like, notLike, or } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { paymentType, product } from '$lib/server/schema';
+import { billing, pos } from '$lib/server/schema';
+import { prePOS } from '$lib/server/models';
+import { now_datetime } from '$lib/server/utils';
+import { logErrorMessage } from '$lib/server/telegram';
+import { redirect } from '@sveltejs/kit';
+import { and, eq, isNotNull } from 'drizzle-orm';
 
-export const load: PageServerLoad = async ({ url }) => {
-	const get_currency = await db.query.currency.findFirst({});
-	const group_type_id = url.searchParams.get('group_type_id') || '';
-	const q = url.searchParams.get('q') || '';
-	// if (get_billing?.status !== 'process') redirect(303, '/billing/opd');
-	const get_product_group_type = await db.query.productGroupType.findMany({
-		with: {
-			unit: true
+export const load: PageServerLoad = async () => {
+	const old_billing = await db.query.billing.findFirst({
+		where: and(isNotNull(billing.pos_id), eq(billing.total, 0))
+	});
+	if (old_billing) {
+		await db
+			.update(billing)
+			.set({
+				created_at: now_datetime()
+			})
+			.where(eq(billing.id, old_billing.id));
+
+		return redirect(303, `/billing/pos/${old_billing.id}`);
+	} else {
+		const pos_id: { id: number }[] = await db
+			.insert(pos)
+			.values({
+				datetime: now_datetime()
+			})
+			.$returningId()
+			.catch((e) => {
+				logErrorMessage(e);
+				return [];
+			});
+		const billing_id = await prePOS(pos_id[0].id);
+		if (billing_id) {
+			return redirect(303, `/billing/pos/${billing_id}`);
+		} else {
+			return redirect(303, `/`);
 		}
-	});
-	const get_products = await db.query.product.findMany({
-		where: and(
-			group_type_id ? eq(product.group_type_id, +group_type_id) : undefined,
-			or(like(product.products, `%${q}%`))
-		),
-		with: {
-			unit: true,
-			parameter: true,
-			productGroupType: true,
-			fileOrPicture: true
-		},
-		orderBy: asc(product.products)
-	});
-
-	const get_payment_types = await db.query.paymentType.findMany({
-		orderBy: asc(paymentType.by),
-		where: notLike(paymentType.by, '%CASH%')
-	});
-	return {
-		get_products,
-		get_product_group_type,
-		get_payment_types,
-		get_currency
-	};
+	}
 };

@@ -90,30 +90,52 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_billings as item}
+						{#each get_billings as item (item.id)}
 							<tr class="text-center">
 								<td>
 									{item.id}
 								</td>
 
-								<td>
-									<DateTimeFormat timeStyle={false} date={item.visit?.date_checkup} /> <br />
-									<DateTimeFormat dateStyle={false} date={item.visit?.date_checkup} />
-								</td>
-								<td>{item.visit?.checkin_type ?? ''}</td>
-								<td>
-									<span class="">
-										{item.visit?.patient?.name_khmer}
-									</span>
-									<br />
-									<span class="">
-										{item.visit?.patient?.name_latin}
-									</span>
-								</td>
-								<td>{item.visit?.patient?.gender ?? ''}</td>
-								<td>{item.visit?.patient?.age ?? ''}</td>
-								<td>{item.visit?.patient?.telephone ?? ''}</td>
+								{#if item.pos_id}
+									<td>
+										<DateTimeFormat timeStyle={false} date={item.pos?.datetime} /> <br />
+										<DateTimeFormat dateStyle={false} date={item.pos?.datetime} />
+									</td>
+									<td>POS</td>
+									<td>
+										<span class="">
+											{item.pos?.patient?.name_khmer ?? ''}
+										</span>
+										<br />
+										<span class="">
+											{item.pos?.patient?.name_latin ?? ''}
+										</span>
+									</td>
+									<td>{item.pos?.patient?.gender ?? ''}</td>
+									<td>{item.pos?.patient?.age ?? ''}</td>
+									<td>{item.pos?.patient?.telephone ?? ''}</td>
+								{:else}
+									<td>
+										<DateTimeFormat timeStyle={false} date={item.visit?.date_checkup} /> <br />
+										<DateTimeFormat dateStyle={false} date={item.visit?.date_checkup} />
+									</td>
+									<td>{item.visit?.checkin_type ?? ''}</td>
+									<td>
+										<span class="">
+											{item.visit?.patient?.name_khmer}
+										</span>
+										<br />
+										<span class="">
+											{item.visit?.patient?.name_latin}
+										</span>
+									</td>
+									<td>{item.visit?.patient?.gender ?? ''}</td>
+									<td>{item.visit?.patient?.age ?? ''}</td>
+									<td>{item.visit?.patient?.telephone ?? ''}</td>
+								{/if}
+
 								<td></td>
+
 								<td>
 									<Currency
 										class=""
@@ -184,10 +206,15 @@
 											data-bs-target="#add_pay_billing"
 											class="btn btn-success"><i class="fa-solid fa-money-check-dollar"></i></button
 										>
-
-										<a href="/billing/single/{billing_id}" class="btn btn-primary"
-											><i class="fa-solid fa-file-pen"></i></a
-										>
+										{#if item.pos_id}
+											<a href="/billing/pos/{billing_id}" class="btn btn-primary"
+												><i class="fa-solid fa-file-pen"></i></a
+											>
+										{:else}
+											<a href="/billing/single/{billing_id}" class="btn btn-primary"
+												><i class="fa-solid fa-file-pen"></i></a
+											>
+										{/if}
 										<button class="btn btn-danger"><i class="fa-solid fa-trash-alt"></i></button>
 									</div>
 								</td>
