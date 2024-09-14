@@ -34,14 +34,14 @@
 		<div class="header">
 			<ClinichInfo data={{ get_clinic_info }} />
 			<hr />
-			<InvoiceHeader />
+			<InvoiceHeader data={{ get_billing }} />
 		</div>
-		<table class="">
+		<table class="w-100">
 			<thead>
 				<div class="header-space">&nbsp;</div>
 			</thead>
 			<tbody>
-				<InvoiceBody data={{get_billing,get_currency}} />
+				<InvoiceBody data={{ get_billing, get_currency }} />
 			</tbody>
 			<tfoot>
 				<div class="footer-space">&nbsp;</div>
@@ -49,15 +49,19 @@
 		</table>
 		<div class="footer">
 			<div style="font-size: 110%;" class="en_font_times_new_roman row">
-				<div class="col-4 text-center">
-					<span style="font-size: 100%;" class="kh_font_battambang"> ថ្ងៃទី </span>
-					<span class="kh_font_battambang"> ខែ </span>
-
-					<span class="kh_font_battambang"> ឆ្នាំ </span>
-
-					<p>Sign's Physician</p>
+				<div class="col-6 text-center">
+					<span>------------------------</span>
 					<br />
-					<p>My Name is</p>
+					<span>ហត្ថលេខាអតិថិជន</span>
+					<br />
+					<span>Sign's Customer</span>
+				</div>
+				<div class="col-6 text-center">
+					<span>------------------------</span>
+					<br />
+					<span>ហត្ថលេខាអតិថិជន</span>
+					<br />
+					<span>Sign's Customer</span>
 				</div>
 			</div>
 		</div>

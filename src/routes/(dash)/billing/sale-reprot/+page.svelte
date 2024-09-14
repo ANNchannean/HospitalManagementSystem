@@ -9,7 +9,7 @@
 	import ModalInvoice from '$lib/coms-report/ModalInvoice.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_billings, get_currency, get_payment_types,get_clinic_info } = data);
+	$: ({ get_billings, get_currency, get_payment_types, get_clinic_info } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -196,10 +196,9 @@
 										}}
 										class="btn-group"
 									>
-										<ModalInvoice data={{get_clinic_info}} >
-											<i class="fa-solid fa-receipt"></i>
-										</ModalInvoice>
-										<!-- <button class="btn btn-success"></button> -->
+										<a target="_blank" href="/report/{item.id}/billing" class="btn btn-success"
+											><i class="fa-solid fa-receipt"></i></a
+										>
 
 										<button
 											data-bs-toggle="modal"
