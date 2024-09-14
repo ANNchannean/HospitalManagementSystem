@@ -43,6 +43,7 @@
 	let inerHight_1: string;
 	$: items = Number(charge_on_general?.productOrder.length || 0);
 	let patient_id = data.get_pos?.patient_id;
+
 	onMount(() => {
 		if (browser) {
 			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
@@ -107,10 +108,10 @@
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class=" row">
-					<div class="col-2">ឈ្មេះអ្នកជំងឺ {patient_id}</div>
+					<div class="col-2">ឈ្មេះអ្នកជំងឺ</div>
 					<div class="col-10">
 						<form
-							on:change={(e) => e.currentTarget.requestSubmit}
+							id="useSubmit"
 							use:enhance={() => {
 								$globalLoading = true;
 								return async ({ update }) => {
@@ -122,8 +123,8 @@
 							method="post"
 						>
 							<input type="hidden" name="pos_id" value={get_billing?.pos_id} />
-
 							<Select
+								useSubmit={true}
 								name="patient_id"
 								bind:value={patient_id}
 								items={get_patients.map((e) => ({

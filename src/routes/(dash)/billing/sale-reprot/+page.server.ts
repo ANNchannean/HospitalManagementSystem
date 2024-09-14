@@ -10,6 +10,11 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
+	const get_clinic_info = await db.query.clinicinfo.findFirst({
+		with: {
+			fileOrPicture: true
+		}
+	})
 	const get_currency = await db.query.currency.findFirst({});
 	const get_billings = await db.query.billing.findMany({
 		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
@@ -62,7 +67,8 @@ export const load: PageServerLoad = async ({ parent }) => {
 	return {
 		get_billings,
 		get_payment_types,
-		get_currency
+		get_currency,
+		get_clinic_info
 	};
 };
 

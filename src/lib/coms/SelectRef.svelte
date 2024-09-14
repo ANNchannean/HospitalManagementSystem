@@ -33,16 +33,6 @@
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-
-		<span
-			on:click={() => {
-				value = '';
-				goto(`${mainParams}=${chailParams}`, { keepFocus: true, noScroll: true });
-			}}
-			style="float:right;"
-		>
-			<i class="fa-solid fa-xmark"></i></span
-		>
 	</button>
 
 	<div style="width: 100%;" class="dropdown-menu">
@@ -56,8 +46,13 @@
 					type="button"
 					class:active={item.id === items.find((e) => e.id === value)?.id}
 					on:click={() => {
-						value = item.id;
-						goto(`${mainParams}=${item.id}${chailParams}`, { keepFocus: true, noScroll: true });
+						if (value === item.id) {
+							value = '';
+							goto(`${mainParams}=${chailParams}`, { keepFocus: true, noScroll: true });
+						} else {
+							value = item.id;
+							goto(`${mainParams}=${item.id}${chailParams}`, { keepFocus: true, noScroll: true });
+						}
 					}}
 					class="dropdown-item"><Athtml html={item.name ?? ''} /></button
 				>

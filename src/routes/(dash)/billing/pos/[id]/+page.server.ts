@@ -295,10 +295,11 @@ export const actions: Actions = {
 	add_patient: async ({ request }) => {
 		const body = await request.formData();
 		const { patient_id, pos_id } = Object.fromEntries(body) as Record<string, string>;
+		if (!pos_id) return fail(400, { patientErr: true });
 		await db
 			.update(pos)
 			.set({
-				patient_id: +patient_id
+				patient_id: +patient_id ? +patient_id : null
 			})
 			.where(eq(pos.id, +pos_id))
 			.catch((e) => {

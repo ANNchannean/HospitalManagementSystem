@@ -4,7 +4,7 @@
 	import { dobToAge } from '$lib/helper';
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import ClinichInfo from '$lib/coms/ClinichInfo.svelte';
+	import ClinichInfo from '$lib/coms-report/ClinichInfo.svelte';
 	import { page } from '$app/stores';
 	export let data: PageServerData;
 	$: ({ get_visit, removeDuplicateName, sort_laboraytor, get_clinic_info, get_imagers, url_qr } =
@@ -35,7 +35,8 @@
 <div class="row pt-4 justify-content-center">
 	<div style="width: 1200px;">
 		<div class="header">
-			<ClinichInfo {get_clinic_info} />
+			<ClinichInfo data={{ get_clinic_info }} />
+
 			<div class="border p-2 pb-0">
 				<table class=" table table-sm table-borderless">
 					<thead class="">

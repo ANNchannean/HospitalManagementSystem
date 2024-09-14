@@ -6,7 +6,7 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { inerHight, globalLoading } from '$lib/store';
-	import ViewRoom from '$lib/coms/ViewRoom.svelte';
+	import ViewRoom from '$lib/coms-report/ViewRoom.svelte';
 	import { invalidateAll } from '$app/navigation';
 	// import LoginTracker from '$lib/coms/LoginTracker.svelte';
 	// import { loginTracker } from '$lib/helper/loginTracker';

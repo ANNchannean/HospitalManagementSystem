@@ -1,5 +1,8 @@
 <script lang="ts">
-	export let get_clinic_info: any;
+	import type { PageServerData } from '../../routes/(dash)/billing/sale-reprot/$types';
+	type Data = Pick<PageServerData, 'get_clinic_info'>;
+	export let data: Data;
+	$: ({ get_clinic_info } = data);
 </script>
 
 <div class="row">

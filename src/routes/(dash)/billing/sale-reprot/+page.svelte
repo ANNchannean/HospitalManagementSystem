@@ -6,9 +6,10 @@
 	import AddPayBilling from '$lib/coms-billing/AddPayBilling.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
+	import ModalInvoice from '$lib/coms-report/ModalInvoice.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_billings, get_currency, get_payment_types } = data);
+	$: ({ get_billings, get_currency, get_payment_types,get_clinic_info } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -103,6 +104,9 @@
 									</td>
 									<td>POS</td>
 									<td>
+										{#if !item.pos?.patient}
+											<span>General</span>
+										{/if}
 										<span class="">
 											{item.pos?.patient?.name_khmer ?? ''}
 										</span>
@@ -192,7 +196,10 @@
 										}}
 										class="btn-group"
 									>
-										<button class="btn btn-success"><i class="fa-solid fa-file"></i></button>
+										<ModalInvoice data={{get_clinic_info}} >
+											<i class="fa-solid fa-receipt"></i>
+										</ModalInvoice>
+										<!-- <button class="btn btn-success"></button> -->
 
 										<button
 											data-bs-toggle="modal"

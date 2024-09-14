@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Athtml from '$lib/coms/Athtml.svelte';
-
+	import { globalLoading } from '$lib/store';
 	export let items: { name: any; id: any }[];
 	export let name = '';
 	export let value: any = '';
 	export let height = '300';
+	export let useSubmit = false;
 	let q = '';
 	$: data = items.filter((el) => el.name.toLowerCase().includes(q.toLowerCase()));
 </script>
@@ -33,16 +35,6 @@
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-
-		<span
-			on:click={(e) => {
-				e.stopPropagation();
-				value = '';
-			}}
-			style="float:right;"
-		>
-			<i class="fa-solid fa-xmark"></i></span
-		>
 	</button>
 
 	<div style="width: 100%;" class="dropdown-menu">
@@ -54,17 +46,39 @@
 			<!-- svelte-ignore a11y-invalid-attribute -->
 			<span class="text-decoration-none">
 				{#each data as item}
-					<button
-						type="button"
-						class:active={item.id === items.find((e) => e.id === value)?.id}
-						on:click={(e) => {
-							e.preventDefault();
-							value = item.id;
-						}}
-						class="dropdown-item"
-					>
-						<Athtml html={item.name} />
-					</button>
+					{#if useSubmit}
+						<button
+							type="submit"
+							class:active={item.id === items.find((e) => e.id === value)?.id}
+							class="dropdown-item"
+							on:click={(e) => {
+								if (value === item.id) {
+									value = null;
+								} else {
+									value = item.id;
+								}
+								document.getElementById('useSubmit');
+							}}
+						>
+							<Athtml html={item.name} />
+						</button>
+					{:else}
+						<button
+							type="button"
+							class:active={item.id === items.find((e) => e.id === value)?.id}
+							on:click={(e) => {
+								e.preventDefault();
+								if (value === item.id) {
+									value = null;
+								} else {
+									value = item.id;
+								}
+							}}
+							class="dropdown-item"
+						>
+							<Athtml html={item.name} />
+						</button>
+					{/if}
 				{/each}
 			</span>
 		</div>

@@ -3,7 +3,7 @@
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import CreatePatient from '$lib/coms-cu/CreatePatient.svelte';
 	import { inerHight } from '$lib/store';
-	import VIewProfilePatient from '$lib/coms/VIewProfilePatient.svelte';
+	import VIewProfilePatient from '$lib/coms-report/VIewProfilePatient.svelte';
 	import { dobToAge } from '$lib/helper';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let form: ActionData;

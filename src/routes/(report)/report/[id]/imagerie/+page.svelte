@@ -3,7 +3,7 @@
 	import type { PageServerData } from './$types';
 	import { dobToAge } from '$lib/helper';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
-	import ClinichInfo from '$lib/coms/ClinichInfo.svelte';
+	import ClinichInfo from '$lib/coms-report/ClinichInfo.svelte';
 	import { page } from '$app/stores';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	export let data: PageServerData;
@@ -36,7 +36,7 @@
 <div id="pdf" class="row pt-4 justify-content-center">
 	<div style="width: 1200px;">
 		<div class="header">
-			<ClinichInfo {get_clinic_info} />
+			<ClinichInfo  data={{get_clinic_info}}  />
 			<div class="border p-2 pb-0">
 				<table class=" table table-sm table-borderless">
 					<thead class="">
