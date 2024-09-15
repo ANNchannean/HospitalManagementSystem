@@ -20,7 +20,8 @@ export const load: PageServerLoad = async () => {
 		await db
 			.update(billing)
 			.set({
-				created_at: now_datetime()
+				created_at: now_datetime(),
+				patient_id: null
 			})
 			.where(eq(billing.id, old_billing.id));
 
