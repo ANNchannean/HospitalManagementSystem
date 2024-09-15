@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { billing } from '$lib/server/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq, gt } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ params }) => {
@@ -14,30 +14,12 @@ export const load = (async ({ params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +id),
 		with: {
-			pos: {
+			patient: {
 				with: {
-					patient: {
-						with: {
-							commune: true,
-							district: true,
-							provice: true,
-							village: true
-						}
-					}
-				}
-			},
-			visit: {
-				with: {
-					patient: {
-						with: {
-							commune: true,
-							district: true,
-							provice: true,
-							village: true
-						}
-					},
-					staff: true,
-					department: true
+					commune: true,
+					district: true,
+					provice: true,
+					village: true
 				}
 			},
 			charge: {
@@ -57,10 +39,15 @@ export const load = (async ({ params }) => {
 			}
 		}
 	});
-
+	const get_billings = await db.query.billing.findMany({
+		where: and(gt(billing.balance, 0), eq(billing.patient_id, get_billing?.patient_id || 0))
+	});
+	const previous_due = get_billings.reduce((s, i) => s + i.balance, 0);
+	
 	return {
 		get_billing,
 		get_currency,
-		get_clinic_info
+		get_clinic_info,
+		previous_due
 	};
 }) satisfies PageServerLoad;

@@ -14,21 +14,17 @@ export const load: PageServerLoad = async ({ parent }) => {
 		with: {
 			fileOrPicture: true
 		}
-	})
+	});
 	const get_currency = await db.query.currency.findFirst({});
 	const get_billings = await db.query.billing.findMany({
 		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
 		with: {
-			pos: {
+			patient: {
 				with: {
-					patient: {
-						with: {
-							commune: true,
-							district: true,
-							provice: true,
-							village: true
-						}
-					}
+					commune: true,
+					district: true,
+					provice: true,
+					village: true
 				}
 			},
 			visit: {

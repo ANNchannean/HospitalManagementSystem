@@ -15,6 +15,13 @@
       "when": 1726196298077,
       "tag": "0001_robust_lenny_balinger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1726382636696,
+      "tag": "0002_nebulous_mongoose",
+      "breakpoints": true
     }
   ]
 }

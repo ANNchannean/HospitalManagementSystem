@@ -1,20 +1,20 @@
 <script lang="ts">
 	import Currency from '$lib/coms/Currency.svelte';
 	import type { PageServerData } from '../../routes/(report)/report/[id]/billing/$types';
-	type Data = Pick<PageServerData, 'get_billing' | 'get_currency'>;
+	type Data = Pick<PageServerData, 'get_billing' | 'get_currency' | 'previous_due'>;
 	export let data: Data;
-	$: ({ get_billing, get_currency } = data);
+	$: ({ get_billing, get_currency, previous_due } = data);
 	$: products = get_billing?.charge.flatMap((e) => e.productOrder);
 </script>
 
-<div class="">
+<div style="font-size: 110%;" class="">
 	<table class="table table-bordered">
 		<thead class="table-active">
 			<tr class="text-center">
 				<th style="width: 5%;">ល.រ​ <br /> No. </th>
 				<th style="width: 50%;">
 					ឈ្មេាះទំនិញ <br />
-					Name of Goods
+					Name of Products
 				</th>
 				<th style="width: 10%;">
 					ចំនួន <br />
@@ -47,27 +47,101 @@
 				</tr>
 			{/each}
 			<tr class="border-bottom-0">
-				<td colspan="4" class="text-end border-0">សរុប </td>
-				<td class="border text-center">
+				<th colspan="4" class="text-end border-0"
+					>សរុប / Total {`(${get_currency?.currency_symbol})`}
+				</th>
+				<th class="border text-center">
 					<Currency
 						class=""
 						amount={get_billing?.sub_total}
 						symbol={get_currency?.currency_symbol}
 					/>
-				</td>
+				</th>
 			</tr>
 			<tr class="border-0">
-				<td colspan="4" class="text-end border-0">បញ្ចុះតម្លៃ </td>
-				<td class="border text-center">
-					{get_billing?.discount}
-				</td>
+				<th colspan="4" class="text-end border-0">
+					សរុប / Total {`(${get_currency?.exchang_to})`}
+				</th>
+				<th class="border text-center">
+					<Currency
+						class=""
+						rate_to={get_currency?.exchang_rate}
+						rate={get_currency?.currency_rate}
+						amount={get_billing?.sub_total}
+						symbol={get_currency?.exchang_to}
+					/>
+				</th>
 			</tr>
+			<!-- {#if get_billing?.discount} -->
 			<tr class="border-0">
-				<td colspan="4" class="text-end border-0">សរុប </td>
-				<td class="border text-center">
+				<th colspan="4" class="text-end border-0"> បញ្ចុះតម្លៃ / Discount </th>
+				<th class="border text-center">
+					{#if get_billing?.discount.includes('%')}
+						{get_billing?.discount}
+					{:else}
+						<Currency
+							class=""
+							amount={Number(get_billing?.discount)}
+							symbol={get_currency?.currency_symbol}
+						/>
+					{/if}
+				</th>
+			</tr>
+			<!-- {/if} -->
+
+			<!-- {#if Number(get_billing?.tax) > 0} -->
+			<tr class="border-0">
+				<th colspan="4" class="text-end border-0">ពន្ធ​ / Tax </th>
+				<th class="border text-center">
+					<Currency
+						class=""
+						amount={Number(get_billing?.tax)}
+						symbol={get_currency?.currency_symbol}
+					/>
+				</th>
+			</tr>
+			<!-- {/if} -->
+
+			<tr class="border-0">
+				<th colspan="4" class="text-end border-0">សរុបចុងក្រោយ / Grand Total </th>
+				<th class="border text-center">
 					<Currency class="" amount={get_billing?.total} symbol={get_currency?.currency_symbol} />
-				</td>
+				</th>
 			</tr>
+			<tr class="border-0">
+				<th colspan="4" class="text-end border-0">បានបង់ប្រាក់ / Paid Amount </th>
+				<th class="border text-center">
+					<Currency class="" amount={get_billing?.total} symbol={get_currency?.currency_symbol} />
+				</th>
+			</tr>
+			<!-- {#if Number(get_billing?.balance) > 0} -->
+			<tr class="border-0">
+				<th colspan="4" class="text-end border-0">ប្រាក់ជំពាក់ / Due </th>
+				<th class="border text-center">
+					<Currency class="" amount={get_billing?.balance} symbol={get_currency?.currency_symbol} />
+				</th>
+			</tr>
+			<!-- {/if} -->
+			<!-- {#if previous_due > 0} -->
+			<tr class="border-0">
+				<th colspan="4" class="text-end border-0">ប្រាក់ជំពាក់លើកមុន / Previous Due </th>
+				<th class="border text-center">
+					<Currency
+						class=""
+						amount={previous_due - Number(get_billing?.balance)}
+						symbol={get_currency?.currency_symbol}
+					/>
+				</th>
+			</tr>
+			<!-- {/if} -->
+			<!-- {#if Number(get_billing?.balance) > 0} -->
+			<tr class="border-0">
+				<th colspan="4" class="text-end border-0">ប្រាក់ជំពាក់សរុប / Total Due </th>
+				<th class="border text-center">
+					<Currency class="" amount={previous_due} symbol={get_currency?.currency_symbol} />
+				</th>
+			</tr>
+			<!-- {/if} -->
 		</tbody>
 	</table>
 </div>

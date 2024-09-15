@@ -158,7 +158,12 @@ export const actions: Actions = {
 			logErrorMessage(String(error));
 		}
 		if (visit_id > 0) {
-			await preBilling({ visit_id: visit_id, progress_id: undefined, checkin_type: 'IPD' });
+			await preBilling({
+				visit_id: visit_id,
+				progress_id: undefined,
+				checkin_type: 'IPD',
+				patient_id: Number(get_pregress_note?.patient_id)
+			});
 		}
 	},
 	delete_visit_ipd: async ({ request }) => {

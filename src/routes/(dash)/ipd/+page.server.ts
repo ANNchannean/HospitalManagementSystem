@@ -204,13 +204,19 @@ export const actions: Actions = {
 					});
 
 				if (id[0].id) {
-					await preBilling({ visit_id: id, progress_id: undefined, checkin_type: 'IPD' });
+					await preBilling({
+						visit_id: id,
+						progress_id: undefined,
+						checkin_type: 'IPD',
+						patient_id: +patient_id
+					});
 				}
 			}
 			await preBilling({
 				visit_id: undefined,
 				progress_id: progress_note_id[0].id,
-				checkin_type: 'IPD'
+				checkin_type: 'IPD',
+				patient_id: +patient_id
 			});
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);
 		}

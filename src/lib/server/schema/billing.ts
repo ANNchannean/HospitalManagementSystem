@@ -16,13 +16,21 @@ import { product } from './product';
 import { payment } from './payment';
 import { fileOrPicture } from './fileOrPicture';
 import { pos } from './pos';
+import { patient } from './patient';
 
 export const billing = mysqlTable('billing', {
 	id: int('id').primaryKey().autoincrement(),
 	date: date('date', { mode: 'string' }),
 	time: time('time'),
-	visit_id: int('visit_id').references(() => visit.id, { onDelete: 'cascade',onUpdate:'cascade' }),
-	pos_id: int('pos_id').references(() => pos.id, { onDelete: 'cascade',onUpdate:'cascade' }),
+	visit_id: int('visit_id').references(() => visit.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
+	pos_id: int('pos_id').references(() => pos.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+	patient_id: int('patient_id').references(() => patient.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
 	progress_note_id: int('progress_note_id').references(() => progressNote.id, {
 		onDelete: 'cascade'
 	}),
@@ -45,7 +53,7 @@ export const billing = mysqlTable('billing', {
 		.$type<'paid' | 'partial' | 'due' | 'active' | 'process'>()
 		.default('active')
 		.notNull(),
-	checkin_type: varchar('checkin_type', { length: 255 }).$type<'IPD' | 'OPD'>(),
+	checkin_type: varchar('checkin_type', { length: 255 }).$type<'IPD' | 'OPD' | 'POS'>(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	hold: boolean('hold').default(false).notNull(),
 	note: text('note')
@@ -102,6 +110,10 @@ export const billingRelations = relations(billing, ({ one, many }) => ({
 	visit: one(visit, {
 		references: [visit.id],
 		fields: [billing.visit_id]
+	}),
+	patient: one(patient, {
+		references: [patient.id],
+		fields: [billing.patient_id]
 	}),
 	pos: one(pos, {
 		references: [pos.id],

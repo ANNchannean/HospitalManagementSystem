@@ -9,7 +9,7 @@
 	import InvoiceBody from '$lib/coms-report/InvoiceBody.svelte';
 	import InvoiceHeader from '$lib/coms-report/InvoiceHeader.svelte';
 	export let data: PageServerData;
-	$: ({ get_billing, get_clinic_info, get_currency } = data);
+	$: ({ get_billing, get_clinic_info, get_currency,previous_due } = data);
 	let isPrint = $page.url.searchParams.get('print');
 	onMount(async () => {
 		document.addEventListener('keydown', function (event) {
@@ -19,7 +19,6 @@
 				// alert('View only');
 			}
 		});
-
 		if (isPrint === 'true') {
 			setTimeout(async () => {
 				window.print();
@@ -41,7 +40,7 @@
 				<div class="header-space">&nbsp;</div>
 			</thead>
 			<tbody>
-				<InvoiceBody data={{ get_billing, get_currency }} />
+				<InvoiceBody data={{ get_billing, get_currency,previous_due }} />
 			</tbody>
 			<tfoot>
 				<div class="footer-space">&nbsp;</div>
@@ -52,16 +51,16 @@
 				<div class="col-6 text-center">
 					<span>------------------------</span>
 					<br />
-					<span>ហត្ថលេខាអតិថិជន</span>
+					<span>ហត្ថលេខាអ្នកបង់ប្រាក់</span>
 					<br />
-					<span>Sign's Customer</span>
+					<span>Sign's Payment</span>
 				</div>
 				<div class="col-6 text-center">
 					<span>------------------------</span>
 					<br />
-					<span>ហត្ថលេខាអតិថិជន</span>
+					<span>ហត្ថលេខាអ្នកទទួលប្រាក់</span>
 					<br />
-					<span>Sign's Customer</span>
+					<span>Sign's Cashier</span>
 				</div>
 			</div>
 		</div>
@@ -74,18 +73,20 @@
 		.footer-space {
 			min-height: 200px;
 		}
+		.header,
+		.header-space {
+			height: 300px;
+		}
+		.header {
+			width: 99%;
+			position: fixed;
+			top: 1mm;
+		}
 		.footer {
 			width: 100%;
 			position: fixed;
 			bottom: 0;
-
-			/* padding-bottom: 10mm; */
-			/* margin-top: 20mm; */
 			padding-top: 10mm;
-			/* margin-bottom: 5mm; */
 		}
-		/* .noprint {
-			visibility: hidden;
-		} */
 	}
 </style>

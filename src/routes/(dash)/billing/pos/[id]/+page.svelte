@@ -122,7 +122,6 @@
 							action="?/add_patient"
 							method="post"
 						>
-							<input type="hidden" name="pos_id" value={get_billing?.pos_id} />
 							<Select
 								useSubmit={true}
 								name="patient_id"

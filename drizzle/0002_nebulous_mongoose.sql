@@ -1,0 +1,2 @@
+ALTER TABLE `billing` ADD `patient_id` int;--> statement-breakpoint
+ALTER TABLE `billing` ADD CONSTRAINT `billing_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`) ON DELETE cascade ON UPDATE cascade;

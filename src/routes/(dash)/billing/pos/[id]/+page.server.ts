@@ -292,16 +292,18 @@ export const actions: Actions = {
 			});
 		redirect(303, '/billing/opd');
 	},
-	add_patient: async ({ request }) => {
+	add_patient: async ({ request, params }) => {
+		const { id: billing_id } = params;
+
 		const body = await request.formData();
 		const { patient_id, pos_id } = Object.fromEntries(body) as Record<string, string>;
 		if (!pos_id) return fail(400, { patientErr: true });
 		await db
-			.update(pos)
+			.update(billing)
 			.set({
 				patient_id: +patient_id ? +patient_id : null
 			})
-			.where(eq(pos.id, +pos_id))
+			.where(eq(billing.id, +billing_id))
 			.catch((e) => {
 				logErrorMessage(e);
 			});

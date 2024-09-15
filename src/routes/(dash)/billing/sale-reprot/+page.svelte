@@ -6,7 +6,6 @@
 	import AddPayBilling from '$lib/coms-billing/AddPayBilling.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
-	import ModalInvoice from '$lib/coms-report/ModalInvoice.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_billings, get_currency, get_payment_types, get_clinic_info } = data);
@@ -97,46 +96,29 @@
 									{item.id}
 								</td>
 
-								{#if item.pos_id}
-									<td>
-										<DateTimeFormat timeStyle={false} date={item.pos?.datetime} /> <br />
-										<DateTimeFormat dateStyle={false} date={item.pos?.datetime} />
-									</td>
-									<td>POS</td>
-									<td>
-										{#if !item.pos?.patient}
-											<span>General</span>
-										{/if}
+								<td>
+									<DateTimeFormat timeStyle={false} date={item.created_at} /> <br />
+									<DateTimeFormat dateStyle={false} date={item.created_at} />
+								</td>
+								<td>
+									{item?.checkin_type || ''}
+								</td>
+								<td>
+									{#if !item.patient}
+										<span>General</span>
+									{:else}
 										<span class="">
-											{item.pos?.patient?.name_khmer ?? ''}
+											{item.patient?.name_khmer ?? ''}
 										</span>
 										<br />
 										<span class="">
-											{item.pos?.patient?.name_latin ?? ''}
+											{item.patient?.name_latin ?? ''}
 										</span>
-									</td>
-									<td>{item.pos?.patient?.gender ?? ''}</td>
-									<td>{item.pos?.patient?.age ?? ''}</td>
-									<td>{item.pos?.patient?.telephone ?? ''}</td>
-								{:else}
-									<td>
-										<DateTimeFormat timeStyle={false} date={item.visit?.date_checkup} /> <br />
-										<DateTimeFormat dateStyle={false} date={item.visit?.date_checkup} />
-									</td>
-									<td>{item.visit?.checkin_type ?? ''}</td>
-									<td>
-										<span class="">
-											{item.visit?.patient?.name_khmer}
-										</span>
-										<br />
-										<span class="">
-											{item.visit?.patient?.name_latin}
-										</span>
-									</td>
-									<td>{item.visit?.patient?.gender ?? ''}</td>
-									<td>{item.visit?.patient?.age ?? ''}</td>
-									<td>{item.visit?.patient?.telephone ?? ''}</td>
-								{/if}
+									{/if}
+								</td>
+								<td>{item.patient?.gender ?? ''}</td>
+								<td>{item.patient?.age ?? ''}</td>
+								<td>{item.patient?.telephone ?? ''}</td>
 
 								<td></td>
 
