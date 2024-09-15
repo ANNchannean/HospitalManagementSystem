@@ -29,7 +29,7 @@ export const visit = mysqlTable('visit', {
 	staff_id: int('staff_id')
 		.references(() => staff.id)
 		.notNull(),
-	checkin_type: varchar('checkin_type', { length: 255 }).notNull().$type<'IPD' | 'OPD'>(),
+	checkin_type: varchar('checkin_type', { length: 5 }).notNull().$type<'IPD' | 'OPD'>(),
 	etiology: varchar('etiology', { length: 255 }).notNull(),
 	transfer: boolean('transfer').default(false).notNull(),
 	progress_note_id: int('progress_note_id').references(() => progressNote.id, {

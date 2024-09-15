@@ -4,15 +4,15 @@ import { staff } from './staff';
 
 export const user = mysqlTable('user', {
 	id: varchar('id', { length: 255 }).primaryKey(),
-	username: varchar('username', { length: 255 }).notNull().unique(),
+	username: varchar('username', { length: 50 }).notNull().unique(),
 	password_hash: text('password_hash'),
-	role: varchar('role', { length: 255 })
+	role: varchar('role', { length: 20 })
 		.$type<'ADMIN' | 'DOCTOR' | 'PHARMACIST' | 'NURSE' | 'LABO_TECHICAL' | 'RADIOGRAPHY'>()
 		.default('DOCTOR')
 		.notNull(),
 	image: varchar('image', { length: 255 }),
 	limitview: int('limit_view').notNull().default(20),
-	lang: varchar('lang', { length: 255 }).notNull().default('ko'),
+	lang: varchar('lang', { length: 5 }).notNull().default('ko'),
 	staff_id: int('staff_id').references(() => staff.id, { onDelete: 'no action' })
 });
 

@@ -8,12 +8,12 @@ import { fileOrPicture } from './fileOrPicture';
 // @_Patient
 export const patient = mysqlTable('patient', {
 	id: int('id').primaryKey().autoincrement(),
-	name_khmer: varchar('name_khmer', { length: 255 }).notNull(),
-	name_latin: varchar('name_latin', { length: 255 }).notNull(),
-	gender: varchar('gender', { length: 255 }).notNull(),
+	name_khmer: varchar('name_khmer', { length: 50 }).notNull(),
+	name_latin: varchar('name_latin', { length: 50 }).notNull(),
+	gender: varchar('gender', { length: 10 }).notNull(),
 	dob: date('dob', { mode: 'string' }).notNull(),
 	age: int('age').notNull(),
-	telephone: varchar('telephone', { length: 255 }),
+	telephone: varchar('telephone', { length: 50 }),
 	other: text('other'),
 	village_id: int('village_id').references(() => village.id, { onDelete: 'set null' }),
 	commune_id: int('commune_id').references(() => commune.id, { onDelete: 'set null' }),

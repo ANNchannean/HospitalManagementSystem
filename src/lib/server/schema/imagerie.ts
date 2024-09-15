@@ -6,7 +6,7 @@ import { fileOrPicture } from './fileOrPicture';
 
 export const imagerieGroup = mysqlTable('imagerie_group', {
 	id: int('id').primaryKey().autoincrement(),
-	imagerie_group: varchar('imagerie_group', { length: 255 }).notNull()
+	imagerie_group: varchar('imagerie_group', { length: 50 }).notNull()
 });
 export const imagerieGroupRelations = relations(imagerieGroup, ({ many }) => ({
 	product: many(product)

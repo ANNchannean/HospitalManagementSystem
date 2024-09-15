@@ -3,9 +3,9 @@ import { int, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
 
 export const commune = mysqlTable('commune', {
 	id: int('commune_id').primaryKey().autoincrement(),
-	name_khmer: varchar('name_khmer', { length: 255 }).notNull(),
-	name_latin: varchar('name_latin', { length: 255 }).notNull(),
-	type: varchar('type', { length: 255 }).notNull(),
+	name_khmer: varchar('name_khmer', { length: 50 }).notNull(),
+	name_latin: varchar('name_latin', { length: 50 }).notNull(),
+	type: varchar('type', { length: 20 }).notNull(),
 	district_id: int('district_id').references(() => district.id)
 });
 
@@ -21,9 +21,9 @@ export const communeRelations = relations(commune, ({ one, many }) => ({
 // @_District
 export const district = mysqlTable('district', {
 	id: int('district_id').primaryKey().autoincrement(),
-	name_khmer: varchar('name_khmer', { length: 255 }).notNull(),
-	name_latin: varchar('name_latin', { length: 255 }).notNull(),
-	type: varchar('type', { length: 255 }).notNull(),
+	name_khmer: varchar('name_khmer', { length: 50 }).notNull(),
+	name_latin: varchar('name_latin', { length: 50 }).notNull(),
+	type: varchar('type', { length: 20 }).notNull(),
 	province_id: int('province_id').references(() => provice.id)
 });
 
@@ -39,9 +39,9 @@ export const districtRelations = relations(district, ({ one, many }) => ({
 // @_Provice
 export const provice = mysqlTable('provice', {
 	id: int('provice_id').primaryKey().autoincrement(),
-	name_khmer: varchar('name_khmer', { length: 255 }).notNull(),
-	name_latin: varchar('name_latin', { length: 255 }).notNull(),
-	type: varchar('type', { length: 255 }).notNull(),
+	name_khmer: varchar('name_khmer', { length: 50 }).notNull(),
+	name_latin: varchar('name_latin', { length: 50 }).notNull(),
+	type: varchar('type', { length: 20 }).notNull(),
 	contry_id: int('contry_id')
 });
 
@@ -53,9 +53,9 @@ export const provinceRelations = relations(provice, ({ many }) => ({
 // @_Village
 export const village = mysqlTable('village', {
 	id: int('village_id').primaryKey().autoincrement(),
-	name_khmer: varchar('name_khmer', { length: 255 }).notNull(),
-	name_latin: varchar('name_latin', { length: 255 }).notNull(),
-	type: varchar('type', { length: 255 }).notNull(),
+	name_khmer: varchar('name_khmer', { length: 50 }).notNull(),
+	name_latin: varchar('name_latin', { length: 50 }).notNull(),
+	type: varchar('type', { length: 20 }).notNull(),
 	commune_id: int('commune_id').references(() => commune.id)
 });
 

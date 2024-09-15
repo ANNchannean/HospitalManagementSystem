@@ -5,13 +5,13 @@ import { progressNote } from './visit';
 
 export const ward = mysqlTable('ward', {
 	id: int('id').primaryKey().autoincrement(),
-	ward: varchar('ward', { length: 255 }),
+	ward: varchar('ward', { length: 100 }),
 	description: text('description')
 });
 
 export const room = mysqlTable('room', {
 	id: int('id').primaryKey().autoincrement(),
-	room: varchar('room', { length: 255 }),
+	room: varchar('room', { length: 100 }),
 	product_id: int('product_id').references(() => product.id),
 	ward_id: int('ward_id').references(() => ward.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 	description: text('description')
@@ -19,7 +19,7 @@ export const room = mysqlTable('room', {
 
 export const bed = mysqlTable('bed', {
 	id: int('id').primaryKey().autoincrement(),
-	bed: varchar('bed', { length: 255 }),
+	bed: varchar('bed', { length: 100 }),
 	room_id: int('room_id').references(() => room.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 	ward_id: int('ward_id').references(() => ward.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 	description: text('description')

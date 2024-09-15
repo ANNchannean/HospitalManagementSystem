@@ -9,7 +9,7 @@ export const exam = mysqlTable('exam', {
 
 export const physical = mysqlTable('physical', {
 	id: int('id').primaryKey().autoincrement(),
-	physical: varchar('physical', { length: 255 }),
+	physical: varchar('physical', { length: 150 }),
 	exam_id: int('exam_id').references(() => exam.id, { onDelete: 'cascade', onUpdate: 'cascade' })
 });
 

@@ -47,11 +47,11 @@ export const billing = mysqlTable('billing', {
 	tax: float('tax').default(0).notNull(),
 	vat: float('vat').default(0).notNull(),
 	balance: decimal('balance', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
-	status: varchar('status', { length: 255 })
+	status: varchar('status', { length: 10 })
 		.$type<'paid' | 'partial' | 'due' | 'active' | 'process'>()
 		.default('active')
 		.notNull(),
-	checkin_type: varchar('checkin_type', { length: 255 }).$type<'IPD' | 'OPD' | 'POS'>(),
+	checkin_type: varchar('checkin_type', { length: 5 }).$type<'IPD' | 'OPD' | 'POS'>(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	hold: boolean('hold').default(false).notNull(),
 	note: text('note')
@@ -61,8 +61,8 @@ export const charge = mysqlTable('charge', {
 	id: int('id').primaryKey().autoincrement(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	price: decimal('price', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
-	status: varchar('status', { length: 255 }).$type<'active' | 'desactive'>().default('active'),
-	charge_on: varchar('charge_on', { length: 255 }).$type<
+	status: varchar('status', { length: 10 }).$type<'active' | 'desactive'>().default('active'),
+	charge_on: varchar('charge_on', { length: 20 }).$type<
 		'imagerie' | 'laboratory' | 'service' | 'prescription' | 'general' | 'vaccine'
 	>(),
 	billing_id: int('billing_id')

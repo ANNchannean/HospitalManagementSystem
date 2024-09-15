@@ -5,13 +5,13 @@ import { fileOrPicture } from './fileOrPicture';
 export const formDocument = mysqlTable('form_document', {
 	id: int('id').primaryKey().autoincrement(),
 	datetime: datetime('datetime', { mode: 'string' }),
-	title: varchar('title', { length: 255 }),
+	title: varchar('title', { length: 150 }),
 	content: text('content')
 });
 export const document = mysqlTable('document', {
 	id: int('id').primaryKey().autoincrement(),
 	datetime: datetime('datetime', { mode: 'string' }),
-	title: varchar('title', { length: 255 }),
+	title: varchar('title', { length: 150 }),
 	content: text('content'),
 	visit_id: int('visit_id')
 		.references(() => visit.id, { onDelete: 'cascade', onUpdate: 'cascade' })

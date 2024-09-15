@@ -11,8 +11,8 @@ export const presrciption = mysqlTable('presrciption', {
 		onUpdate: 'cascade'
 	}),
 	product_id: int('product_id').references(() => product.id),
-	use: varchar('use', { length: 255 }),
-	duration: varchar('duration', { length: 255 }),
+	use: varchar('use', { length: 150 }),
+	duration: varchar('duration', { length: 150 }),
 	amount: float('amount'),
 	morning: float('morning'),
 	noon: float('noon'),
@@ -35,7 +35,7 @@ export const presrciptionRelations = relations(presrciption, ({ one, many }) => 
 
 export const activePresrciption = mysqlTable('active_presrciption', {
 	id: int('id').primaryKey().autoincrement(),
-	active_for: varchar('active_for', { length: 255 }).notNull(),
+	active_for: varchar('active_for', { length: 100 }).notNull(),
 	datetime: datetime('datetime', { mode: 'string' }).notNull(),
 	presrciption_id: int('presrciption_id').references(() => presrciption.id, {
 		onDelete: 'cascade',

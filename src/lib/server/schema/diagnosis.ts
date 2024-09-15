@@ -17,7 +17,7 @@ export const diagnosisRelations = relations(diagnosis, ({ one }) => ({
 
 export const diagnosisType = mysqlTable('diagnosis_type', {
 	id: int('id').primaryKey().autoincrement(),
-	diagnosis_type: varchar('diagnosis_type', { length: 255 }).notNull()
+	diagnosis_type: varchar('diagnosis_type', { length: 150 }).notNull()
 });
 
 export const diagnosisTypeRelations = relations(diagnosisType, ({ many }) => ({
