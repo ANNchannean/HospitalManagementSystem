@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1726195427150,
-      "tag": "0000_tense_nightmare",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1726196298077,
-      "tag": "0001_robust_lenny_balinger",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1726382636696,
-      "tag": "0002_nebulous_mongoose",
+      "when": 1726389675728,
+      "tag": "0000_youthful_manta",
       "breakpoints": true
     }
   ]

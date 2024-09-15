@@ -1,12 +1,12 @@
 import { db } from '$lib/server/db';
-import { and, eq, isNull } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { billing } from '$lib/server/schema';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
 	const get_billings = await db.query.billing.findMany({
-		where: and(eq(billing.status, 'process'), isNull(billing.pos_id)),
+		where: and(eq(billing.status, 'process'), eq(billing.checkin_type,'OPD')),
 		with: {
 			visit: {
 				with: {

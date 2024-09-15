@@ -15,7 +15,6 @@ import { relations } from 'drizzle-orm';
 import { product } from './product';
 import { payment } from './payment';
 import { fileOrPicture } from './fileOrPicture';
-import { pos } from './pos';
 import { patient } from './patient';
 
 export const billing = mysqlTable('billing', {
@@ -26,7 +25,6 @@ export const billing = mysqlTable('billing', {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
 	}),
-	pos_id: int('pos_id').references(() => pos.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 	patient_id: int('patient_id').references(() => patient.id, {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
@@ -114,10 +112,6 @@ export const billingRelations = relations(billing, ({ one, many }) => ({
 	patient: one(patient, {
 		references: [patient.id],
 		fields: [billing.patient_id]
-	}),
-	pos: one(pos, {
-		references: [pos.id],
-		fields: [billing.pos_id]
 	}),
 	progressNote: one(progressNote, {
 		references: [progressNote.id],

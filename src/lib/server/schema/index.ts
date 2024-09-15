@@ -35,4 +35,3 @@ export * from './document';
 export * from './test';
 export * from './words';
 export * from './setting';
-export * from './pos';

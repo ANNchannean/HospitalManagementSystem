@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, asc, eq, like, notLike, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { billing, fileOrPicture, payment, paymentType, pos, product } from '$lib/server/schema';
+import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schema';
 import {
 	billingProcess,
 	createProductOrder,
@@ -39,19 +39,6 @@ export const load: PageServerLoad = async ({ url, params }) => {
 							product: true
 						}
 					}
-				}
-			}
-		}
-	});
-	const get_pos = await db.query.pos.findFirst({
-		where: eq(pos.id, Number(get_billing?.pos_id)),
-		with: {
-			patient: {
-				with: {
-					commune: true,
-					district: true,
-					provice: true,
-					village: true
 				}
 			}
 		}
@@ -96,8 +83,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_billing,
 		get_payment_types,
 		get_currency,
-		get_patients,
-		get_pos
+		get_patients
 	};
 };
 
@@ -294,10 +280,8 @@ export const actions: Actions = {
 	},
 	add_patient: async ({ request, params }) => {
 		const { id: billing_id } = params;
-
 		const body = await request.formData();
-		const { patient_id, pos_id } = Object.fromEntries(body) as Record<string, string>;
-		if (!pos_id) return fail(400, { patientErr: true });
+		const { patient_id } = Object.fromEntries(body) as Record<string, string>;
 		await db
 			.update(billing)
 			.set({

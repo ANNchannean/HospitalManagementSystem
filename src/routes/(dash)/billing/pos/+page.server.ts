@@ -12,7 +12,8 @@ export const load: PageServerLoad = async () => {
 			isNull(billing.visit_id),
 			isNull(billing.progress_note_id),
 			eq(billing.total, 0),
-			eq(billing.status, 'process')
+			eq(billing.status, 'process'),
+			eq(billing.checkin_type, 'POS')
 		)
 	});
 	if (old_billing) {

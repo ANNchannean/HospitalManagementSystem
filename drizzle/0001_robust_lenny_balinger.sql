@@ -1,1 +1,0 @@
-ALTER TABLE `pos` RENAME COLUMN `date_checkup` TO `datetime`;

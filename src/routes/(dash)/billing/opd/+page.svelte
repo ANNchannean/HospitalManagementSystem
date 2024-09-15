@@ -8,7 +8,7 @@
 
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing IPD</h2>
+		<h2>Billing OPD</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">

@@ -25,8 +25,7 @@
 		get_billing,
 		get_currency,
 		get_payment_types,
-		get_patients,
-		get_pos
+		get_patients
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -42,7 +41,7 @@
 	let inerHight: string;
 	let inerHight_1: string;
 	$: items = Number(charge_on_general?.productOrder.length || 0);
-	let patient_id = data.get_pos?.patient_id;
+	let patient_id = data.get_billing?.patient_id;
 
 	onMount(() => {
 		if (browser) {
