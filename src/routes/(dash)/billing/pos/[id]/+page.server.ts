@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { and, asc, eq, like, notLike, or } from 'drizzle-orm';
+import { and, asc, eq, gt, like, ne, notLike, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schema';
 import {
@@ -22,9 +22,9 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +billing_id || 0),
 		with: {
+			patient: true,
 			visit: {
 				with: {
-					patient: true,
 					presrciption: {
 						with: {
 							product: true
@@ -76,6 +76,13 @@ export const load: PageServerLoad = async ({ url, params }) => {
 			village: true
 		}
 	});
+	const get_billings_due = await db.query.billing.findMany({
+		where: and(
+			gt(billing.balance, 0),
+			eq(billing.patient_id, get_billing?.patient_id || 0),
+			ne(billing.id, +billing_id)
+		)
+	});
 	return {
 		get_products,
 		get_product_group_type,
@@ -83,7 +90,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_billing,
 		get_payment_types,
 		get_currency,
-		get_patients
+		get_patients,
+		get_billings_due
 	};
 };
 
@@ -263,7 +271,7 @@ export const actions: Actions = {
 			note: note.toString()
 		});
 
-		redirect(303, '/billing/sale-reprot');
+		redirect(303, `/report/${billing_id}/billing`);
 	},
 	hold: async ({ params }) => {
 		const { id: billing_id } = params;

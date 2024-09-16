@@ -35,9 +35,9 @@ export const load: PageServerLoad = async ({ url, params }) => {
 				with: {
 					billing: {
 						with: {
+							patient: true,
 							visit: {
 								with: {
-									patient: true,
 									presrciption: {
 										with: {
 											product: true
@@ -288,7 +288,6 @@ export const actions: Actions = {
 			tax: +tax || 0,
 			note: note.toString()
 		});
-
-		redirect(303, '/billing/sale-reprot');
+		redirect(303, `/report/${billing_id}/billing`);
 	}
 };

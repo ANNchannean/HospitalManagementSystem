@@ -22,9 +22,9 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +billing_id || 0),
 		with: {
+			patient: true,
 			visit: {
 				with: {
-					patient: true,
 					presrciption: {
 						with: {
 							product: true
@@ -103,9 +103,9 @@ export const actions: Actions = {
 			await db.query.billing.findFirst({
 				where: eq(billing.id, +billing_id || 0),
 				with: {
+					patient: true,
 					visit: {
 						with: {
-							patient: true,
 							presrciption: true
 						}
 					},
@@ -264,7 +264,7 @@ export const actions: Actions = {
 			note: note.toString()
 		});
 
-		redirect(303, '/billing/sale-reprot');
+		redirect(303, `/report/${billing_id}/billing`);
 	},
 	hold: async ({ params }) => {
 		const { id: billing_id } = params;

@@ -25,7 +25,8 @@
 		get_billing,
 		get_currency,
 		get_payment_types,
-		get_patients
+		get_patients,
+		get_billings_due
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -182,17 +183,15 @@
 					</table>
 				</div>
 				<div class="card-header">
-					<table class="table table-sm mt-2 fs-5">
+					<table class="fs-5 table">
 						<tr class="">
-							<td></td>
-							<td>ចំនួនទំនិញ </td>
-							<td>:</td>
+							<td>ចំនួនទំនិញ</td>
+							<td> : </td>
 							<td>{items} មុខ </td>
 						</tr>
 						<tr>
-							<td></td>
 							<td>សរុប </td>
-							<td>:</td>
+							<td> : </td>
 							<td>
 								<Currency
 									class=""
@@ -203,8 +202,7 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td></td>
-							<td>:</td>
+							<td> : </td>
 							<td>
 								<Currency
 									class=""
@@ -215,6 +213,39 @@
 								/>
 							</td>
 						</tr>
+						{#each get_billings_due as item (item.id)}
+							<tr>
+								<td>ប្រាក់ជំពាក់លើកមុន</td>
+								<td> : </td>
+								<td>
+									{#if item.checkin_type === 'IPD'}
+										<a href="/billing/multiple/{item.id}">
+											<Currency
+												class=""
+												amount={item.balance}
+												symbol={get_currency?.currency_symbol}
+											/></a
+										>
+									{:else if item.checkin_type === 'OPD'}
+										<a href="/billing/single/{item.id}"
+											><Currency
+												class=""
+												amount={item.balance}
+												symbol={get_currency?.currency_symbol}
+											/></a
+										>
+									{:else}
+										<a href="/billing/pos/{item.id}"
+											><Currency
+												class=""
+												amount={item.balance}
+												symbol={get_currency?.currency_symbol}
+											/></a
+										>
+									{/if}
+								</td>
+							</tr>
+						{/each}
 					</table>
 
 					<hr />

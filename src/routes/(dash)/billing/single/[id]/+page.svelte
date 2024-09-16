@@ -124,8 +124,8 @@
 								<td>ឈ្មេះអ្នកជំងឺ</td>
 								<td>:</td>
 								<td
-									>{get_billing?.visit?.patient?.name_khmer}
-									@{get_billing?.visit?.patient?.name_latin}
+									>{get_billing?.patient?.name_khmer}
+									@{get_billing?.patient?.name_latin}
 								</td>
 								<td>
 									<DateTimeFormat date={get_billing?.visit?.date_checkup} />

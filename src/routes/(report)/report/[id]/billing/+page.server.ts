@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { billing } from '$lib/server/schema';
-import { and, eq, gt } from 'drizzle-orm';
+import { and, eq, gt, ne } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ params }) => {
@@ -40,10 +40,14 @@ export const load = (async ({ params }) => {
 		}
 	});
 	const get_billings = await db.query.billing.findMany({
-		where: and(gt(billing.balance, 0), eq(billing.patient_id, get_billing?.patient_id || 0))
+		where: and(
+			gt(billing.balance, 0),
+			eq(billing.patient_id, get_billing?.patient_id || 0),
+			ne(billing.id, +id)
+		)
 	});
 	const previous_due = get_billings.reduce((s, i) => s + i.balance, 0);
-	
+
 	return {
 		get_billing,
 		get_currency,
