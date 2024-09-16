@@ -205,15 +205,15 @@ export const actions: Actions = {
 
 				if (id[0].id) {
 					await preBilling({
-						visit_id: id,
-						progress_id: undefined,
+						visit_id: id[0].id,
+						progress_id: null,
 						checkin_type: 'IPD',
 						patient_id: +patient_id
 					});
 				}
 			}
 			await preBilling({
-				visit_id: undefined,
+				visit_id: null,
 				progress_id: progress_note_id[0].id,
 				checkin_type: 'IPD',
 				patient_id: +patient_id

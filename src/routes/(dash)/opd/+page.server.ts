@@ -96,7 +96,7 @@ export const actions: Actions = {
 		if (visit_id[0].id) {
 			// doing billing
 			await preBilling({
-				visit_id: visit_id,
+				visit_id: visit_id[0].id,
 				progress_id: null,
 				checkin_type: 'OPD',
 				patient_id: +patient_id
