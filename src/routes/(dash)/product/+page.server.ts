@@ -3,15 +3,13 @@ import { fileOrPicture, inventory, product, productGroupType } from '$lib/server
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq, like, or } from 'drizzle-orm';
-import { now_datetime } from '$lib/server/utils';
+import { now_datetime, pagination } from '$lib/server/utils';
 import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
 import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
-	const limit = 50;
 	const currenctPage = Number(url.searchParams.get('page')) || 1;
-	const offset = limit * (currenctPage - 1);
 	const get_currency = await db.query.currency.findFirst({});
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
@@ -43,8 +41,8 @@ export const load = (async ({ url, parent }) => {
 			}
 		},
 		orderBy: asc(product.products),
-		limit: limit,
-		offset: offset
+		limit: pagination(currenctPage).limit,
+		offset: pagination(currenctPage).offset
 	});
 	return {
 		get_products,

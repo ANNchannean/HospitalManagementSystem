@@ -30,3 +30,13 @@ export const now_datetime_number = function () {
 			Intl.DateTimeFormat('en-GB', { timeStyle: 'medium' }).format(new Date()).split(':').join('')
 		);
 };
+
+export const pagination = function (curp: number) {
+	const limit = 10;
+	const currenctPage = curp || 1;
+	const offset = limit * (currenctPage - 1);
+	return {
+		limit,
+		offset
+	};
+};
