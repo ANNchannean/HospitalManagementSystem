@@ -290,6 +290,8 @@ export const actions: Actions = {
 		const { id: billing_id } = params;
 		const body = await request.formData();
 		const { patient_id } = Object.fromEntries(body) as Record<string, string>;
+		console.log(patient_id);
+		
 		await db
 			.update(billing)
 			.set({

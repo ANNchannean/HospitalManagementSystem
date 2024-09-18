@@ -111,7 +111,6 @@
 					<div class="col-2">ឈ្មេះអ្នកជំងឺ</div>
 					<div class="col-10">
 						<form
-							id="useSubmit"
 							use:enhance={() => {
 								$globalLoading = true;
 								return async ({ update }) => {

@@ -35,6 +35,27 @@
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		{#if useSubmit}
+			<span
+				on:click={(e) => {
+					e.stopPropagation();
+					value = null;
+				}}
+				style="float:right;"
+			>
+				<i class="fa-solid fa-xmark"></i></span
+			>
+		{:else}
+			<span
+				on:click={(e) => {
+					e.stopPropagation();
+					value = null;
+				}}
+				style="float:right;"
+			>
+				<i class="fa-solid fa-xmark"></i></span
+			>
+		{/if}
 	</button>
 
 	<div style="width: 100%;" class="dropdown-menu">
@@ -51,13 +72,12 @@
 							type="submit"
 							class:active={item.id === items.find((e) => e.id === value)?.id}
 							class="dropdown-item"
-							on:click={(e) => {
+							on:click={() => {
 								if (value === item.id) {
 									value = null;
 								} else {
 									value = item.id;
 								}
-								document.getElementById('useSubmit');
 							}}
 						>
 							<Athtml html={item.name} />

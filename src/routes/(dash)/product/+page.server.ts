@@ -9,7 +9,9 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
-
+	const limit = 50;
+	const currenctPage = Number(url.searchParams.get('page')) || 1;
+	const offset = limit * (currenctPage - 1);
 	const get_currency = await db.query.currency.findFirst({});
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
@@ -40,7 +42,9 @@ export const load = (async ({ url, parent }) => {
 				}
 			}
 		},
-		orderBy: asc(product.products)
+		orderBy: asc(product.products),
+		limit: limit,
+		offset: offset
 	});
 	return {
 		get_products,

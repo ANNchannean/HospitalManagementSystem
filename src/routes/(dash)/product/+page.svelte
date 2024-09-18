@@ -24,6 +24,10 @@
 		product_id = id;
 	}
 	$: find_product = get_products.filter((e) => e.id === product_id);
+	let next: number;
+	let previous: number;
+	let page: number;
+	let limit: number;
 </script>
 
 <DeleteModal action="?/delete_product" id={get_products.find((e) => e.id === product_id)?.id} />
@@ -182,6 +186,23 @@
 						{/each}
 					</tbody>
 				</table>
+			</div>
+			<div class="card-footer">
+				<div class="div">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-end m-0">
+							<li class="page-item disabled">
+								<a class="page-link">Previous</a>
+							</li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item">
+								<a class="page-link" href="#">Next</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
 			</div>
 		</div>
 	</div>
