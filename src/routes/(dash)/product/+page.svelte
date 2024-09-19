@@ -9,7 +9,8 @@
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
-	$: ({ get_products, get_product_group_type, get_currency, get_units } = data);
+	$: ({ get_products, get_product_group_type, get_currency, get_units, get_products_lenght } =
+		data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -188,20 +189,34 @@
 				</table>
 			</div>
 			<div class="card-footer">
-				<div class="div">
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-end m-0">
-							<li class="page-item disabled">
-								<a class="page-link">Previous</a>
-							</li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item">
-								<a class="page-link" href="#">Next</a>
-							</li>
-						</ul>
-					</nav>
+				<div class="row">
+					<div class="col-4">
+						<div class="row g-0">
+							<div class="col-auto">
+								<button class="btn btn-link"><i class="fa-solid fa-angles-left"></i></button>
+							</div>
+							<div class="col-auto">
+								<input type="text" class="form-control form-control-sm form-text" />
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-link"><i class="fa-solid fa-angles-right"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">d</div>
+					<div class="col-4">
+						<div class="row g-0">
+							<div class="col-auto">
+								<button class="btn btn-link"><i class="fa-solid fa-angles-left"></i></button>
+							</div>
+							<div class="col-auto">
+								<input type="text" class="form-control form-control-sm form-text" />
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-link"><i class="fa-solid fa-angles-right"></i></button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

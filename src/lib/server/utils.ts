@@ -31,9 +31,8 @@ export const now_datetime_number = function () {
 		);
 };
 
-export const pagination = function (curp: number) {
-	const limit = 10;
-	const currenctPage = curp || 1;
+export const pagination = function (page: number, limit: number) {
+	const currenctPage = page || 1;
 	const offset = limit * (currenctPage - 1);
 	return {
 		limit,

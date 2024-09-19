@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 </script>
 
-<div class="page-not-found bg-body-tertiary">
-	<div class="bg-light bg-body-secondary">
+<div class="page-not-found">
+	<div class="bg-light">
 		<h2>{$page.status}</h2>
 		<h3 class="mt-2">Opps!</h3>
 		<h3>{$page.error?.message}</h3>
