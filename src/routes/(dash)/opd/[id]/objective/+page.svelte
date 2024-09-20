@@ -5,7 +5,7 @@
 	import { enhance } from '$app/forms';
 	import { slide } from 'svelte/transition';
 	import Athtml from '$lib/coms/Athtml.svelte';
-	import Words from '$lib/coms/Words.svelte';
+	import Words from '$lib/coms-cu/Words.svelte';
 	import { onMount } from 'svelte';
 	import { globalLoading } from '$lib/store';
 	import { invalidateAll } from '$app/navigation';

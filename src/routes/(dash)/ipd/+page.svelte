@@ -3,7 +3,7 @@
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import Select from '$lib/coms/Select.svelte';
-	import Words from '$lib/coms/Words.svelte';
+	import Words from '$lib/coms-cu/Words.svelte';
 	import { globalLoading } from '$lib/store';
 	import AddBedToIpd from '$lib/coms/AddBedToIPD.svelte';
 	let loading = false;

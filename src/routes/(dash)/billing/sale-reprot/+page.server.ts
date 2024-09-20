@@ -3,18 +3,17 @@ import { desc, eq, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
-import { now_datetime } from '$lib/server/utils';
+import { now_datetime, pagination } from '$lib/server/utils';
 import { deleteFile, uploadFile } from '$lib/server/fileHandle';
 import { billingProcess } from '$lib/server/models';
 import { logErrorMessage } from '$lib/server/telegram';
 
-export const load: PageServerLoad = async ({ parent }) => {
+export const load: PageServerLoad = async ({ parent, url }) => {
 	await parent();
-	const get_clinic_info = await db.query.clinicinfo.findFirst({
-		with: {
-			fileOrPicture: true
-		}
-	});
+	const page = Number(url.searchParams.get('page')) || 1;
+	const limit = Number(url.searchParams.get('limit')) || 10;
+	const start = Number(url.searchParams.get('start'));
+	const end = Number(url.searchParams.get('end'));
 	const get_currency = await db.query.currency.findFirst({});
 	const get_billings = await db.query.billing.findMany({
 		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
@@ -57,14 +56,60 @@ export const load: PageServerLoad = async ({ parent }) => {
 				}
 			}
 		},
-		orderBy: desc(billing.created_at)
+		orderBy: desc(billing.created_at),
+		limit: pagination(page, limit).limit,
+		offset: pagination(page, limit).offset
+	});
+	const items = await db.query.billing.findMany({
+		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
+		with: {
+			patient: {
+				with: {
+					commune: true,
+					district: true,
+					provice: true,
+					village: true
+				}
+			},
+			visit: {
+				with: {
+					patient: {
+						with: {
+							commune: true,
+							district: true,
+							provice: true,
+							village: true
+						}
+					},
+					staff: true,
+					department: true
+				}
+			},
+			charge: {
+				with: {
+					productOrder: {
+						with: {
+							product: true
+						}
+					}
+				}
+			},
+			payment: {
+				with: {
+					paymentType: true,
+					fileOrPicture: true
+				}
+			}
+		}
 	});
 	const get_payment_types = await db.query.paymentType.findMany();
+	const get_patients = await db.query.patient.findMany({});
 	return {
 		get_billings,
 		get_payment_types,
 		get_currency,
-		get_clinic_info
+		items: items.length,
+		get_patients
 	};
 };
 

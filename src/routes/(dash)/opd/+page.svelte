@@ -6,7 +6,7 @@
 	import Toast from '$lib/coms/Toast.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { t } from '$lib/translations';
-	import Words from '$lib/coms/Words.svelte';
+	import Words from '$lib/coms-cu/Words.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_staffs, get_patient, get_departments, get_words } = data);

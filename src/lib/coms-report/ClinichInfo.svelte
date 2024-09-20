@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageServerData } from '../../routes/(dash)/billing/sale-reprot/$types';
+	import type { PageServerData } from '../../routes/(report)/report/[id]/billing/$types';
 	type Data = Pick<PageServerData, 'get_clinic_info'>;
 	export let data: Data;
 	$: ({ get_clinic_info } = data);

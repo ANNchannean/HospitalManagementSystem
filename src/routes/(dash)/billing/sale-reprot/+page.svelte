@@ -6,9 +6,11 @@
 	import AddPayBilling from '$lib/coms-billing/AddPayBilling.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
+	import Paginations from '$lib/coms/Paginations.svelte';
+	import Select from '$lib/coms/Select.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
-	$: ({ get_billings, get_currency, get_payment_types, get_clinic_info } = data);
+	$: ({ get_billings, get_currency, get_payment_types, items, get_patients } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -20,6 +22,10 @@
 	};
 	let billing_id = 0;
 	$: find_billing = get_billings.filter((e) => e.id === billing_id) || [];
+	let page: number = 1;
+	let limit: number;
+	$: n = page === 1 ? 1 : limit * page - limit + 1;
+	let patient_id: number;
 </script>
 
 <ViewPayBilling data={{ get_billings: get_billings, get_currency: get_currency }} {billing_id} />
@@ -54,22 +60,54 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-				<!-- <h3 class="card-title">Fixed Header Table</h3> -->
-				<div class="row">
-					<div class="col">
+				<form
+					data-sveltekit-keepfocus
+					on:change={(e) => e.currentTarget.requestSubmit()}
+					class="row g-1"
+				>
+					<input type="hidden" name="page" value={page} />
+					<input type="hidden" name="limit" value={limit} />
+					<input type="hidden" name="patient_id" value={patient_id} />
+					<div class="col-sm-2">
+						<div class="input-group">
+							<span class="input-group-text">Start</span>
+							<input type="date" name="start" class="form-control" />
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="date" name="end" class="form-control" />
+							<span class="input-group-text">End</span>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<Select
+							bind:value={patient_id}
+							displayName="Patient"
+							selectType="param"
+							name="patient_id"
+							items={get_patients.map((e) => ({
+								id: e.id,
+								name: e.name_khmer.concat(` ${e.name_latin}`)
+							}))}
+						/>
+					</div>
+					<div class="col-sm-2">
 						<input
-							type="text"
-							name="table_search"
-							class="form-control float-right"
+							on:input={handleQ}
+							type="search"
+							name="q"
+							class="form-control"
 							placeholder="Search"
 						/>
 					</div>
-				</div>
+				</form>
 			</div>
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
-				<table class="table table-bordered table-hover">
-					<thead class="position-sticky top-0 bg-light table-active">
+				<table class="table table-bordered table-hover text-nowrap">
+					<thead class="sticky-top top-0 bg-light table-active">
 						<tr class="text-center">
+							<th>N</th>
 							<th>ID</th>
 							<th>Date</th>
 							<th>V-Type</th>
@@ -90,8 +128,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each get_billings as item (item.id)}
+						{#each get_billings as item, index (item.id)}
 							<tr class="text-center">
+								<td>
+									{n + index}
+								</td>
 								<td>
 									{item.id}
 								</td>
@@ -210,6 +251,9 @@
 						{/each}
 					</tbody>
 				</table>
+			</div>
+			<div class="card-footer fixed-bottom position-relative">
+				<Paginations {items} bind:limit bind:page />
 			</div>
 		</div>
 	</div>

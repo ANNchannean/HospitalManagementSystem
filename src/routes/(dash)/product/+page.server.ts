@@ -56,7 +56,7 @@ export const load = (async ({ url, parent }) => {
 		get_product_group_type,
 		get_units,
 		get_currency,
-		get_products_lenght: get_products_lenght.length
+		items: get_products_lenght.length
 	};
 }) satisfies PageServerLoad;
 

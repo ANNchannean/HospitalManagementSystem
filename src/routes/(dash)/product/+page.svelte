@@ -6,11 +6,11 @@
 	import { inerHight } from '$lib/store';
 	import Toast from '$lib/coms/Toast.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
+	import Paginations from '$lib/coms/Paginations.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
-	$: ({ get_products, get_product_group_type, get_currency, get_units, get_products_lenght } =
-		data);
+	$: ({ get_products, get_product_group_type, get_currency, get_units, items } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -25,10 +25,9 @@
 		product_id = id;
 	}
 	$: find_product = get_products.filter((e) => e.id === product_id);
-	let next: number;
-	let previous: number;
-	let page: number;
+	let page: number = 1;
 	let limit: number;
+	$: n = page === 1 ? 1 : limit * page - limit + 1;
 </script>
 
 <DeleteModal action="?/delete_product" id={get_products.find((e) => e.id === product_id)?.id} />
@@ -74,8 +73,10 @@
 				<form
 					data-sveltekit-keepfocus
 					on:change={(e) => e.currentTarget.requestSubmit()}
-					class=" row gap-1"
+					class="row gap-1"
 				>
+					<input type="hidden" name="page" value={page} />
+					<input type="hidden" name="limit" value={limit} />
 					<div class="col-sm-3">
 						<select id="group_type_id" class="form-control" name="group_type_id">
 							<option value="">ProductGroup</option>
@@ -126,7 +127,7 @@
 					<tbody>
 						{#each get_products as item, index}
 							<tr>
-								<td class="text-center">{index + 1}</td>
+								<td class="text-center">{n + index}</td>
 								<td class="text-center">{item.id}</td>
 								<td class="text-center">
 									<img
@@ -188,36 +189,8 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="card-footer">
-				<div class="row">
-					<div class="col-4">
-						<div class="row g-0">
-							<div class="col-auto">
-								<button class="btn btn-link"><i class="fa-solid fa-angles-left"></i></button>
-							</div>
-							<div class="col-auto">
-								<input type="text" class="form-control form-control-sm form-text" />
-							</div>
-							<div class="col-auto">
-								<button class="btn btn-link"><i class="fa-solid fa-angles-right"></i></button>
-							</div>
-						</div>
-					</div>
-					<div class="col-4">d</div>
-					<div class="col-4">
-						<div class="row g-0">
-							<div class="col-auto">
-								<button class="btn btn-link"><i class="fa-solid fa-angles-left"></i></button>
-							</div>
-							<div class="col-auto">
-								<input type="text" class="form-control form-control-sm form-text" />
-							</div>
-							<div class="col-auto">
-								<button class="btn btn-link"><i class="fa-solid fa-angles-right"></i></button>
-							</div>
-						</div>
-					</div>
-				</div>
+			<div class="card-footer fixed-bottom position-relative">
+				<Paginations {items} bind:limit bind:page />
 			</div>
 		</div>
 	</div>

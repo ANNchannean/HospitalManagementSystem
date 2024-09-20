@@ -110,33 +110,22 @@
 				<div class=" row">
 					<div class="col-2">ឈ្មេះអ្នកជំងឺ</div>
 					<div class="col-10">
-						<form
-							use:enhance={() => {
-								$globalLoading = true;
-								return async ({ update }) => {
-									await update({ reset: false });
-									$globalLoading = false;
-								};
-							}}
+						<Select
 							action="?/add_patient"
-							method="post"
-						>
-							<Select
-								useSubmit={true}
-								name="patient_id"
-								bind:value={patient_id}
-								items={get_patients.map((e) => ({
-									id: e.id,
-									name: e.name_khmer
-										.concat(` ${e.name_latin}`)
-										.concat(` ,${e.gender}`)
-										.concat(` ,${e.village?.type} ${e.village?.name_khmer}`)
-										.concat(` ${e.commune?.type} ${e.commune?.name_khmer}`)
-										.concat(` ${e.district?.type} ${e.district?.name_khmer}`)
-										.concat(` ${e.provice?.type} ${e.provice?.name_khmer}`)
-								}))}
-							/>
-						</form>
+							selectType="submit"
+							name="patient_id"
+							bind:value={patient_id}
+							items={get_patients.map((e) => ({
+								id: e.id,
+								name: e.name_khmer
+									.concat(` ${e.name_latin}`)
+									.concat(` ,${e.gender}`)
+									.concat(` ,${e.village?.type} ${e.village?.name_khmer}`)
+									.concat(` ${e.commune?.type} ${e.commune?.name_khmer}`)
+									.concat(` ${e.district?.type} ${e.district?.name_khmer}`)
+									.concat(` ${e.provice?.type} ${e.provice?.name_khmer}`)
+							}))}
+						/>
 					</div>
 					<div class="col-12 pt-2">
 						<SubmiteSearch

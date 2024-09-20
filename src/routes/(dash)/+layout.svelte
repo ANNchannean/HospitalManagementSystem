@@ -20,7 +20,7 @@
 		hour12: true
 	}).format(new Date());
 	onMount(() => {
-		$inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
+		$inerHight = (window.innerHeight - (window.innerHeight * 29) / 100).toString().concat('px');
 		const interval = setInterval(() => {
 			// invalidateAll();
 			date = Intl.DateTimeFormat('en-GB', {

@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
-	import Words from '$lib/coms/Words.svelte';
+	import Words from '$lib/coms-cu/Words.svelte';
 	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
 	$: ({ get_words } = data);
