@@ -3,7 +3,7 @@ import { product, productGroupType, template } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, like } from 'drizzle-orm';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async () => {
 	const get_currency = await db.query.currency.findFirst({});

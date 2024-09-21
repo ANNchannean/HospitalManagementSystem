@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);

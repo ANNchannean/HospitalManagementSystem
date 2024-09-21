@@ -10,9 +10,9 @@ import {
 } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, desc, eq } from 'drizzle-orm';
-import { deleteFile, uploadFile } from '$lib/server/fileHandle';
+import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { createProductOrder, deleteProductOrder } from '$lib/server/models';
 export const load = (async ({ parent }) => {
 	await parent();

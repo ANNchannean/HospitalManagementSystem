@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { bed, product, productGroupType, room, ward } from '$lib/server/schema';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 

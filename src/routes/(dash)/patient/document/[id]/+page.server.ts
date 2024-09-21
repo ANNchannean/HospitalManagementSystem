@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { document, visit } from '$lib/server/schema';
 import { redirect } from '@sveltejs/kit';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ params }) => {
 	const { id } = params;

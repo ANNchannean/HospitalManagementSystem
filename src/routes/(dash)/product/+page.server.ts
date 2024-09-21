@@ -4,8 +4,8 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq, like, or } from 'drizzle-orm';
 import { now_datetime, pagination } from '$lib/server/utils';
-import { deleteFile, updateFile, uploadFile } from '$lib/server/fileHandle';
-import { logErrorMessage } from '$lib/server/telegram';
+import { deleteFile, updateFile, uploadFile } from '$lib/server/upload/fileHandle';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ url, parent }) => {
 	await parent();

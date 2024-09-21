@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { lucia } from '$lib/server/lucia';
+import { lucia } from '$lib/server/auth/lucia';
 
 export const load: PageServerLoad = async ({ locals, cookies }) => {
 	if (!locals.session) {

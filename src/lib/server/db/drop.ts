@@ -1,4 +1,4 @@
-import { db } from './db';
+import { db } from '.';
 import { sql } from 'drizzle-orm';
 const main = async () => {
 	console.log('Earasing');

@@ -2,7 +2,8 @@ import { eq } from 'drizzle-orm';
 import { db } from './db';
 import { billing, charge, productOrder } from './schema';
 import { now_datetime } from './utils';
-import { billingMessage, logErrorMessage } from './telegram';
+import { billingMessage } from './telegram/billingMessage';
+import { logErrorMessage } from './telegram/logErrorMessage';
 
 type TCProductOrder = {
 	charge_id: number;

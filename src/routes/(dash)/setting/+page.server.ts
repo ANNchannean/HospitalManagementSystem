@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { currency } from '$lib/server/schema';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { fail } from '@sveltejs/kit';
 
 export const load = (async () => {

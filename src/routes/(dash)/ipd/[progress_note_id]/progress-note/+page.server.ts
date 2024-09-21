@@ -11,7 +11,7 @@ import {
 	visit
 } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import {
 	createProductOrder,
 	deleteProductOrder,

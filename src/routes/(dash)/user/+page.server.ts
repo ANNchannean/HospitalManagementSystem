@@ -5,7 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 import { hash } from '@node-rs/argon2';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 export const load = (async ({ parent }) => {
 	await parent();
 	const get_staffs = await db.query.staff.findMany({});

@@ -3,7 +3,7 @@ import { imagerieRequest, product, visit } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder } from '$lib/server/models';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ params }) => {
 	const get_currency = await db.query.currency.findFirst({});

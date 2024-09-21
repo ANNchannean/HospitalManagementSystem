@@ -4,7 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { preBilling } from '$lib/server/models';
 
 export const load = (async ({ url, parent }) => {

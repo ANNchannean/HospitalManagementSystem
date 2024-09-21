@@ -3,7 +3,7 @@ import { appointmentInjection, injection, vaccine } from '$lib/server/schema';
 import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ parent }) => {
 	await parent();

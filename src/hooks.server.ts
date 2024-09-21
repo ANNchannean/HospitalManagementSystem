@@ -1,4 +1,4 @@
-import { lucia } from '$lib/server/lucia';
+import { lucia } from '$lib/server/auth/lucia';
 import { type Handle } from '@sveltejs/kit';
 // import { redis } from '$lib/server/redis';
 export const handle: Handle = async ({ event, resolve }) => {

@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { words } from '$lib/server/schema';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 

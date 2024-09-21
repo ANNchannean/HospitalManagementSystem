@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { progressNote, visit } from '$lib/server/schema';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';

@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { uploadFile } from '$lib/server/fileHandle';
+import { uploadFile } from '$lib/server/upload/fileHandle';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async () => {

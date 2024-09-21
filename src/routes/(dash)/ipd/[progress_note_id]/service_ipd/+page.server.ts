@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { operationProtocol, product, productGroupType, service } from '$lib/server/schema';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.progress_note_id;

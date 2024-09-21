@@ -9,7 +9,7 @@ import {
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
 	const get_product_type = await db.query.productGroupType.findFirst({

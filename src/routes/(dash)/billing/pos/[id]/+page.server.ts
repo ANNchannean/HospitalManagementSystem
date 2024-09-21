@@ -11,8 +11,8 @@ import {
 } from '$lib/server/models';
 import { fail, redirect } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
-import { deleteFile, uploadFile } from '$lib/server/fileHandle';
-import { logErrorMessage } from '$lib/server/telegram';
+import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: billing_id } = params;

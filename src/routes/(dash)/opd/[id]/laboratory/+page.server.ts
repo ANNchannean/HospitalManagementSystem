@@ -3,7 +3,7 @@ import { laboratory, laboratoryRequest, product, visit } from '$lib/server/schem
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);

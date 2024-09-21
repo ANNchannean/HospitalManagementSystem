@@ -3,7 +3,8 @@ import { appointment } from '$lib/server/schema';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
+
 
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;

@@ -3,7 +3,7 @@ import { department, staff, patient, visit, progressNote, billing } from '$lib/s
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { fail, redirect } from '@sveltejs/kit';
 import { preBilling } from '$lib/server/models';
 

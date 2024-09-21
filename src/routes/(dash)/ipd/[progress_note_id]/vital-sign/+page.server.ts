@@ -3,7 +3,7 @@ import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { vitalSign } from '$lib/server/schema';
 import { now_datetime } from '$lib/server/utils';
-import { logErrorMessage } from '$lib/server/telegram';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const progress_note_id = params.progress_note_id;

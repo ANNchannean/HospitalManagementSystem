@@ -4,9 +4,9 @@ import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
 import { now_datetime, pagination } from '$lib/server/utils';
-import { deleteFile, uploadFile } from '$lib/server/fileHandle';
+import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';
+import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { billingProcess } from '$lib/server/models';
-import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ parent, url }) => {
 	await parent();
