@@ -190,8 +190,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				status: 'due',
 				note: note,
 				total_after_tax: total_after_tax,
-				date: now_datetime().slice(0, 10),
-				time: now_datetime().slice(11, 19)
+				created_at: now_datetime()
 			})
 			.where(eq(billing.id, billing_id))
 			.catch((e) => console.log(e));
@@ -208,8 +207,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				status: 'paid',
 				note: note,
 				total_after_tax: total_after_tax,
-				date: now_datetime().slice(0, 10),
-				time: now_datetime().slice(11, 19)
+				created_at: now_datetime()
 			})
 			.where(eq(billing.id, billing_id))
 			.catch((e) => console.log(e));
@@ -226,8 +224,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				status: 'partial',
 				total_after_tax: total_after_tax,
 				note: note,
-				date: now_datetime().slice(0, 10),
-				time: now_datetime().slice(11, 19)
+				created_at: now_datetime()
 			})
 			.where(eq(billing.id, billing_id))
 			.catch((e) => console.log(e));
@@ -343,7 +340,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				dateStyle: 'short',
 				timeStyle: 'short',
 				hour12: true
-			}).format(new Date(billing_?.date?.concat(' ').concat(billing_?.time ?? '') ?? ''))
+			}).format(new Date(billing_?.created_at ?? ''))
 		);
 
 	billingMessage(message);

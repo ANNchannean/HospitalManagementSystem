@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageServerData } from '../../routes/(dash)/billing/sale-reprot/$types';
+	import type { PageServerData } from '../../routes/(dash)/billing/report/$types';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';

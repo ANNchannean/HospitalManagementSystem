@@ -1,13 +1,11 @@
 import {
 	boolean,
-	date,
 	datetime,
 	decimal,
 	float,
 	int,
 	mysqlTable,
 	text,
-	time,
 	varchar
 } from 'drizzle-orm/mysql-core';
 import { progressNote, visit } from './visit';
@@ -19,8 +17,6 @@ import { patient } from './patient';
 
 export const billing = mysqlTable('billing', {
 	id: int('id').primaryKey().autoincrement(),
-	date: date('date', { mode: 'string' }),
-	time: time('time'),
 	visit_id: int('visit_id').references(() => visit.id, {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
