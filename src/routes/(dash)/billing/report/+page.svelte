@@ -67,7 +67,7 @@
 				>
 					<input type="hidden" name="page" value={page} />
 					<input type="hidden" name="limit" value={limit} />
-					<input type="hidden" name="patient_id" value={patient_id} />
+					<!-- <input type="hidden" name="patient_id" value={patient_id} /> -->
 					<div class="col-sm-2">
 						<div class="input-group">
 							<span class="input-group-text">Start</span>
@@ -93,13 +93,26 @@
 						/>
 					</div>
 					<div class="col-sm-2">
-						<input
-							on:input={handleQ}
-							type="search"
-							name="q"
-							class="form-control"
-							placeholder="Search"
-						/>
+						<div class="input-group">
+							<span class="input-group-text">Status</span>
+							<select name="status" id="status" class="form-control">
+								<option value="">All</option>
+								<option value="paid">Paid</option>
+								<option value="due">Due</option>
+								<option value="partial">Partial</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<span class="input-group-text">BillingType</span>
+							<select name="billing_type" id="billing_type" class="form-control">
+								<option value="">All</option>
+								<option value="OPD">OPD</option>
+								<option value="IPD">IPD</option>
+								<option value="POS">POS</option>
+							</select>
+						</div>
 					</div>
 				</form>
 			</div>

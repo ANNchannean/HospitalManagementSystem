@@ -32,6 +32,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		with: {
 			visit: {
 				with: {
+					adviceTeaching:true,
 					billing: {
 						with: {
 							charge: true

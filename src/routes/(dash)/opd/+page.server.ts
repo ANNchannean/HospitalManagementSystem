@@ -91,6 +91,7 @@ export const actions: Actions = {
 				logErrorMessage(String(e));
 				return [];
 			});
+		console.log(visit_id[0].id);
 
 		if (!visit_id[0].id) return fail(400, { visit_id: true });
 		if (visit_id[0].id) {
@@ -113,7 +114,7 @@ export const actions: Actions = {
 						pulse: +pulse,
 						sp02: +sp02,
 						t: +t,
-						visit_id: +visit_id,
+						visit_id: +visit_id[0].id,
 						sbp: +sbp,
 						dbp: +dbp
 					})
@@ -131,7 +132,7 @@ export const actions: Actions = {
 						past_medical_history: past_medical_history,
 						history_of_present_illness: history_of_present_illness,
 						surgical_history: surgical_history,
-						visit_id: +visit_id,
+						visit_id: +visit_id[0].id,
 						current_medication: current_medication,
 						family_and_social_history: family_and_social_history
 					})

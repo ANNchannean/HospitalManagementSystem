@@ -171,14 +171,14 @@
 					</table>
 				</div>
 				<div class="card-header">
-					<table class="fs-5 table">
+					<table class="fs-5 table text-nowrap">
 						<tr class="">
 							<td>ចំនួនទំនិញ</td>
 							<td> : </td>
 							<td>{items} មុខ </td>
 						</tr>
 						<tr>
-							<td>សរុប </td>
+							<td>សរុប {get_currency?.currency} </td>
 							<td> : </td>
 							<td>
 								<Currency
@@ -189,7 +189,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td></td>
+							<td>សរុប {get_currency?.exchang_to} </td>
 							<td> : </td>
 							<td>
 								<Currency
@@ -203,7 +203,9 @@
 						</tr>
 						{#each get_billings_due as item (item.id)}
 							<tr>
-								<td>ប្រាក់ជំពាក់លើកមុន</td>
+								<td
+									>ប្រាក់ជំពាក់លើកមុន <DateTimeFormat date={item.created_at} timeStyle={false} />
+								</td>
 								<td> : </td>
 								<td>
 									{#if item.checkin_type === 'IPD'}

@@ -153,7 +153,7 @@ export const actions: Actions = {
 		const price = body.getAll('price');
 		const charge_id = body.get('charge_id') ?? '';
 		const charge_on_laboratory = body.get('charge_on_laboratory') ?? '';
-		if (!product_order_id.length) return fail(400, { errProductOrder: true });
+		if (!product_order_id.length && !charge_id) return fail(400, { errProductOrder: true });
 		for (let index = 0; index < product_order_id.length; index++) {
 			const product_order_id_ = product_order_id[index];
 			const qty_ = qty[index];
@@ -170,6 +170,7 @@ export const actions: Actions = {
 			});
 		}
 		if (charge_id) {
+			console.log(charge_on_laboratory);
 			await updatChargeByValue(+charge_id, +charge_on_laboratory).catch((e) => {
 				logErrorMessage(e);
 			});

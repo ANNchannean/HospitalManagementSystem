@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { desc, eq, or } from 'drizzle-orm';
+import { and, between, desc, eq, gt, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment } from '$lib/server/schema';
 import { fail } from '@sveltejs/kit';
@@ -10,13 +10,32 @@ import { logErrorMessage } from '$lib/server/telegram';
 
 export const load: PageServerLoad = async ({ parent, url }) => {
 	await parent();
+	let p = false;
 	const page = Number(url.searchParams.get('page')) || 1;
 	const limit = Number(url.searchParams.get('limit')) || 10;
-	const start = Number(url.searchParams.get('start'));
-	const end = Number(url.searchParams.get('end'));
+	const start = url.searchParams.get('start') ?? '';
+	const end = url.searchParams.get('end') ?? '';
+	const billing_type = url.searchParams.get('billing_type') as 'IPD' | 'OPD' | 'POS';
+	const patient_id = Number(url.searchParams.get('patient_id'));
+	const status = url.searchParams.get('status') as
+		| 'paid'
+		| 'partial'
+		| 'due'
+		| 'active'
+		| 'process';
+	if (start || end || patient_id || status || billing_type) p = true;
+
 	const get_currency = await db.query.currency.findFirst({});
 	const get_billings = await db.query.billing.findMany({
-		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
+		where: p
+			? and(
+					status ? eq(billing.status, status) : undefined,
+					patient_id ? eq(billing.patient_id, patient_id) : undefined,
+					start && end ? between(billing.created_at, start, end) : undefined,
+					billing_type ? eq(billing.checkin_type, billing_type) : undefined,
+					gt(billing.total, 0)
+				)
+			: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
 		with: {
 			patient: {
 				with: {
@@ -61,46 +80,15 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 		offset: pagination(page, limit).offset
 	});
 	const items = await db.query.billing.findMany({
-		where: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
-		with: {
-			patient: {
-				with: {
-					commune: true,
-					district: true,
-					provice: true,
-					village: true
-				}
-			},
-			visit: {
-				with: {
-					patient: {
-						with: {
-							commune: true,
-							district: true,
-							provice: true,
-							village: true
-						}
-					},
-					staff: true,
-					department: true
-				}
-			},
-			charge: {
-				with: {
-					productOrder: {
-						with: {
-							product: true
-						}
-					}
-				}
-			},
-			payment: {
-				with: {
-					paymentType: true,
-					fileOrPicture: true
-				}
-			}
-		}
+		where: p
+			? and(
+					status ? eq(billing.status, status) : undefined,
+					patient_id ? eq(billing.patient_id, patient_id) : undefined,
+					start && end ? between(billing.created_at, start, end) : undefined,
+					billing_type ? eq(billing.checkin_type, billing_type) : undefined,
+					gt(billing.total, 0)
+				)
+			: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
 	});
 	const get_payment_types = await db.query.paymentType.findMany();
 	const get_patients = await db.query.patient.findMany({});

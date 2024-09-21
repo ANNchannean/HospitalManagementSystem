@@ -202,8 +202,8 @@
 								{$t('common.billing_ipd')}
 							</a>
 							<a
-								class:active={$page.url.pathname === '/billing/sale-reprot'}
-								href="/billing/sale-reprot"
+								class:active={$page.url.pathname === '/billing/report'}
+								href="/billing/report"
 								class="nav-link"
 							>
 								<i class="fa-solid fa-sack-dollar"></i>&nbsp;

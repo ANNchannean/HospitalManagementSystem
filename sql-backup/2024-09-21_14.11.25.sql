@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.39, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: hms
 -- ------------------------------------------------------
--- Server version	8.0.39
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `__drizzle_migrations` (
   `created_at` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `__drizzle_migrations` (
 
 LOCK TABLES `__drizzle_migrations` WRITE;
 /*!40000 ALTER TABLE `__drizzle_migrations` DISABLE KEYS */;
-INSERT INTO `__drizzle_migrations` VALUES (1,'d3ea956cd278edea637f7cc55a0609e8b68e3f130975fcfd4d260ef1b42d8d7e',1726389675728);
+INSERT INTO `__drizzle_migrations` VALUES (1,'d3ea956cd278edea637f7cc55a0609e8b68e3f130975fcfd4d260ef1b42d8d7e',1726389675728),(2,'1e7097c60072c820b098dfce602104de3c7587557d1c454a81334ae3feaee4aa',1726443815361);
 /*!40000 ALTER TABLE `__drizzle_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +81,7 @@ DROP TABLE IF EXISTS `active_presrciption`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `active_presrciption` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `active_for` varchar(255) NOT NULL,
+  `active_for` varchar(100) NOT NULL,
   `datetime` datetime NOT NULL,
   `presrciption_id` int DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE `active_presrciption` (
   KEY `active_presrciption_user_id_user_id_fk` (`user_id`),
   CONSTRAINT `active_presrciption_presrciption_id_presrciption_id_fk` FOREIGN KEY (`presrciption_id`) REFERENCES `presrciption` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `active_presrciption_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `active_presrciption` (
 
 LOCK TABLES `active_presrciption` WRITE;
 /*!40000 ALTER TABLE `active_presrciption` DISABLE KEYS */;
-INSERT INTO `active_presrciption` VALUES (1,'morning','2024-09-14 11:57:26',3,NULL),(2,'evening','2024-09-14 11:57:27',3,NULL),(3,'morning','2024-09-14 11:57:28',4,NULL),(4,'afternoon','2024-09-14 11:57:28',4,NULL),(5,'night','2024-09-14 11:57:28',4,NULL),(6,'morning','2024-09-14 11:57:32',1,NULL),(7,'morning','2024-09-14 11:57:32',2,NULL),(8,'afternoon','2024-09-14 11:57:33',2,NULL),(9,'night','2024-09-14 11:57:33',2,NULL),(10,'morning','2024-09-14 11:57:37',1,NULL),(11,'morning','2024-09-14 11:57:38',1,NULL),(12,'morning','2024-09-14 11:57:39',1,NULL);
+INSERT INTO `active_presrciption` VALUES (1,'morning','2024-09-14 11:57:26',3,NULL),(2,'evening','2024-09-14 11:57:27',3,NULL),(3,'morning','2024-09-14 11:57:28',4,NULL),(4,'afternoon','2024-09-14 11:57:28',4,NULL),(5,'night','2024-09-14 11:57:28',4,NULL),(6,'morning','2024-09-14 11:57:32',1,NULL),(7,'morning','2024-09-14 11:57:32',2,NULL),(8,'afternoon','2024-09-14 11:57:33',2,NULL),(9,'night','2024-09-14 11:57:33',2,NULL),(10,'morning','2024-09-14 11:57:37',1,NULL),(11,'morning','2024-09-14 11:57:38',1,NULL),(12,'morning','2024-09-14 11:57:39',1,NULL),(13,'morning','2024-09-21 11:50:13',7,NULL),(14,'evening','2024-09-21 11:50:14',7,NULL),(15,'morning','2024-09-21 11:52:50',7,NULL),(16,'morning','2024-09-21 11:52:52',7,NULL),(17,'evening','2024-09-21 11:52:54',7,NULL);
 /*!40000 ALTER TABLE `active_presrciption` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +117,7 @@ CREATE TABLE `advice_teaching` (
   PRIMARY KEY (`id`),
   KEY `advice_teaching_visit_id_visit_id_fk` (`visit_id`),
   CONSTRAINT `advice_teaching_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,6 +126,7 @@ CREATE TABLE `advice_teaching` (
 
 LOCK TABLES `advice_teaching` WRITE;
 /*!40000 ALTER TABLE `advice_teaching` DISABLE KEYS */;
+INSERT INTO `advice_teaching` VALUES (1,'kliojjeijffsdfsdfdsfasdferfdfsdfsdfsadfdsafdsf',3),(2,'តាមដានសម្ពាធឈាមរៀងរាល់២ម៉ោងម្តង',9);
 /*!40000 ALTER TABLE `advice_teaching` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +148,7 @@ CREATE TABLE `appointment` (
   KEY `appointment_progress_note_id_progress_note_id_fk` (`progress_note_id`),
   CONSTRAINT `appointment_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `appointment_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +157,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
-INSERT INTO `appointment` VALUES (1,NULL,1,'2024-09-27 00:00:00','');
+INSERT INTO `appointment` VALUES (1,NULL,1,'2024-09-27 00:00:00',''),(2,3,NULL,'2024-09-21 00:00:00','ថថថថ');
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +179,7 @@ CREATE TABLE `appointment_injection` (
   PRIMARY KEY (`id`),
   KEY `appointment_injection_injection_id_injection_id_fk` (`injection_id`),
   CONSTRAINT `appointment_injection_injection_id_injection_id_fk` FOREIGN KEY (`injection_id`) REFERENCES `injection` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,6 +188,7 @@ CREATE TABLE `appointment_injection` (
 
 LOCK TABLES `appointment_injection` WRITE;
 /*!40000 ALTER TABLE `appointment_injection` DISABLE KEYS */;
+INSERT INTO `appointment_injection` VALUES (1,'2024-09-21 00:00:00','2024-09-21 11:07:14',1,'',1,1),(2,'2024-09-24 00:00:00',NULL,0,'',2,1),(3,'2024-09-28 00:00:00',NULL,0,'',3,1);
 /*!40000 ALTER TABLE `appointment_injection` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +201,7 @@ DROP TABLE IF EXISTS `bed`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bed` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `bed` varchar(255) DEFAULT NULL,
+  `bed` varchar(100) DEFAULT NULL,
   `description` text,
   `room_id` int DEFAULT NULL,
   `ward_id` int DEFAULT NULL,
@@ -272,8 +274,8 @@ CREATE TABLE `billing` (
   `tax` float NOT NULL DEFAULT '0',
   `vat` float NOT NULL DEFAULT '0',
   `balance` decimal(18,2) NOT NULL DEFAULT '0.00',
-  `status` varchar(255) NOT NULL DEFAULT 'active',
-  `checkin_type` varchar(255) DEFAULT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'active',
+  `checkin_type` varchar(5) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `hold` tinyint(1) NOT NULL DEFAULT '0',
   `note` text,
@@ -284,7 +286,7 @@ CREATE TABLE `billing` (
   CONSTRAINT `billing_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `billing_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note` (`id`) ON DELETE CASCADE,
   CONSTRAINT `billing_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -293,7 +295,7 @@ CREATE TABLE `billing` (
 
 LOCK TABLES `billing` WRITE;
 /*!40000 ALTER TABLE `billing` DISABLE KEYS */;
-INSERT INTO `billing` VALUES (1,'2024-09-15','15:50:26',NULL,NULL,NULL,'',11600.00,11600.00,11600.00,0.00,0.00,0,0,11600.00,'due','POS','2024-09-15 15:50:05',0,''),(2,'2024-09-15','15:51:45',NULL,1,NULL,'',10600.00,10600.00,10600.00,0.00,0.00,0,0,10600.00,'due','POS','2024-09-15 15:50:30',0,''),(3,'2024-09-15','15:51:58',NULL,1,NULL,'',600.00,600.00,600.00,0.00,600.00,0,0,0.00,'paid','POS','2024-09-15 15:51:52',0,''),(4,NULL,NULL,NULL,NULL,NULL,'0',0.00,0.00,0.00,0.00,0.00,0,0,0.00,'process','POS','2024-09-15 15:52:55',0,NULL);
+INSERT INTO `billing` VALUES (1,'2024-09-15','15:50:26',NULL,NULL,NULL,'',11600.00,11600.00,11600.00,0.00,0.00,0,0,11600.00,'due','POS','2024-09-15 15:50:05',0,''),(2,'2024-09-21','08:05:06',NULL,1,NULL,'',10600.00,10600.00,10600.00,0.00,500.00,0,0,10100.00,'partial','POS','2024-09-15 15:50:30',0,''),(3,'2024-09-15','15:51:58',NULL,1,NULL,'',600.00,600.00,600.00,0.00,600.00,0,0,0.00,'paid','POS','2024-09-15 15:51:52',0,''),(7,'2024-09-21','10:45:38',3,21,NULL,'',289500.00,289500.00,289500.00,0.00,289500.00,0,0,0.00,'paid','OPD','2024-09-16 06:59:09',0,''),(8,'2024-09-17','06:30:53',NULL,5,NULL,'',10000.00,10000.00,10000.00,0.00,10000.00,0,0,0.00,'paid','POS','2024-09-17 06:19:24',0,''),(9,'2024-09-21','09:19:54',NULL,1,NULL,'',33160.00,33160.00,32560.00,0.00,0.00,0,0,32560.00,'due','POS','2024-09-21 09:19:19',0,''),(10,'2024-09-21','09:22:10',NULL,1,NULL,'',12000.00,12000.00,12000.00,0.00,12000.00,0,0,0.00,'paid','POS','2024-09-21 09:20:24',0,''),(11,'2024-09-21','09:43:00',NULL,1,NULL,'',36000.00,36000.00,36000.00,0.00,36000.00,0,0,0.00,'paid','POS','2024-09-21 09:42:41',1,''),(12,'2024-09-21','11:31:57',4,21,NULL,'',1520000.00,1520000.00,1520000.00,0.00,1520000.00,0,0,0.00,'paid','OPD','2024-09-21 09:29:42',0,''),(13,NULL,NULL,5,21,NULL,'0',0.00,0.00,0.00,0.00,0.00,0,0,0.00,'active','OPD','2024-09-21 09:32:01',0,NULL),(14,'2024-09-21','11:33:18',6,21,NULL,'',110000.00,110000.00,110000.00,0.00,110000.00,0,0,0.00,'paid','OPD','2024-09-21 09:33:37',0,''),(15,'2024-09-21','10:52:14',7,21,NULL,'',90900.00,90900.00,90900.00,0.00,90900.00,0,0,0.00,'paid','OPD','2024-09-21 09:36:24',0,''),(16,'2024-09-21','09:43:25',NULL,1,NULL,'',4000.00,4000.00,4000.00,0.00,4000.00,0,0,0.00,'paid','POS','2024-09-21 09:43:09',0,''),(17,'2024-09-21','09:44:00',NULL,1,NULL,'',100000.00,100000.00,100000.00,0.00,100000.00,0,0,0.00,'paid','POS','2024-09-21 09:43:45',0,''),(18,'2024-09-21','09:45:03',NULL,1,NULL,'',40000.00,40000.00,40000.00,0.00,40000.00,0,0,0.00,'paid','POS','2024-09-21 09:44:49',0,''),(19,'2024-09-21','10:07:28',NULL,1,NULL,'',12500.00,12500.00,12500.00,0.00,12500.00,0,0,0.00,'paid','POS','2024-09-21 10:07:17',0,''),(20,NULL,NULL,NULL,NULL,NULL,'0',0.00,0.00,0.00,0.00,0.00,0,0,0.00,'process','POS','2024-09-21 12:04:11',0,NULL),(21,'2024-09-21','11:40:59',8,5,NULL,'',439000.00,439000.00,439000.00,0.00,439000.00,0,0,0.00,'paid','OPD','2024-09-21 11:34:23',0,''),(22,NULL,NULL,9,2,NULL,'0',125000.00,125000.00,0.00,0.00,0.00,0,0,0.00,'active','IPD','2024-09-21 11:43:03',0,NULL),(23,NULL,NULL,NULL,2,1,'0',0.00,0.00,0.00,0.00,0.00,0,0,0.00,'active','IPD','2024-09-21 11:43:03',0,NULL);
 /*!40000 ALTER TABLE `billing` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,13 +310,13 @@ CREATE TABLE `charge` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created_at` datetime DEFAULT NULL,
   `price` decimal(18,2) NOT NULL DEFAULT '0.00',
-  `status` varchar(255) DEFAULT 'active',
-  `charge_on` varchar(255) DEFAULT NULL,
+  `status` varchar(10) DEFAULT 'active',
+  `charge_on` varchar(20) DEFAULT NULL,
   `billing_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `charge_billing_id_billing_id_fk` (`billing_id`),
   CONSTRAINT `charge_billing_id_billing_id_fk` FOREIGN KEY (`billing_id`) REFERENCES `billing` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,7 +325,7 @@ CREATE TABLE `charge` (
 
 LOCK TABLES `charge` WRITE;
 /*!40000 ALTER TABLE `charge` DISABLE KEYS */;
-INSERT INTO `charge` VALUES (1,'2024-09-15 15:45:47',11600.00,'active','general',1),(2,'2024-09-15 15:50:30',10600.00,'active','general',2),(3,'2024-09-15 15:51:52',600.00,'active','general',3),(4,'2024-09-15 15:52:44',0.00,'active','general',4);
+INSERT INTO `charge` VALUES (1,'2024-09-15 15:45:47',11600.00,'active','general',1),(2,'2024-09-15 15:50:30',10600.00,'active','general',2),(3,'2024-09-15 15:51:52',600.00,'active','general',3),(17,'2024-09-16 06:59:09',0.00,'active','general',7),(18,'2024-09-16 06:59:09',50000.00,'active','imagerie',7),(19,'2024-09-16 06:59:09',75000.00,'active','laboratory',7),(20,'2024-09-16 06:59:09',104500.00,'active','prescription',7),(21,'2024-09-16 06:59:09',0.00,'active','service',7),(22,'2024-09-16 06:59:09',60000.00,'active','vaccine',7),(23,'2024-09-17 06:19:24',10000.00,'active','general',8),(24,'2024-09-17 06:45:32',33160.00,'active','general',9),(25,'2024-09-21 09:20:24',12000.00,'active','general',10),(26,'2024-09-21 09:22:12',36000.00,'active','general',11),(27,'2024-09-21 09:29:42',0.00,'active','general',12),(28,'2024-09-21 09:29:42',0.00,'active','imagerie',12),(29,'2024-09-21 09:29:42',1520000.00,'active','laboratory',12),(30,'2024-09-21 09:29:42',0.00,'active','prescription',12),(31,'2024-09-21 09:29:42',0.00,'active','service',12),(32,'2024-09-21 09:29:42',0.00,'active','vaccine',12),(33,'2024-09-21 09:32:01',0.00,'active','general',13),(34,'2024-09-21 09:32:01',0.00,'active','imagerie',13),(35,'2024-09-21 09:32:01',0.00,'active','laboratory',13),(36,'2024-09-21 09:32:01',0.00,'active','prescription',13),(37,'2024-09-21 09:32:01',0.00,'active','service',13),(38,'2024-09-21 09:32:01',0.00,'active','vaccine',13),(39,'2024-09-21 09:33:37',0.00,'active','general',14),(40,'2024-09-21 09:33:37',0.00,'active','imagerie',14),(41,'2024-09-21 09:33:37',110000.00,'active','laboratory',14),(42,'2024-09-21 09:33:37',0.00,'active','prescription',14),(43,'2024-09-21 09:33:37',0.00,'active','service',14),(44,'2024-09-21 09:33:37',0.00,'active','vaccine',14),(45,'2024-09-21 09:36:24',900.00,'active','general',15),(46,'2024-09-21 09:36:24',0.00,'active','imagerie',15),(47,'2024-09-21 09:36:24',90000.00,'active','laboratory',15),(48,'2024-09-21 09:36:24',0.00,'active','prescription',15),(49,'2024-09-21 09:36:24',0.00,'active','service',15),(50,'2024-09-21 09:36:24',0.00,'active','vaccine',15),(51,'2024-09-21 09:43:09',4000.00,'active','general',16),(52,'2024-09-21 09:43:39',100000.00,'active','general',17),(53,'2024-09-21 09:44:47',40000.00,'active','general',18),(54,'2024-09-21 09:45:07',12500.00,'active','general',19),(55,'2024-09-21 10:07:49',0.00,'active','general',20),(56,'2024-09-21 11:34:23',0.00,'active','general',21),(57,'2024-09-21 11:34:23',125000.00,'active','imagerie',21),(58,'2024-09-21 11:34:23',250000.00,'active','laboratory',21),(59,'2024-09-21 11:34:23',4000.00,'active','prescription',21),(60,'2024-09-21 11:34:23',0.00,'active','service',21),(61,'2024-09-21 11:34:23',60000.00,'active','vaccine',21),(62,'2024-09-21 11:43:03',0.00,'active','general',22),(63,'2024-09-21 11:43:03',0.00,'active','imagerie',22),(64,'2024-09-21 11:43:03',0.00,'active','laboratory',22),(65,'2024-09-21 11:43:03',125000.00,'active','prescription',22),(66,'2024-09-21 11:43:03',0.00,'active','service',22),(67,'2024-09-21 11:43:03',0.00,'active','vaccine',22),(68,'2024-09-21 11:43:03',0.00,'active','general',22),(69,'2024-09-21 11:43:03',0.00,'active','imagerie',22),(70,'2024-09-21 11:43:03',0.00,'active','laboratory',22),(71,'2024-09-21 11:43:03',0.00,'active','prescription',22),(72,'2024-09-21 11:43:03',0.00,'active','service',22),(73,'2024-09-21 11:43:03',0.00,'active','vaccine',22);
 /*!40000 ALTER TABLE `charge` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,9 +366,9 @@ DROP TABLE IF EXISTS `commune`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `commune` (
   `commune_id` int NOT NULL AUTO_INCREMENT,
-  `name_khmer` varchar(255) NOT NULL,
-  `name_latin` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
+  `name_khmer` varchar(50) NOT NULL,
+  `name_latin` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
   `district_id` int DEFAULT NULL,
   PRIMARY KEY (`commune_id`),
   KEY `commune_district_id_district_district_id_fk` (`district_id`),
@@ -425,7 +427,7 @@ DROP TABLE IF EXISTS `department`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `department` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `department` varchar(255) NOT NULL,
+  `department` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -477,7 +479,7 @@ DROP TABLE IF EXISTS `diagnosis_type`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `diagnosis_type` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `diagnosis_type` varchar(255) NOT NULL,
+  `diagnosis_type` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -501,9 +503,9 @@ DROP TABLE IF EXISTS `district`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `district` (
   `district_id` int NOT NULL AUTO_INCREMENT,
-  `name_khmer` varchar(255) NOT NULL,
-  `name_latin` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
+  `name_khmer` varchar(50) NOT NULL,
+  `name_latin` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
   `province_id` int DEFAULT NULL,
   PRIMARY KEY (`district_id`),
   KEY `district_province_id_provice_provice_id_fk` (`province_id`),
@@ -531,7 +533,7 @@ DROP TABLE IF EXISTS `document`;
 CREATE TABLE `document` (
   `id` int NOT NULL AUTO_INCREMENT,
   `datetime` datetime DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(150) DEFAULT NULL,
   `content` text,
   `visit_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -558,7 +560,7 @@ DROP TABLE IF EXISTS `duration`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `duration` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -661,7 +663,7 @@ DROP TABLE IF EXISTS `form_document`;
 CREATE TABLE `form_document` (
   `id` int NOT NULL AUTO_INCREMENT,
   `datetime` datetime DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(150) DEFAULT NULL,
   `content` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -686,7 +688,7 @@ DROP TABLE IF EXISTS `imagerie_group`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `imagerie_group` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `imagerie_group` varchar(255) NOT NULL,
+  `imagerie_group` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -720,7 +722,7 @@ CREATE TABLE `imagerie_request` (
   KEY `imagerie_request_visit_id_visit_id_fk` (`visit_id`),
   CONSTRAINT `imagerie_request_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `imagerie_request_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -729,6 +731,7 @@ CREATE TABLE `imagerie_request` (
 
 LOCK TABLES `imagerie_request` WRITE;
 /*!40000 ALTER TABLE `imagerie_request` DISABLE KEYS */;
+INSERT INTO `imagerie_request` VALUES (2,496,3,NULL,0,NULL),(3,561,3,NULL,0,NULL),(4,563,8,NULL,0,NULL),(5,561,8,NULL,0,NULL),(6,496,8,NULL,0,NULL),(7,562,8,NULL,0,NULL),(8,564,8,NULL,0,NULL);
 /*!40000 ALTER TABLE `imagerie_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -750,7 +753,7 @@ CREATE TABLE `injection` (
   KEY `injection_unit_id_unit_id_fk` (`unit_id`),
   CONSTRAINT `injection_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`),
   CONSTRAINT `injection_unit_id_unit_id_fk` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -759,6 +762,7 @@ CREATE TABLE `injection` (
 
 LOCK TABLES `injection` WRITE;
 /*!40000 ALTER TABLE `injection` DISABLE KEYS */;
+INSERT INTO `injection` VALUES (1,21,'2024-09-21 10:20:08',44,NULL),(2,5,'2024-09-21 11:39:35',44,NULL);
 /*!40000 ALTER TABLE `injection` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -811,7 +815,7 @@ CREATE TABLE `laboratory` (
   PRIMARY KEY (`id`),
   KEY `laboratory_visit_id_visit_id_fk` (`visit_id`),
   CONSTRAINT `laboratory_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -820,7 +824,7 @@ CREATE TABLE `laboratory` (
 
 LOCK TABLES `laboratory` WRITE;
 /*!40000 ALTER TABLE `laboratory` DISABLE KEYS */;
-INSERT INTO `laboratory` VALUES (1,NULL,NULL,NULL,0,1),(2,NULL,NULL,NULL,0,2),(3,NULL,NULL,NULL,0,3);
+INSERT INTO `laboratory` VALUES (3,NULL,NULL,NULL,0,3),(4,NULL,NULL,NULL,0,7),(5,NULL,NULL,NULL,0,6),(6,NULL,NULL,NULL,0,4),(7,NULL,NULL,NULL,0,8);
 /*!40000 ALTER TABLE `laboratory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -864,7 +868,7 @@ CREATE TABLE `laboratory_request` (
   KEY `laboratory_request_visit_id_visit_id_fk` (`visit_id`),
   CONSTRAINT `laboratory_request_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `laboratory_request_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -873,6 +877,7 @@ CREATE TABLE `laboratory_request` (
 
 LOCK TABLES `laboratory_request` WRITE;
 /*!40000 ALTER TABLE `laboratory_request` DISABLE KEYS */;
+INSERT INTO `laboratory_request` VALUES (1,544,3),(2,529,3),(3,519,3),(4,543,3),(5,521,3),(6,505,3),(7,537,3),(8,513,7),(9,518,7),(10,544,7),(11,512,7),(12,539,6),(13,510,6),(14,545,6),(20,515,6),(21,543,6),(31,521,6),(32,538,6),(76,518,4),(77,545,4),(78,538,4),(126,523,8),(127,526,8),(128,521,8),(130,525,8),(131,505,8),(132,506,8),(133,524,8),(134,529,8),(135,537,8),(136,519,8);
 /*!40000 ALTER TABLE `laboratory_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -947,18 +952,18 @@ DROP TABLE IF EXISTS `operation_protocol`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `operation_protocol` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `surgeon` varchar(256) DEFAULT NULL,
-  `assistant_surgeon` varchar(256) DEFAULT NULL,
-  `anesthetist` varchar(256) DEFAULT NULL,
-  `assistant_anesthetist` varchar(256) DEFAULT NULL,
-  `scrub_nurse` varchar(256) DEFAULT NULL,
-  `cirulating_nurse_block` varchar(256) DEFAULT NULL,
-  `midwife` varchar(256) DEFAULT NULL,
-  `pre_diagnosis` varchar(256) DEFAULT NULL,
-  `post_diagnosis` varchar(256) DEFAULT NULL,
-  `type_anesthesia` varchar(256) DEFAULT NULL,
+  `surgeon` varchar(255) DEFAULT NULL,
+  `assistant_surgeon` varchar(255) DEFAULT NULL,
+  `anesthetist` varchar(255) DEFAULT NULL,
+  `assistant_anesthetist` varchar(255) DEFAULT NULL,
+  `scrub_nurse` varchar(255) DEFAULT NULL,
+  `cirulating_nurse_block` varchar(255) DEFAULT NULL,
+  `midwife` varchar(255) DEFAULT NULL,
+  `pre_diagnosis` varchar(255) DEFAULT NULL,
+  `post_diagnosis` varchar(255) DEFAULT NULL,
+  `type_anesthesia` varchar(255) DEFAULT NULL,
   `opertive_technique` text,
-  `blood_less` varchar(256) DEFAULT NULL,
+  `blood_less` varchar(255) DEFAULT NULL,
   `notes` text,
   `date` date DEFAULT NULL,
   `start_time` time DEFAULT NULL,
@@ -990,12 +995,12 @@ CREATE TABLE `parameter` (
   `id` int NOT NULL AUTO_INCREMENT,
   `parameter` varchar(255) DEFAULT NULL,
   `description` longtext,
-  `gender` varchar(255) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
   `unit_id` int DEFAULT NULL,
   `mini` float DEFAULT NULL,
   `maxi` float DEFAULT NULL,
   `product_id` int DEFAULT NULL,
-  `sign` varchar(255) NOT NULL DEFAULT '-',
+  `sign` varchar(10) NOT NULL DEFAULT '-',
   PRIMARY KEY (`id`),
   KEY `parameter_unit_id_unit_id_fk` (`unit_id`),
   KEY `parameter_product_id_product_id_fk` (`product_id`),
@@ -1023,12 +1028,12 @@ DROP TABLE IF EXISTS `patient`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `patient` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name_khmer` varchar(255) NOT NULL,
-  `name_latin` varchar(255) NOT NULL,
-  `gender` varchar(255) NOT NULL,
+  `name_khmer` varchar(50) NOT NULL,
+  `name_latin` varchar(50) NOT NULL,
+  `gender` varchar(10) NOT NULL,
   `dob` date NOT NULL,
   `age` int NOT NULL,
-  `telephone` varchar(255) DEFAULT NULL,
+  `telephone` varchar(50) DEFAULT NULL,
   `other` text,
   `village_id` int DEFAULT NULL,
   `commune_id` int DEFAULT NULL,
@@ -1076,7 +1081,7 @@ CREATE TABLE `payment` (
   KEY `payment_billing_id_billing_id_fk` (`billing_id`),
   CONSTRAINT `payment_billing_id_billing_id_fk` FOREIGN KEY (`billing_id`) REFERENCES `billing` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `payment_payment_type_id_payment_type_id_fk` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`id`) ON DELETE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1085,7 +1090,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,600.00,5,3,'2024-09-15 15:51:58',NULL);
+INSERT INTO `payment` VALUES (1,600.00,5,3,'2024-09-15 15:51:58',NULL),(2,10000.00,5,8,'2024-09-17 06:30:53',NULL),(3,500.00,1,2,'2024-09-21 08:05:06',''),(4,12000.00,5,10,'2024-09-21 09:22:10',NULL),(5,36000.00,5,11,'2024-09-21 09:43:00',NULL),(6,4000.00,5,16,'2024-09-21 09:43:25',NULL),(7,100000.00,5,17,'2024-09-21 09:44:00',NULL),(8,40000.00,5,18,'2024-09-21 09:45:03',NULL),(9,12500.00,5,19,'2024-09-21 10:07:28',NULL),(12,289500.00,5,7,'2024-09-21 10:45:38',NULL),(16,90900.00,5,15,'2024-09-21 10:52:14',NULL),(17,1520000.00,5,12,'2024-09-21 11:31:57',NULL),(18,110000.00,5,14,'2024-09-21 11:33:18',NULL),(19,439000.00,5,21,'2024-09-21 11:40:59',NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1122,7 +1127,7 @@ DROP TABLE IF EXISTS `physical`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `physical` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `physical` varchar(255) DEFAULT NULL,
+  `physical` varchar(150) DEFAULT NULL,
   `exam_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `physical_exam_id_exam_id_fk` (`exam_id`),
@@ -1166,7 +1171,7 @@ CREATE TABLE `physical_exam` (
 
 LOCK TABLES `physical_exam` WRITE;
 /*!40000 ALTER TABLE `physical_exam` DISABLE KEYS */;
-INSERT INTO `physical_exam` VALUES (733,20,' ឡើងស្វាយ,',1),(734,28,'normale',1),(735,29,'',1),(736,30,'',1),(737,31,'',1),(738,20,' ស្លេកស្លាំង,',3),(739,53,'Creakcle',3),(740,54,'',3),(741,55,'',3),(742,28,'ពោះ ធម្មតា Normal,',3),(743,29,'',3),(744,30,'',3),(745,31,' ធម្មតា Normal,',3),(746,13,'6/6',3),(747,14,'6/6',3),(748,20,' ល្អ,',2),(749,72,'normal',2),(750,73,'',2),(751,74,'',2),(752,75,'',2),(753,76,'',2),(754,77,'',2);
+INSERT INTO `physical_exam` VALUES (738,20,' ស្លេកស្លាំង,',3),(739,53,'Creakcle',3),(740,54,'',3),(741,55,'',3),(742,28,'ពោះ ធម្មតា Normal,',3),(743,29,'',3),(744,30,'',3),(745,31,' ធម្មតា Normal,',3),(746,13,'6/6',3),(747,14,'6/6',3);
 /*!40000 ALTER TABLE `physical_exam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1181,8 +1186,8 @@ CREATE TABLE `presrciption` (
   `id` int NOT NULL AUTO_INCREMENT,
   `visit_id` int DEFAULT NULL,
   `product_id` int DEFAULT NULL,
-  `use` varchar(255) DEFAULT NULL,
-  `duration` varchar(255) DEFAULT NULL,
+  `use` varchar(150) DEFAULT NULL,
+  `duration` varchar(150) DEFAULT NULL,
   `amount` float DEFAULT NULL,
   `morning` float DEFAULT NULL,
   `noon` float DEFAULT NULL,
@@ -1194,7 +1199,7 @@ CREATE TABLE `presrciption` (
   KEY `presrciption_product_id_product_id_fk` (`product_id`),
   CONSTRAINT `presrciption_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `presrciption_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1203,6 +1208,7 @@ CREATE TABLE `presrciption` (
 
 LOCK TABLES `presrciption` WRITE;
 /*!40000 ALTER TABLE `presrciption` DISABLE KEYS */;
+INSERT INTO `presrciption` VALUES (1,3,92,'មុនបាយ៣០នាទី ','07 ថ្ងៃ',7,1,0,0,0,0),(2,3,251,'ក្រោយបាយ ','07 ថ្ងៃ',20,1,0,1,0,1),(3,3,1203,'មុនបាយ៣០នាទី ','07 ថ្ងៃ',15,1,0,0,1,0),(4,3,161,'មុនបាយ៣០នាទី ','07 ថ្ងៃ',1,2,0,0,2,0),(5,3,47,'មុនបាយ៣០នាទី ','07 ថ្ងៃ',15,1,0,1,0,1),(6,8,70,'ក្រោយបាយ ','01 ថ្ងៃ',4,2,0,2,0,0),(7,9,368,'ចាក់តាម IV','01 ថ្ងៃ',5,1,0,0,1,0);
 /*!40000 ALTER TABLE `presrciption` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1255,7 +1261,7 @@ DROP TABLE IF EXISTS `product_group_type`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_group_type` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `group_type` varchar(255) NOT NULL,
+  `group_type` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1291,7 +1297,7 @@ CREATE TABLE `product_order` (
   KEY `product_order_charge_id_charge_id_fk` (`charge_id`),
   CONSTRAINT `product_order_charge_id_charge_id_fk` FOREIGN KEY (`charge_id`) REFERENCES `charge` (`id`) ON DELETE CASCADE,
   CONSTRAINT `product_order_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1300,7 +1306,7 @@ CREATE TABLE `product_order` (
 
 LOCK TABLES `product_order` WRITE;
 /*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
-INSERT INTO `product_order` VALUES (1,'2024-09-15 15:50:11',300.00,300.00,1,'0',2,1),(2,'2024-09-15 15:50:11',300.00,300.00,1,'0',3,1),(3,'2024-09-15 15:50:12',10000.00,10000.00,1,'0',505,1),(4,'2024-09-15 15:50:12',1000.00,1000.00,1,'0',7,1),(5,'2024-09-15 15:50:37',300.00,300.00,1,'0',2,2),(6,'2024-09-15 15:50:37',300.00,300.00,1,'0',3,2),(7,'2024-09-15 15:50:38',10000.00,10000.00,1,'0',505,2),(8,'2024-09-15 15:51:55',300.00,300.00,1,'0',2,3),(9,'2024-09-15 15:51:55',300.00,300.00,1,'0',3,3);
+INSERT INTO `product_order` VALUES (1,'2024-09-15 15:50:11',300.00,300.00,1,'0',2,1),(2,'2024-09-15 15:50:11',300.00,300.00,1,'0',3,1),(3,'2024-09-15 15:50:12',10000.00,10000.00,1,'0',505,1),(4,'2024-09-15 15:50:12',1000.00,1000.00,1,'0',7,1),(5,'2024-09-15 15:50:37',300.00,300.00,1,'0',2,2),(6,'2024-09-15 15:50:37',300.00,300.00,1,'0',3,2),(7,'2024-09-15 15:50:38',10000.00,10000.00,1,'0',505,2),(8,'2024-09-15 15:51:55',300.00,300.00,1,'0',2,3),(9,'2024-09-15 15:51:55',300.00,300.00,1,'0',3,3),(10,'2024-09-17 06:30:40',5000.00,5000.00,1,'0',543,23),(11,'2024-09-17 06:30:40',5000.00,5000.00,1,'0',503,23),(12,'2024-09-21 09:19:27',20000.00,20000.00,1,'0',1188,24),(13,'2024-09-21 09:19:28',1000.00,1000.00,1,'0',7,24),(14,'2024-09-21 09:19:29',10000.00,10000.00,1,'0',505,24),(15,'2024-09-21 09:19:30',500.00,500.00,1,'0',8,24),(16,'2024-09-21 09:19:30',760.00,760.00,1,'0',9,24),(17,'2024-09-21 09:19:31',300.00,600.00,2,'0',5,24),(18,'2024-09-21 09:20:28',10000.00,10000.00,1,'0',505,25),(19,'2024-09-21 09:20:28',1000.00,1000.00,1,'0',7,25),(20,'2024-09-21 09:20:29',500.00,1000.00,2,'0',8,25),(21,'2024-09-21 09:24:20',300.00,300.00,1,'0',3,24),(22,'2024-09-21 09:42:45',10000.00,10000.00,1,'0',505,26),(23,'2024-09-21 09:42:46',1000.00,2000.00,2,'0',7,26),(24,'2024-09-21 09:42:46',500.00,500.00,1,'0',8,26),(25,'2024-09-21 09:42:53',1000.00,1000.00,1,'0',10,26),(26,'2024-09-21 09:42:54',20000.00,20000.00,1,'0',1188,26),(27,'2024-09-21 09:42:55',2500.00,2500.00,1,'0',12,26),(28,'2024-09-21 09:43:21',1000.00,4000.00,4,'0',7,51),(29,'2024-09-21 09:43:51',20000.00,100000.00,5,'0',1188,52),(30,'2024-09-21 09:45:00',10000.00,40000.00,4,'0',506,53),(31,'2024-09-21 10:07:23',2500.00,12500.00,5,'0',12,54),(32,'2024-09-21 10:08:08',15000.00,15000.00,1,'0',544,19),(33,'2024-09-21 10:08:09',10000.00,10000.00,1,'0',529,19),(34,'2024-09-21 10:08:10',5000.00,5000.00,1,'0',519,19),(35,'2024-09-21 10:08:11',5000.00,5000.00,1,'0',543,19),(36,'2024-09-21 10:08:12',15000.00,15000.00,1,'0',521,19),(37,'2024-09-21 10:08:14',10000.00,10000.00,1,'0',505,19),(39,'2024-09-21 10:08:18',30000.00,30000.00,1,'0',496,18),(40,'2024-09-21 10:08:19',20000.00,20000.00,1,'0',561,18),(41,'2024-09-21 10:08:40',1000.00,7000.00,7,'0',92,20),(42,'2024-09-21 10:09:10',1000.00,20000.00,20,'0',251,20),(43,'2024-09-21 10:09:27',1500.00,22500.00,15,'0',1203,20),(44,'2024-09-21 10:09:53',25000.00,25000.00,1,'0',161,20),(45,'2024-09-21 10:14:57',2000.00,30000.00,15,'0',47,20),(46,'2024-09-21 10:16:19',5000.00,5000.00,1,'0',537,19),(47,'2024-09-21 10:20:08',60000.00,60000.00,1,'0',459,22),(48,'2024-09-21 10:25:15',15000.00,15000.00,1,'0',513,47),(49,'2024-09-21 10:25:15',10000.00,10000.00,1,'0',518,47),(50,'2024-09-21 10:25:16',15000.00,15000.00,1,'0',544,47),(51,'2024-09-21 10:25:16',10000.00,10000.00,1,'0',512,47),(52,'2024-09-21 10:42:42',300.00,600.00,2,'0',2,45),(53,'2024-09-21 10:42:43',300.00,300.00,1,'0',3,45),(54,'2024-09-21 10:52:53',15000.00,15000.00,1,'0',539,41),(55,'2024-09-21 10:52:53',10000.00,10000.00,1,'0',510,41),(56,'2024-09-21 11:06:11',15000.00,15000.00,1,'0',545,41),(62,'2024-09-21 11:11:09',5000.00,5000.00,1,'0',515,41),(63,'2024-09-21 11:11:13',5000.00,5000.00,1,'0',543,41),(73,'2024-09-21 11:14:37',15000.00,15000.00,1,'0',521,41),(74,'2024-09-21 11:14:43',45000.00,45000.00,1,'0',538,41),(118,'2024-09-21 11:30:09',10000.00,10000.00,1,'0',518,29),(119,'2024-09-21 11:30:10',15000.00,15000.00,1,'0',545,29),(120,'2024-09-21 11:30:11',45000.00,45000.00,1,'0',538,29),(167,'2024-09-21 11:39:35',60000.00,60000.00,1,'0',550,61),(170,'2024-09-21 11:39:58',10000.00,10000.00,1,'0',523,58),(171,'2024-09-21 11:39:58',15000.00,15000.00,1,'0',526,58),(172,'2024-09-21 11:39:58',15000.00,15000.00,1,'0',521,58),(174,'2024-09-21 11:39:59',10000.00,10000.00,1,'0',525,58),(175,'2024-09-21 11:40:00',10000.00,10000.00,1,'0',505,58),(176,'2024-09-21 11:40:00',10000.00,10000.00,1,'0',506,58),(177,'2024-09-21 11:40:00',15000.00,15000.00,1,'0',524,58),(178,'2024-09-21 11:40:01',10000.00,10000.00,1,'0',529,58),(179,'2024-09-21 11:40:02',5000.00,5000.00,1,'0',537,58),(180,'2024-09-21 11:40:02',5000.00,5000.00,1,'0',519,58),(181,'2024-09-21 11:40:13',25000.00,25000.00,1,'0',563,57),(182,'2024-09-21 11:40:15',20000.00,20000.00,1,'0',561,57),(183,'2024-09-21 11:40:16',30000.00,30000.00,1,'0',496,57),(184,'2024-09-21 11:40:16',25000.00,25000.00,1,'0',562,57),(185,'2024-09-21 11:40:17',25000.00,25000.00,1,'0',564,57),(186,'2024-09-21 11:40:38',1000.00,4000.00,4,'0',70,59),(187,'2024-09-21 11:50:13',25000.00,125000.00,5,'0',368,65);
 /*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1329,7 +1335,7 @@ CREATE TABLE `progress_note` (
   CONSTRAINT `progress_note_department_id_department_id_fk` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`),
   CONSTRAINT `progress_note_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `progress_note_staff_id_staff_id_fk` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1338,6 +1344,7 @@ CREATE TABLE `progress_note` (
 
 LOCK TABLES `progress_note` WRITE;
 /*!40000 ALTER TABLE `progress_note` DISABLE KEYS */;
+INSERT INTO `progress_note` VALUES (1,'2024-09-21 11:43:03',NULL,1,' ទល់ខ្យល់, ក្តៅខ្លួន,',2,2,5);
 /*!40000 ALTER TABLE `progress_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1350,9 +1357,9 @@ DROP TABLE IF EXISTS `provice`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `provice` (
   `provice_id` int NOT NULL AUTO_INCREMENT,
-  `name_khmer` varchar(255) NOT NULL,
-  `name_latin` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
+  `name_khmer` varchar(50) NOT NULL,
+  `name_latin` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
   `contry_id` int DEFAULT NULL,
   PRIMARY KEY (`provice_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2502 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1403,7 +1410,7 @@ DROP TABLE IF EXISTS `room`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `room` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `room` varchar(255) DEFAULT NULL,
+  `room` varchar(100) DEFAULT NULL,
   `product_id` int DEFAULT NULL,
   `description` text,
   `ward_id` int DEFAULT NULL,
@@ -1520,9 +1527,9 @@ DROP TABLE IF EXISTS `staff`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `staff` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `staff_type` varchar(255) NOT NULL DEFAULT 'DOCTOR',
-  `gender` varchar(255) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `staff_type` varchar(20) NOT NULL DEFAULT 'DOCTOR',
+  `gender` varchar(10) NOT NULL,
   `specific` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1589,7 +1596,7 @@ CREATE TABLE `subjective` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `subjective_visit_id_unique` (`visit_id`),
   CONSTRAINT `subjective_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1598,7 +1605,7 @@ CREATE TABLE `subjective` (
 
 LOCK TABLES `subjective` WRITE;
 /*!40000 ALTER TABLE `subjective` DISABLE KEYS */;
-INSERT INTO `subjective` VALUES (1,'		<p>ក្តៅខ្លួន Fever, ឈឺទ្រូង Chest Pain, ឈឺខ្នង Back Pain,</p>\r\n	',' ថ្នាំផ្តាសាយ,','		\r\n	',' Kidney Stone, Hypertension,',' Penicillin,',' Gastric Bypass Surgery,',' ផឹកស្រា, ជាក់បារី,',2),(2,'		<p>ឈឺខ្នង Back Pain, ឈឺទ្រូង Chest Pain,</p>\r\n	','','		\r\n	','','','','',3);
+INSERT INTO `subjective` VALUES (2,'		<p>ឈឺខ្នង Back Pain, ឈឺទ្រូង Chest Pain,</p>\r\n	','','		<p>សថងហតហតដហឹដតហដតសដតហហ</p>\r\n	','','','','',3),(3,'		<p>1</p>\n	','1','		<p>1</p>\n	','1','1','1','1',6),(4,'		<p>ghh</p>\n	','fghgfhg','		<p>ghhgh</p>\n	','fghgfh','gfghgh','gfghfghgf','fghgfhfghf',7);
 /*!40000 ALTER TABLE `subjective` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1714,7 +1721,7 @@ DROP TABLE IF EXISTS `use`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `use` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) DEFAULT NULL,
+  `description` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1738,11 +1745,11 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `role` varchar(255) NOT NULL DEFAULT 'DOCTOR',
+  `username` varchar(50) NOT NULL,
+  `role` varchar(20) NOT NULL DEFAULT 'DOCTOR',
   `image` varchar(255) DEFAULT NULL,
   `limit_view` int NOT NULL DEFAULT '20',
-  `lang` varchar(255) NOT NULL DEFAULT 'ko',
+  `lang` varchar(5) NOT NULL DEFAULT 'ko',
   `staff_id` int DEFAULT NULL,
   `password_hash` text,
   PRIMARY KEY (`id`),
@@ -1782,7 +1789,7 @@ CREATE TABLE `vaccine` (
   CONSTRAINT `vaccine_injection_id_injection_id_fk` FOREIGN KEY (`injection_id`) REFERENCES `injection` (`id`) ON DELETE CASCADE,
   CONSTRAINT `vaccine_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL,
   CONSTRAINT `vaccine_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1791,6 +1798,7 @@ CREATE TABLE `vaccine` (
 
 LOCK TABLES `vaccine` WRITE;
 /*!40000 ALTER TABLE `vaccine` DISABLE KEYS */;
+INSERT INTO `vaccine` VALUES (1,3,1,459,NULL),(3,8,2,550,NULL);
 /*!40000 ALTER TABLE `vaccine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1850,9 +1858,9 @@ DROP TABLE IF EXISTS `village`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `village` (
   `village_id` int NOT NULL AUTO_INCREMENT,
-  `name_khmer` varchar(255) NOT NULL,
-  `name_latin` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
+  `name_khmer` varchar(50) NOT NULL,
+  `name_latin` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
   `commune_id` int DEFAULT NULL,
   PRIMARY KEY (`village_id`),
   KEY `village_commune_id_commune_commune_id_fk` (`commune_id`),
@@ -1883,7 +1891,7 @@ CREATE TABLE `visit` (
   `patient_id` int NOT NULL,
   `department_id` int NOT NULL,
   `staff_id` int NOT NULL,
-  `checkin_type` varchar(255) NOT NULL,
+  `checkin_type` varchar(5) NOT NULL,
   `etiology` varchar(255) NOT NULL,
   `transfer` tinyint(1) NOT NULL DEFAULT '0',
   `progress_note_id` int DEFAULT NULL,
@@ -1896,7 +1904,7 @@ CREATE TABLE `visit` (
   CONSTRAINT `visit_patient_id_patient_id_fk` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE,
   CONSTRAINT `visit_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note` (`id`) ON DELETE CASCADE,
   CONSTRAINT `visit_staff_id_staff_id_fk` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1905,6 +1913,7 @@ CREATE TABLE `visit` (
 
 LOCK TABLES `visit` WRITE;
 /*!40000 ALTER TABLE `visit` DISABLE KEYS */;
+INSERT INTO `visit` VALUES (3,'2024-09-16 06:59:09',21,6,2,'OPD',' ចុកពោះ,',0,NULL),(4,'2024-09-21 09:29:42',21,6,1,'OPD','ឈឺពោះ',0,NULL),(5,'2024-09-21 09:32:01',21,1,2,'OPD','a',0,NULL),(6,'2024-09-21 09:33:37',21,6,1,'OPD','test',0,NULL),(7,'2024-09-21 09:36:24',21,1,1,'OPD','ឈឺពោះ',0,NULL),(8,'2024-09-21 11:34:23',5,6,1,'OPD','ឈឺពោះ',0,NULL),(9,'2024-09-21 11:43:03',2,2,1,'IPD',' ទល់ខ្យល់, ក្តៅខ្លួន,',0,1);
 /*!40000 ALTER TABLE `visit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1946,7 +1955,7 @@ CREATE TABLE `vital_sign` (
   CONSTRAINT `vital_sign_by_staff_id_fk` FOREIGN KEY (`by`) REFERENCES `staff` (`id`) ON DELETE SET NULL,
   CONSTRAINT `vital_sign_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `vital_sign_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1955,7 +1964,7 @@ CREATE TABLE `vital_sign` (
 
 LOCK TABLES `vital_sign` WRITE;
 /*!40000 ALTER TABLE `vital_sign` DISABLE KEYS */;
-INSERT INTO `vital_sign` VALUES (1,80,120,55,35,98,156,50,18,20.5457,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `vital_sign` VALUES (2,1,1,1,1,1,1,1,1,10000,6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,1,12,1,1,1,1,1,1,10000,7,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `vital_sign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1968,7 +1977,7 @@ DROP TABLE IF EXISTS `ward`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ward` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `ward` varchar(255) DEFAULT NULL,
+  `ward` varchar(100) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -1993,7 +2002,7 @@ DROP TABLE IF EXISTS `words`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `words` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
+  `type` varchar(100) NOT NULL,
   `text` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -2018,4 +2027,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-15 15:56:02
+-- Dump completed on 2024-09-21 14:11:26

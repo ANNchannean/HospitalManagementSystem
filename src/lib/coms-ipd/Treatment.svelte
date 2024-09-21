@@ -99,6 +99,9 @@
 					</tr>
 				</thead>
 			</table>
+			{#if find_old_visit?.adviceTeaching?.description}
+				<span>Advice Teaching: {find_old_visit?.adviceTeaching?.description ?? ''}</span>
+			{/if}
 		</div>
 	{/each}
 	{#if total_imagerie || total_laboratory || total_prescription}

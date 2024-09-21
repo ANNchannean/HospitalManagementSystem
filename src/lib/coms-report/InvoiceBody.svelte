@@ -6,20 +6,20 @@
 	$: ({ get_billing, get_currency, previous_due } = data);
 	$: laboratory = get_billing?.charge
 		.filter((e) => e.charge_on === 'laboratory')
-		.flatMap((e) => e.productOrder);
+		.flatMap((e) => e.price);
 	$: prescription = get_billing?.charge
 		.filter((e) => e.charge_on === 'prescription')
 		.flatMap((e) => e.productOrder);
 	$: products = get_billing?.charge
 		.filter((e) => e.charge_on !== 'laboratory' && e.charge_on !== 'prescription')
 		.flatMap((e) => e.productOrder);
-	$: total_laboratory = laboratory?.reduce((s, e) => s + e.price, 0) || 0;
+	$: total_laboratory = laboratory?.reduce((s, e) => s + e, 0) || 0;
 	$: total_prescription = prescription?.reduce((s, e) => s + e.price, 0) || 0;
 </script>
 
 <div style="font-size: 110%;" class="">
 	<table class="table table-bordered">
-		<thead class="table-active">
+		<thead class="table-active">``
 			<tr class="text-center">
 				<th style="width: 5%;">ល.រ​ <br /> No. </th>
 				<th style="width: 50%;">

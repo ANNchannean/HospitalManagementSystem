@@ -4,6 +4,29 @@ import { billing, charge, productOrder } from './schema';
 import { now_datetime } from './utils';
 import { billingMessage, logErrorMessage } from './telegram';
 
+type TCProductOrder = {
+	charge_id: number;
+	product_id: number;
+	price: number;
+};
+type TUProductOrder = {
+	product_order_id: number;
+	qty: number;
+	price: number;
+	disc: string;
+};
+type TBillingProcess = {
+	billing_id: number;
+	tax: number;
+	disc: string;
+	note: string;
+};
+type TPreBilling = {
+	visit_id: number | null;
+	progress_id: number | null;
+	patient_id: number;
+	checkin_type: 'OPD' | 'IPD' | 'POS';
+};
 export const deleteProductOrder = async (product_order_id: number) => {
 	const get_product_order = await db.query.productOrder.findFirst({
 		where: eq(productOrder.id, product_order_id)
@@ -12,15 +35,7 @@ export const deleteProductOrder = async (product_order_id: number) => {
 	await updateCharge(Number(get_product_order?.charge_id));
 };
 
-export const createProductOrder = async ({
-	charge_id,
-	price,
-	product_id
-}: {
-	charge_id: number;
-	product_id: number;
-	price: number;
-}) => {
+export const createProductOrder = async ({ charge_id, price, product_id }: TCProductOrder) => {
 	const get_charge = await db.query.charge.findFirst({
 		where: eq(charge.id, charge_id),
 		with: { productOrder: true }
@@ -58,12 +73,7 @@ export const updateProductOrder = async ({
 	disc,
 	price,
 	qty
-}: {
-	product_order_id: number;
-	qty: number;
-	price: number;
-	disc: string;
-}) => {
+}: TUProductOrder) => {
 	const get_product_order = await db.query.productOrder.findFirst({
 		where: eq(productOrder.id, product_order_id),
 		with: {
@@ -155,17 +165,7 @@ export const updatChargeByValue = async (charge_id: number, total_charge: number
 		.catch((e) => console.log(e));
 };
 
-export const billingProcess = async ({
-	billing_id,
-	tax,
-	disc,
-	note
-}: {
-	billing_id: number;
-	tax: number;
-	disc: string;
-	note: string;
-}) => {
+export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingProcess) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, billing_id),
 		with: {
@@ -354,12 +354,7 @@ export const preBilling = async ({
 	progress_id,
 	visit_id,
 	patient_id
-}: {
-	visit_id: number | null;
-	progress_id: number | null;
-	patient_id: number;
-	checkin_type: 'OPD' | 'IPD';
-}) => {
+}: TPreBilling) => {
 	const created_at = now_datetime();
 	const get_tax = await db.query.tax.findFirst();
 	// doing billing
@@ -463,7 +458,7 @@ export const prePOS = async (): Promise<number> => {
 		.$returningId()
 		.catch((e) => {
 			logErrorMessage(e);
-			return e;
+			return [];
 		});
 	await db
 		.insert(charge)

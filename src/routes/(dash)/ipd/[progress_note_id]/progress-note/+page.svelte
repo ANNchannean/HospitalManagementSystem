@@ -37,7 +37,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body table-responsive p-0">
-				{#each removeDuplicateDate || [] as { date_checkup }}
+				{#each removeDuplicateDate || [] as { date_checkup, id }}
 					{@const f_date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(
 						new Date(date_checkup ?? '')
 					)}
@@ -49,7 +49,11 @@
 								</td>
 								<td>Observation Medical or SAOP note</td>
 								<td>Para-Clinic</td>
-								<td>Treatment</td>
+								<td>
+									<a class="btn btn-link py-0" href="/opd/{id}/prescription"
+										>Treatment <i class="fa-solid fa-file-pen"></i></a
+									>
+								</td>
 							</tr>
 						</thead>
 						<tbody>

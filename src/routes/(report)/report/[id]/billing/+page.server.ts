@@ -46,8 +46,7 @@ export const load = (async ({ params }) => {
 			ne(billing.id, +id)
 		)
 	});
-	const previous_due = get_billings.reduce((s, i) => s + i.balance, 0);
-
+	const previous_due = get_billings.reduce((s: number, i) => s + +i.balance, 0);
 	return {
 		get_billing,
 		get_currency,

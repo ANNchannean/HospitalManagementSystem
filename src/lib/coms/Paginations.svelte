@@ -5,7 +5,6 @@
 	export let limit: number = 10;
 	export let items: number;
 	$: total_page = Math.ceil(items / limit);
-	const searchParams = new URLSearchParams();
 	function pushPage() {
 		if (page < 1 || page > total_page) {
 			page = 1;
@@ -17,7 +16,6 @@
 	}
 </script>
 
-{searchParams}
 <div class="row">
 	<div class="col-6 d-flex">
 		<div class="align-content-center">
@@ -40,7 +38,7 @@
 				<option value="50">50</option>
 				<option value="100">100</option>
 				<option value="200">200</option>
-				<option value="all">All</option>
+				<option value={items}>All</option>
 			</select>
 		</div>
 		<div class="align-content-center">

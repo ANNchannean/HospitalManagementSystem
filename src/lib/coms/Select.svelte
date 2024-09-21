@@ -49,6 +49,7 @@
 			<span
 				on:click={(e) => {
 					e.stopPropagation();
+					document.getElementById(name)?.focus();
 					value = null;
 					document.getElementById('submit_selected')?.click();
 				}}
@@ -60,6 +61,7 @@
 			<span
 				on:click={(e) => {
 					e.stopPropagation();
+					document.getElementById(name)?.focus();
 					value = null;
 				}}
 				class="float-end"
@@ -70,6 +72,7 @@
 			<span
 				on:click={(e) => {
 					e.stopPropagation();
+					document.getElementById(name)?.focus();
 					value = null;
 					pushParam('');
 				}}

@@ -31,8 +31,8 @@
 
 <div id="scall" class="row justify-content-center">
 	<div style="width: 1200px;">
-		<button on:click={() => window.history.back()} class="btn mb-2 btn-warning py-4 btn-lg col-12"
-			>ត្រលប់ទៅកន្លែងគិតប្រាក់</button
+		<a href="/billing/pos" class="btn mb-2 btn-warning py-4 btn-lg col-12"
+			>ត្រលប់ទៅកន្លែងគិតប្រាក់</a
 		>
 		<div class="header">
 			<ClinichInfo data={{ get_clinic_info }} />
@@ -71,7 +71,7 @@
 		<button on:click={() => window.print()} class="btn btn-success btn-lg mb-2 col-12"
 			>បោះពុម្ភ</button
 		>
-		<a href="/billing/sale-reprot" class="btn btn-primary btn-lg col-12">ត្រលប់ទៅរបាយការណ៍លក់</a>
+		<a href="/billing/report" class="btn btn-primary btn-lg col-12">ត្រលប់ទៅរបាយការណ៍លក់</a>
 	</div>
 </div>
 

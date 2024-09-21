@@ -127,6 +127,8 @@ export const actions: Actions = {
 		const { id } = params;
 		const body = await request.formData();
 		const { total_laboratory } = Object.fromEntries(body) as Record<string, string>;
+		console.log(body);
+
 		const get_visit = await db.query.visit.findFirst({
 			where: eq(visit.id, +id),
 			with: {

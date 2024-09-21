@@ -16,6 +16,7 @@ import { vaccine } from './vaccine';
 import { bed } from './wardRoomBed';
 import { remark } from './remark';
 import { accessment } from './accessment';
+import { adviceTeaching } from './adviceTeaching';
 
 export const visit = mysqlTable('visit', {
 	id: int('id').primaryKey().autoincrement(),
@@ -81,7 +82,8 @@ export const visitRelations = relations(visit, ({ one, many }) => ({
 	document: many(document),
 	vaccine: many(vaccine),
 	remark: one(remark),
-	accessment: one(accessment)
+	accessment: one(accessment),
+	adviceTeaching:one(adviceTeaching)
 }));
 
 export const progressNote = mysqlTable('progress_note', {
