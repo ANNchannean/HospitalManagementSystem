@@ -19,8 +19,6 @@ export const preBilling = async ({
 	const created_at = now_datetime();
 	const get_tax = await db.query.tax.findFirst();
 	// doing billing
-	console.log(visit_id);
-
 	await db
 		.insert(billing)
 		.values({

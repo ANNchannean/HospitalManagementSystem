@@ -1,0 +1,1 @@
+ALTER TABLE `charge` DROP COLUMN `status`;

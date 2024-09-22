@@ -14,10 +14,10 @@
 		"format": "prettier --write .",
 		"db:gen": "npx drizzle-kit generate ",
 		"db:push": "npx drizzle-kit push ",
-		"db:mig": "tsx src/lib/server/migrate.ts ",
-		"db:seed": "tsx src/lib/server/seed.ts ",
-		"db:drop": "tsx src/lib/server/drop.ts && tsx src/lib/server/create.ts",
-		"db:create": "tsx src/lib/server/create.ts "
+		"db:mig": "tsx src/lib/server/db/migrate.ts ",
+		"db:seed": "tsx src/lib/server/db/seed.ts ",
+		"db:drop": "tsx src/lib/server/db/drop.ts && tsx src/lib/server/db/create.ts",
+		"db:create": "tsx src/lib/server/db/create.ts "
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
