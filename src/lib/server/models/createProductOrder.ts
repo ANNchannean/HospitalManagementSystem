@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm";
-import { db } from "../db";
-import { charge, productOrder } from "../schemas";
-import { now_datetime } from "../utils";
-import { updateCharge } from "./updateCharge";
+import { eq } from 'drizzle-orm';
+import { db } from '../db';
+import { charge, productOrder } from '../schemas';
+import { now_datetime } from '../utils';
+import { updateCharge } from './updateCharge';
 type TCProductOrder = {
 	charge_id: number;
 	product_id: number;
@@ -41,4 +41,4 @@ export const createProductOrder = async ({ charge_id, price, product_id }: TCPro
 	await updateCharge(charge_id);
 };
 
-export default createProductOrder
+export default createProductOrder;

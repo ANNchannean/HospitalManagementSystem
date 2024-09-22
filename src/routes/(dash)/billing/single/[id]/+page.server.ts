@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { and, asc, eq, like, notLike, or } from 'drizzle-orm';
+import { and, asc, eq, gt, like, ne, notLike, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schemas';
 import {
@@ -67,6 +67,13 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		orderBy: asc(paymentType.by),
 		where: notLike(paymentType.by, '%CASH%')
 	});
+	const get_billings_due = await db.query.billing.findMany({
+		where: and(
+			gt(billing.balance, 0),
+			eq(billing.patient_id, get_billing?.patient_id || 0),
+			ne(billing.id, +billing_id)
+		)
+	});
 	const charge_on_imagerie = get_billing?.charge.find((e) => e.charge_on === 'imagerie');
 	const charge_on_laboratory = get_billing?.charge.find((e) => e.charge_on === 'laboratory');
 	const charge_on_general = get_billing?.charge.find((e) => e.charge_on === 'general');
@@ -84,7 +91,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_billing,
 		get_payment_types,
 		charge_on_vaccine,
-		get_currency
+		get_currency,
+		get_billings_due
 	};
 };
 

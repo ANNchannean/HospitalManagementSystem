@@ -43,7 +43,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 			}
 		}
 	});
-	// if (get_billing?.status !== 'process') redirect(303, '/billing/opd');
+
 	const get_product_group_type = await db.query.productGroupType.findMany({
 		with: {
 			unit: true

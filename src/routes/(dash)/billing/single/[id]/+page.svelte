@@ -19,6 +19,7 @@
 	import ChargeService from '$lib/coms-billing/ChargeService.svelte';
 	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
+	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -32,7 +33,8 @@
 		get_billing,
 		get_currency,
 		charge_on_vaccine,
-		get_payment_types
+		get_payment_types,
+		get_billings_due
 	} = data);
 
 	let timeout: number | NodeJS.Timeout;
@@ -44,8 +46,6 @@
 			form.requestSubmit();
 		}, 400);
 	};
-	let product_group_id: number;
-	let inerHight: string;
 	let inerHight_1: string;
 	$: items =
 		Number(charge_on_imagerie?.productOrder.length || 0) +
@@ -54,29 +54,6 @@
 		Number(charge_on_prescription?.productOrder.length || 0) +
 		Number(charge_on_vaccine?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
-	onMount(() => {
-		if (browser) {
-			inerHight = (window.innerHeight - (window.innerHeight * 21) / 100).toString().concat('px');
-			inerHight_1 = (window.innerHeight - (window.innerHeight * 47) / 100).toString().concat('px');
-			if (window.innerWidth > 990) {
-				localStorage.setItem('sb|sidebar-toggle', 'true');
-				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
-				if (sidebarToggle !== 'false') {
-					document.getElementById('sidebarToggle')?.click();
-				}
-			}
-		}
-	});
-	onDestroy(() => {
-		if (browser) {
-			if (window.innerWidth > 990) {
-				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
-				if (sidebarToggle !== 'true') {
-					document.getElementById('sidebarToggle')?.click();
-				}
-			}
-		}
-	});
 </script>
 
 {#if form?.disc}
@@ -117,7 +94,7 @@
 	<div class="col-md-7">
 		<div class="card bg-light">
 			<div class="card-header">
-				<div class=" row">
+				<div class="row px-2">
 					<div class="col-12 pb-2">
 						<table class="table m-0">
 							<tr>
@@ -153,7 +130,7 @@
 				method="post"
 			>
 				<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
-					<table class="table table-bordered table-sm">
+					<table class="table table-bordered table-sm text-nowrap">
 						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
 								<th style="width: 45%;">Product</th>
@@ -239,6 +216,41 @@
 								/>
 							</td>
 						</tr>
+						{#each get_billings_due as item (item.id)}
+							<tr>
+								<td
+									>ប្រាក់ជំពាក់លើកមុន <DateTimeFormat date={item.created_at} timeStyle={false} />
+								</td>
+								<td> : </td>
+								<td>
+									{#if item.checkin_type === 'IPD'}
+										<a href="/billing/multiple/{item.id}">
+											<Currency
+												class=""
+												amount={item.balance}
+												symbol={get_currency?.currency_symbol}
+											/></a
+										>
+									{:else if item.checkin_type === 'OPD'}
+										<a href="/billing/single/{item.id}"
+											><Currency
+												class=""
+												amount={item.balance}
+												symbol={get_currency?.currency_symbol}
+											/></a
+										>
+									{:else}
+										<a href="/billing/pos/{item.id}"
+											><Currency
+												class=""
+												amount={item.balance}
+												symbol={get_currency?.currency_symbol}
+											/></a
+										>
+									{/if}
+								</td>
+							</tr>
+						{/each}
 					</table>
 
 					<hr />
@@ -270,82 +282,14 @@
 		</div>
 	</div>
 	<div class="col-md-5">
-		<div class="card bg-light">
-			<form
-				on:change={(e) => e.currentTarget.requestSubmit()}
-				data-sveltekit-keepfocus
-				class="card-header"
-			>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col">
-								<SelectRef
-									mainParams="?group_type_id"
-									chailParams={`&${$page.url.searchParams.get('q') || ''}`}
-									bind:value={product_group_id}
-									items={get_product_group_type.map((e) => ({ id: e.id, name: e.group_type }))}
-								/>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<input
-							type="hidden"
-							name="billing_id"
-							value={$page.url.searchParams.get('billing_id')}
-						/>
-						<input
-							on:input={handleQ}
-							name="q"
-							type="search"
-							class="form-control"
-							placeholder="Filter Products"
-							aria-label="Filter Products"
-							aria-describedby="Filter Products"
-						/>
-					</div>
-				</div>
-			</form>
-
-			<div style="height: {inerHight};" class=" overflow-auto justify-content-start">
-				{#each get_products as item}
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
-					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-					<form
-						on:click={(e) => e.currentTarget.requestSubmit()}
-						style="min-height: 200px;"
-						method="post"
-						use:enhance={() => {
-							$globalLoading = true;
-							return async ({ update }) => {
-								await update();
-								$globalLoading = false;
-							};
-						}}
-						action="?/create_product_order"
-						class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 border m-2 p-2 btn btn-light"
-					>
-						<input type="hidden" name="product_id" value={item.id} />
-						<input type="hidden" name="price" value={item.price} />
-						<button type="button" class="position-relative text-wrap btn m-0 p-0">
-							{#if item.fileOrPicture?.filename}
-								<img class="img-thumbnail" src="/files/{item.fileOrPicture.filename}" alt="" />
-							{:else}
-								<img class="img-thumbnail" src="/no-image.jpg" alt="" />
-							{/if}
-							<span
-								class="position-absolute start-50 translate-middle badge rounded-pill bg-danger"
-							>
-								<Currency class="" amount={item.price} symbol={get_currency?.currency_symbol} />
-							</span>
-						</button>
-						<span class="fs-6 text-wrap">{item.products}</span>
-					</form>
-				{/each}
-			</div>
-		</div>
+		<ProductAddToCard
+			bind:inerHight_1
+			data={{
+				get_currency: get_currency,
+				get_product_group_type: get_product_group_type,
+				get_products: get_products
+			}}
+		/>
 	</div>
 </div>
 

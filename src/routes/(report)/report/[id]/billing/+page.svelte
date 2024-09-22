@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import type { PageServerData } from './$types';
 	import { dobToAge } from '$lib/helper';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
@@ -9,22 +9,36 @@
 	import InvoiceBody from '$lib/coms-report/InvoiceBody.svelte';
 	import InvoiceHeader from '$lib/coms-report/InvoiceHeader.svelte';
 	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
 	export let data: PageServerData;
 	$: ({ get_billing, get_clinic_info, get_currency, previous_due } = data);
 	let isPrint = $page.url.searchParams.get('print');
 	onMount(async () => {
-		document.addEventListener('keydown', function (event) {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
-			if (event.ctrlKey && event.key === 'p') {
-				// event.preventDefault();
-				// alert('View only');
+		if (browser) {
+			document.addEventListener('keydown', function (event) {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+				if (event.ctrlKey && event.key === 'p') {
+					// event.preventDefault();
+					// alert('View only');
+				}
+			});
+			if (isPrint === 'true') {
+				setTimeout(async () => {
+					window.print();
+					window.close();
+				}, 300);
 			}
-		});
-		if (isPrint === 'true') {
-			setTimeout(async () => {
-				window.print();
-				window.close();
-			}, 300);
+		}
+	});
+	onDestroy(() => {
+		if (browser) {
+			if (window.innerWidth > 990) {
+				localStorage.setItem('sb|sidebar-toggle', 'true');
+				const sidebarToggle = localStorage.getItem('sb|sidebar-toggle');
+				if (sidebarToggle !== 'false') {
+					document.getElementById('sidebarToggle')?.click();
+				}
+			}
 		}
 	});
 </script>
