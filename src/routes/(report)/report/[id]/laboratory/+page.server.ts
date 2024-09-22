@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { asc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
-import { fileOrPicture, parameter, visit } from '$lib/server/schema';
+import { fileOrPicture, parameter, visit } from '$lib/server/schemas';
 import { generateQR } from '$lib/server/utils';
 export const load: PageServerLoad = async ({ params, url }) => {
 	const visit_id = params.id ?? '';

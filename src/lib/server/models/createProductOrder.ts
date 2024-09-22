@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { charge, productOrder } from "../schema";
+import { charge, productOrder } from "../schemas";
 import { now_datetime } from "../utils";
 import { updateCharge } from "./updateCharge";
 type TCProductOrder = {

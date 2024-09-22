@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, asc, eq, gt, like, ne, notLike, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schema';
+import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schemas';
 import {
 	billingProcess,
 	createProductOrder,

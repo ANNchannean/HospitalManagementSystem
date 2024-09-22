@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { nursingProcess } from '$lib/server/schema';
+import { nursingProcess } from '$lib/server/schemas';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 

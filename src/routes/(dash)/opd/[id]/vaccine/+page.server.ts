@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { injection, product, productGroupType, vaccine, visit } from '$lib/server/schema';
+import { injection, product, productGroupType, vaccine, visit } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';

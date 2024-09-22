@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { imagerieRequest, product, visit } from '$lib/server/schema';
+import { imagerieRequest, product, visit } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder } from '$lib/server/models';

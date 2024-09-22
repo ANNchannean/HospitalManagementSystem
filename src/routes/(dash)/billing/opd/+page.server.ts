@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { billing } from '$lib/server/schema';
+import { billing } from '$lib/server/schemas';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();

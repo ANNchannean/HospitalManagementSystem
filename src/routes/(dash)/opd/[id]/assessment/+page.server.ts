@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { accessment, remark } from '$lib/server/schema';
+import { accessment, remark } from '$lib/server/schemas';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';

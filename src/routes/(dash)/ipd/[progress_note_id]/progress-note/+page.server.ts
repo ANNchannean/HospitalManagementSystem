@@ -9,7 +9,7 @@ import {
 	progressNote,
 	staff,
 	visit
-} from '$lib/server/schema';
+} from '$lib/server/schemas';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import {

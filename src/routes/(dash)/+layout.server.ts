@@ -1,7 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { isNull } from 'drizzle-orm';
-import { progressNote } from '$lib/server/schema';
+import { progressNote } from '$lib/server/schemas';
 
 export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 	// if (!locals.session) redirect(302, '/login');

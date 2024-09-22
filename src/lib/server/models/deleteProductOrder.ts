@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
-import { productOrder } from '../schema';
+import { productOrder } from '../schemas';
 import { updateCharge } from './updateCharge';
 
 export const deleteProductOrder = async (product_order_id: number) => {

@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { diagnosis } from '$lib/server/schema';
+import { diagnosis } from '$lib/server/schemas';
 import type { PageServerLoad } from './$types';
 import { and, eq, like, or } from 'drizzle-orm';
 

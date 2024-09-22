@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { department, staff, patient, visit, progressNote, billing } from '$lib/server/schema';
+import { department, staff, patient, visit, progressNote, billing } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';

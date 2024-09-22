@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { user } from '$lib/server/schema';
+import { user } from '$lib/server/schemas';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';

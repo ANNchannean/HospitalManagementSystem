@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { eq } from 'drizzle-orm';
-import { fileOrPicture } from '$lib/server/schema';
+import { fileOrPicture } from '$lib/server/schemas';
 import fs from 'fs';
 import path from 'path';
 export const GET: RequestHandler = async ({ params }) => {

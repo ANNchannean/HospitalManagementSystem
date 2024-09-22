@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
-import { billing } from '$lib/server/schema';
+import { billing } from '$lib/server/schemas';
 import { prePOS } from '$lib/server/models';
 import { now_datetime } from '$lib/server/utils';
 import { redirect } from '@sveltejs/kit';

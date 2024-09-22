@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { imagerieRequest } from '$lib/server/schema';
+import { imagerieRequest } from '$lib/server/schemas';
 import { generateQR } from '$lib/server/utils';
 export const load: PageServerLoad = async ({ params, url }) => {
 	const imagerie_request_id = params.id;

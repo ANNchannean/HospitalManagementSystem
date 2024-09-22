@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, between, desc, eq, gt, or } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { billing, fileOrPicture, payment } from '$lib/server/schema';
+import { billing, fileOrPicture, payment } from '$lib/server/schemas';
 import { fail } from '@sveltejs/kit';
 import { now_datetime, pagination } from '$lib/server/utils';
 import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';

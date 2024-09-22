@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { progressNote, visit } from '$lib/server/schema';
+import { progressNote, visit } from '$lib/server/schemas';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';

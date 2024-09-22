@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { physicalExam, visit, vitalSign } from '$lib/server/schema';
+import { physicalExam, visit, vitalSign } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';

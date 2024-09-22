@@ -7,7 +7,7 @@ import {
 	parameter,
 	product,
 	visit
-} from '$lib/server/schema';
+} from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, desc, eq } from 'drizzle-orm';
 import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';

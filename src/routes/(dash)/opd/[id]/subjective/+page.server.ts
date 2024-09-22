@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { subjective, visit } from '$lib/server/schema';
+import { subjective, visit } from '$lib/server/schemas';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';

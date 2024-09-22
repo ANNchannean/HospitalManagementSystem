@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
-import { document, visit } from '$lib/server/schema';
+import { document, visit } from '$lib/server/schemas';
 import { redirect } from '@sveltejs/kit';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 

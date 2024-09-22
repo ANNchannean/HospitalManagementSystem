@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { laboratory, laboratoryRequest, product, visit } from '$lib/server/schema';
+import { laboratory, laboratoryRequest, product, visit } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';

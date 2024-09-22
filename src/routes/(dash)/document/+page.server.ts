@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { formDocument } from '$lib/server/schema';
+import { formDocument } from '$lib/server/schemas';
 import { now_datetime } from '$lib/server/utils';
 import { desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';

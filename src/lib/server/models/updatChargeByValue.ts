@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
-import { billing, charge } from '../schema';
+import { billing, charge } from '../schemas';
 
 export const updatChargeByValue = async (charge_id: number, total_charge: number) => {
 	const get_charge = await db.query.charge.findFirst({

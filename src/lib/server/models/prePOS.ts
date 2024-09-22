@@ -1,5 +1,5 @@
 import { db } from '../db';
-import { billing, charge } from '../schema';
+import { billing, charge } from '../schemas';
 import { logErrorMessage } from '../telegram/logErrorMessage';
 import { now_datetime } from '../utils';
 

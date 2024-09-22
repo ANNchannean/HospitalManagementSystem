@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { productOrder } from '../schema';
+import { productOrder } from '../schemas';
 import { updateCharge } from './updateCharge';
 import { db } from '../db';
 

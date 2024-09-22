@@ -1,7 +1,7 @@
 // import { generateIdFromEntropySize } from 'lucia';
 import { eq, like } from 'drizzle-orm';
 import { db } from '.';
-import { product } from '../schema';
+import { product } from '../schemas';
 // import { inventory, user } from './schema';
 // import { generateIdFromEntropySize } from 'lucia';
 // import { hash } from '@node-rs/argon2';

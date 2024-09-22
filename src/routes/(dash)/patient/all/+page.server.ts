@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { fileOrPicture, patient } from '$lib/server/schema';
+import { fileOrPicture, patient } from '$lib/server/schemas';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { desc, eq } from 'drizzle-orm';

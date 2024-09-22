@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { operationProtocol, product, productGroupType, service } from '$lib/server/schema';
+import { operationProtocol, product, productGroupType, service } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';

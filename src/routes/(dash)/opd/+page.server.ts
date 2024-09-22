@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { department, staff, patient, visit, vitalSign, subjective } from '$lib/server/schema';
+import { department, staff, patient, visit, vitalSign, subjective } from '$lib/server/schemas';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';

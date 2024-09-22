@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { billing, charge } from '../schema';
+import { billing, charge } from '../schemas';
 import { db } from '../db';
 
 export const updateCharge = async (charge_id: number) => {

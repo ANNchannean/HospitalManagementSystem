@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { parameter, product, productGroupType } from '$lib/server/schema';
+import { parameter, product, productGroupType } from '$lib/server/schemas';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq, like } from 'drizzle-orm';

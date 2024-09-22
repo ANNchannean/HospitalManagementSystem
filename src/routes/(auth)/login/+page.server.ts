@@ -4,7 +4,7 @@ import { db } from '$lib/server/db';
 import { lucia } from '$lib/server/auth/lucia';
 import { verify } from '@node-rs/argon2';
 import { eq } from 'drizzle-orm';
-import { user } from '$lib/server/schema';
+import { user } from '$lib/server/schemas';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.session) redirect(307, `/dashboard`);

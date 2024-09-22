@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db';
 import { updateFile } from '$lib/server/upload/fileHandle';
-import { clinicinfo, fileOrPicture } from '$lib/server/schema';
+import { clinicinfo, fileOrPicture } from '$lib/server/schemas';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';

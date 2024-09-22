@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
-import { laboratoryResult, parameter, progressNote, visit } from '$lib/server/schema';
+import { laboratoryResult, parameter, progressNote, visit } from '$lib/server/schemas';
 import { and, asc, desc, eq, isNull } from 'drizzle-orm';
 export const load: LayoutServerLoad = async ({ params, parent }) => {
 	await parent();

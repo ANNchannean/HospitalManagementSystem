@@ -8,7 +8,7 @@ import {
 	paymentType,
 	product,
 	progressNote
-} from '$lib/server/schema';
+} from '$lib/server/schemas';
 import {
 	billingProcess,
 	createProductOrder,

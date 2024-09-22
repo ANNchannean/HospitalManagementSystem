@@ -6,7 +6,7 @@ import {
 	productOrder,
 	service,
 	visit
-} from '$lib/server/schema';
+} from '$lib/server/schemas';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';

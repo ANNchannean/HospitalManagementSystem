@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { words } from '$lib/server/schema';
+import { words } from '$lib/server/schemas';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';

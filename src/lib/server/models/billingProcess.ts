@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
-import { billing } from '../schema';
+import { billing } from '../schemas';
 import { now_datetime } from '../utils';
 import { billingMessage } from '../telegram/billingMessage';
 type TBillingProcess = {

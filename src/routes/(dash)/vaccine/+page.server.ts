@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { appointmentInjection, injection, vaccine } from '$lib/server/schema';
+import { appointmentInjection, injection, vaccine } from '$lib/server/schemas';
 import { asc, desc, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { now_datetime } from '$lib/server/utils';

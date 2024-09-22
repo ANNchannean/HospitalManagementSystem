@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { billing } from '$lib/server/schema';
+import { billing } from '$lib/server/schemas';
 import { and, eq, gt, ne } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 

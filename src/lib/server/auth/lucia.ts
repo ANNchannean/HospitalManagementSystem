@@ -2,7 +2,7 @@ import { Lucia } from 'lucia';
 import { dev } from '$app/environment';
 import { DrizzleMySQLAdapter } from '@lucia-auth/adapter-drizzle';
 import { db } from '$lib/server/db';
-import { user, session } from '$lib/server/schema';
+import { user, session } from '$lib/server/schemas';
 const adapter = new DrizzleMySQLAdapter(db, session, user);
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {

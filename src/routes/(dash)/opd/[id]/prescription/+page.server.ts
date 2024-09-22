@@ -8,7 +8,7 @@ import {
 	unit,
 	use,
 	visit
-} from '$lib/server/schema';
+} from '$lib/server/schemas';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';

@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { appointment } from '$lib/server/schema';
+import { appointment } from '$lib/server/schemas';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
