@@ -59,7 +59,7 @@ export const charge = mysqlTable('charge', {
 	price: decimal('price', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 10 }).$type<'active' | 'desactive'>().default('active'),
 	charge_on: varchar('charge_on', { length: 20 }).$type<
-		'imagerie' | 'laboratory' | 'service' | 'prescription' | 'general' | 'vaccine'
+		'imagerie' | 'laboratory' | 'service' | 'prescription' | 'general' | 'vaccine' | 'bed'
 	>(),
 	billing_id: int('billing_id')
 		.references(() => billing.id, { onDelete: 'cascade' })

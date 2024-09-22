@@ -1,0 +1,22 @@
+@media print {
+	body {
+		width: 282mm;
+	}
+	@page {
+		size: a4;
+		margin: 5mm;
+	}
+}
+
+.sun-editor {
+	border: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+.sun-editor .se-resizing-bar {
+	display: none !important;
+}
+.sun-editor-editable {
+	padding: 0 !important;
+	margin: 0 !important;
+}

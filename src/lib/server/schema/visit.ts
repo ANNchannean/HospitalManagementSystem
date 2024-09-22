@@ -83,7 +83,7 @@ export const visitRelations = relations(visit, ({ one, many }) => ({
 	vaccine: many(vaccine),
 	remark: one(remark),
 	accessment: one(accessment),
-	adviceTeaching:one(adviceTeaching)
+	adviceTeaching: one(adviceTeaching)
 }));
 
 export const progressNote = mysqlTable('progress_note', {

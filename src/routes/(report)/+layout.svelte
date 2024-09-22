@@ -1,8 +1,7 @@
 <script lang="ts">
-	import '$lib/style/print.css';
+	import '$lib/css/print.css'
 </script>
 
 <slot />
 
-<style>
-</style>
+
