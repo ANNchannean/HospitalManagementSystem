@@ -1,4 +1,3 @@
-import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { billing, charge } from '../schemas';
 import { logErrorMessage } from '../telegram/logErrorMessage';
@@ -19,7 +18,7 @@ export const preBilling = async ({
 	const created_at = now_datetime();
 	const get_tax = await db.query.tax.findFirst();
 	// doing billing
-	await db
+	const billing_id: { id: number }[] = await db
 		.insert(billing)
 		.values({
 			created_at: created_at,
@@ -32,70 +31,81 @@ export const preBilling = async ({
 			sub_total: 0,
 			total: 0
 		})
+		.$returningId()
 		.catch((e) => {
 			logErrorMessage(e);
+			return [];
 		});
-	const get_billing = await db.query.billing.findFirst({
-		where: eq(billing.created_at, created_at)
-	});
-	await db
-		.insert(charge)
-		.values({
-			billing_id: Number(get_billing?.id),
-			charge_on: 'general',
-			created_at: created_at
-		})
-		.catch((e) => {
-			logErrorMessage(e);
-		});
-	await db
-		.insert(charge)
-		.values({
-			billing_id: Number(get_billing?.id),
-			charge_on: 'imagerie',
-			created_at: created_at
-		})
-		.catch((e) => {
-			logErrorMessage(e);
-		});
-	await db
-		.insert(charge)
-		.values({
-			billing_id: get_billing!.id,
-			charge_on: 'laboratory',
-			created_at: created_at
-		})
-		.catch((e) => {
-			logErrorMessage(e);
-		});
-	await db
-		.insert(charge)
-		.values({
-			billing_id: get_billing!.id,
-			charge_on: 'prescription',
-			created_at: created_at
-		})
-		.catch((e) => {
-			logErrorMessage(e);
-		});
-	await db
-		.insert(charge)
-		.values({
-			billing_id: get_billing!.id,
-			charge_on: 'service',
-			created_at: created_at
-		})
-		.catch((e) => {
-			logErrorMessage(e);
-		});
-	await db
-		.insert(charge)
-		.values({
-			billing_id: get_billing!.id,
-			charge_on: 'vaccine',
-			created_at: created_at
-		})
-		.catch((e) => {
-			logErrorMessage(e);
-		});
+	await Promise.all([
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'general',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			}),
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'imagerie',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			}),
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'laboratory',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			}),
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'prescription',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			}),
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'service',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			}),
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'vaccine',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			}),
+		await db
+			.insert(charge)
+			.values({
+				billing_id: billing_id[0].id,
+				charge_on: 'bed',
+				created_at: created_at
+			})
+			.catch((e) => {
+				logErrorMessage(e);
+			})
+	]);
 };

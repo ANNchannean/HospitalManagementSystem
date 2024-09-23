@@ -6,15 +6,19 @@
 	import { browser } from '$app/environment';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
+	import { globalLoading } from '$lib/store';
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
-	$: ({ get_product_as_service, get_services } = data);
-	$: find_service = get_services.find((e) => e.id === service_id);
+	$: ({ get_product_as_service, get_visit, get_currency, charge_on_service } = data);
+	$: find_service = get_visit?.service.find((e) => e.id === service_id);
+	let total_service = 1;
+	$: total_service =
+		get_visit?.billing?.charge?.find((e) => e.charge_on === 'laboratory')?.price || 0;
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
-
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -39,19 +43,28 @@
 				<table class="table table-head-fixed table-hover text-nowrap table-valign-middle">
 					<thead class="">
 						<tr>
-							<th>N</th>
-							<th>Service Item</th>
-							<th>Price</th>
-							<th>Operative Protocol</th>
-							<th></th>
+							<th style="width: 5%;">N</th>
+							<th style="width: 50%;">Service Item</th>
+							<th style="width: 15%;">Price</th>
+							<th style="width: 15%;">Operative Protocol</th>
+							<th style="width: 15%;"></th>
 						</tr>
 					</thead>
 					<tbody class="table-sm">
-						{#each get_services as item, index}
+						{#each charge_on_service?.productOrder || [] as item, index (item.id)}
 							<tr>
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
-								<td>{item.product?.price ?? ''}</td>
+								<td>
+									<div>
+										<CurrencyInput
+											class="input-group input-group-sm"
+											amount={item.product?.price}
+											name="price"
+											symbol={get_currency?.currency}
+										/>
+									</div>
+								</td>
 								<td
 									><button
 										on:click={() => {
@@ -402,3 +415,31 @@
 		</form>
 	</div>
 </div>
+<form
+	method="post"
+	use:enhance={() => {
+		loading = true;
+		$globalLoading = true;
+		return async ({ update }) => {
+			await update({ invalidateAll: true, reset: false });
+			loading = false;
+			$globalLoading = false;
+		};
+	}}
+	action="?/update_total_service"
+	class="card-footer row p-2 bg-light sticky-bottom"
+>
+	<div class="col text-end">
+		<button type="button" class="btn btn-warning">Total Service</button>
+	</div>
+	<div class="col-auto">
+		<CurrencyInput
+			name="total_service"
+			symbol={get_currency?.currency_symbol}
+			amount={total_service}
+		/>
+	</div>
+	<div class="col-auto">
+		<SubmitButton {loading} />
+	</div>
+</form>

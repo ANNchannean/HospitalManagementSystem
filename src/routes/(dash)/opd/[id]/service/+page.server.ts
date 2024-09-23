@@ -12,25 +12,48 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
+import { updatChargeByValue } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
+	const get_visit = await db.query.visit.findFirst({
+		with: {
+			service: {
+				with: {
+					product: true,
+					operationProtocol: true
+				}
+			},
+			billing: {
+				with: {
+					charge: {
+						with: {
+							productOrder: {
+								with:{
+									product:true
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		where: eq(visit.id, +visit_id)
+	});
 	const get_product_type = await db.query.productGroupType.findFirst({
 		where: like(productGroupType.group_type, 'Service')
 	});
+	const get_currency = await db.query.currency.findFirst({});
+
 	const get_product_as_service = await db.query.product.findMany({
 		where: eq(product.group_type_id, get_product_type?.id || 0)
 	});
-	const get_services = await db.query.service.findMany({
-		where: eq(service.visit_id, +visit_id),
-		with: {
-			product: true,
-			operationProtocol: true
-		}
-	});
+	const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service' )
 	return {
 		get_product_as_service,
-		get_services: get_services
+		get_currency: get_currency,
+		get_visit: get_visit,
+		charge_on_service:charge_on_service
 	};
 }) satisfies PageServerLoad;
 
@@ -62,8 +85,7 @@ export const actions: Actions = {
 				service: true
 			}
 		});
-
-		if (get_visit?.service?.product_id === +product_id) {
+		if (get_visit?.service.find((e) => e.product_id === +product_id)) {
 			return fail(400, { errId: true });
 		}
 		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
@@ -208,6 +230,30 @@ export const actions: Actions = {
 				.catch((e) => {
 					logErrorMessage(e);
 				});
+		}
+	},
+	update_total_service: async ({ request, params }) => {
+		const { id } = params;
+		const body = await request.formData();
+		const { total_service } = Object.fromEntries(body) as Record<string, string>;
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, +id),
+			with: {
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				}
+			}
+		});
+
+		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
+		if (charge_on_service) {
+			await updatChargeByValue(charge_on_service.id, +total_service);
 		}
 	}
 };

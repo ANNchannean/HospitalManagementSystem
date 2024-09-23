@@ -114,25 +114,26 @@ tbody tr {
 td {
 	vertical-align: middle;
 }
-/* @ scrollbar  */
-/* width */
+/* Style the scrollbar */
 ::-webkit-scrollbar {
-	width: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-	background: #f1f1f1;
+    width: 6px; /* Width of the vertical scrollbar */
+    height: 6px; /* Height of the horizontal scrollbar */
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #888;
+    background-color: darkgrey; /* Color of the scrollbar handle */
+    border-radius: 10px; /* Rounded corners for the handle */
 }
 
-/* Handle on hover */
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+/* Optional: Add hover effect */
 ::-webkit-scrollbar-thumb:hover {
-	background: #555;
+    background: #555; /* Color on hover */
 }
 
 .separator {

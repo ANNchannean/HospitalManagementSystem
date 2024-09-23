@@ -75,7 +75,7 @@ export const visitRelations = relations(visit, ({ one, many }) => ({
 	physicalExam: many(physicalExam),
 	laboratoryRequest: many(laboratoryRequest),
 	presrciption: many(presrciption),
-	service: one(service),
+	service: many(service),
 	imagerieRequest: many(imagerieRequest),
 	laboratory: one(laboratory),
 	billing: one(billing),
