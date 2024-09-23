@@ -13,9 +13,7 @@
 	let loading = false;
 	$: ({ get_product_as_service, get_visit, get_currency, charge_on_service } = data);
 	$: find_service = get_visit?.service.find((e) => e.id === service_id);
-	let total_service = 1;
-	$: total_service =
-		get_visit?.billing?.charge?.find((e) => e.charge_on === 'laboratory')?.price || 0;
+	$: total_service = get_visit?.billing?.charge?.find((e) => e.charge_on === 'service')?.price || 0;
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
@@ -51,18 +49,37 @@
 						</tr>
 					</thead>
 					<tbody class="table-sm">
-						{#each charge_on_service?.productOrder || [] as item, index (item.id)}
+						{#each get_visit?.service || [] as item, index (item.id)}
 							<tr>
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
 								<td>
 									<div>
-										<CurrencyInput
-											class="input-group input-group-sm"
-											amount={item.product?.price}
-											name="price"
-											symbol={get_currency?.currency}
-										/>
+										<form
+											data-sveltekit-keepfocus
+											on:change={(e) => e.currentTarget.requestSubmit()}
+											use:enhance={() => {
+												$globalLoading = true;
+												loading = true;
+												return async ({ update, result }) => {
+													await update({ reset: false });
+													loading = false;
+													$globalLoading = false;
+												};
+											}}
+											action="?/set_price_service"
+											method="post"
+										>
+											<CurrencyInput
+												class="input-group input-group-sm"
+												amount={charge_on_service?.productOrder.find(
+													(e) => e.product_id === item.product_id
+												)?.price}
+												name="price"
+												symbol={get_currency?.currency}
+											/>
+											<input type="hidden" name="product_id" value={item.product_id} />
+										</form>
 									</div>
 								</td>
 								<td

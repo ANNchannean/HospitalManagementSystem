@@ -10,9 +10,8 @@ import {
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
-import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
-import { updatChargeByValue } from '$lib/server/models';
+import { createProductOrder, updatChargeByValue, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -29,8 +28,8 @@ export const load = (async ({ params }) => {
 					charge: {
 						with: {
 							productOrder: {
-								with:{
-									product:true
+								with: {
+									product: true
 								}
 							}
 						}
@@ -48,12 +47,12 @@ export const load = (async ({ params }) => {
 	const get_product_as_service = await db.query.product.findMany({
 		where: eq(product.group_type_id, get_product_type?.id || 0)
 	});
-	const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service' )
+	const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
 	return {
 		get_product_as_service,
 		get_currency: get_currency,
 		get_visit: get_visit,
-		charge_on_service:charge_on_service
+		charge_on_service: charge_on_service
 	};
 }) satisfies PageServerLoad;
 
@@ -93,18 +92,12 @@ export const actions: Actions = {
 			product_id: get_product?.id,
 			visit_id: visti_id
 		});
-		await db
-			.insert(productOrder)
-			.values({
-				charge_id: charge_on_service!.id,
-				product_id: get_product!.id,
-				price: get_product?.price,
-				total: get_product?.price,
-				created_at: now_datetime()
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
+
+		await createProductOrder({
+			charge_id: charge_on_service!.id,
+			product_id: get_product!.id,
+			price: get_product?.price ?? 0
+		});
 	},
 	delete_service: async ({ request, params }) => {
 		const { id: visit_id } = params;
@@ -250,10 +243,40 @@ export const actions: Actions = {
 				}
 			}
 		});
-
 		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
 		if (charge_on_service) {
 			await updatChargeByValue(charge_on_service.id, +total_service);
+		}
+	},
+	set_price_service: async ({ request, params }) => {
+		const { id } = params;
+		const body = await request.formData();
+		const { product_id, price } = Object.fromEntries(body) as Record<string, string>;
+		const get_visit = await db.query.visit.findFirst({
+			where: eq(visit.id, +id),
+			with: {
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				}
+			}
+		});
+		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
+		const find_product_order = charge_on_service?.productOrder.find(
+			(e) => e.product_id === +product_id
+		);
+		if (find_product_order) {
+			await updateProductOrder({
+				disc: '',
+				price: +price,
+				product_order_id: find_product_order.id,
+				qty: 1
+			});
 		}
 	}
 };
