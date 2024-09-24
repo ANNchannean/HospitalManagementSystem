@@ -19,7 +19,8 @@
 
 <div style="font-size: 110%;" class="">
 	<table class="table table-bordered">
-		<thead class="table-active">``
+		<thead class="table-active"
+			>``
 			<tr class="text-center">
 				<th style="width: 5%;">ល.រ​ <br /> No. </th>
 				<th style="width: 50%;">

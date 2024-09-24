@@ -9,8 +9,8 @@
 
 <div style="font-size: 110%;" class="row invoice-info">
 	<div class=" invoice-col text-center">
-		<span class="fs-4 kh_font_muol_light ">វិក្កយបត្រ</span><br />
-		<span class="fs-5 en_font_times_new_roman ">INVOICE</span>
+		<span class="fs-4 kh_font_muol_light">វិក្កយបត្រ</span><br />
+		<span class="fs-5 en_font_times_new_roman">INVOICE</span>
 	</div>
 	<div class="">
 		<table class="table table-sm table-responsive table-borderless border">

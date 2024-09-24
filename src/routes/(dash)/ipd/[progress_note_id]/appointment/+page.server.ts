@@ -5,7 +5,6 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
-
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
 	const get_appointment = await db.query.appointment.findFirst({

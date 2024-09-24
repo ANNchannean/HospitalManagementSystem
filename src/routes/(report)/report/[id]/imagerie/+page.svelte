@@ -36,7 +36,7 @@
 <div id="pdf" class="row pt-4 justify-content-center">
 	<div style="width: 1200px;">
 		<div class="header">
-			<ClinichInfo  data={{get_clinic_info}}  />
+			<ClinichInfo data={{ get_clinic_info }} />
 			<div class="border p-2 pb-0">
 				<table class=" table table-sm table-borderless">
 					<thead class="">
