@@ -5,7 +5,7 @@ import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { fail, redirect } from '@sveltejs/kit';
-import { preBilling } from '$lib/server/models';
+import { AddBedToCharge, createProductOrder, preBilling } from '$lib/server/models';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -48,7 +48,11 @@ export const load = (async ({ url, parent }) => {
 		where: eq(visit.id, +visit_id),
 		with: {
 			vitalSign: true,
-			billing: true
+			billing: {
+				with: {
+					charge: true
+				}
+			}
 		}
 	});
 	const get_departments = await db.query.department.findMany({
@@ -121,7 +125,10 @@ export const actions: Actions = {
 			bed_id,
 			visit_id,
 			progress_note_id,
-			billing_id
+			billing_id,
+			product_id,
+			price,
+			charge_on_bed_id
 		} = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			patient_id: false,
@@ -150,8 +157,15 @@ export const actions: Actions = {
 				.catch((e) => {
 					logErrorMessage(e);
 				});
+
+			await createProductOrder({
+				charge_id: +charge_on_bed_id,
+				price: +price,
+				product_id: +product_id
+			});
 			redirect(303, `/ipd/${progress_note_id}/progress-note`);
-		} else {
+		}
+		if (!progress_note_id) {
 			const progress_note_id = await db
 				.insert(progressNote)
 				.values({
@@ -185,7 +199,13 @@ export const actions: Actions = {
 					.catch((e) => {
 						logErrorMessage(e);
 					});
-			} else {
+				await AddBedToCharge({
+					price: +price,
+					product_id: +product_id,
+					visit_id: +visit_id
+				});
+			}
+			if (!visit_id) {
 				const id: { id: number }[] = await db
 					.insert(visit)
 					.values({
@@ -210,6 +230,11 @@ export const actions: Actions = {
 						checkin_type: 'IPD',
 						patient_id: +patient_id
 					});
+					await AddBedToCharge({
+						price: +price,
+						product_id: +product_id,
+						visit_id: id[0].id
+					});
 				}
 			}
 			await preBilling({
@@ -218,6 +243,7 @@ export const actions: Actions = {
 				checkin_type: 'IPD',
 				patient_id: +patient_id
 			});
+
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);
 		}
 	}

@@ -15,7 +15,7 @@
 
 	let bed_id: number = get_progress_note?.bed.id || 0;
 
-	$: find_bed = get_beds.find((e) => e.id === bed_id);
+	$: find_bed = get_beds?.find((e) => e.id === bed_id);
 </script>
 
 <AddBedToIpd bind:bed_id data={{ get_progress_notes, get_wards }} />
@@ -71,6 +71,8 @@
 			<input value={get_progress_note?.bed_id ?? ''} type="hidden" name="old_bed_id" />
 		{/if}
 		<input value={bed_id} type="hidden" name="bed_id" />
+		<input value={find_bed?.room?.product_id} type="hidden" name="product_id" />
+		<input value={find_bed?.room?.product?.price} type="hidden" name="price" />
 		<input value={get_patient?.id} type="hidden" name="patient_id" />
 		<input value={get_visit?.id ?? ''} type="hidden" name="visit_id" />
 		<input value={get_visit?.billing?.id ?? ''} type="hidden" name="billing_id" />

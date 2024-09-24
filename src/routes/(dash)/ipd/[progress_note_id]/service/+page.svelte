@@ -1,19 +1,25 @@
 <script lang="ts">
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { enhance } from '$app/forms';
+	import type { ActionData, PageServerData } from './$types';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import { browser } from '$app/environment';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
-	import type { PageServerData } from './$types';
+	import { globalLoading } from '$lib/store';
+	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
+	import Athtml from '$lib/coms/Athtml.svelte';
+	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
-	$: ({ get_product_as_service, get_services } = data);
-	$: find_service = get_services.find((e) => e.id === service_id);
+	$: ({ get_product_as_service, get_progress_note, get_currency, charge_on_service } = data);
+	$: find_service = get_progress_note?.service.find((e) => e.id === service_id);
+	$: total_service =
+		get_progress_note?.billing?.charge?.find((e) => e.charge_on === 'service')?.price || 0;
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
-
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -35,22 +41,50 @@
 				</div>
 			</div>
 			<div class="card-body table-responsive p-0">
-				<table class="table table-head-fixed table-hover text-nowrap table-valign-middle">
+				<table class="table table-sm">
 					<thead class="">
 						<tr>
-							<th>N</th>
-							<th>Service Item</th>
-							<th>Price</th>
-							<th>Operative Protocol</th>
-							<th></th>
+							<th style="width: 5%;">N</th>
+							<th style="width: 50%;">Service Item</th>
+							<th style="width: 15%;">Price</th>
+							<th style="width: 15%;">Operative Protocol</th>
+							<th style="width: 15%;"></th>
 						</tr>
 					</thead>
 					<tbody class="table-sm">
-						{#each get_services as item, index}
-							<tr>
+						{#each get_progress_note?.service || [] as item, index (item.id)}
+							<tr class="table-active">
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
-								<td>{item.product?.price ?? ''}</td>
+								<td>
+									<fieldset disabled={get_progress_note?.billing?.status !== 'active'}>
+										<form
+											data-sveltekit-keepfocus
+											on:change={(e) => e.currentTarget.requestSubmit()}
+											use:enhance={() => {
+												$globalLoading = true;
+												loading = true;
+												return async ({ update, result }) => {
+													await update({ reset: false });
+													loading = false;
+													$globalLoading = false;
+												};
+											}}
+											action="?/set_price_service"
+											method="post"
+										>
+											<CurrencyInput
+												class="input-group input-group-sm"
+												amount={charge_on_service?.productOrder.find(
+													(e) => e.product_id === item.product_id
+												)?.price}
+												name="price"
+												symbol={get_currency?.currency}
+											/>
+											<input type="hidden" name="product_id" value={item.product_id} />
+										</form>
+									</fieldset>
+								</td>
 								<td
 									><button
 										on:click={() => {
@@ -80,6 +114,87 @@
 											><i class="fa-solid fa-trash-can"></i>
 										</a>
 									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="5">
+									<table class="table table-sm">
+										<tbody>
+											<tr>
+												<td style="width: 12.5%;">Surgeon</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.surgeon} </td>
+
+												<td style="width: 12.5%;">Scrub Nurse</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.scrub_nurse} </td>
+
+												<td style="width: 12.5%;">Start Time</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.start_time} </td>
+
+												<td style="width: 12.5%;">Type Anesthesia</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.type_anesthesia} </td>
+											</tr>
+											<tr>
+												<td style="width: 12.5%;">Assistant Surgeon</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.assistant_surgeon} </td>
+
+												<td style="width: 12.5%;">Circulation Nurse block</td>
+												<td>:</td>
+												<td style="width: 12.5%;">
+													{item.operationProtocol?.cirulating_nurse_block}
+												</td>
+												<td style="width: 12.5%;">Finish Time</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.finish_time} </td>
+
+												<td style="width: 12.5%;">Opertive Technique</td>
+												<td>:</td>
+												<td style="width: 12.5%;">
+													<Athtml html={item.operationProtocol?.opertive_technique ?? ''} />
+												</td>
+											</tr>
+											<tr class="">
+												<td style="width: 12.5%;">Anesthetist</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.anesthetist} </td>
+
+												<td style="width: 12.5%;">Midwife</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.midwife} </td>
+
+												<td style="width: 12.5%;">Pre Diagnosis</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.pre_diagnosis} </td>
+
+												<td style="width: 12.5%;">Blood Less</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.blood_less} </td>
+											</tr>
+											<tr>
+												<td style="width: 12.5%;">Assistant Anesthetist</td>
+												<td>:</td>
+												<td style="width: 12.5%;">
+													{item.operationProtocol?.assistant_anesthetist}
+												</td>
+
+												<td style="width: 12.5%;">Dates</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.date} </td>
+												<td style="width: 12.5%;">Post Diagnosis</td>
+												<td>:</td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.post_diagnosis} </td>
+												<td style="width: 12.5%;">Notes</td>
+												<td>:</td>
+												<td style="width: 12.5%;">
+													<Athtml html={item.operationProtocol?.notes ?? ''} />
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</td>
 							</tr>
 						{/each}
@@ -354,50 +469,82 @@
 <!-- @_Modal  Service -->
 <div class="modal fade" id="create_service_operation" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
-		<form
-			action="?/create_service_operation"
-			method="post"
-			use:enhance={() => {
-				loading = true;
-				return async ({ update, result }) => {
-					await update();
-					loading = false;
-					if (result.type !== 'failure') {
-						document.getElementById('close_create_service_operation')?.click();
-					}
-				};
-			}}
-			class="modal-content"
-		>
-			<div class="modal-header">
-				<h4 class="modal-title">Service</h4>
-				<button
-					id="close_create_service_operation"
-					type="button"
-					class="btn-close"
-					data-bs-dismiss="modal"
-					aria-label="Close"
-				>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="card-body pt-0">
-					<div class="row">
-						<div class="col-12">
-							<div class="form-group">
-								<label for="product_id">Service Item</label>
-								<Select
-									name="product_id"
-									items={get_product_as_service.map((e) => ({ id: e.id, name: e.products }))}
-								/>
+		<fieldset disabled={get_progress_note?.billing?.status !== 'active'}>
+			<form
+				action="?/create_service_operation"
+				method="post"
+				use:enhance={() => {
+					loading = true;
+					return async ({ update, result }) => {
+						await update();
+						loading = false;
+						if (result.type !== 'failure') {
+							document.getElementById('close_create_service_operation')?.click();
+						}
+					};
+				}}
+				class="modal-content"
+			>
+				<div class="modal-header">
+					<h4 class="modal-title">Service</h4>
+					<button
+						id="close_create_service_operation"
+						type="button"
+						class="btn-close"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="card-body pt-0">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<label for="product_id">Service Item</label>
+									<Select
+										name="product_id"
+										items={get_product_as_service.map((e) => ({ id: e.id, name: e.products }))}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer justify-content-end">
-				<SubmitButton {loading} />
-			</div>
-		</form>
+				<div class="modal-footer justify-content-end">
+					<SubmitButton {loading} />
+				</div>
+			</form>
+		</fieldset>
 	</div>
 </div>
+<fieldset disabled={get_progress_note?.billing?.status !== 'active'}>
+	<form
+		method="post"
+		use:enhance={() => {
+			loading = true;
+			$globalLoading = true;
+			return async ({ update }) => {
+				await update({ invalidateAll: true, reset: false });
+				loading = false;
+				$globalLoading = false;
+			};
+		}}
+		action="?/update_total_service"
+		class="card-footer row p-2 bg-light sticky-bottom"
+	>
+		<div class="col text-end">
+			<button type="button" class="btn btn-warning">Total Service</button>
+		</div>
+		<div class="col-auto">
+			<CurrencyInput
+				name="total_service"
+				symbol={get_currency?.currency_symbol}
+				amount={total_service}
+			/>
+		</div>
+		<div class="col-auto">
+			<SubmitButton {loading} />
+		</div>
+	</form>
+</fieldset>

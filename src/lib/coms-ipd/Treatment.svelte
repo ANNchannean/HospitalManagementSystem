@@ -16,6 +16,11 @@
 		find_old_visit?.billing?.charge.find((e) => e.charge_on === 'imagerie')?.price || 0;
 	$: total_prescription =
 		find_old_visit?.billing?.charge.find((e) => e.charge_on === 'prescription')?.price || 0;
+	$: total_service =
+		find_old_visit?.billing?.charge.find((e) => e.charge_on === 'service')?.price || 0;
+	$: total_bed = find_old_visit?.billing?.charge.find((e) => e.charge_on === 'bed')?.price || 0;
+	$: total_vaccine =
+		find_old_visit?.billing?.charge.find((e) => e.charge_on === 'vaccine')?.price || 0;
 </script>
 
 <div>
@@ -123,7 +128,7 @@
 					<thead>
 						{#if total_laboratory}
 							<tr>
-								<td>Total Laboratory </td>
+								<td>Laboratory </td>
 								<td>:</td>
 								<td>
 									<Currency amount={total_laboratory} symbol={get_currency?.currency_symbol} />
@@ -132,7 +137,7 @@
 						{/if}
 						{#if total_imagerie}
 							<tr>
-								<td>Total Imagrie </td>
+								<td>Imagrie </td>
 								<td>:</td>
 								<td>
 									<Currency amount={total_imagerie} symbol={get_currency?.currency_symbol} />
@@ -141,10 +146,37 @@
 						{/if}
 						{#if total_prescription}
 							<tr>
-								<td>Total Treatment </td>
+								<td>Treatment </td>
 								<td>:</td>
 								<td>
 									<Currency amount={total_prescription} symbol={get_currency?.currency_symbol} />
+								</td>
+							</tr>
+						{/if}
+						{#if total_service}
+							<tr>
+								<td>Service </td>
+								<td>:</td>
+								<td>
+									<Currency amount={total_service} symbol={get_currency?.currency_symbol} />
+								</td>
+							</tr>
+						{/if}
+						{#if total_vaccine}
+							<tr>
+								<td>Vaccine </td>
+								<td>:</td>
+								<td>
+									<Currency amount={total_vaccine} symbol={get_currency?.currency_symbol} />
+								</td>
+							</tr>
+						{/if}
+						{#if total_bed}
+							<tr>
+								<td>Bed </td>
+								<td>:</td>
+								<td>
+									<Currency amount={total_bed} symbol={get_currency?.currency_symbol} />
 								</td>
 							</tr>
 						{/if}
@@ -153,7 +185,12 @@
 							<td>:</td>
 							<td>
 								<Currency
-									amount={total_prescription + total_imagerie + total_laboratory}
+									amount={total_prescription +
+										total_imagerie +
+										total_laboratory +
+										total_service +
+										total_vaccine +
+										total_bed}
 									symbol={get_currency?.currency_symbol}
 								/>
 							</td>

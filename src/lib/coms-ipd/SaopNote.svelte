@@ -52,7 +52,7 @@
 					{/if}
 					{#if find_old_visit?.vitalSign?.t}
 						<tr>
-							<td style="width: 40%;">Temperature °C/td </td>
+							<td style="width: 40%;">Temperature °C</td>
 							<td style="width: 5%;">:</td>
 							<td style="width: 55%;"
 								><Athtml
@@ -226,193 +226,184 @@
 			<Renderhtml value={find_old_visit?.remark?.description ?? ''} />
 		</div>
 	{/if}
-	{#if find_old_visit?.service}
+	{#if find_old_visit?.service.length}
 		<button class="btn btn-success btn-sm mb-2 py-0">Service</button>
 	{/if}
-	{#if find_old_visit?.service}
-		<div class="border rounded border-1 p-2 mb-2">
-			<span class="fs-6 text-decoration-underline text-primary"
-				>{find_old_visit?.service.product?.products ?? ''}</span
-			>
-			<table class="table">
-				<thead>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Surgeon</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class="">{find_old_visit?.service.operationProtocol?.surgeon ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Assistant Surgeon</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class=""
-								>{find_old_visit?.service.operationProtocol?.assistant_surgeon ?? ''}</span
-							>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Anesthetist</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class="">{find_old_visit?.service.operationProtocol?.anesthetist ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Assistant Anesthetist</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class=""
-								>{find_old_visit?.service.operationProtocol?.assistant_anesthetist ?? ''}</span
-							>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Scrub Nurse</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class="">{find_old_visit?.service.operationProtocol?.scrub_nurse ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Circulation / Nurse block</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class=""
-								>{find_old_visit?.service.operationProtocol?.cirulating_nurse_block ?? ''}</span
-							>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Midwife</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span class="">{find_old_visit?.service.operationProtocol?.midwife ?? ''}</span>
-						</td>
-					</tr>
-					{#if find_old_visit?.service.operationProtocol?.date}
+	{#if find_old_visit?.service.length}
+		{#each find_old_visit.service || [] as item (item.id)}
+			<div class="border rounded border-1 p-2 mb-2">
+				<span class="fs-6 text-decoration-underline text-primary"
+					>{item.product?.products ?? ''}</span
+				>
+				<table class="table">
+					<thead>
 						<tr>
 							<td style="width: 40%;">
-								<span class="">Dates</span>
+								<span class="">Surgeon</span>
 							</td>
 							<td style="width: 5%;">:</td>
 							<td style="width:50%;">
-								<span class="">
-									<DateTimeFormat
-										timeStyle={false}
-										date={find_old_visit?.service.operationProtocol.date}
+								<span class="">{item?.operationProtocol?.surgeon ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Assistant Surgeon</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span class="">{item?.operationProtocol?.assistant_surgeon ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Anesthetist</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span class="">{item?.operationProtocol?.anesthetist ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Assistant Anesthetist</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span class="">{item?.operationProtocol?.assistant_anesthetist ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Scrub Nurse</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span class="">{item?.operationProtocol?.scrub_nurse ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Circulation / Nurse block</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span class="">{item?.operationProtocol?.cirulating_nurse_block ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Midwife</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span class="">{item?.operationProtocol?.midwife ?? ''}</span>
+							</td>
+						</tr>
+						{#if item?.operationProtocol?.date}
+							<tr>
+								<td style="width: 40%;">
+									<span class="">Dates</span>
+								</td>
+								<td style="width: 5%;">:</td>
+								<td style="width:50%;">
+									<span class="">
+										<DateTimeFormat timeStyle={false} date={item?.operationProtocol.date} />
+									</span>
+								</td>
+							</tr>
+						{/if}
+						{#if item?.operationProtocol?.start_time}
+							<tr>
+								<td style="width: 40%;">
+									<span class="">StartTime</span>
+								</td>
+								<td style="width: 5%;">:</td>
+								<td style="width:50%;">
+									<input
+										class="text-bg-danger"
+										disabled
+										type="time"
+										name=""
+										value={item?.operationProtocol?.start_time.substring(0, 5)}
+										id=""
 									/>
-								</span>
-							</td>
-						</tr>
-					{/if}
-					{#if find_old_visit?.service.operationProtocol?.start_time}
+								</td>
+							</tr>
+						{/if}
+						{#if item?.operationProtocol?.finish_time}
+							<tr>
+								<td style="width: 40%;">
+									<span class="">FinishTime</span>
+								</td>
+								<td style="width: 5%;">:</td>
+								<td style="width:50%;">
+									<input
+										disabled
+										class="text-bg-primary"
+										type="time"
+										name=""
+										value={item?.operationProtocol?.finish_time.substring(0, 5)}
+										id=""
+									/>
+								</td>
+							</tr>
+						{/if}
 						<tr>
 							<td style="width: 40%;">
-								<span class="">StartTime</span>
+								<span class="">Pre-Diagnosis</span>
 							</td>
 							<td style="width: 5%;">:</td>
 							<td style="width:50%;">
-								<input
-									class="text-bg-danger"
-									disabled
-									type="time"
-									name=""
-									value={find_old_visit?.service.operationProtocol?.start_time.substring(0, 5)}
-									id=""
-								/>
+								<span>{item?.operationProtocol?.pre_diagnosis ?? ''}</span>
 							</td>
 						</tr>
-					{/if}
-					{#if find_old_visit?.service.operationProtocol?.finish_time}
 						<tr>
 							<td style="width: 40%;">
-								<span class="">FinishTime</span>
+								<span class="">Post Diagnosis</span>
 							</td>
 							<td style="width: 5%;">:</td>
 							<td style="width:50%;">
-								<input
-									disabled
-									class="text-bg-primary"
-									type="time"
-									name=""
-									value={find_old_visit?.service.operationProtocol?.finish_time.substring(0, 5)}
-									id=""
-								/>
+								<span>{item?.operationProtocol?.post_diagnosis ?? ''}</span>
 							</td>
 						</tr>
-					{/if}
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Pre-Diagnosis</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span>{find_old_visit?.service.operationProtocol?.pre_diagnosis ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Post Diagnosis</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span>{find_old_visit?.service.operationProtocol?.post_diagnosis ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Type Anesthesia</span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span>{find_old_visit?.service.operationProtocol?.type_anesthesia ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" class="text-wrap" style="width: 100%;">
-							<div>
-								<span class="">Opertive Technique</span>
-								<Renderhtml
-									value={find_old_visit?.service.operationProtocol?.opertive_technique ?? ''}
-								/>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 40%;">
-							<span class="">Blood Less </span>
-						</td>
-						<td style="width: 5%;">:</td>
-						<td style="width:50%;">
-							<span>{find_old_visit?.service.operationProtocol?.blood_less ?? ''}</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" class="text-wrap" style="min-width: 100%;">
-							<div>
-								<span class="">Notes</span>
-								<Renderhtml value={find_old_visit?.service.operationProtocol?.notes ?? ''} />
-							</div>
-						</td>
-					</tr>
-				</thead>
-			</table>
-		</div>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Type Anesthesia</span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span>{item?.operationProtocol?.type_anesthesia ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" class="text-wrap" style="width: 100%;">
+								<div>
+									<span class="">Opertive Technique</span>
+									<Renderhtml value={item?.operationProtocol?.opertive_technique ?? ''} />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 40%;">
+								<span class="">Blood Less </span>
+							</td>
+							<td style="width: 5%;">:</td>
+							<td style="width:50%;">
+								<span>{item?.operationProtocol?.blood_less ?? ''}</span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" class="text-wrap" style="min-width: 100%;">
+								<div>
+									<span class="">Notes</span>
+									<Renderhtml value={item?.operationProtocol?.notes ?? ''} />
+								</div>
+							</td>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		{/each}
 	{/if}
 </div>

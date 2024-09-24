@@ -6,3 +6,4 @@ export * from './prePOS';
 export * from './updatChargeByValue';
 export * from './updateCharge';
 export * from './updateProductOrder';
+export * from './AddBedToCharge';

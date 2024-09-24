@@ -3,6 +3,7 @@ import {
 	operationProtocol,
 	product,
 	productGroupType,
+	productOrder,
 	progressNote,
 	service
 } from '$lib/server/schemas';
@@ -10,6 +11,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
+import { createProductOrder, updatChargeByValue, updateProductOrder } from '$lib/server/models';
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
 	const get_product_type = await db.query.productGroupType.findFirst({
@@ -18,16 +20,35 @@ export const load = (async ({ params }) => {
 	const get_product_as_service = await db.query.product.findMany({
 		where: eq(product.group_type_id, get_product_type?.id || 0)
 	});
-	const get_services = await db.query.service.findMany({
-		where: eq(service.progress_note_id, +progress_note_id),
+	const get_progress_note = await db.query.progressNote.findFirst({
+		where: eq(progressNote.id, +progress_note_id),
 		with: {
-			product: true,
-			operationProtocol: true
+			billing: {
+				with: {
+					charge: {
+						with: {
+							productOrder: true
+						}
+					}
+				}
+			},
+			service: {
+				with: {
+					product: true,
+					operationProtocol: true
+				}
+			}
 		}
 	});
+	const charge_on_service = get_progress_note?.billing?.charge.find(
+		(e) => e.charge_on === 'service'
+	);
+	const get_currency = await db.query.currency.findFirst({});
 	return {
 		get_product_as_service,
-		get_services: get_services
+		get_progress_note: get_progress_note,
+		charge_on_service: charge_on_service,
+		get_currency: get_currency
 	};
 }) satisfies PageServerLoad;
 
@@ -41,20 +62,76 @@ export const actions: Actions = {
 		const get_progress_note = await db.query.progressNote.findFirst({
 			where: eq(progressNote.id, +progress_note_id),
 			with: {
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
 				service: true
 			}
 		});
+		if (get_progress_note?.service.find((e) => e.product_id === +product_id)) {
+			return fail(400, { errId: true });
+		}
+		const charge_on_service = get_progress_note?.billing?.charge.find(
+			(e) => e.charge_on === 'service'
+		);
 		await db.insert(service).values({
 			product_id: get_product?.id,
-			progress_note_id: +progress_note_id
+			progress_note_id: get_progress_note!.id
 		});
-		if (get_progress_note?.service.some((e) => e.product_id === +product_id))
-			return fail(400, { errId: true });
+
+		await createProductOrder({
+			charge_id: charge_on_service!.id,
+			product_id: get_product!.id,
+			price: get_product?.price ?? 0
+		});
 	},
-	delete_service: async ({ request }) => {
+	delete_service: async ({ request, params }) => {
+		const { progress_note_id } = params;
 		const body = await request.formData();
 		const { id } = Object.fromEntries(body) as Record<string, string>;
 		if (!id) return fail(400, { errId: true });
+		const get_progress_note = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +progress_note_id),
+			with: {
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
+				service: true
+			}
+		});
+
+		const get_services = await db.query.service.findFirst({
+			where: eq(service.id, +id),
+			with: {
+				product: true
+			}
+		});
+		const charge_on_service = get_progress_note?.billing?.charge.find(
+			(e) => e.charge_on === 'service'
+		);
+		const get_product_order = charge_on_service?.productOrder.find(
+			(e) => e.product_id === get_services?.product_id
+		);
+		if (get_product_order) {
+			await db
+				.delete(productOrder)
+				.where(eq(productOrder.id, get_product_order!.id))
+				.catch((e) => {
+					logErrorMessage(e);
+				});
+		}
 		await db
 			.delete(service)
 			.where(eq(service.id, +id))
@@ -137,6 +214,66 @@ export const actions: Actions = {
 				.catch((e) => {
 					logErrorMessage(e);
 				});
+		}
+	},
+	update_total_service: async ({ request, params }) => {
+		const { progress_note_id } = params;
+		const body = await request.formData();
+		const { total_service } = Object.fromEntries(body) as Record<string, string>;
+		const get_progress_note = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +progress_note_id),
+			with: {
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
+				service: true
+			}
+		});
+		const charge_on_service = get_progress_note?.billing?.charge.find(
+			(e) => e.charge_on === 'service'
+		);
+		if (charge_on_service) {
+			await updatChargeByValue(charge_on_service.id, +total_service);
+		}
+	},
+	set_price_service: async ({ request, params }) => {
+		const { progress_note_id } = params;
+		const body = await request.formData();
+		const { product_id, price } = Object.fromEntries(body) as Record<string, string>;
+		const get_progress_note = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +progress_note_id),
+			with: {
+				billing: {
+					with: {
+						charge: {
+							with: {
+								productOrder: true
+							}
+						}
+					}
+				},
+				service: true
+			}
+		});
+		const charge_on_service = get_progress_note?.billing?.charge.find(
+			(e) => e.charge_on === 'service'
+		);
+		const find_product_order = charge_on_service?.productOrder.find(
+			(e) => e.product_id === +product_id
+		);
+		if (find_product_order) {
+			await updateProductOrder({
+				disc: '',
+				price: +price,
+				product_order_id: find_product_order.id,
+				qty: 1
+			});
 		}
 	}
 };

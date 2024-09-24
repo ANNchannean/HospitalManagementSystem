@@ -54,7 +54,7 @@
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
 								<td>
-									<div>
+									<fieldset disabled={get_visit?.billing?.status !== 'active'}>
 										<form
 											data-sveltekit-keepfocus
 											on:change={(e) => e.currentTarget.requestSubmit()}
@@ -80,7 +80,7 @@
 											/>
 											<input type="hidden" name="product_id" value={item.product_id} />
 										</form>
-									</div>
+									</fieldset>
 								</td>
 								<td
 									><button
@@ -385,78 +385,82 @@
 <!-- @_Modal  Service -->
 <div class="modal fade" id="create_service_operation" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
-		<form
-			action="?/create_service_operation"
-			method="post"
-			use:enhance={() => {
-				loading = true;
-				return async ({ update, result }) => {
-					await update();
-					loading = false;
-					if (result.type !== 'failure') {
-						document.getElementById('close_create_service_operation')?.click();
-					}
-				};
-			}}
-			class="modal-content"
-		>
-			<div class="modal-header">
-				<h4 class="modal-title">Service</h4>
-				<button
-					id="close_create_service_operation"
-					type="button"
-					class="btn-close"
-					data-bs-dismiss="modal"
-					aria-label="Close"
-				>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="card-body pt-0">
-					<div class="row">
-						<div class="col-12">
-							<div class="form-group">
-								<label for="product_id">Service Item</label>
-								<Select
-									name="product_id"
-									items={get_product_as_service.map((e) => ({ id: e.id, name: e.products }))}
-								/>
+		<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+			<form
+				action="?/create_service_operation"
+				method="post"
+				use:enhance={() => {
+					loading = true;
+					return async ({ update, result }) => {
+						await update();
+						loading = false;
+						if (result.type !== 'failure') {
+							document.getElementById('close_create_service_operation')?.click();
+						}
+					};
+				}}
+				class="modal-content"
+			>
+				<div class="modal-header">
+					<h4 class="modal-title">Service</h4>
+					<button
+						id="close_create_service_operation"
+						type="button"
+						class="btn-close"
+						data-bs-dismiss="modal"
+						aria-label="Close"
+					>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="card-body pt-0">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<label for="product_id">Service Item</label>
+									<Select
+										name="product_id"
+										items={get_product_as_service.map((e) => ({ id: e.id, name: e.products }))}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer justify-content-end">
-				<SubmitButton {loading} />
-			</div>
-		</form>
+				<div class="modal-footer justify-content-end">
+					<SubmitButton {loading} />
+				</div>
+			</form>
+		</fieldset>
 	</div>
 </div>
-<form
-	method="post"
-	use:enhance={() => {
-		loading = true;
-		$globalLoading = true;
-		return async ({ update }) => {
-			await update({ invalidateAll: true, reset: false });
-			loading = false;
-			$globalLoading = false;
-		};
-	}}
-	action="?/update_total_service"
-	class="card-footer row p-2 bg-light sticky-bottom"
->
-	<div class="col text-end">
-		<button type="button" class="btn btn-warning">Total Service</button>
-	</div>
-	<div class="col-auto">
-		<CurrencyInput
-			name="total_service"
-			symbol={get_currency?.currency_symbol}
-			amount={total_service}
-		/>
-	</div>
-	<div class="col-auto">
-		<SubmitButton {loading} />
-	</div>
-</form>
+<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+	<form
+		method="post"
+		use:enhance={() => {
+			loading = true;
+			$globalLoading = true;
+			return async ({ update }) => {
+				await update({ invalidateAll: true, reset: false });
+				loading = false;
+				$globalLoading = false;
+			};
+		}}
+		action="?/update_total_service"
+		class="card-footer row p-2 bg-light sticky-bottom"
+	>
+		<div class="col text-end">
+			<button type="button" class="btn btn-warning">Total Service</button>
+		</div>
+		<div class="col-auto">
+			<CurrencyInput
+				name="total_service"
+				symbol={get_currency?.currency_symbol}
+				amount={total_service}
+			/>
+		</div>
+		<div class="col-auto">
+			<SubmitButton {loading} />
+		</div>
+	</form>
+</fieldset>
