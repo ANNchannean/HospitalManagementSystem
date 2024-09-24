@@ -80,6 +80,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const charge_on_service = get_billing?.charge.find((e) => e.charge_on === 'service');
 	const charge_on_prescription = get_billing?.charge.find((e) => e.charge_on === 'prescription');
 	const charge_on_vaccine = get_billing?.charge.find((e) => e.charge_on === 'vaccine');
+	const charge_on_bed = get_billing?.charge.find((e) => e.charge_on === 'bed');
 	return {
 		get_products,
 		get_product_group_type,
@@ -92,7 +93,8 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_payment_types,
 		charge_on_vaccine,
 		get_currency,
-		get_billings_due
+		get_billings_due,
+		charge_on_bed
 	};
 };
 

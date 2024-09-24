@@ -14,6 +14,7 @@
 		| 'charge_on_vaccine'
 		| 'get_billing'
 		| 'get_currency'
+		| 'charge_on_bed'
 	>;
 	export let data: Data;
 	$: ({
@@ -24,7 +25,8 @@
 		charge_on_service,
 		get_billing,
 		get_currency,
-		charge_on_vaccine
+		charge_on_vaccine,
+		charge_on_bed
 	} = data);
 </script>
 
@@ -349,3 +351,4 @@
 		</tr>
 	{/each}
 {/if}
+

@@ -92,7 +92,6 @@ export const actions: Actions = {
 			product_id: get_product?.id,
 			visit_id: visti_id
 		});
-
 		await createProductOrder({
 			charge_id: charge_on_service!.id,
 			product_id: get_product!.id,

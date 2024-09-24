@@ -123,33 +123,37 @@
 											<tr>
 												<td style="width: 12.5%;">Surgeon</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.surgeon} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.surgeon ?? ''} </td>
 
 												<td style="width: 12.5%;">Scrub Nurse</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.scrub_nurse} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.scrub_nurse ?? ''} </td>
 
 												<td style="width: 12.5%;">Start Time</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.start_time} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.start_time ?? ''} </td>
 
 												<td style="width: 12.5%;">Type Anesthesia</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.type_anesthesia} </td>
+												<td style="width: 12.5%;">
+													{item.operationProtocol?.type_anesthesia ?? ''}
+												</td>
 											</tr>
 											<tr>
 												<td style="width: 12.5%;">Assistant Surgeon</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.assistant_surgeon} </td>
+												<td style="width: 12.5%;">
+													{item.operationProtocol?.assistant_surgeon ?? ''}
+												</td>
 
 												<td style="width: 12.5%;">Circulation Nurse block</td>
 												<td>:</td>
 												<td style="width: 12.5%;">
-													{item.operationProtocol?.cirulating_nurse_block}
+													{item.operationProtocol?.cirulating_nurse_block ?? ''}
 												</td>
 												<td style="width: 12.5%;">Finish Time</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.finish_time} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.finish_time ?? ''} </td>
 
 												<td style="width: 12.5%;">Opertive Technique</td>
 												<td>:</td>
@@ -160,33 +164,37 @@
 											<tr class="">
 												<td style="width: 12.5%;">Anesthetist</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.anesthetist} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.anesthetist ?? ''} </td>
 
 												<td style="width: 12.5%;">Midwife</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.midwife} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.midwife ?? ''} </td>
 
 												<td style="width: 12.5%;">Pre Diagnosis</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.pre_diagnosis} </td>
+												<td style="width: 12.5%;">
+													{item.operationProtocol?.pre_diagnosis ?? ''}
+												</td>
 
 												<td style="width: 12.5%;">Blood Less</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.blood_less} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.blood_less ?? ''} </td>
 											</tr>
 											<tr>
 												<td style="width: 12.5%;">Assistant Anesthetist</td>
 												<td>:</td>
 												<td style="width: 12.5%;">
-													{item.operationProtocol?.assistant_anesthetist}
+													{item.operationProtocol?.assistant_anesthetist ?? ''}
 												</td>
 
 												<td style="width: 12.5%;">Dates</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.date} </td>
+												<td style="width: 12.5%;"> {item.operationProtocol?.date ?? ''} </td>
 												<td style="width: 12.5%;">Post Diagnosis</td>
 												<td>:</td>
-												<td style="width: 12.5%;"> {item.operationProtocol?.post_diagnosis} </td>
+												<td style="width: 12.5%;">
+													{item.operationProtocol?.post_diagnosis ?? ''}
+												</td>
 												<td style="width: 12.5%;">Notes</td>
 												<td>:</td>
 												<td style="width: 12.5%;">

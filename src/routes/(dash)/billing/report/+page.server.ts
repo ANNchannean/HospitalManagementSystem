@@ -25,73 +25,82 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 		| 'process';
 	if (start || end || patient_id || status || billing_type) p = true;
 
-	const get_currency = await db.query.currency.findFirst({});
-	const get_billings = await db.query.billing.findMany({
-		where: p
-			? and(
-					status ? eq(billing.status, status) : undefined,
-					patient_id ? eq(billing.patient_id, patient_id) : undefined,
-					start && end ? between(billing.created_at, start, end) : undefined,
-					billing_type ? eq(billing.checkin_type, billing_type) : undefined,
-					gt(billing.total, 0)
-				)
-			: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
-		with: {
-			patient: {
-				with: {
-					commune: true,
-					district: true,
-					provice: true,
-					village: true
-				}
-			},
-			visit: {
-				with: {
-					patient: {
-						with: {
-							commune: true,
-							district: true,
-							provice: true,
-							village: true
+	const _currency = () => db.query.currency.findFirst({});
+	const _billings = () =>
+		db.query.billing.findMany({
+			where: p
+				? and(
+						status ? eq(billing.status, status) : undefined,
+						patient_id ? eq(billing.patient_id, patient_id) : undefined,
+						start && end ? between(billing.created_at, start, end) : undefined,
+						billing_type ? eq(billing.checkin_type, billing_type) : undefined,
+						gt(billing.total, 0)
+					)
+				: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
+			with: {
+				patient: {
+					with: {
+						commune: true,
+						district: true,
+						provice: true,
+						village: true
+					}
+				},
+				visit: {
+					with: {
+						patient: {
+							with: {
+								commune: true,
+								district: true,
+								provice: true,
+								village: true
+							}
+						},
+						staff: true,
+						department: true
+					}
+				},
+				charge: {
+					with: {
+						productOrder: {
+							with: {
+								product: true
+							}
 						}
-					},
-					staff: true,
-					department: true
-				}
-			},
-			charge: {
-				with: {
-					productOrder: {
-						with: {
-							product: true
-						}
+					}
+				},
+				payment: {
+					with: {
+						paymentType: true,
+						fileOrPicture: true
 					}
 				}
 			},
-			payment: {
-				with: {
-					paymentType: true,
-					fileOrPicture: true
-				}
-			}
-		},
-		orderBy: desc(billing.created_at),
-		limit: pagination(page, limit).limit,
-		offset: pagination(page, limit).offset
-	});
-	const items = await db.query.billing.findMany({
-		where: p
-			? and(
-					status ? eq(billing.status, status) : undefined,
-					patient_id ? eq(billing.patient_id, patient_id) : undefined,
-					start && end ? between(billing.created_at, start, end) : undefined,
-					billing_type ? eq(billing.checkin_type, billing_type) : undefined,
-					gt(billing.total, 0)
-				)
-			: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
-	});
-	const get_payment_types = await db.query.paymentType.findMany();
-	const get_patients = await db.query.patient.findMany({});
+			orderBy: desc(billing.created_at),
+			limit: pagination(page, limit).limit,
+			offset: pagination(page, limit).offset
+		});
+	const _items = () =>
+		db.query.billing.findMany({
+			where: p
+				? and(
+						status ? eq(billing.status, status) : undefined,
+						patient_id ? eq(billing.patient_id, patient_id) : undefined,
+						start && end ? between(billing.created_at, start, end) : undefined,
+						billing_type ? eq(billing.checkin_type, billing_type) : undefined,
+						gt(billing.total, 0)
+					)
+				: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
+		});
+	const _payment_types = () => db.query.paymentType.findMany();
+	const _patients = () => db.query.patient.findMany({});
+	const [get_currency, get_billings, items, get_payment_types, get_patients] = await Promise.all([
+		_currency(),
+		_billings(),
+		_items(),
+		_payment_types(),
+		_patients()
+	]);
 	return {
 		get_billings,
 		get_payment_types,

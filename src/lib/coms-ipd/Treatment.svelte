@@ -109,7 +109,7 @@
 			{/if}
 		</div>
 	{/each}
-	{#if total_imagerie || total_laboratory || total_prescription}
+	{#if total_imagerie || total_laboratory || total_prescription || total_bed || total_vaccine || total_service}
 		<div class="card">
 			<div class="card-header">
 				<div class="row">

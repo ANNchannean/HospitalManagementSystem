@@ -37,7 +37,7 @@ export const preBilling = async ({
 			return [];
 		});
 	await Promise.all([
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -47,7 +47,7 @@ export const preBilling = async ({
 			.catch((e) => {
 				logErrorMessage(e);
 			}),
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -57,7 +57,7 @@ export const preBilling = async ({
 			.catch((e) => {
 				logErrorMessage(e);
 			}),
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -67,7 +67,7 @@ export const preBilling = async ({
 			.catch((e) => {
 				logErrorMessage(e);
 			}),
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -77,7 +77,7 @@ export const preBilling = async ({
 			.catch((e) => {
 				logErrorMessage(e);
 			}),
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -87,7 +87,7 @@ export const preBilling = async ({
 			.catch((e) => {
 				logErrorMessage(e);
 			}),
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -97,7 +97,7 @@ export const preBilling = async ({
 			.catch((e) => {
 				logErrorMessage(e);
 			}),
-		await db
+		db
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,

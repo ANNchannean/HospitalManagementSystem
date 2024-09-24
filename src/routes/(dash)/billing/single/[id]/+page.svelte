@@ -20,6 +20,7 @@
 	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
+	import ChargeBed from '$lib/coms-billing/ChargeBed.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -34,18 +35,10 @@
 		get_currency,
 		charge_on_vaccine,
 		get_payment_types,
-		get_billings_due
+		get_billings_due,
+		charge_on_bed
 	} = data);
 
-	let timeout: number | NodeJS.Timeout;
-	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
-		clearTimeout(timeout);
-		const form = currentTarget?.form;
-		if (!form) return;
-		timeout = setTimeout(() => {
-			form.requestSubmit();
-		}, 400);
-	};
 	let inerHight_1: string;
 	$: items =
 		Number(charge_on_imagerie?.productOrder.length || 0) +
@@ -170,6 +163,12 @@
 							<ChargeVaccine
 								data={{
 									charge_on_vaccine: charge_on_vaccine,
+									get_currency: get_currency
+								}}
+							/>
+							<ChargeBed
+								data={{
+									charge_on_bed: charge_on_bed,
 									get_currency: get_currency
 								}}
 							/>

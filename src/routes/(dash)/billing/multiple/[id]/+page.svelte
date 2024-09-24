@@ -14,6 +14,13 @@
 	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
+	import ChargeLaboratory from '$lib/coms-billing/ChargeLaboratory.svelte';
+	import ChargeImagerie from '$lib/coms-billing/ChargeImagerie.svelte';
+	import ChargePrescription from '$lib/coms-billing/ChargePrescription.svelte';
+	import ChargeService from '$lib/coms-billing/ChargeService.svelte';
+	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
+	import ChargeBed from '$lib/coms-billing/ChargeBed.svelte';
+	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_products, get_product_group_type, get_progress_note, get_currency } = data);
@@ -106,8 +113,8 @@
 				method="post"
 			>
 				<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
-					<table class="table table-bordered table-sm">
-						<thead class="table-primary table-active position-sticky top-0">
+					<table class="table table-bordered table-sm text-nowrap">
+						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
 								<th style="width: 45%;">Product</th>
 								<th style="width: 15%;">Price</th>
@@ -137,6 +144,7 @@
 								{@const charge_on_vaccine = item.billing?.charge.find(
 									(e) => e.charge_on === 'vaccine'
 								)}
+								{@const charge_on_bed = item.billing?.charge.find((e) => e.charge_on === 'bed')}
 								<tr>
 									<span class="">
 										#<DateTimeFormat date={item.date_checkup} />
@@ -147,7 +155,50 @@
 										{/if}
 									</span>
 								</tr>
-								<ChargeOn
+								<ChargeLaboratory
+									data={{
+										charge_on_laboratory: charge_on_laboratory,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeImagerie
+									data={{
+										charge_on_imagerie: charge_on_imagerie,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargePrescription
+									data={{
+										charge_on_prescription: charge_on_prescription,
+										get_currency: get_currency,
+										get_billing: item.billing ?? undefined
+									}}
+								/>
+								<ChargeService
+									data={{
+										charge_on_service: charge_on_service,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeVaccine
+									data={{
+										charge_on_vaccine: charge_on_vaccine,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeBed
+									data={{
+										charge_on_bed: charge_on_bed,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeGeneral
+									data={{
+										charge_on_general: charge_on_general,
+										get_currency: get_currency
+									}}
+								/>
+								<!-- <ChargeOn
 									data={{
 										charge_on_general: charge_on_general,
 										charge_on_imagerie: charge_on_imagerie,
@@ -156,9 +207,10 @@
 										charge_on_prescription: charge_on_prescription,
 										charge_on_vaccine: charge_on_vaccine,
 										get_billing: item?.billing ?? undefined,
-										get_currency: get_currency
+										get_currency: get_currency,
+										charge_on_bed: charge_on_bed
 									}}
-								/>
+								/> -->
 								<br />
 							{/each}
 						</tbody>

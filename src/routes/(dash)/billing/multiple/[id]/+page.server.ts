@@ -21,7 +21,6 @@ import { now_datetime } from '$lib/server/utils';
 import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
-
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: progress_node_id } = params;
 	const get_currency = await db.query.currency.findFirst({});
