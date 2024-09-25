@@ -181,7 +181,7 @@
 			use:enhance={() => {
 				loading = true;
 				return async ({ update, result }) => {
-					await update();
+					await update({ reset: false });
 					loading = false;
 					if (result.type !== 'failure') {
 						document.getElementById('close_document')?.click();

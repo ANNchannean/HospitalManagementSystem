@@ -62,13 +62,24 @@ export const actions: Actions = {
 	create_prescription: async ({ request, params }) => {
 		const visit_id = params.id;
 		const body = await request.formData();
-		const { product_id, use, amount, duration, morning, noon, afternoon, evening, night } =
-			Object.fromEntries(body) as Record<string, string>;
+		const {
+			product_id,
+			use,
+			amount,
+			duration,
+			morning,
+			noon,
+			afternoon,
+			evening,
+			night,
+			paste_prescription
+		} = Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			product_id: false,
 			amount: false,
 			price: false
 		};
+
 		if (!product_id || isNaN(+product_id)) validErr.product_id = true;
 		if (!amount || isNaN(+amount)) validErr.amount = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
@@ -116,7 +127,20 @@ export const actions: Actions = {
 				});
 			await updateCharge(charge_on_prescription!.id);
 		}
+		if (paste_prescription) {
+			const product_id = body.getAll('product_id');
+			const use = body.getAll('use');
+			const amount = body.getAll('amount');
+			const duration = body.getAll('duration');
+			const morning = body.getAll('morning');
+			const noon = body.getAll('noon');
+			const afternoon = body.getAll('afternoon');
+			const evening = body.getAll('evening');
+			const night = body.getAll('night');
+			console.log(product_id);
 
+			return fail(400, { err: true });
+		}
 		await db
 			.insert(presrciption)
 			.values({

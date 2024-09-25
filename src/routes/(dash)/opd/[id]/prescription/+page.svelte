@@ -4,6 +4,8 @@
 	import type { ActionData, PageServerData } from './$types';
 	import CreatePresrciption from '$lib/coms-cu/CreatePresrciption.svelte';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
+	import { copyPrescription } from '$lib/store/copyPrescription';
+	import PastePrescription from '$lib/coms-ipd/PastePrescription.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
 	let prescription_id: number;
@@ -41,6 +43,9 @@
 				<div class="row">
 					<div class="col fs-5">
 						<span># Presrciption</span>
+					</div>
+					<div class="col-auto">
+						<PastePrescription />
 					</div>
 					<div class="col-auto">
 						<button

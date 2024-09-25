@@ -25,9 +25,9 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 		| 'process';
 	if (start || end || patient_id || status || billing_type) p = true;
 
-	const _currency = () => db.query.currency.findFirst({});
-	const _billings = () =>
-		db.query.billing.findMany({
+	const _currency = async () => await db.query.currency.findFirst({});
+	const _billings = async () =>
+		await db.query.billing.findMany({
 			where: p
 				? and(
 						status ? eq(billing.status, status) : undefined,
@@ -80,8 +80,8 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 			limit: pagination(page, limit).limit,
 			offset: pagination(page, limit).offset
 		});
-	const _items = () =>
-		db.query.billing.findMany({
+	const _items = async () =>
+		await db.query.billing.findMany({
 			where: p
 				? and(
 						status ? eq(billing.status, status) : undefined,
@@ -92,8 +92,8 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 					)
 				: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
 		});
-	const _payment_types = () => db.query.paymentType.findMany();
-	const _patients = () => db.query.patient.findMany({});
+	const _payment_types = async () => await db.query.paymentType.findMany();
+	const _patients = async () => await db.query.patient.findMany({});
 	const [get_currency, get_billings, items, get_payment_types, get_patients] = await Promise.all([
 		_currency(),
 		_billings(),

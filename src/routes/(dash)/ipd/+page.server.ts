@@ -177,7 +177,6 @@ export const actions: Actions = {
 					etiology: etiology
 				})
 				.$returningId();
-
 			if (visit_id) {
 				await db
 					.update(visit)

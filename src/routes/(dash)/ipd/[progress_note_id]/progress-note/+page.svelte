@@ -6,6 +6,7 @@
 	import SaopNote from '$lib/coms-ipd/SaopNote.svelte';
 	import ParaClinic from '$lib/coms-ipd/ParaClinic.svelte';
 	import Treatment from '$lib/coms-ipd/Treatment.svelte';
+	import CopyPrescription from '$lib/coms-ipd/CopyPrescription.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams, get_currency, get_staffs } = data);
@@ -102,6 +103,19 @@
 											<ParaClinic {find_old_visit} />
 										</td>
 										<td style="width: 30%;vertical-align:top;">
+											<CopyPrescription
+												data={item?.presrciption?.map((e) => ({
+													amount: e.amount,
+													duration: e.duration,
+													product_id: e.product_id,
+													use: e.use,
+													afternoon: e.afternoon,
+													evening: e.evening,
+													morning: e.morning,
+													night: e.night,
+													noon: e.noon
+												})) || []}
+											/>
 											<fieldset disabled={item.billing?.status !== 'active'}>
 												<Treatment {get_currency} {find_old_visit} />
 											</fieldset>

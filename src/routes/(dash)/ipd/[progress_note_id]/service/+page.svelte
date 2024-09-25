@@ -10,6 +10,7 @@
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
+	import PrintModal from '$lib/coms-report/PrintModal.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
@@ -64,7 +65,7 @@
 											use:enhance={() => {
 												$globalLoading = true;
 												loading = true;
-												return async ({ update, result }) => {
+												return async ({ update }) => {
 													await update({ reset: false });
 													loading = false;
 													$globalLoading = false;
@@ -113,6 +114,250 @@
 											data-bs-target="#delete_modal"
 											><i class="fa-solid fa-trash-can"></i>
 										</a>
+										<PrintModal
+											on:click={() => {
+												service_id = 0;
+												service_id = item.id;
+											}}
+											id={item.id}
+										>
+											<div id={service_id.toString()}>
+												<div class="">
+													<h4 class=" text-center">Operation Protocol</h4>
+													<h4 class=" text-center">{item.product?.products}</h4>
+												</div>
+												<hr />
+												<div class="">
+													<div class=" card-body pt-0">
+														<div class="row pb-3">
+															<div class="col-12">
+																<div class="row mb-3">
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																			<label for="surgeon">Surgeon</label>
+																			<input
+																				value={find_service?.operationProtocol?.surgeon ?? ''}
+																				id="surgeon"
+																				class="form-control"
+																				type="text"
+																				name="surgeon"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																			<label for="assistant_surgeon">Assistant Surgeon</label>
+																			<input
+																				value={find_service?.operationProtocol?.assistant_surgeon ??
+																					''}
+																				id="assistant_surgeon"
+																				class="form-control"
+																				type="text"
+																				name="assistant_surgeon"
+																			/>
+																		</div>
+																	</div>
+																</div>
+																<div class="row mb-3">
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																			<label for="anesthetist">Anesthetist</label>
+																			<input
+																				value={find_service?.operationProtocol?.anesthetist ?? ''}
+																				id="anesthetist"
+																				class="form-control"
+																				type="text"
+																				name="anesthetist"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																			<label for="assistant_anesthetist"
+																				>Assistant Anesthetist</label
+																			>
+																			<input
+																				value={find_service?.operationProtocol
+																					?.assistant_anesthetist ?? ''}
+																				id="assistant_anesthetist"
+																				class="form-control"
+																				type="text"
+																				name="assistant_anesthetist"
+																			/>
+																		</div>
+																	</div>
+																</div>
+																<div class="row mb-3">
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																			<label for="scrub_nurse">Scrub Nurse</label>
+																			<input
+																				value={find_service?.operationProtocol?.scrub_nurse ?? ''}
+																				id="scrub_nurse"
+																				class="form-control"
+																				type="text"
+																				name="scrub_nurse"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																			<label for="cirulating_nurse_block"
+																				>Circulation / Nurse block</label
+																			>
+																			<input
+																				value={find_service?.operationProtocol
+																					?.cirulating_nurse_block ?? ''}
+																				id="cirulating_nurse_block"
+																				class="form-control"
+																				type="text"
+																				name="cirulating_nurse_block"
+																			/>
+																		</div>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label for="midwife">Midwife</label>
+																	<input
+																		value={find_service?.operationProtocol?.midwife ?? ''}
+																		id="midwife"
+																		class="form-control"
+																		type="text"
+																		name="midwife"
+																	/>
+																</div>
+															</div>
+														</div>
+
+														<hr />
+														<div class="row">
+															<div class="col-12">
+																<div class="row mb-3">
+																	<div class="col-sm-4">
+																		<div class="form-group">
+																			<label for="date">Dates</label>
+																			<input
+																				value={find_service?.operationProtocol?.date ?? ''}
+																				id="date"
+																				class="form-control"
+																				type="date"
+																				name="date"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="form-group">
+																			<label for="start_time">Start Time</label>
+																			<input
+																				value={find_service?.operationProtocol?.start_time?.substring(
+																					0,
+																					5
+																				) ?? ''}
+																				id="start_time"
+																				class="form-control"
+																				type="time"
+																				name="start_time"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="form-group">
+																			<label for="finish_time">Finish Time</label>
+																			<input
+																				value={find_service?.operationProtocol?.finish_time?.substring(
+																					0,
+																					5
+																				) ?? ''}
+																				id="finish_time"
+																				class="form-control"
+																				type="time"
+																				name="finish_time"
+																			/>
+																		</div>
+																	</div>
+																</div>
+																<div class="row mb-3">
+																	<div class="col-sm-4">
+																		<div class="form-group">
+																			<label for="pre_diagnosis">Pre-Diagnosis</label>
+																			<input
+																				value={find_service?.operationProtocol?.pre_diagnosis ?? ''}
+																				id="pre_diagnosis"
+																				class="form-control"
+																				type="text"
+																				name="pre_diagnosis"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="form-group">
+																			<label for="post_diagnosis">Post Diagnosis</label>
+																			<input
+																				value={find_service?.operationProtocol?.post_diagnosis ??
+																					''}
+																				id="post_diagnosis"
+																				class="form-control"
+																				type="text"
+																				name="post_diagnosis"
+																			/>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="form-group">
+																			<label for="type_anesthesia">Type Anesthesia</label>
+																			<input
+																				value={find_service?.operationProtocol?.type_anesthesia ??
+																					''}
+																				id="type_anesthesia"
+																				class="form-control"
+																				type="text"
+																				name="type_anesthesia"
+																			/>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<hr />
+														<div class="row">
+															<div class="col-12 mb-3">
+																<div class="form-group">
+																	<label for="opertive_technique">Opertive Technique</label>
+																	<div class="border border-2 pt-2 rounded">
+																		<Renderhtml
+																			value={find_service?.operationProtocol?.opertive_technique ??
+																				''}
+																		/>
+																	</div>
+																</div>
+															</div>
+															<div class="col-12 mb-3">
+																<div class="form-group">
+																	<label for="blood_less">Blood Less</label>
+																	<input
+																		value={find_service?.operationProtocol?.blood_less ?? ''}
+																		id="blood_less"
+																		class="form-control"
+																		type="text"
+																		name="blood_less"
+																	/>
+																</div>
+															</div>
+															<div class="col-12 mb-3">
+																<div class="form-group">
+																	<label for="notes">Notes</label>
+																	<div class="border border-2 pt-2 rounded">
+																		<Renderhtml
+																			value={find_service?.operationProtocol?.notes ?? ''}
+																		/>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</PrintModal>
 									</div>
 								</td>
 							</tr>
