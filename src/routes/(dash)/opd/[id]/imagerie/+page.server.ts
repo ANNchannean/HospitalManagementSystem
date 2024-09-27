@@ -85,7 +85,8 @@ export const actions: Actions = {
 				await createProductOrder({
 					charge_id: Number(charge_on_imagerie?.id),
 					price: Number(get_product?.price),
-					product_id: Number(get_product?.id)
+					product_id: Number(get_product?.id),
+					qty:1
 				});
 			}
 		}

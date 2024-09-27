@@ -88,7 +88,8 @@ export const actions: Actions = {
 		await createProductOrder({
 			charge_id: charge_on_service!.id,
 			product_id: get_product!.id,
-			price: get_product?.price ?? 0
+			price: get_product?.price ?? 0,
+			qty:1
 		});
 	},
 	delete_service: async ({ request, params }) => {

@@ -221,7 +221,8 @@ export const actions: Actions = {
 		await createProductOrder({
 			charge_id: Number(charge_on_prescription?.id),
 			price: Number(get_prescription?.product?.price),
-			product_id: Number(get_prescription?.product_id)
+			product_id: Number(get_prescription?.product_id),
+			qty: 1
 		});
 		await db.insert(activePresrciption).values({
 			active_for: active_for,
@@ -281,7 +282,8 @@ export const actions: Actions = {
 		await createProductOrder({
 			charge_id: Number(charge_on_prescription?.id),
 			price: Number(get_prescription?.product?.price),
-			product_id: Number(get_prescription?.product_id)
+			product_id: Number(get_prescription?.product_id),
+			qty:1
 		});
 		await db.insert(activePresrciption).values({
 			active_for: active_for,

@@ -50,11 +50,7 @@
 								</td>
 								<td>Observation Medical or SAOP note</td>
 								<td>Para-Clinic</td>
-								<td>
-									<a class="btn btn-link py-0" href="/opd/{id}/prescription"
-										>Treatment <i class="fa-solid fa-file-pen"></i></a
-									>
-								</td>
+								<td>Treatment </td>
 							</tr>
 						</thead>
 						<tbody>
@@ -104,6 +100,7 @@
 										</td>
 										<td style="width: 30%;vertical-align:top;">
 											<CopyPrescription
+												class="btn btn-warning btn-sm  py-0 mb-2"
 												data={item?.presrciption?.map((e) => ({
 													amount: e.amount,
 													duration: e.duration,
@@ -116,6 +113,13 @@
 													noon: e.noon
 												})) || []}
 											/>
+											{#if find_old_visit.presrciption.length}
+												<a
+													class="btn btn-primary btn-sm mb-2 float-end py-0"
+													href="/opd/{item.id}/prescription"
+													>Edit <i class="fa-solid fa-file-pen"></i></a
+												>
+											{/if}
 											<fieldset disabled={item.billing?.status !== 'active'}>
 												<Treatment {get_currency} {find_old_visit} />
 											</fieldset>

@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
-import createProductOrder from './createProductOrder';
+import { createProductOrder } from './createProductOrder';
 import { visit } from '../schemas';
 
 export async function AddBedToCharge({
@@ -27,6 +27,7 @@ export async function AddBedToCharge({
 	await createProductOrder({
 		charge_id: charge_on_bed?.id,
 		price: price,
-		product_id: product_id
+		product_id: product_id,
+		qty: 1
 	});
 }

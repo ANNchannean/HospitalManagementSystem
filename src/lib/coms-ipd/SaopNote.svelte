@@ -16,8 +16,8 @@
 
 <div class="">
 	{#if find_old_visit?.vitalSign}
+	<span class="btn btn-success btn-sm mb-2 py-0">VitalSign</span>
 		<div class="border rounded border-1 p-2 mb-2">
-			<span class="btn btn-success btn-sm mb-2 py-0">VitalSign</span>
 			<table class="table table-sm">
 				<thead>
 					{#if find_old_visit?.vitalSign?.sbp}

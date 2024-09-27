@@ -4,7 +4,6 @@ import {
 	duration,
 	presrciption,
 	product,
-	productOrder,
 	unit,
 	use,
 	visit
@@ -12,9 +11,8 @@ import {
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
-import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
-import { deleteProductOrder, updateCharge, updateProductOrder } from '$lib/server/models';
+import { createProductOrder, deleteProductOrder, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -59,21 +57,89 @@ export const load = (async ({ params }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
+	paste_prescription: async ({ request, params }) => {
+		const visit_id = params.id;
+		const body = await request.formData();
+		const product_id = body.getAll('product_id');
+		const use = body.getAll('use');
+		const amount = body.getAll('amount');
+		const duration = body.getAll('duration');
+		const morning = body.getAll('morning');
+		const noon = body.getAll('noon');
+		const afternoon = body.getAll('afternoon');
+		const evening = body.getAll('evening');
+		const night = body.getAll('night');
+		for (let index = 0; index < product_id.length; index++) {
+			const product_id_ = +product_id[index];
+			const use_ = use[index].toString();
+			const amount_ = +amount[index];
+			const duration_ = duration[index].toString();
+			const morning_ = +morning[index];
+			const noon_ = +noon[index];
+			const afternoon_ = +afternoon[index];
+			const evening_ = +evening[index];
+			const night_ = +night[index];
+			const [get_product, get_visit] = await Promise.all([
+				db.query.product.findFirst({ where: eq(product.id, +product_id_) }),
+				db.query.visit.findFirst({
+					where: eq(visit.id, +visit_id),
+					with: {
+						imagerieRequest: {
+							with: {
+								product: true
+							}
+						},
+						billing: {
+							with: {
+								charge: {
+									with: {
+										productOrder: true
+									}
+								}
+							}
+						},
+						presrciption: true
+					}
+				})
+			]);
+			const charge_on_prescription = get_visit?.billing?.charge.find(
+				(e) => e.charge_on === 'prescription'
+			);
+			if (charge_on_prescription?.productOrder.some((e) => e.product_id === +product_id_)) {
+				console.log('hay it is the same product ');
+			}
+			if (!get_visit?.progress_note_id) {
+				await createProductOrder({
+					charge_id: charge_on_prescription!.id,
+					product_id: +product_id,
+					price: +get_product!.price,
+					qty: +amount
+				});
+			}
+			await db
+				.insert(presrciption)
+				.values({
+					amount: +amount_,
+					duration: duration_,
+					product_id: +product_id_,
+					use: use_,
+					visit_id: +visit_id,
+					morning: +morning_,
+					noon: +noon_,
+					afternoon: +afternoon_,
+					evening: +evening_,
+					night: +night_
+				})
+				.catch((e) => {
+					logErrorMessage(e);
+				});
+		}
+	},
 	create_prescription: async ({ request, params }) => {
 		const visit_id = params.id;
 		const body = await request.formData();
-		const {
-			product_id,
-			use,
-			amount,
-			duration,
-			morning,
-			noon,
-			afternoon,
-			evening,
-			night,
-			paste_prescription
-		} = Object.fromEntries(body) as Record<string, string>;
+		const { product_id, use, amount, duration, morning, noon, afternoon, evening, night } =
+			Object.fromEntries(body) as Record<string, string>;
 		const validErr = {
 			product_id: false,
 			amount: false,
@@ -110,36 +176,17 @@ export const actions: Actions = {
 		const charge_on_prescription = get_visit?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
+		if (charge_on_prescription?.productOrder.some((e) => e.product_id === +product_id))
+			validErr.product_id = true;
+		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 
 		if (!get_visit?.progress_note_id) {
-			await db
-				.insert(productOrder)
-				.values({
-					charge_id: charge_on_prescription!.id,
-					product_id: +product_id,
-					created_at: now_datetime(),
-					price: get_product?.price,
-					qty: +amount,
-					total: Number(get_product?.price) * Number(amount)
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			await updateCharge(charge_on_prescription!.id);
-		}
-		if (paste_prescription) {
-			const product_id = body.getAll('product_id');
-			const use = body.getAll('use');
-			const amount = body.getAll('amount');
-			const duration = body.getAll('duration');
-			const morning = body.getAll('morning');
-			const noon = body.getAll('noon');
-			const afternoon = body.getAll('afternoon');
-			const evening = body.getAll('evening');
-			const night = body.getAll('night');
-			console.log(product_id);
-
-			return fail(400, { err: true });
+			await createProductOrder({
+				charge_id: charge_on_prescription!.id,
+				product_id: +product_id,
+				price: +get_product!.price,
+				qty: +amount
+			});
 		}
 		await db
 			.insert(presrciption)

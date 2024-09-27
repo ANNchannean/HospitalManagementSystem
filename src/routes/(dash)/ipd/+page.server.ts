@@ -161,7 +161,8 @@ export const actions: Actions = {
 			await createProductOrder({
 				charge_id: +charge_on_bed_id,
 				price: +price,
-				product_id: +product_id
+				product_id: +product_id,
+				qty:1
 			});
 			redirect(303, `/ipd/${progress_note_id}/progress-note`);
 		}

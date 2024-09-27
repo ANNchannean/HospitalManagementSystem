@@ -129,7 +129,8 @@ export const actions: Actions = {
 				await createProductOrder({
 					charge_id: Number(charge_on_service?.id),
 					price: Number(get_product?.price),
-					product_id: Number(+e)
+					product_id: Number(+e),
+					qty:1
 				});
 			}
 		}

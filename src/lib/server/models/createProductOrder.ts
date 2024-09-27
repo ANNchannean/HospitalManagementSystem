@@ -7,8 +7,9 @@ type TCProductOrder = {
 	charge_id: number;
 	product_id: number;
 	price: number;
+	qty: number;
 };
-export const createProductOrder = async ({ charge_id, price, product_id }: TCProductOrder) => {
+export const createProductOrder = async ({ charge_id, price, product_id, qty }: TCProductOrder) => {
 	const get_charge = await db.query.charge.findFirst({
 		where: eq(charge.id, charge_id),
 		with: { productOrder: true }
@@ -22,7 +23,7 @@ export const createProductOrder = async ({ charge_id, price, product_id }: TCPro
 			.update(productOrder)
 			.set({
 				total: Number(calulator_disc) * (Number(get_product_order.qty) + 1),
-				qty: Number(get_product_order.qty) + 1
+				qty: Number(get_product_order.qty) + qty
 			})
 			.where(eq(productOrder.id, get_product_order.id))
 			.catch((e) => console.log(e));
@@ -34,11 +35,10 @@ export const createProductOrder = async ({ charge_id, price, product_id }: TCPro
 				total: +price,
 				product_id: product_id,
 				created_at: now_datetime(),
-				charge_id: charge_id
+				charge_id: charge_id,
+				qty: qty
 			})
 			.catch((e) => console.log(e));
 	}
 	await updateCharge(charge_id);
 };
-
-export default createProductOrder;

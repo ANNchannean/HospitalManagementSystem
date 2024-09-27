@@ -40,12 +40,12 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-				<div class="row">
+				<div class="row g-1">
 					<div class="col fs-5">
 						<span># Presrciption</span>
 					</div>
 					<div class="col-auto">
-						<PastePrescription />
+						<PastePrescription action="?/paste_prescription" />
 					</div>
 					<div class="col-auto">
 						<button

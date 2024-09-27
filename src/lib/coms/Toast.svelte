@@ -16,7 +16,7 @@
 	<div
 		in:fade={{ duration: 200 }}
 		out:fade={{ duration: 200 }}
-		class="position-relative justify-content-center d-flex"
+		class="toast-container position-fixed bottom-0 end-0 p-3"
 	>
 		<div
 			class:text-bg-warning={toas === 'infomation'}
