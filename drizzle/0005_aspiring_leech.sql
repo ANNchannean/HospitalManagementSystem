@@ -1,0 +1,2 @@
+ALTER TABLE `presrciption` ADD `progress_note_id` int;--> statement-breakpoint
+ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE cascade;

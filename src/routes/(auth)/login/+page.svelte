@@ -9,7 +9,7 @@
 </script>
 
 {#if form?.message}
-	<Toast message={form?.message} />
+	<Toast show={form.message ? true : false} message={form?.message} />
 {/if}
 
 <section class="p-3 p-md-4 p-xl-5">

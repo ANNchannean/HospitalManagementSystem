@@ -4,6 +4,7 @@ import {
 	duration,
 	presrciption,
 	product,
+	progressNote,
 	unit,
 	use,
 	visit
@@ -15,9 +16,9 @@ import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { createProductOrder, deleteProductOrder, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
-	const visit_id = params.id;
-	const get_visit = await db.query.visit.findFirst({
-		where: eq(visit.id, Number(visit_id))
+	const {progress_note_id} = params
+	const get_progress_note = await db.query.visit.findFirst({
+		where: eq(progressNote.id, Number(progress_note_id))
 	});
 	const get_uses = await db.query.use.findMany({});
 	const get_durations = await db.query.duration.findMany({});

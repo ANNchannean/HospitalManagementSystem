@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
+	import CopyPrescription from '$lib/coms-ipd/CopyPrescription.svelte';
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
@@ -673,6 +674,20 @@
 			</div>
 			<div class="col-sm-4">
 				<h4 class="text-center">Treatment</h4>
+				<CopyPrescription
+					class="btn btn-warning btn-sm  py-0 mb-2"
+					data={find_old_visit?.presrciption?.map((e) => ({
+						amount: e.amount,
+						duration: e.duration,
+						product_id: e.product_id,
+						use: e.use,
+						afternoon: e.afternoon,
+						evening: e.evening,
+						morning: e.morning,
+						night: e.night,
+						noon: e.noon
+					})) || []}
+				/>
 				{#if find_old_visit.presrciption.length}
 					<button class="btn btn-success btn-sm mb-2 py-0">Presrciption</button>
 				{/if}

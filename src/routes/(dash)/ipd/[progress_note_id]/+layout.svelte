@@ -131,6 +131,12 @@
 				: 'btn btn-outline-dark mb-2'}>Discharge Summary</a
 		>
 		<a
+			href="/ipd/{progress_note_id}/prescription"
+			class={$page.url.pathname.includes('prescription')
+				? 'btn btn-dark mb-2'
+				: 'btn btn-outline-dark mb-2'}>Prescription</a
+		>
+		<a
 			href="/ipd/{progress_note_id}/appointment"
 			class={$page.url.pathname.includes('appointment')
 				? 'btn btn-dark mb-2'

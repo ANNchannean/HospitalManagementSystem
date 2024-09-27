@@ -1,5 +1,5 @@
 import { datetime, float, int, mysqlTable, varchar } from 'drizzle-orm/mysql-core';
-import { visit } from './visit';
+import { progressNote, visit } from './visit';
 import { product } from './product';
 import { relations } from 'drizzle-orm';
 import { user } from './user';
@@ -7,6 +7,10 @@ import { user } from './user';
 export const presrciption = mysqlTable('presrciption', {
 	id: int('id').primaryKey().autoincrement(),
 	visit_id: int('visit_id').references(() => visit.id, {
+		onDelete: 'cascade',
+		onUpdate: 'cascade'
+	}),
+	progress_note_id: int('progress_note_id').references(() => progressNote.id, {
 		onDelete: 'cascade',
 		onUpdate: 'cascade'
 	}),
@@ -22,6 +26,10 @@ export const presrciption = mysqlTable('presrciption', {
 });
 
 export const presrciptionRelations = relations(presrciption, ({ one, many }) => ({
+	progressNote: one(progressNote, {
+		references: [progressNote.id],
+		fields: [presrciption.progress_note_id]
+	}),
 	visit: one(visit, {
 		references: [visit.id],
 		fields: [presrciption.visit_id]

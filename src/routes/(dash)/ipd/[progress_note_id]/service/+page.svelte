@@ -771,33 +771,36 @@
 		</fieldset>
 	</div>
 </div>
-<fieldset disabled={get_progress_note?.billing?.status !== 'active'}>
-	<form
-		method="post"
-		use:enhance={() => {
-			loading = true;
-			$globalLoading = true;
-			return async ({ update }) => {
-				await update({ invalidateAll: true, reset: false });
-				loading = false;
-				$globalLoading = false;
-			};
-		}}
-		action="?/update_total_service"
-		class="card-footer row p-2 bg-light sticky-bottom"
-	>
-		<div class="col text-end">
-			<button type="button" class="btn btn-warning">Total Service</button>
-		</div>
-		<div class="col-auto">
-			<CurrencyInput
-				name="total_service"
-				symbol={get_currency?.currency_symbol}
-				amount={total_service}
-			/>
-		</div>
-		<div class="col-auto">
-			<SubmitButton {loading} />
-		</div>
-	</form>
-</fieldset>
+
+<form
+	method="post"
+	use:enhance={() => {
+		loading = true;
+		$globalLoading = true;
+		return async ({ update }) => {
+			await update({ invalidateAll: true, reset: false });
+			loading = false;
+			$globalLoading = false;
+		};
+	}}
+	action="?/update_total_service"
+	class="card-footer row p-2 bg-light sticky-bottom"
+>
+	<div class="col text-end">
+		<a class="btn btn-primary" href="/billing/single/{get_progress_note?.billing?.id}">Go Payment</a
+		>
+	</div>
+	<div class="col-auto">
+		<button type="button" class="btn btn-warning">Total Service</button>
+	</div>
+	<div class="col-auto">
+		<CurrencyInput
+			name="total_service"
+			symbol={get_currency?.currency_symbol}
+			amount={total_service}
+		/>
+	</div>
+	<div class="col-auto">
+		<SubmitButton {loading} />
+	</div>
+</form>
