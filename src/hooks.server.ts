@@ -1,33 +1,10 @@
 import { lucia } from '$lib/server/auth/lucia';
 import { type Handle } from '@sveltejs/kit';
 import { locale } from 'svelte-i18n';
+import { sequence } from '@sveltejs/kit/hooks';
 // import { redis } from '$lib/server/redis';
-export const handle: Handle = async ({ event, resolve }) => {
-	// @ Redis Catch
-	/*
-	async function redisCatch() {
-		const { url } = event;
-		const key = `rendered:v1:${url.pathname}`;
-		let cached = await redis.hGetAll(key);
-		if (!cached.body) {
-			
-			const response = await resolve(event);
-
-			// then convert it into a cachable object
-			cached = Object.fromEntries(response.headers.entries());
-			cached.body = await response.text();
-
-			if (response.status === 200) {
-				
-				redis.hSet(key, cached);
-			}
-		}
-		const { body, ...headers } = cached;
-		return new Response(body, { headers: new Headers(headers) });
-	}
-*/
+const handleAuth = (async ({ event, resolve }) => {
 	// @ Auth Lucaia
-	const lang = event.cookies.get('lang') ?? '';
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
 	if (!sessionId) {
 		event.locals.user = null;
@@ -52,6 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			...sessionCookie.attributes
 		});
 	}
+	const lang = event.cookies.get('lang') ?? '';
 	const langa = event.request.headers.get('accept-language')?.split(',')[0];
 	if (langa) {
 		locale.set(langa);
@@ -62,4 +40,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// @ Language Emplement
 	// redisCatch();
 	return resolve(event);
-};
+}) satisfies Handle;
+const handleLanguage = (async ({ event, resolve }) => {
+	const lang = event.cookies.get('lang') ?? '';
+	const langa = event.request.headers.get('accept-language')?.split(',')[0];
+	if (langa) {
+		locale.set(langa);
+	}
+
+	event.locals.lang = lang;
+
+	return resolve(event);
+}) satisfies Handle;
+
+export const handle = sequence(handleAuth, handleLanguage);
