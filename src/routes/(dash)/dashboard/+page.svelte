@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { _,locale } from 'svelte-i18n'
 </script>
-
+<button on:click={() => $locale = 'en'}>English</button>
+<button on:click={() => $locale = 'km'}>Khmer</button>
+{$_('input_data')}
 <form id="myform" method="pos" action="something.php">
 	<input type="text" name="name" />
 </form>

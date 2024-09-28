@@ -1,5 +1,6 @@
 import { lucia } from '$lib/server/auth/lucia';
 import { type Handle } from '@sveltejs/kit';
+import { locale } from 'svelte-i18n';
 // import { redis } from '$lib/server/redis';
 export const handle: Handle = async ({ event, resolve }) => {
 	// @ Redis Catch
@@ -50,6 +51,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 			path: '.',
 			...sessionCookie.attributes
 		});
+	}
+	const langa = event.request.headers.get('accept-language')?.split(',')[0];
+	if (langa) {
+		locale.set(langa);
 	}
 	event.locals.user = user;
 	event.locals.session = session;
