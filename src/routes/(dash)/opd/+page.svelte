@@ -319,12 +319,7 @@
 					</div>
 					<!-- <label for="cheif_coplaint" class="col-sm-3 col-form-label">Cheif complaint</label> -->
 					<div class="col-sm-9">
-						<TextEditor
-							height={100}
-							id="cheif_complaint_id"
-							name="cheif_complaint"
-							bind:setValue={cheif_complaint}
-						/>
+						<TextEditor height={100} name="cheif_complaint" bind:setValue={cheif_complaint} />
 					</div>
 				</div>
 				<div class="form-group row pb-2">
@@ -340,7 +335,6 @@
 					<div class="col-sm-9">
 						<TextEditor
 							height={100}
-							id="history_of_present_illness_id"
 							name="history_of_present_illness"
 							bind:setValue={history_of_present_illness}
 						/>

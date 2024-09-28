@@ -53,7 +53,6 @@
 								<TextEditor
 									setValue={find_unit_as_vaccine?.vaccine_dose ?? ''}
 									name="description"
-									id="dose"
 								/>
 							</div>
 						</div>

@@ -64,7 +64,7 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="description">Description</label>
-								<TextEditor height={200} name="description" id={product_id?.toString()} />
+								<TextEditor height={200} name="description" />
 								{#if form?.description}
 									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
 								{/if}

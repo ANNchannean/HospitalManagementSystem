@@ -7,6 +7,8 @@
 	import ParaClinic from '$lib/coms-ipd/ParaClinic.svelte';
 	import Treatment from '$lib/coms-ipd/Treatment.svelte';
 	import CopyPrescription from '$lib/coms-ipd/CopyPrescription.svelte';
+	import SendToPayment from '$lib/coms-billing/SendToPayment.svelte';
+	import CheckOut from '$lib/coms-ipd/CheckOut.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams, get_currency, get_staffs } = data);
@@ -30,7 +32,7 @@
 			><i class="fa-solid fa-square-plus"></i>
 			New Progress note
 		</button>
-		<a href="/billing/multiple/{get_progress_note?.id}" class="btn btn-danger"> Discharge </a>
+		<CheckOut class="btn btn-danger" {data}>Discharge</CheckOut>
 	</div>
 </div>
 <br />

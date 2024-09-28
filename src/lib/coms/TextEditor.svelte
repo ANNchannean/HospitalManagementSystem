@@ -6,7 +6,7 @@
 	export let height = 400;
 	export let setValue = '';
 	export let getValue = '';
-	export let id = 'myid';
+	$: id = 'myid'.concat(crypto.randomUUID().replaceAll('-', ''));
 	let editor: any;
 	onMount(async () => {
 		const suneditor = await import('suneditor');

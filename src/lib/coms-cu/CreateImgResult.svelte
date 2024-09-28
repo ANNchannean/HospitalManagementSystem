@@ -112,7 +112,6 @@
 							<div class="form-group pb-3">
 								<label for="result">Result</label>
 								<TextEditor
-									id="imagerie_templage"
 									name="result"
 									setValue={imagerie_templage
 										? imagerie_templage

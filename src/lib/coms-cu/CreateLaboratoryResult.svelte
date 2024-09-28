@@ -182,7 +182,7 @@
 								<TextEditor
 									height={200}
 									name="doctor_comment"
-									id="doctor_comment_id"
+
 									setValue={find_visit?.laboratory?.doctor_comment ?? ''}
 								/>
 

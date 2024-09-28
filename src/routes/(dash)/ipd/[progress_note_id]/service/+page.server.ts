@@ -3,7 +3,6 @@ import {
 	operationProtocol,
 	product,
 	productGroupType,
-	productOrder,
 	progressNote,
 	service
 } from '$lib/server/schemas';
@@ -11,7 +10,12 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
-import { createProductOrder, updatChargeByValue, updateProductOrder } from '$lib/server/models';
+import {
+	createProductOrder,
+	deleteProductOrder,
+	updatChargeByValue,
+	updateProductOrder
+} from '$lib/server/models';
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
 	const get_product_type = await db.query.productGroupType.findFirst({
@@ -89,7 +93,7 @@ export const actions: Actions = {
 			charge_id: charge_on_service!.id,
 			product_id: get_product!.id,
 			price: get_product?.price ?? 0,
-			qty:1
+			qty: 1
 		});
 	},
 	delete_service: async ({ request, params }) => {
@@ -112,7 +116,6 @@ export const actions: Actions = {
 				service: true
 			}
 		});
-
 		const get_services = await db.query.service.findFirst({
 			where: eq(service.id, +id),
 			with: {
@@ -126,12 +129,7 @@ export const actions: Actions = {
 			(e) => e.product_id === get_services?.product_id
 		);
 		if (get_product_order) {
-			await db
-				.delete(productOrder)
-				.where(eq(productOrder.id, get_product_order!.id))
-				.catch((e) => {
-					logErrorMessage(e);
-				});
+			await deleteProductOrder(get_product_order!.id);
 		}
 		await db
 			.delete(service)

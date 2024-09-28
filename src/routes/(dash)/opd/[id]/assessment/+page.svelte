@@ -81,12 +81,7 @@
 					>Doctor's Comment :</label
 				>
 				<div class="col-sm-9">
-					<TextEditor
-						height={200}
-						id="description"
-						name="description"
-						setValue={get_remark?.description ?? ''}
-					/>
+					<TextEditor height={200} name="description" setValue={get_remark?.description ?? ''} />
 				</div>
 			</div>
 

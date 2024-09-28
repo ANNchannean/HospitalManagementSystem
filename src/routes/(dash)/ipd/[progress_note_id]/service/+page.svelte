@@ -11,6 +11,7 @@
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import PrintModal from '$lib/coms-report/PrintModal.svelte';
+	import SendToPayment from '$lib/coms-billing/SendToPayment.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
@@ -671,7 +672,6 @@
 							<div class="form-group">
 								<label for="opertive_technique">Opertive Technique</label>
 								<TextEditor
-									id="summbernote_1"
 									name="opertive_technique"
 									height={200}
 									setValue={find_service?.operationProtocol?.opertive_technique ?? ''}
@@ -698,7 +698,6 @@
 							<div class="form-group">
 								<label for="notes">Notes</label>
 								<TextEditor
-									id="summbernote_2"
 									name="notes"
 									height={200}
 									setValue={find_service?.operationProtocol?.notes ?? ''}
@@ -722,7 +721,7 @@
 <!-- @_Modal  Service -->
 <div class="modal fade" id="create_service_operation" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
-		<fieldset disabled={get_progress_note?.billing?.status !== 'active'}>
+		<fieldset>
 			<form
 				action="?/create_service_operation"
 				method="post"
@@ -784,12 +783,18 @@
 		};
 	}}
 	action="?/update_total_service"
-	class="card-footer row p-2 bg-light sticky-bottom"
+	class="card-footer row p-2 bg-light"
 >
 	<div class="col text-end">
-		<a class="btn btn-primary" href="/billing/single/{get_progress_note?.billing?.id}">Go Payment</a
+		<SendToPayment
+			status={get_progress_note?.billing?.status}
+			billing_id={get_progress_note?.billing?.id}
+			class="btn btn-danger"
 		>
+			Discharge
+		</SendToPayment>
 	</div>
+
 	<div class="col-auto">
 		<button type="button" class="btn btn-warning">Total Service</button>
 	</div>

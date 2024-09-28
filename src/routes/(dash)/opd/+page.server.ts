@@ -75,7 +75,6 @@ export const actions: Actions = {
 		if (!department_id) validErr.department_id = true;
 		if (!staff_id) validErr.staff_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-
 		const visit_id: { id: number }[] = await db
 			.insert(visit)
 			.values({
@@ -91,8 +90,6 @@ export const actions: Actions = {
 				logErrorMessage(String(e));
 				return [];
 			});
-		console.log(visit_id[0].id);
-
 		if (!visit_id[0].id) return fail(400, { visit_id: true });
 		if (visit_id[0].id) {
 			// doing billing

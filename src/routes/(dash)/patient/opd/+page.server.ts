@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { billing, document, formDocument, visit } from '$lib/server/schemas';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { desc, eq } from 'drizzle-orm';
+import { desc, eq, or } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
@@ -11,7 +11,7 @@ export const load = (async ({ parent }) => {
 	const get_departments = await db.query.department.findMany();
 	const get_staffs = await db.query.staff.findMany();
 	const get_visits = await db.query.visit.findMany({
-		where: eq(visit.checkin_type, 'OPD'),
+		where: or(eq(visit.checkin_type, 'OPD'), eq(visit.transfer, true)),
 		with: {
 			staff: true,
 			patient: true,
@@ -31,20 +31,6 @@ export const load = (async ({ parent }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	send_to_ipd: async ({ request }) => {
-		const body = await request.formData();
-		const id = body.get('id');
-		if (!id || isNaN(+id)) return fail(303, { idErr: true });
-		await db
-			.update(visit)
-			.set({
-				checkin_type: 'IPD'
-			})
-			.where(eq(visit.id, +id))
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
 	update_etiology: async ({ request }) => {
 		const body = await request.formData();
 		const id = body.get('id');
@@ -101,8 +87,7 @@ export const actions: Actions = {
 		await db
 			.update(billing)
 			.set({
-				status: status,
-				checkin_type: 'OPD'
+				status: status
 			})
 			.where(eq(billing.id, +billing_id))
 			.catch((e) => {

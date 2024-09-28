@@ -1,1 +1,107 @@
-<h1>IPD</h1>
+<script lang="ts">
+	import type { PageServerData } from './$types';
+	import { inerHight } from '$lib/store';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
+	export let data: PageServerData;
+	$: ({ get_billings } = data);
+</script>
+
+<div class="row">
+	<div class="col-sm-6">
+		<h2>Billing IPD</h2>
+	</div>
+	<div class="col-sm-6">
+		<ol class="breadcrumb justify-content-end">
+			<li class="breadcrumb-item">
+				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
+					><i class="fas fa-tachometer-alt"></i>
+					Home
+				</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href={'#'} class="btn btn-link p-0 text-secondary"
+					><i class="fas fa-money-bills"></i>
+					Billing
+				</a>
+			</li>
+			<li class="breadcrumb-item">
+				<a href={'#'} class="btn btn-link p-0 text-secondary"
+					><i class=" fas fa-procedures"></i>
+					IPD
+				</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<!-- <h3 class="card-title">Fixed Header Table</h3> -->
+				<div class="row">
+					<div class="col">
+						<input
+							type="text"
+							name="table_search"
+							class="form-control float-right"
+							placeholder="Search"
+						/>
+					</div>
+				</div>
+			</div>
+			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0">
+				<table class="table table-hover">
+					<thead class="sticky-top top-0 bg-light table-active">
+						<tr class="text-center">
+							<th style="width: 5%;">N</th>
+							<th style="width: 10%;">Dates</th>
+							<th style="width: 5%;">#</th>
+							<th style="width: 10%;">Patient</th>
+							<th style="width: 10%;">Status</th>
+							<th style="width: 10%;">Payment</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each get_billings as item}
+							<tr class="text-center">
+								<td>
+									{item.id}
+								</td>
+
+								<td>
+									<DateTimeFormat date={item?.created_at} />
+								</td>
+								<td>
+									{item.progress_note_id}
+								</td>
+								<td>
+									<a href="/opd/{item.id}/subjective">
+										<span class="">
+											{item?.patient?.name_khmer}
+										</span>
+										<br />
+										<span class="badge text-bg-primary">
+											{item?.patient?.name_latin}
+										</span>
+									</a>
+								</td>
+								<td>
+									{item.status ?? ''}
+								</td>
+								<td>
+									{#if item.visit_id && item.progress_note_id}
+										<a class="btn btn-link" href="/billing/single/{item.id}">Go to Payment</a>
+									{:else}
+										<a class="btn btn-link" href="/billing/multiple/{item.progress_note_id}"
+											>Go to Payment</a
+										>
+									{/if}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -212,12 +212,7 @@
 					name="title"
 					id="title"
 				/>
-				<TextEditor
-					setValue={find_form_document?.content ?? ''}
-					name="content"
-					id="document"
-					height={600}
-				/>
+				<TextEditor setValue={find_form_document?.content ?? ''} name="content" height={600} />
 			</div>
 			<div class="modal-footer justify-content-end">
 				<!-- <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> -->

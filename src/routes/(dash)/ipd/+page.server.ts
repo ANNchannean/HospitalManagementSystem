@@ -143,6 +143,7 @@ export const actions: Actions = {
 		if (!department_id) validErr.department_id = true;
 		if (!staff_id) validErr.staff_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
+		// Updae Progress Note or bed
 		if (progress_note_id) {
 			await db
 				.update(progressNote)
@@ -162,12 +163,14 @@ export const actions: Actions = {
 				charge_id: +charge_on_bed_id,
 				price: +price,
 				product_id: +product_id,
-				qty:1
+				qty: 1
 			});
 			redirect(303, `/ipd/${progress_note_id}/progress-note`);
 		}
+		// end Update Progress Note or bed
+		// New Progress Note
 		if (!progress_note_id) {
-			const progress_note_id = await db
+			const progress_note_id: { id: number }[] = await db
 				.insert(progressNote)
 				.values({
 					date_checkup: created_at,
@@ -177,12 +180,18 @@ export const actions: Actions = {
 					department_id: Number(department_id),
 					etiology: etiology
 				})
-				.$returningId();
+				.$returningId()
+				.catch((e) => {
+					logErrorMessage(e);
+					return [];
+				});
+			// Check is visit from OPD
 			if (visit_id) {
 				await db
 					.update(visit)
 					.set({
 						transfer: true,
+						checkin_type:'IPD',
 						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(visit.id, +visit_id))
@@ -193,7 +202,8 @@ export const actions: Actions = {
 					.update(billing)
 					.set({
 						status: 'active',
-						checkin_type: 'IPD'
+						checkin_type: 'IPD',
+						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(billing.id, +billing_id))
 					.catch((e) => {
@@ -205,6 +215,7 @@ export const actions: Actions = {
 					visit_id: +visit_id
 				});
 			}
+			// End check is visit from OPD
 			if (!visit_id) {
 				const id: { id: number }[] = await db
 					.insert(visit)
@@ -222,11 +233,10 @@ export const actions: Actions = {
 						logErrorMessage(e);
 						return [];
 					});
-
 				if (id[0].id) {
 					await preBilling({
 						visit_id: id[0].id,
-						progress_id: null,
+						progress_id: progress_note_id[0].id,
 						checkin_type: 'IPD',
 						patient_id: +patient_id
 					});
