@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { _,locale } from 'svelte-i18n'
+	import { _, locale } from 'svelte-i18n';
+	import { LL } from '$lib/i18n/i18n-svelte';
 </script>
-<button on:click={() => $locale = 'en'}>English</button>
-<button on:click={() => $locale = 'km'}>Khmer</button>
+
+{$LL.HI({ name: 'nean' })}
+<button on:click={() => ($locale = 'en')}>English</button>
+<button on:click={() => ($locale = 'km')}>Khmer</button>
 {$_('input_data')}
 <form id="myform" method="pos" action="something.php">
 	<input type="text" name="name" />
