@@ -5,7 +5,7 @@
 	} from '../../routes/(dash)/settup/parameter/group/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import Select from '$lib/coms/Select.svelte';
 	type Data = Pick<PageServerData, 'get_lab_groups' | 'get_product_labo'>;
 	export let form: ActionData;
@@ -61,7 +61,7 @@
 									id="product_name"
 								/>
 								{#if form?.product_name}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 								/>
 
 								{#if form?.lab_group_id}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -92,7 +92,7 @@
 									id="price"
 								/>
 								{#if form?.price}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>

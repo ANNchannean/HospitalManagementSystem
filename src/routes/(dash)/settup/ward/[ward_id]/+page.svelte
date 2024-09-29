@@ -64,7 +64,7 @@
 									id="bed"
 								/>
 								<!-- {#if form?.ward}
-									<p class="text-danger">{$t('common.input_data')}</p>
+									<p class="text-danger">{$_('input_data')}</p>
 								{/if} -->
 							</div>
 						</div>
@@ -138,7 +138,7 @@
 								<label for="ward">Room</label>
 								<input name="room" type="text" class="form-control" id="room" />
 								<!-- {#if form?.ward}
-									<p class="text-danger">{$t('common.input_data')}</p>
+									<p class="text-danger">{$_('input_data')}</p>
 								{/if} -->
 							</div>
 						</div>
@@ -219,7 +219,7 @@
 									id="room"
 								/>
 								<!-- {#if form?.ward}
-									<p class="text-danger">{$t('common.input_data')}</p>
+									<p class="text-danger">{$_('input_data')}</p>
 								{/if} -->
 							</div>
 						</div>

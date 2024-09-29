@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import type { PageServerData, ActionData } from '../../routes/(dash)/medicine/list/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Select from '$lib/coms/Select.svelte';
@@ -59,7 +59,7 @@
 									id="name_product"
 								/>
 								{#if form?.name_product}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -73,7 +73,7 @@
 								/>
 
 								{#if form?.unit_id}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -88,7 +88,7 @@
 									id="price"
 								/>
 								{#if form?.price}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>

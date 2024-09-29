@@ -6,7 +6,7 @@
 	type Data = Pick<PageServerData, 'get_units' | 'get_parameters'>;
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	export let form: ActionData;
@@ -63,7 +63,7 @@
 									id="parameter"
 								/>
 								{#if form?.parameter_}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 								/>
 
 								{#if form?.description}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -103,7 +103,7 @@
 										</div>
 
 										{#if form?.unit_id}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>
@@ -121,7 +121,7 @@
 											<option value="Female">Female</option>
 										</select>
 										{#if form?.gender}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>
@@ -141,7 +141,7 @@
 											id="mini"
 										/>
 										{#if form?.mini}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>
@@ -173,7 +173,7 @@
 											id="Maxi"
 										/>
 										{#if form?.maxi}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>

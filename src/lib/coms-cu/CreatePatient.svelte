@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import ImagePreview from '$lib/coms/ImagePreview.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import Select from '$lib/coms/Select.svelte';
 	import { dobToAge, now_date } from '$lib/helper';
 	type Data = Pick<PageServerData, 'get_patients' | 'get_province'>;
@@ -112,7 +112,7 @@
 									id="name_khmer"
 								/>
 								{#if form?.name_khmer}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -128,7 +128,7 @@
 									id="name_latin"
 								/>
 								{#if form?.name_latin}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -149,7 +149,7 @@
 									<option value="Female">Female</option>
 								</select>
 								{#if form?.gender}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -166,7 +166,7 @@
 								/>
 
 								{#if form?.dob}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -184,7 +184,7 @@
 								/>
 
 								{#if form?.age}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -200,7 +200,7 @@
 									id="telephone"
 								/>
 								{#if form?.telephone}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -219,7 +219,7 @@
 								/>
 
 								{#if form?.province_id}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -236,7 +236,7 @@
 								/>
 
 								{#if form?.district_id}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -255,7 +255,7 @@
 								/>
 
 								{#if form?.commune_id}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -272,7 +272,7 @@
 								/>
 
 								{#if form?.village_id}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -289,7 +289,7 @@
 									id="Other"
 								/>
 								{#if form?.other}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 							<div class="form-group pb-3">

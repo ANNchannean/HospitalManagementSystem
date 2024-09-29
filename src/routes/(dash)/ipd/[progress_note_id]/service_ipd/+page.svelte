@@ -9,34 +9,6 @@
 	let loading = false;
 	$: ({ get_product_as_service, get_services } = data);
 	$: find_service = get_services.find((e) => e.id === service_id);
-	function destroy_summernote(id: string) {
-		const jQuery = (window as any).$;
-		jQuery(document).ready(function () {
-			jQuery(`#${id}`).summernote('destroy');
-		});
-	}
-	function create_summernote(id: string) {
-		if (browser) {
-			const jQuery = (window as any).$;
-			jQuery(document).ready(function () {
-				jQuery(`#${id}`).summernote({
-					toolbar: [
-						// [groupName, [list of button]]
-						['fontstyle', ['fontname', 'fontsize']],
-						['style', ['bold', 'italic', 'underline', 'clear']],
-						['font', ['strikethrough', 'superscript', 'subscript']],
-						['color', ['color']],
-						['para', ['ul', 'ol', 'paragraph']],
-						['height', ['height']],
-						['table']
-						// ['insert',['picture']],
-					],
-					tabsize: 2,
-					height: 200
-				});
-			});
-		}
-	}
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
@@ -84,8 +56,6 @@
 										<td
 											><button
 												on:click={() => {
-													create_summernote('summernote');
-													create_summernote('summernote1');
 													service_id = 0;
 													service_id = item.id;
 												}}
@@ -137,8 +107,6 @@
 					await update();
 					loading = false;
 					if (result.type !== 'failure') {
-						destroy_summernote('summernote');
-						destroy_summernote('summernote1');
 						service_id = 0;
 						document.getElementById('close_create_protocol')?.click();
 					}
@@ -148,10 +116,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Operation Protocol</h4>
 				<button
-					on:click={() => {
-						destroy_summernote('summernote');
-						destroy_summernote('summernote1');
-					}}
+					on:click={() => {}}
 					id="close_create_protocol"
 					type="button"
 					class="close"
@@ -353,7 +318,7 @@
 									class="form-control"
 								/>
 								<!-- {#if form?.description}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if} -->
 							</div>
 						</div>
@@ -379,7 +344,7 @@
 									class="form-control"
 								/>
 								<!-- {#if form?.description}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if} -->
 							</div>
 						</div>

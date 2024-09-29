@@ -5,7 +5,7 @@
 	} from '../../routes/(dash)/settup/parameter/group/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	type Data = Pick<PageServerData, 'get_units'>;
@@ -57,7 +57,7 @@
 								<label for="parameter">Parameter</label>
 								<input name="parameter_" type="text" class="form-control" id="parameter" />
 								{#if form?.parameter_}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -66,7 +66,7 @@
 								<label for="description">Description</label>
 								<TextEditor height={200} name="description" />
 								{#if form?.description}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>
@@ -91,7 +91,7 @@
 									</div>
 
 									{#if form?.unit_id}
-										<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+										<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 									{/if}
 								</div>
 								<div class="col-6">
@@ -103,7 +103,7 @@
 											<option value="Female">Female</option>
 										</select>
 										{#if form?.gender}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>
@@ -117,7 +117,7 @@
 										<label for="mini">Mini</label>
 										<input name="mini" type="number" step="0.01" class="form-control" id="mini" />
 										{#if form?.mini}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>
@@ -137,7 +137,7 @@
 										<label for="Maxi">Maxi</label>
 										<input name="maxi" type="number" step="0.01" class="form-control" id="Maxi" />
 										{#if form?.maxi}
-											<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+											<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 										{/if}
 									</div>
 								</div>

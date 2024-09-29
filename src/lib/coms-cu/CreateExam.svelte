@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/physical-exam/$types';
 	import { enhance } from '$app/forms';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	type Data = Pick<PageServerData, 'get_examas'>;
 	export let form: ActionData;
@@ -57,7 +57,7 @@
 									id="exam"
 								/>
 								{#if form?.examination}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>

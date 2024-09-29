@@ -2,7 +2,7 @@
 	import type { ActionData, PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import { inerHight } from '$lib/store';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	export let data: PageServerData;

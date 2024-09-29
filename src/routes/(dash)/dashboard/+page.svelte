@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { _, locale } from 'svelte-i18n';
-	import { LL } from '$lib/i18n/i18n-svelte';
 </script>
 
-{$LL.HI({ name: 'nean' })}
 <button on:click={() => ($locale = 'en')}>English</button>
 <button on:click={() => ($locale = 'km')}>Khmer</button>
 {$_('input_data')}

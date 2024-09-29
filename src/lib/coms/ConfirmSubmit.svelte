@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	export let loading: boolean;
 	export let action = '';
 	export let id = 'myid';
@@ -15,7 +15,7 @@
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content rounded-3 shadow">
 			<div class="modal-body p-4 text-center">
-				<h5 class="mb-0">{$t('common.confirm_yes')}</h5>
+				<h5 class="mb-0">{$_('confirm_yes')}</h5>
 			</div>
 			<div class="modal-footer flex-nowrap p-0">
 				{#if action}
@@ -25,7 +25,7 @@
 						type="submit"
 						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
 					>
-						<strong>{$t('common.yes')}</strong>
+						<strong>{$_('yes')}</strong>
 					</button>
 				{/if}
 				{#if !action}
@@ -35,14 +35,14 @@
 						type="submit"
 						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
 					>
-						<strong>{$t('common.yes')}</strong>
+						<strong>{$_('yes')}</strong>
 					</button>
 				{/if}
 				<button
 					id="close_confirm_submit"
 					type="button"
 					class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
-					data-bs-dismiss="modal">{$t('common.no')}</button
+					data-bs-dismiss="modal">{$_('no')}</button
 				>
 			</div>
 		</div>

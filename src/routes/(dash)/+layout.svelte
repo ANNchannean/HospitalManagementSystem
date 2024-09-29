@@ -2,7 +2,7 @@
 	import type { LayoutServerData } from './$types';
 	export let data: LayoutServerData;
 	import { page, navigating } from '$app/stores';
-	import { t, locale } from '$lib/translations';
+	import { _, locale } from 'svelte-i18n';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { inerHight, globalLoading } from '$lib/store';
@@ -12,7 +12,7 @@
 	// import { loginTracker } from '$lib/helper/loginTracker';
 	$: ({ get_clinich_info, get_progress_note, get_currency } = data);
 	$: {
-		$locale = data.lang ?? '';
+		$locale = data.lang || 'en';
 	}
 	let date = Intl.DateTimeFormat('en-GB', {
 		timeStyle: 'medium',
@@ -69,7 +69,7 @@
 	<div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></div>
 	<ul class="navbar-nav ml-auto">
 		<form use:enhance method="post">
-			{#if $locale === 'ko'}
+			{#if $locale === 'km' }
 				<li class="nav-item">
 					<button formaction="/?/lang_en" class="nav-link btn btn-link">
 						<img src="/english.ico" alt="none" />
@@ -78,7 +78,7 @@
 			{/if}
 			{#if $locale === 'en'}
 				<li class="nav-item">
-					<button formaction="/?/lang_ko" class="nav-link btn btn-link">
+					<button formaction="/?/lang_km" class="nav-link btn btn-link">
 						<img src="/khmer.ico" alt="none" />
 					</button>
 				</li>
@@ -151,7 +151,7 @@
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
 						</div>
-						{$t('common.dashboard')}
+						{$_('dashboard')}
 					</a>
 					<a
 						class:active={$page.url.pathname === '/billing/pos'}
@@ -161,7 +161,7 @@
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-money-bill-1-wave"></i>
 						</div>
-						{$t('common.pos')}
+						{$_('pos')}
 					</a>
 					<!-- Billing  -->
 
@@ -174,7 +174,7 @@
 						aria-controls="collapseLayouts"
 					>
 						<div class="sb-nav-link-icon"><i class="fas fa-money-bills"></i></div>
-						{$t('common.billing')}
+						{$_('billing')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 					</button>
 
@@ -191,7 +191,7 @@
 								class="nav-link"
 							>
 								<i class=" fas fa-stethoscope"></i> &nbsp;
-								{$t('common.billing_opd')}
+								{$_('billing_opd')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/billing/ipd'}
@@ -199,7 +199,7 @@
 								class="nav-link"
 							>
 								<i class=" fas fa-procedures"></i>&nbsp;
-								{$t('common.billing_ipd')}
+								{$_('billing_ipd')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/billing/report'}
@@ -207,7 +207,7 @@
 								class="nav-link"
 							>
 								<i class="fa-solid fa-sack-dollar"></i>&nbsp;
-								{$t('common.sale_reprot')}
+								{$_('sale_reprot')}
 							</a>
 						</nav>
 					</div>
@@ -216,7 +216,7 @@
 						<div class="sb-nav-link-icon">
 							<i class="fa-solid fa-briefcase-medical"></i>
 						</div>
-						{$t('common.products')}
+						{$_('products')}
 					</a>
 					<!-- patient  -->
 					<button
@@ -228,7 +228,7 @@
 						aria-controls="collapseLayouts"
 					>
 						<div class="sb-nav-link-icon"><i class="fas fa-wheelchair"></i></div>
-						{$t('common.patient')}
+						{$_('patient')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 					</button>
 
@@ -245,7 +245,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-restroom"></i> &nbsp;
-								{$t('common.patients')}
+								{$_('patients')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/patient/opd'}
@@ -253,7 +253,7 @@
 								class="nav-link"
 							>
 								<i class=" fas fa-stethoscope"></i>&nbsp;
-								{$t('common.patients_opd')}
+								{$_('patients_opd')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/patient/ipd'}
@@ -261,7 +261,7 @@
 								class="nav-link"
 							>
 								<i class=" fas fa-procedures"></i>&nbsp;
-								{$t('common.patients_ipd')}
+								{$_('patients_ipd')}
 							</a>
 						</nav>
 					</div>
@@ -276,7 +276,7 @@
 						aria-controls="collapseLayouts"
 					>
 						<div class="sb-nav-link-icon"><i class="fas fa-pills"></i></div>
-						{$t('common.medicine')}
+						{$_('medicine')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 					</button>
 
@@ -293,7 +293,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-tablets"></i> &nbsp;
-								{$t('common.list_medicine')}
+								{$_('list_medicine')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/medicine/type'}
@@ -301,7 +301,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-capsules"></i> &nbsp;
-								{$t('common.medicine_type')}
+								{$_('medicine_type')}
 							</a>
 						</nav>
 					</div>
@@ -310,7 +310,7 @@
 						<div class="sb-nav-link-icon">
 							<i class=" fas fa-image"></i>
 						</div>
-						{$t('common.imagerie')}
+						{$_('imagerie')}
 					</a>
 					<a
 						class:active={$page.url.pathname === '/laboratory'}
@@ -320,7 +320,7 @@
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-flask nav-icon"></i>
 						</div>
-						{$t('common.laboratory')}
+						{$_('laboratory')}
 					</a>
 					<a
 						class:active={$page.url.pathname === '/prescription'}
@@ -330,25 +330,25 @@
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-prescription"></i>
 						</div>
-						{$t('common.prescription')}
+						{$_('prescription')}
 					</a>
 					<a class:active={$page.url.pathname === '/vaccine'} href="/vaccine" class="nav-link">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-syringe"></i>
 						</div>
-						{$t('common.vaccine')}
+						{$_('vaccine')}
 					</a>
 					<a class:active={$page.url.pathname === '/document'} href="/document" class="nav-link">
 						<div class="sb-nav-link-icon">
 							<i class="fa-solid fa-file"></i>
 						</div>
-						{$t('common.documents')}
+						{$_('documents')}
 					</a>
 					<a class:active={$page.url.pathname === '/staff'} href="/staff" class="nav-link">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-users"></i>
 						</div>
-						{$t('common.staff')}
+						{$_('staff')}
 					</a>
 					<button
 						class="nav-link btn btn-link collapsed"
@@ -359,7 +359,7 @@
 						aria-controls="collapseLayouts"
 					>
 						<div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
-						{$t('common.settup')}
+						{$_('settup')}
 						<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 					</button>
 
@@ -376,7 +376,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-vials"></i> &nbsp;
-								{$t('common.lab_group')}
+								{$_('lab_group')}
 							</a>
 							<a
 								class:active={$page.url.pathname.includes('/settup/parameter/')}
@@ -384,7 +384,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-vial"></i>&nbsp;
-								{$t('common.parameter')}
+								{$_('parameter')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/img-list'}
@@ -392,7 +392,7 @@
 								class="nav-link"
 							>
 								<i class="fa-regular fa-image"></i>&nbsp;
-								{$t('common.imagerie_list')}
+								{$_('imagerie_list')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/img-group'}
@@ -400,7 +400,7 @@
 								class="nav-link"
 							>
 								<i class="fa-solid fa-images"></i>&nbsp;
-								{$t('common.imagerie_group')}
+								{$_('imagerie_group')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/img-template'}
@@ -408,7 +408,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-sticky-note"></i>&nbsp;
-								{$t('common.template_imagerie')}
+								{$_('template_imagerie')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/vaccine-list'}
@@ -417,7 +417,7 @@
 							>
 								<i class="fas fa-viruses"></i>&nbsp;
 
-								{$t('common.vaccine_list')}
+								{$_('vaccine_list')}
 							</a>
 
 							<a
@@ -426,7 +426,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-spell-check"></i>&nbsp;
-								{$t('common.past_history')}
+								{$_('past_history')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/physical-exam'}
@@ -434,7 +434,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-book-open"></i>&nbsp;
-								{$t('common.physical_exam')}
+								{$_('physical_exam')}
 							</a>
 
 							<a
@@ -443,7 +443,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-building"></i>&nbsp;
-								{$t('common.department')}
+								{$_('department')}
 							</a>
 
 							<a
@@ -459,7 +459,7 @@
 								class="nav-link"
 							>
 								<i class="fas fa-book"></i>&nbsp;
-								{$t('common.report')}
+								{$_('report')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/diagnosis'}
@@ -467,7 +467,7 @@
 								class="nav-link"
 							>
 								<i class="fa-solid fa-comment-medical"></i>&nbsp;
-								{$t('common.diagnosis')}
+								{$_('diagnosis')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/unit'}
@@ -475,7 +475,7 @@
 								class="nav-link"
 							>
 								<i class="fa-solid fa-layer-group"></i>&nbsp;
-								{$t('common.unit')}
+								{$_('unit')}
 							</a>
 							<a
 								class:active={$page.url.pathname === '/settup/clinic-info'}

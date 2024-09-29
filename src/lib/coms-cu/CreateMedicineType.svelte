@@ -2,7 +2,7 @@
 	import type { ActionData, PageServerData } from '../../routes/(dash)/medicine/type/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	type Data = Pick<PageServerData, 'get_unit_as_medicine'>;
 	export let unit_id: number;
 	export let form: ActionData;
@@ -57,7 +57,7 @@
 									id="medicine_type"
 								/>
 								{#if form?.medicine_type}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	export let action = '';
 	export let slug = '';
 	export let id: number | undefined = undefined;
@@ -26,7 +26,7 @@
 		<input value={slug} type="hidden" name="slug" />
 		<div class="modal-content">
 			<div class="modal-body p-4 text-center">
-				<h5 class="mb-0">{$t('common.confirm_delete')}</h5>
+				<h5 class="mb-0">{$_('confirm_delete')}</h5>
 				<!-- <p class="mb-0">You can always change your mind in your account settings.</p> -->
 			</div>
 			<div class="modal-footer justify-content-between">
@@ -35,7 +35,7 @@
 					type="button"
 					class="btn btn-secondary"
 					data-bs-dismiss="modal"
-					><i class="fa-solid fa-rectangle-xmark"></i> {$t('common.no')}</button
+					><i class="fa-solid fa-rectangle-xmark"></i> {$_('no')}</button
 				>
 				<button type="submit" class="btn btn-danger">
 					{#if loading}
@@ -43,7 +43,7 @@
 					{:else}
 						<i class="fa-solid fa-trash-can"></i>
 					{/if}
-					{$t('common.yes')}</button
+					{$_('yes')}</button
 				>
 			</div>
 		</div>

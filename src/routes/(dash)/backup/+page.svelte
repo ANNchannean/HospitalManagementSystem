@@ -2,7 +2,7 @@
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
 	let backup_name = '';
@@ -15,7 +15,7 @@
 
 <div class="row">
 	<div class="col-sm-6">
-		<h1 class="m-0">{$t('common.backup_list')}</h1>
+		<h1 class="m-0">{$_('backup_list')}</h1>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
@@ -68,11 +68,11 @@
 						<div class="col-sm-6">
 							<button disabled={!file} type="submit" class="btn btn-info">
 								<i class="fa-solid fa-arrows-rotate"></i>
-								{$t('common.restore')}
+								{$_('restore')}
 							</button>
 							<button formaction="?/backup" class="btn btn-success">
 								<i class="fa-solid fa-database"></i>
-								{$t('common.backup')}
+								{$_('backup')}
 							</button>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 									.split('.')
 									.join(':')}
 								<tr>
-									<td style="width: 5%;">{$t('common.date')}</td>
+									<td style="width: 5%;">{$_('date')}</td>
 									<td style="width: 20%;"
 										>{new Intl.DateTimeFormat('en-GB', {
 											dateStyle: 'short',
@@ -119,10 +119,10 @@
 												<input type="hidden" value={item} name="name_backup" />
 												<button type="submit" class="btn btn-info btn-sm"
 													><i class="fa-solid fa-arrows-rotate"></i>
-													{$t('common.restore')}
+													{$_('restore')}
 												</button>
 												<a download href="/backup/{item}" class="btn btn-success btn-sm"
-													><i class="fa-solid fa-download"></i> {$t('common.download')}
+													><i class="fa-solid fa-download"></i> {$_('download')}
 												</a>
 												<a
 													href={'#'}
@@ -135,7 +135,7 @@
 													data-bs-toggle="modal"
 													data-bs-target="#delete_modal"
 													><i class="fa-solid fa-trash-can"></i>
-													{$t('common.delete_backup')}
+													{$_('delete_backup')}
 												</a>
 											</form>
 										</div>

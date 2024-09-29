@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import type { PageServerData } from '../../routes/(dash)/patient/opd/$types';
 	type Data = Pick<PageServerData, 'get_visits' | 'get_form_documents'>;
 	export let data: Data;

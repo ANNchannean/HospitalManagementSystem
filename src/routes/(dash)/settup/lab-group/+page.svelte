@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import { inerHight } from '$lib/store';
 	export let form: ActionData;
 	export let data: PageServerData;
@@ -57,7 +57,7 @@
 									id="lab_group"
 								/>
 								{#if form?.lab_group}
-									<p class="text-danger">{$t('common.input_data')}</p>
+									<p class="text-danger">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>

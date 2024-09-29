@@ -5,7 +5,7 @@
 	import Select from '$lib/coms/Select.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import Words from '$lib/coms-cu/Words.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;
@@ -129,7 +129,7 @@
 							id="etiology"
 						/>
 						{#if form?.etiology}
-							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+							<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 						{/if}
 					</div>
 				</div>
@@ -138,7 +138,7 @@
 					<div class="col-sm-9">
 						<Select name="staff_id" items={get_staffs.map((e) => ({ id: e.id, name: e.name }))} />
 						{#if form?.staff_id}
-							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+							<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 						{/if}
 					</div>
 				</div>
@@ -150,7 +150,7 @@
 							items={get_departments.map((e) => ({ id: e.id, name: e.department }))}
 						/>
 						{#if form?.department_id}
-							<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+							<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 						{/if}
 					</div>
 				</div>

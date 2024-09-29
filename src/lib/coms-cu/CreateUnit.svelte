@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { t } from '$lib/translations';
+	import { _ } from 'svelte-i18n';
 	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/unit/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Select from '$lib/coms/Select.svelte';
@@ -58,7 +58,7 @@
 									id="unit_"
 								/>
 								{#if form?.unit_}
-									<p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+									<p class="text-danger p-0 m-0">{$_('input_data')}</p>
 								{/if}
 							</div>
 						</div>

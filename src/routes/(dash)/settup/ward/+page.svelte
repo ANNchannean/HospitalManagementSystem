@@ -56,7 +56,7 @@
 									id="ward"
 								/>
 								<!-- {#if form?.ward}
-									<p class="text-danger">{$t('common.input_data')}</p>
+									<p class="text-danger">{$_('input_data')}</p>
 								{/if} -->
 							</div>
 						</div>

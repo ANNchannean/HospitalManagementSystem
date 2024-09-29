@@ -55,7 +55,7 @@
 										id="physical_name"
 									/>
 									<!-- {#if form?.examination}
-                                        <p class="text-danger p-0 m-0">{$t('common.input_data')}</p>
+                                        <p class="text-danger p-0 m-0">{$_('input_data')}</p>
                                         {/if} -->
 								</div>
 							</div>
