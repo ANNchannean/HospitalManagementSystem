@@ -16,7 +16,7 @@ import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { createProductOrder, deleteProductOrder, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
-	const {progress_note_id} = params
+	const { progress_note_id } = params;
 	const get_progress_note = await db.query.visit.findFirst({
 		where: eq(progressNote.id, Number(progress_note_id))
 	});

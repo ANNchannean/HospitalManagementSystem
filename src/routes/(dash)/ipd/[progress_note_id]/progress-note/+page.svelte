@@ -7,7 +7,6 @@
 	import ParaClinic from '$lib/coms-ipd/ParaClinic.svelte';
 	import Treatment from '$lib/coms-ipd/Treatment.svelte';
 	import CopyPrescription from '$lib/coms-ipd/CopyPrescription.svelte';
-	import SendToPayment from '$lib/coms-billing/SendToPayment.svelte';
 	import CheckOut from '$lib/coms-ipd/CheckOut.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
@@ -32,7 +31,9 @@
 			><i class="fa-solid fa-square-plus"></i>
 			New Progress note
 		</button>
-		<CheckOut class="btn btn-danger" {data}>Discharge</CheckOut>
+		<CheckOut class="btn btn-danger" data={{ get_progress_note: get_progress_note }}
+			>Discharge</CheckOut
+		>
 	</div>
 </div>
 <br />

@@ -34,8 +34,7 @@
 					id="close_delete_modal"
 					type="button"
 					class="btn btn-secondary"
-					data-bs-dismiss="modal"
-					><i class="fa-solid fa-rectangle-xmark"></i> {$_('no')}</button
+					data-bs-dismiss="modal"><i class="fa-solid fa-rectangle-xmark"></i> {$_('no')}</button
 				>
 				<button type="submit" class="btn btn-danger">
 					{#if loading}

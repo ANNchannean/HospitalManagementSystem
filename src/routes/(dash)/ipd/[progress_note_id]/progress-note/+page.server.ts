@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, +progress_note_id),
 		with: {
-			billing:true,
+			billing: true,
 			visit: {
 				with: {
 					adviceTeaching: true,
@@ -284,7 +284,7 @@ export const actions: Actions = {
 			charge_id: Number(charge_on_prescription?.id),
 			price: Number(get_prescription?.product?.price),
 			product_id: Number(get_prescription?.product_id),
-			qty:1
+			qty: 1
 		});
 		await db.insert(activePresrciption).values({
 			active_for: active_for,

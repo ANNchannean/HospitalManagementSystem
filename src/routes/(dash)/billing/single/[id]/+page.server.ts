@@ -139,7 +139,7 @@ export const actions: Actions = {
 			charge_id: Number(charge_on_general?.id),
 			price: +price,
 			product_id: +product_id,
-			qty:1
+			qty: 1
 		}).catch((e) => {
 			logErrorMessage(e);
 		});

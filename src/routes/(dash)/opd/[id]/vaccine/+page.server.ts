@@ -130,7 +130,7 @@ export const actions: Actions = {
 					charge_id: Number(charge_on_service?.id),
 					price: Number(get_product?.price),
 					product_id: Number(+e),
-					qty:1
+					qty: 1
 				});
 			}
 		}

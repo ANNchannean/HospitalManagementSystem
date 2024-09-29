@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { copyPrescription } from '$lib/store/copyPrescription';
 	import type { TPrescription } from '$lib/type/index';
+	import { _ } from 'svelte-i18n';
 	export let data: TPrescription[] | [];
 	function copy() {
 		if ($copyPrescription?.length) $copyPrescription = [];
@@ -18,10 +19,10 @@
 		class={className}
 	>
 		{#if $copyPrescription === data}
-			បានចម្លង
+			{$_('copied')}
 			<i class="fa-solid fa-check"></i>
 		{:else}
-			ចម្លង
+			{$_('copy')}
 			<i class="fa-regular fa-copy"></i>
 		{/if}
 	</button>

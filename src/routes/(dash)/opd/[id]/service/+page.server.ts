@@ -96,7 +96,7 @@ export const actions: Actions = {
 			charge_id: charge_on_service!.id,
 			product_id: get_product!.id,
 			price: get_product?.price ?? 0,
-			qty:1
+			qty: 1
 		});
 	},
 	delete_service: async ({ request, params }) => {

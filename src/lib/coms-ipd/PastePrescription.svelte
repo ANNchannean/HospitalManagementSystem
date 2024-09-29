@@ -18,7 +18,7 @@
 		method="post"
 	>
 		<input value="paste_prescription" type="hidden" name="paste_prescription" />
-		{#each $copyPrescription || [] as item }
+		{#each $copyPrescription || [] as item}
 			<input value={item?.product_id ?? ''} type="hidden" name="product_id" />
 			<input value={item?.use ?? ''} type="hidden" name="use" />
 			<input value={item?.amount ?? ''} type="hidden" name="amount" />

@@ -70,11 +70,7 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<label for="description">Description</label>
-								<TextEditor
-									
-									name="description"
-									setValue={find_parameter?.description ?? ''}
-								/>
+								<TextEditor name="description" setValue={find_parameter?.description ?? ''} />
 
 								{#if form?.description}
 									<p class="text-danger p-0 m-0">{$_('input_data')}</p>

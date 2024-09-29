@@ -69,7 +69,7 @@
 	<div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></div>
 	<ul class="navbar-nav ml-auto">
 		<form use:enhance method="post">
-			{#if $locale === 'km' }
+			{#if $locale === 'km'}
 				<li class="nav-item">
 					<button formaction="/?/lang_en" class="nav-link btn btn-link">
 						<img src="/english.ico" alt="none" />

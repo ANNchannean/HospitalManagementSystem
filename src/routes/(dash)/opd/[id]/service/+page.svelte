@@ -334,7 +334,6 @@
 							<div class="form-group">
 								<label for="opertive_technique">Opertive Technique</label>
 								<TextEditor
-								
 									name="opertive_technique"
 									height={200}
 									setValue={find_service?.operationProtocol?.opertive_technique ?? ''}
@@ -361,7 +360,6 @@
 							<div class="form-group">
 								<label for="notes">Notes</label>
 								<TextEditor
-								
 									name="notes"
 									height={200}
 									setValue={find_service?.operationProtocol?.notes ?? ''}

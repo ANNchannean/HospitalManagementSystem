@@ -90,5 +90,7 @@
 	"confirm_yes": "Click YES to confirme!",
 	"your_location": "From your location",
 	"sale_reprot": "Sale report",
-	"visit_type": "Visit Type"
+	"visit_type": "Visit Type",
+	"copy": "Copy",
+	"copied": "Copied"
 }

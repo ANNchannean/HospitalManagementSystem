@@ -191,7 +191,7 @@ export const actions: Actions = {
 					.update(visit)
 					.set({
 						transfer: true,
-						checkin_type:'IPD',
+						checkin_type: 'IPD',
 						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(visit.id, +visit_id))

@@ -102,8 +102,7 @@ export const progressNote = mysqlTable('progress_note', {
 		.notNull(),
 	bed_id: int('bed_id')
 		.references(() => bed.id)
-		.notNull(),
-	
+		.notNull()
 });
 
 export const progressNoteRelations = relations(progressNote, ({ one, many }) => ({
@@ -128,7 +127,7 @@ export const progressNoteRelations = relations(progressNote, ({ one, many }) => 
 	}),
 	service: many(service),
 	billing: one(billing),
-	presrciption: many(presrciption),
+	presrciption: many(presrciption)
 }));
 export const nursingProcessRelations = relations(nursingProcess, ({ one }) => ({
 	staff: one(staff, {
