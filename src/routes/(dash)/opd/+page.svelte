@@ -5,7 +5,7 @@
 	import Select from '$lib/coms/Select.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import Words from '$lib/coms-cu/Words.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;

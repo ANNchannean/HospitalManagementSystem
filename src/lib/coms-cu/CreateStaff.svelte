@@ -2,7 +2,7 @@
 	import type { ActionData, PageServerData } from '../../routes/(dash)/staff/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	type Data = Pick<PageServerData, 'get_staffs'>;
 	export let form: ActionData;
 	export let data: Data;

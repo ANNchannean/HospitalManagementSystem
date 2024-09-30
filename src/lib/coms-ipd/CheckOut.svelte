@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import type { PageServerData } from '../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
 	type Data = Pick<PageServerData, 'get_progress_note'>;
 	export let data: Data;

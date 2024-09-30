@@ -5,7 +5,7 @@
 	} from '../../routes/(dash)/settup/parameter/group/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	type Data = Pick<PageServerData, 'get_units'>;

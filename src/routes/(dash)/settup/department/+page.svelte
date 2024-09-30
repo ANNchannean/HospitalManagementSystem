@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import { inerHight } from '$lib/store';
 	export let form: ActionData;
 	export let data: PageServerData;

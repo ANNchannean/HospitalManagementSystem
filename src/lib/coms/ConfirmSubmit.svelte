@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	export let loading: boolean;
 	export let action = '';
 	export let id = 'myid';

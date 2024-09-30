@@ -11,15 +11,9 @@
 	let prescription_id: number;
 	let unit_id: number;
 	let loading = false;
-	$: ({
-		get_advice_teaching,
-		get_products,
-		get_prescriptions,
-		get_units_as_medicine,
-		get_uses,
-		get_durations
-	} = data);
-	$: find_prescription = get_prescriptions.find((e) => e.id === prescription_id);
+	$: ({ get_products, get_progress_note, get_units_as_medicine, get_uses, get_durations } = data);
+	$: find_prescription = get_progress_note?.presrciption.find((e) => e.id === prescription_id);
+	$: get_prescriptions = get_progress_note?.presrciption || [];
 </script>
 
 <CreatePresrciption
@@ -151,41 +145,3 @@
 	</div>
 </div>
 <br />
-<div class="card card-info">
-	<div class="card-header fs-5">
-		<span># Advice or Teaching</span>
-	</div>
-	<form
-		data-bs-sveltekit-keepfocus
-		use:enhance={() => {
-			loading = true;
-			return async ({ update }) => {
-				await update();
-				loading = false;
-			};
-		}}
-		action="?/create_advice_teaching"
-		method="post"
-		class="form-horizontal"
-	>
-		<div class="card-body">
-			<div class="form-group row">
-				<div class="col-sm-12">
-					<div class="input-group">
-						<textarea
-							value={get_advice_teaching?.description ?? ''}
-							id="advice_teaching"
-							name="advice_teaching"
-							rows="5"
-							class="form-control"
-						/>
-					</div>
-				</div>
-			</div>
-
-			<div class="float-end py-4">
-				<SubmitButton {loading} />
-			</div>
-		</div>
-	</form>
-</div>

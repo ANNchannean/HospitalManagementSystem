@@ -17,8 +17,8 @@
 		"db:mig": "tsx src/lib/server/db/migrate.ts ",
 		"db:seed": "tsx src/lib/server/db/seed.ts ",
 		"db:drop": "tsx src/lib/server/db/drop.ts && tsx src/lib/server/db/create.ts",
-		"db:create": "tsx src/lib/server/db/create.ts ",
-		"typesafe-i18n": "typesafe-i18n"
+		"db:create": "tsx src/lib/server/db/create.ts "
+
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -63,7 +63,6 @@
 		"redis": "^4.7.0",
 		"sharp": "^0.33.4",
 		"suneditor": "^2.47.0",
-		"svelte-i18n": "^4.0.0",
 		"vite-imagetools": "^7.0.4"
 	},
 	"type": "module"

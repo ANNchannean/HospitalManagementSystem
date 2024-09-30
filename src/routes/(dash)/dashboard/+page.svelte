@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { _, locale } from 'svelte-i18n';
+	import { _, locale } from '$lib/translations';
 </script>
 
-<button on:click={() => ($locale = 'en')}>English</button>
-<button on:click={() => ($locale = 'km')}>Khmer</button>
-{$_('input_data')}
+{$_('your_location')}
+<button on:click={() => ($locale = 'km')} type="button">Switch</button>
+<button on:click={() => ($locale = 'en')} type="button">Switch</button>
 <form id="myform" method="pos" action="something.php">
 	<input type="text" name="name" />
 </form>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/unit/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Select from '$lib/coms/Select.svelte';

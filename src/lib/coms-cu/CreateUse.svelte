@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import type {
 		ActionData,
 		PageServerData

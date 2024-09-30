@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import type {
 		ActionData,
 		PageServerData

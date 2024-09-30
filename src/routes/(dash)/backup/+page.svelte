@@ -2,7 +2,7 @@
 	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import { globalLoading } from '$lib/store';
 	export let data: PageServerData;
 	let backup_name = '';

@@ -2,7 +2,7 @@
 	import type { ActionData, PageServerData } from '../../routes/(dash)/medicine/type/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	type Data = Pick<PageServerData, 'get_unit_as_medicine'>;
 	export let unit_id: number;
 	export let form: ActionData;

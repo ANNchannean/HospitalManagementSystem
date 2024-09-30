@@ -2,7 +2,7 @@
 	import type { LayoutServerData } from './$types';
 	export let data: LayoutServerData;
 	import { page, navigating } from '$app/stores';
-	import { _, locale } from 'svelte-i18n';
+	import { _, locale } from '$lib/translations';
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { inerHight, globalLoading } from '$lib/store';
@@ -12,7 +12,7 @@
 	// import { loginTracker } from '$lib/helper/loginTracker';
 	$: ({ get_clinich_info, get_progress_note, get_currency } = data);
 	$: {
-		$locale = data.lang || 'en';
+		$locale = (data?.lang as 'en' | 'km') || 'en';
 	}
 	let date = Intl.DateTimeFormat('en-GB', {
 		timeStyle: 'medium',

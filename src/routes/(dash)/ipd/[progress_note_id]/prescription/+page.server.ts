@@ -1,15 +1,6 @@
 import { db } from '$lib/server/db';
-import {
-	adviceTeaching,
-	duration,
-	presrciption,
-	product,
-	progressNote,
-	unit,
-	use,
-	visit
-} from '$lib/server/schemas';
-import { fail, redirect } from '@sveltejs/kit';
+import { presrciption, product, progressNote, unit } from '$lib/server/schemas';
+import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
@@ -20,7 +11,16 @@ export const load = (async ({ params }) => {
 	const get_progress_note = await db.query.visit.findFirst({
 		where: eq(progressNote.id, Number(progress_note_id)),
 		with: {
-			presrciption: true
+			presrciption: {
+				with: {
+					product: {
+						with: {
+							productGroupType: true,
+							unit: true
+						}
+					}
+				}
+			}
 		}
 	});
 	const get_uses = await db.query.use.findMany({});
@@ -166,14 +166,13 @@ export const actions: Actions = {
 			validErr.product_id = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 
-		if (!get_visit?.progress_note_id) {
-			await createProductOrder({
-				charge_id: charge_on_prescription!.id,
-				product_id: +product_id,
-				price: +get_product!.price,
-				qty: +amount
-			});
-		}
+		await createProductOrder({
+			charge_id: charge_on_prescription!.id,
+			product_id: +product_id,
+			price: +get_product!.price,
+			qty: +amount
+		});
+
 		await db
 			.insert(presrciption)
 			.values({
@@ -181,7 +180,7 @@ export const actions: Actions = {
 				duration: duration,
 				product_id: +product_id,
 				use: use,
-				visit_id: +visit_id,
+				progress_note_id: +progress_note_id,
 				morning: +morning,
 				noon: +noon,
 				afternoon: +afternoon,
@@ -263,20 +262,15 @@ export const actions: Actions = {
 			});
 	},
 	delete_prescription: async ({ request, params }) => {
-		const { id: visit_id } = params;
+		const { progress_note_id } = params;
 		const body = await request.formData();
 		const id = body.get('id') ?? '';
 		const get_prescription = await db.query.presrciption.findFirst({
 			where: eq(presrciption.id, +id)
 		});
-		const get_visit = await db.query.visit.findFirst({
-			where: eq(visit.id, +visit_id),
+		const get_progress_note = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +progress_note_id),
 			with: {
-				imagerieRequest: {
-					with: {
-						product: true
-					}
-				},
 				billing: {
 					with: {
 						charge: {
@@ -285,133 +279,22 @@ export const actions: Actions = {
 							}
 						}
 					}
-				}
+				},
+				presrciption: true
 			}
 		});
-		const charge_on_prescription = get_visit?.billing?.charge.find(
+		const charge_on_prescription = get_progress_note?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
 		const get_product_order = charge_on_prescription?.productOrder.find(
 			(e) => e.product_id === get_prescription?.product_id
 		);
-		if (get_product_order && !get_visit?.progress_note_id) {
+		if (get_product_order) {
 			await deleteProductOrder(get_product_order!.id);
 		}
 		await db
 			.delete(presrciption)
 			.where(eq(presrciption.id, +id))
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
-	create_advice_teaching: async ({ request, params }) => {
-		const visit_id = params.id;
-		const body = await request.formData();
-		const { advice_teaching } = Object.fromEntries(body) as Record<string, string>;
-		const get_advice_teaching = await db.query.adviceTeaching.findFirst({
-			where: eq(adviceTeaching.visit_id, +visit_id)
-		});
-		if (!get_advice_teaching) {
-			await db
-				.insert(adviceTeaching)
-				.values({
-					visit_id: +visit_id,
-					description: advice_teaching
-				})
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-		}
-		if (get_advice_teaching) {
-			await db
-				.update(adviceTeaching)
-				.set({
-					description: advice_teaching
-				})
-				.where(eq(adviceTeaching.id, get_advice_teaching.id))
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-		}
-		redirect(303, '?');
-	},
-	create_use: async ({ request }) => {
-		const body = await request.formData();
-		const description = body.get('description')?.toString() ?? '';
-		if (!description || description.trim().length == 0) return fail(400, { descriptionErr: true });
-		await db
-			.insert(use)
-			.values({
-				description: description
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
-	update_use: async ({ request }) => {
-		const body = await request.formData();
-		const description = body.get('description')?.toString() ?? '';
-		const id = body.get('id')?.toString() ?? '';
-		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		if (!description || description.trim().length == 0) return fail(400, { descriptionErr: true });
-		await db
-			.update(use)
-			.set({
-				description: description
-			})
-			.where(eq(use.id, +id))
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
-	delete_use: async ({ request }) => {
-		const body = await request.formData();
-		const id = body.get('id')?.toString() ?? '';
-		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		await db
-			.delete(use)
-			.where(eq(use.id, +id))
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
-
-	create_duration: async ({ request }) => {
-		const body = await request.formData();
-		const description = body.get('description')?.toString() ?? '';
-		if (!description || description.trim().length == 0) return fail(400, { descriptionErr: true });
-		await db
-			.insert(duration)
-			.values({
-				description: description
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
-	update_duration: async ({ request }) => {
-		const body = await request.formData();
-		const description = body.get('description')?.toString() ?? '';
-		const id = body.get('id')?.toString() ?? '';
-		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		if (!description || description.trim().length == 0) return fail(400, { descriptionErr: true });
-		await db
-			.update(duration)
-			.set({
-				description: description
-			})
-			.where(eq(duration.id, +id))
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-	},
-	delete_duration: async ({ request }) => {
-		const body = await request.formData();
-		const id = body.get('id')?.toString() ?? '';
-		if (!id || isNaN(+id)) return fail(400, { idErr: true });
-		await db
-			.delete(duration)
-			.where(eq(duration.id, +id))
 			.catch((e) => {
 				logErrorMessage(e);
 			});

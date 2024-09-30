@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from '../../routes/(dash)/settup/physical-exam/$types';
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	type Data = Pick<PageServerData, 'get_examas'>;
 	export let form: ActionData;

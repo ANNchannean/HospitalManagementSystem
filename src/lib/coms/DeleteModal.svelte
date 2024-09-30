@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	export let action = '';
 	export let slug = '';
 	export let id: number | undefined = undefined;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { copyPrescription } from '$lib/store/copyPrescription';
 	import type { TPrescription } from '$lib/type/index';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	export let data: TPrescription[] | [];
 	function copy() {
 		if ($copyPrescription?.length) $copyPrescription = [];

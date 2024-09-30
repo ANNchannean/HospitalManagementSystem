@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import ImagePreview from '$lib/coms/ImagePreview.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
 	import { dobToAge, now_date } from '$lib/helper';
 	type Data = Pick<PageServerData, 'get_patients' | 'get_province'>;

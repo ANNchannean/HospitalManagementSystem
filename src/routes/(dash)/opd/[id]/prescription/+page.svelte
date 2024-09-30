@@ -4,7 +4,6 @@
 	import type { ActionData, PageServerData } from './$types';
 	import CreatePresrciption from '$lib/coms-cu/CreatePresrciption.svelte';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
-	import { copyPrescription } from '$lib/store/copyPrescription';
 	import PastePrescription from '$lib/coms-ipd/PastePrescription.svelte';
 	export let data: PageServerData;
 	export let form: ActionData;

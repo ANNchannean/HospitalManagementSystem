@@ -5,7 +5,7 @@
 	} from '../../routes/(dash)/settup/parameter/group/$types';
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	import Select from '$lib/coms/Select.svelte';
 	type Data = Pick<PageServerData, 'get_lab_groups' | 'get_product_labo'>;
 	export let form: ActionData;

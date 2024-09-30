@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { _ } from 'svelte-i18n';
+	import { _ } from '$lib/translations';
 	export let billing_id: number | undefined;
 	export let status = 'active' as 'paid' | 'partial' | 'due' | 'active' | 'process';
 	let loading = false;

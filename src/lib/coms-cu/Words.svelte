@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
+	import { _ } from '$lib/translations';
 	interface Words {
 		id: number;
 		text: string;
@@ -75,7 +76,11 @@
 								/>
 							</div>
 							<div class="col-auto">
-								<SubmitButton {loading} name="Add" />
+								{#if words_id > 0 && isEdit}
+									<SubmitButton {loading} name={$_('update')} />
+								{:else}
+									<SubmitButton {loading} name={$_('add')} />
+								{/if}
 							</div>
 						</div>
 					</div>
