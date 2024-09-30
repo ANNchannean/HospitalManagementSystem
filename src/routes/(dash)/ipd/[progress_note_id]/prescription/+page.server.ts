@@ -18,21 +18,13 @@ import { createProductOrder, deleteProductOrder, updateProductOrder } from '$lib
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
 	const get_progress_note = await db.query.visit.findFirst({
-		where: eq(progressNote.id, Number(progress_note_id))
+		where: eq(progressNote.id, Number(progress_note_id)),
+		with: {
+			presrciption: true
+		}
 	});
 	const get_uses = await db.query.use.findMany({});
 	const get_durations = await db.query.duration.findMany({});
-	const get_prescriptions = await db.query.presrciption.findMany({
-		where: eq(presrciption.visit_id, +visit_id),
-		with: {
-			product: {
-				with: {
-					productGroupType: true,
-					unit: true
-				}
-			}
-		}
-	});
 	const get_units_as_medicine = await db.query.unit.findMany({
 		where: eq(unit.product_group_type_id, 1)
 	});
@@ -43,23 +35,18 @@ export const load = (async ({ params }) => {
 			unit: true
 		}
 	});
-	const get_advice_teaching = await db.query.adviceTeaching.findFirst({
-		where: eq(adviceTeaching.visit_id, +visit_id)
-	});
 	return {
-		get_visit,
+		get_progress_note,
 		get_products,
 		get_units_as_medicine,
 		get_uses,
-		get_prescriptions,
-		get_advice_teaching,
 		get_durations
 	};
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
 	paste_prescription: async ({ request, params }) => {
-		const visit_id = params.id;
+		const { progress_note_id } = params;
 		const body = await request.formData();
 		const product_id = body.getAll('product_id');
 		const use = body.getAll('use');
@@ -80,16 +67,11 @@ export const actions: Actions = {
 			const afternoon_ = +afternoon[index];
 			const evening_ = +evening[index];
 			const night_ = +night[index];
-			const [get_product, get_visit] = await Promise.all([
+			const [get_product, get_progress_note] = await Promise.all([
 				db.query.product.findFirst({ where: eq(product.id, +product_id_) }),
-				db.query.visit.findFirst({
-					where: eq(visit.id, +visit_id),
+				db.query.progressNote.findFirst({
+					where: eq(progressNote.id, +progress_note_id),
 					with: {
-						imagerieRequest: {
-							with: {
-								product: true
-							}
-						},
 						billing: {
 							with: {
 								charge: {
@@ -103,16 +85,18 @@ export const actions: Actions = {
 					}
 				})
 			]);
-			const charge_on_prescription = get_visit?.billing?.charge.find(
+			const charge_on_prescription = get_progress_note?.billing?.charge.find(
 				(e) => e.charge_on === 'prescription'
 			);
 
 			const check_the_same_product_id = charge_on_prescription?.productOrder.some(
 				(e) => e.product_id === product_id_
 			);
-			const find_prescription = get_visit?.presrciption.some((e) => e.product_id === product_id_);
+			const find_prescription = get_progress_note?.presrciption.some(
+				(e) => e.product_id === product_id_
+			);
 			if (!check_the_same_product_id) {
-				if (!get_visit?.progress_note_id) {
+				if (!get_progress_note) {
 					await createProductOrder({
 						charge_id: charge_on_prescription!.id,
 						product_id: +product_id_,
@@ -129,7 +113,7 @@ export const actions: Actions = {
 						duration: duration_,
 						product_id: +product_id_,
 						use: use_,
-						visit_id: +visit_id,
+						progress_note_id: +progress_note_id,
 						morning: +morning_,
 						noon: +noon_,
 						afternoon: +afternoon_,
@@ -143,7 +127,7 @@ export const actions: Actions = {
 		}
 	},
 	create_prescription: async ({ request, params }) => {
-		const visit_id = params.id;
+		const { progress_note_id } = params;
 		const body = await request.formData();
 		const { product_id, use, amount, duration, morning, noon, afternoon, evening, night } =
 			Object.fromEntries(body) as Record<string, string>;
@@ -157,14 +141,9 @@ export const actions: Actions = {
 		if (!amount || isNaN(+amount)) validErr.amount = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
 		const get_product = await db.query.product.findFirst({ where: eq(product.id, +product_id) });
-		const get_visit = await db.query.visit.findFirst({
-			where: eq(visit.id, +visit_id),
+		const get_progress_note = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +progress_note_id),
 			with: {
-				imagerieRequest: {
-					with: {
-						product: true
-					}
-				},
 				billing: {
 					with: {
 						charge: {
@@ -177,10 +156,10 @@ export const actions: Actions = {
 				presrciption: true
 			}
 		});
-		if (get_visit?.presrciption.some((e) => e.product_id === +product_id)) {
+		if (get_progress_note?.presrciption.some((e) => e.product_id === +product_id)) {
 			validErr.product_id = true;
 		}
-		const charge_on_prescription = get_visit?.billing?.charge.find(
+		const charge_on_prescription = get_progress_note?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
 		if (charge_on_prescription?.productOrder.some((e) => e.product_id === +product_id))
@@ -214,7 +193,7 @@ export const actions: Actions = {
 			});
 	},
 	update_prescription: async ({ request, params }) => {
-		const visit_id = params.id;
+		const { progress_note_id } = params;
 		const body = await request.formData();
 		const {
 			product_id,
@@ -235,14 +214,9 @@ export const actions: Actions = {
 		if (!product_id || isNaN(+product_id)) validErr.product_id = true;
 		if (!amount || isNaN(+amount)) validErr.amount = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-		const get_visit = await db.query.visit.findFirst({
-			where: eq(visit.id, +visit_id),
+		const get_progress_note = await db.query.progressNote.findFirst({
+			where: eq(progressNote.id, +progress_note_id),
 			with: {
-				imagerieRequest: {
-					with: {
-						product: true
-					}
-				},
 				billing: {
 					with: {
 						charge: {
@@ -251,16 +225,17 @@ export const actions: Actions = {
 							}
 						}
 					}
-				}
+				},
+				presrciption: true
 			}
 		});
-		const charge_on_prescription = get_visit?.billing?.charge.find(
+		const charge_on_prescription = get_progress_note?.billing?.charge.find(
 			(e) => e.charge_on === 'prescription'
 		);
 		const get_product_order = charge_on_prescription?.productOrder.find(
 			(e) => e.product_id === +product_id
 		);
-		if (get_product_order && !get_visit?.progress_note_id) {
+		if (get_product_order && !get_progress_note?.id) {
 			await updateProductOrder({
 				disc: '',
 				price: Number(get_product_order?.price),
@@ -275,7 +250,7 @@ export const actions: Actions = {
 				duration: duration,
 				product_id: +product_id,
 				use: use,
-				visit_id: +visit_id,
+				progress_note_id: +progress_note_id,
 				morning: +morning,
 				noon: +noon,
 				afternoon: +afternoon,
