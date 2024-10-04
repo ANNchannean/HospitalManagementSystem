@@ -29,7 +29,6 @@
 	{form}
 />
 <DeleteModal action="?/delete_prescription" id={find_prescription?.id} />
-
 <div class="row">
 	<div class="col-12">
 		<div class="card">

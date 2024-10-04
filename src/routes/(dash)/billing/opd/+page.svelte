@@ -2,32 +2,33 @@
 	import type { PageServerData } from './$types';
 	import { inerHight } from '$lib/store';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
+	import { _ } from '$lib/translations';
 	export let data: PageServerData;
 	$: ({ get_billings } = data);
 </script>
 
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing OPD</h2>
+		<h2>{$_('billing_opd')}</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
 			<li class="breadcrumb-item">
 				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-tachometer-alt"></i>
-					Home
+					{$_('home')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bills"></i>
-					Billing
+					{$_('billing')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-stethoscope"></i>
-					OPD
+					{$_('opd')}
 				</a>
 			</li>
 		</ol>
@@ -53,12 +54,12 @@
 				<table class="table table-hover">
 					<thead class="sticky-top top-0 bg-light table-active">
 						<tr class="text-center">
-							<th style="width: 5%;">N</th>
-							<th style="width: 10%;">Dates</th>
+							<th style="width: 5%;">{$_('n')}</th>
+							<th style="width: 10%;">{$_('date')}</th>
 							<th style="width: 5%;">#</th>
-							<th style="width: 10%;">Patient</th>
-							<th style="width: 10%;">Status</th>
-							<th style="width: 10%;">Payment</th>
+							<th style="width: 10%;">{$_('patient')}</th>
+							<th style="width: 10%;">{$_('status')}</th>
+							<th style="width: 10%;">{$_('payment')}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -90,7 +91,7 @@
 									{item.status ?? ''}
 								</td>
 								<td>
-									<a class="btn btn-link" href="/billing/single/{item.id}">Go to Payment</a>
+									<a class="btn btn-link" href="/billing/single/{item.id}">{$_('go_to_payment')}</a>
 								</td>
 							</tr>
 						{/each}

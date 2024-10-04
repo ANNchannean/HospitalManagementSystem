@@ -50,7 +50,7 @@
 			}}
 		>
 			<div class="modal-header">
-				<h4 class="modal-title">Product</h4>
+				<h4 class="modal-title">{$_('products')}</h4>
 				<button
 					on:click={() => {
 						product_id = 0;
@@ -70,7 +70,7 @@
 						<div class="col-12">
 							<div class="form-group pb-3">
 								<input value={find_product?.id} type="hidden" name="product_id" />
-								<label for="name_product">Product Name</label>
+								<label for="name_product">{$_('product_name')}</label>
 								<input
 									value={find_product?.products ?? ''}
 									name="name_product"
@@ -85,7 +85,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group pb-3">
-								<label for="barcode">Barcode</label>
+								<label for="barcode">{$_('barcode')}</label>
 								<input
 									value={find_product?.barcode ?? ''}
 									name="barcode"
@@ -97,7 +97,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group pb-3">
-								<label for="generic_name">Generic name</label>
+								<label for="generic_name">{$_('generic_name')}</label>
 								<input
 									value={find_product?.generic_name ?? ''}
 									name="generic_name"
@@ -109,7 +109,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group pb-3">
-								<label for="product_id">Product Group Type</label>
+								<label for="product_id">{$_('product_group')}</label>
 								<div class="input-group">
 									<Select
 										bind:value={product_group_type_id}
@@ -140,7 +140,7 @@
 								<div class="row">
 									<div class="col-3">
 										<div class="form-group pb-3">
-											<label for="price">Price</label>
+											<label for="price">{$_('price')}</label>
 											<CurrencyInput
 												name="price"
 												amount={find_product?.price}
@@ -154,7 +154,7 @@
 									</div>
 									<div class="col-3">
 										<div class="form-group pb-3">
-											<label for="qty">Qty </label>
+											<label for="qty">{$_('qty')}</label>
 											<div class="input-group">
 												<input
 													class="form-control"
@@ -168,7 +168,7 @@
 									</div>
 									<div class="col-5">
 										<div class="form-group pb-3">
-											<label for="unit_id">Unit </label>
+											<label for="unit_id">{$_('unit')}</label>
 											<div class="input-group">
 												{main_unit_id}
 												<Select
@@ -199,7 +199,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group pb-3">
-								<label for="picture">Picture</label>
+								<label for="picture">{$_('picture')}</label>
 								<input
 									accept="image/*"
 									name="image"

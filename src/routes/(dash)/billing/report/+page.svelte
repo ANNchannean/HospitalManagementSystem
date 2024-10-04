@@ -217,7 +217,7 @@
 										<span class="badge text-bg-success">{item.status ?? ''}</span>
 									{:else if item.status === 'partial'}
 										<span class="badge text-bg-warning">{item.status ?? ''}</span>
-									{:else if item.status === 'due'}
+									{:else if item.status === 'debt'}
 										<span class="badge text-bg-danger">{item.status ?? ''}</span>
 									{/if}
 								</td>

@@ -21,6 +21,7 @@
 	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
 	import ChargeBed from '$lib/coms-billing/ChargeBed.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
+	import { _ } from '$lib/translations';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({ get_products, get_product_group_type, get_progress_note, get_currency } = data);
@@ -47,26 +48,26 @@
 {/if}
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing IPD</h2>
+		<h2>{$_('billing_ipd')}</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
 			<li class="breadcrumb-item">
 				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-tachometer-alt"></i>
-					Home
+					{$_('home')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bills"></i>
-					Billing
+					{$_('billing')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-stethoscope"></i>
-					IPD
+					{$_('ipd')}
 				</a>
 			</li>
 		</ol>
@@ -81,7 +82,7 @@
 					<div class="col-12 pb-2">
 						<table class="table m-0">
 							<tr>
-								<td>ឈ្មេះអ្នកជំងឺ</td>
+								<td>{$_('patient')}</td>
 								<td>:</td>
 								<td
 									>{get_progress_note?.patient?.name_khmer}
@@ -94,7 +95,7 @@
 						</table>
 					</div>
 					<SubmiteSearch
-						placeholder="ស្វែករកតាមរយៈផលិតផល"
+						placeholder={$_('search')}
 						items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
 					/>
 				</div>
@@ -116,11 +117,11 @@
 					<table class="table table-bordered table-sm text-nowrap">
 						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
-								<th style="width: 45%;">Product</th>
-								<th style="width: 15%;">Price</th>
-								<th style="width: 10%;">Qty</th>
-								<th style="width: 10%;">Disc</th>
-								<th style="width: 15%;">Subtotal </th>
+								<th style="width: 45%;">{$_('products')}</th>
+								<th style="width: 15%;">{$_('price')}</th>
+								<th style="width: 10%;">{$_('qty')}</th>
+								<th style="width: 10%;">{$_('discount')}</th>
+								<th style="width: 15%;">{$_('total')} </th>
 								<th style="width: 5%;">X</th>
 							</tr>
 						</thead>
@@ -151,7 +152,7 @@
 									</span>
 									<span class="text-danger">
 										{#if item.billing?.status !== 'active'}
-											#បានគិតលុយរួច
+											#{$_('already_charged')}
 										{/if}
 									</span>
 								</tr>
@@ -220,13 +221,13 @@
 					<table class="table table-sm mt-2 fs-5">
 						<tr class="">
 							<td></td>
-							<td>ចំនួនទំនិញ</td>
+							<td>{$_('items_goods')}</td>
 							<td>:</td>
 							<!-- <td>{items} មុខ </td> -->
 						</tr>
 						<tr>
 							<td></td>
-							<td>សរុប </td>
+							<td>{$_('total_all')} </td>
 							<td>:</td>
 							<td> .. </td>
 						</tr>

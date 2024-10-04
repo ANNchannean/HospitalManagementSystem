@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page as page_ } from '$app/stores';
+	import { _ } from '$lib/translations';
 	export let page: number;
 	export let limit: number = 10;
 	export let items: number;
@@ -19,7 +20,7 @@
 <div class="row">
 	<div class="col-6 d-flex">
 		<div class="align-content-center">
-			<span>Items Per Page </span>
+			<span>{$_('view_per_page')}</span>
 		</div>
 		<div class="align-content-center mx-2">
 			<select
@@ -42,7 +43,7 @@
 			</select>
 		</div>
 		<div class="align-content-center">
-			<span> {items} Items</span>
+			<span> {items} {$_('items')}</span>
 		</div>
 	</div>
 
@@ -79,7 +80,7 @@
 			/>
 		</div>
 		<div class="align-content-center">
-			<span>of / {total_page} Pages </span>
+			<span>{$_('of')} / {total_page} {$_('page')} </span>
 		</div>
 		<div class="">
 			<button

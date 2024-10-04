@@ -22,13 +22,13 @@
 			<li class="breadcrumb-item">
 				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-tachometer-alt"></i>
-					Home
+					{$_('home')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fa-solid fa-database"></i>
-					Backup
+					{$_('backup')}
 				</a>
 			</li>
 		</ol>

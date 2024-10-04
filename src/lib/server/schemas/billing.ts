@@ -44,7 +44,7 @@ export const billing = mysqlTable('billing', {
 	vat: float('vat').default(0).notNull(),
 	balance: decimal('balance', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 10 })
-		.$type<'paid' | 'partial' | 'due' | 'active' | 'process'>()
+		.$type<'paid' | 'partial' | 'debt' | 'active' | 'process'>()
 		.default('active')
 		.notNull(),
 	checkin_type: varchar('checkin_type', { length: 5 }).$type<'IPD' | 'OPD' | 'POS'>(),

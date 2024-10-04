@@ -17,6 +17,7 @@
 	import Select from '$lib/coms/Select.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
+	import { _ } from '$lib/translations';
 	export let data: PageServerData;
 	export let form: ActionData;
 	$: ({
@@ -52,26 +53,26 @@
 {/if}
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing POS</h2>
+		<h2>{$_('billing_opd')}</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
 			<li class="breadcrumb-item">
 				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-tachometer-alt"></i>
-					Home
+					{$_('home')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bills"></i>
-					Billing
+					{$_('billing')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bill-1-wave"></i>
-					POS
+					{$_('opd')}
 				</a>
 			</li>
 		</ol>
@@ -83,7 +84,7 @@
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class="row">
-					<div class="col-2">ឈ្មេះអ្នកជំងឺ</div>
+					<div class="col-2">{$_('patient')}</div>
 					<div class="col-10">
 						<Select
 							action="?/add_patient"
@@ -104,7 +105,7 @@
 					</div>
 					<div class="col-12 pt-2">
 						<SubmiteSearch
-							placeholder="ស្វែករកតាមរយៈផលិតផល"
+							placeholder={$_('search')}
 							items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
 						/>
 					</div>
@@ -127,11 +128,11 @@
 					<table class="table table-bordered table-sm text-nowrap">
 						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
-								<th style="width: 45%;">Product</th>
-								<th style="width: 15%;">Price</th>
-								<th style="width: 10%;">Qty</th>
-								<th style="width: 10%;">Disc</th>
-								<th style="width: 15%;">Subtotal </th>
+								<th style="width: 45%;">{$_('products')}</th>
+								<th style="width: 15%;">{$_('price')}</th>
+								<th style="width: 10%;">{$_('qty')}</th>
+								<th style="width: 10%;">{$_('discount')}</th>
+								<th style="width: 15%;">{$_('total')} </th>
 								<th style="width: 5%;">X</th>
 							</tr>
 						</thead>
@@ -148,12 +149,12 @@
 				<div class="card-header">
 					<table class="fs-5 table text-nowrap">
 						<tr class="">
-							<td>ចំនួនទំនិញ</td>
+							<td>{$_('items_goods')}</td>
 							<td> : </td>
-							<td>{items} មុខ </td>
+							<td>{items} {$_('items')} </td>
 						</tr>
 						<tr>
-							<td>សរុប {get_currency?.currency} </td>
+							<td>{$_('total_all')} {get_currency?.currency} </td>
 							<td> : </td>
 							<td>
 								<Currency
@@ -164,7 +165,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>សរុប {get_currency?.exchang_to} </td>
+							<td>{$_('total_all')} {get_currency?.exchang_to} </td>
 							<td> : </td>
 							<td>
 								<Currency
@@ -179,7 +180,7 @@
 						{#each get_billings_due as item (item.id)}
 							<tr>
 								<td
-									>ប្រាក់ជំពាក់លើកមុន <DateTimeFormat date={item.created_at} timeStyle={false} />
+									>{$_('previous_debt')} <DateTimeFormat date={item.created_at} timeStyle={false} />
 								</td>
 								<td> : </td>
 								<td>

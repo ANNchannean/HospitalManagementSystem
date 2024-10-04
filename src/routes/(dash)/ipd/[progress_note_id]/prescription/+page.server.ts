@@ -5,10 +5,9 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { createProductOrder, deleteProductOrder, updateProductOrder } from '$lib/server/models';
-
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
-	const get_progress_note = await db.query.visit.findFirst({
+	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, Number(progress_note_id)),
 		with: {
 			presrciption: {
@@ -35,6 +34,7 @@ export const load = (async ({ params }) => {
 			unit: true
 		}
 	});
+
 	return {
 		get_progress_note,
 		get_products,
@@ -88,7 +88,6 @@ export const actions: Actions = {
 			const charge_on_prescription = get_progress_note?.billing?.charge.find(
 				(e) => e.charge_on === 'prescription'
 			);
-
 			const check_the_same_product_id = charge_on_prescription?.productOrder.some(
 				(e) => e.product_id === product_id_
 			);
@@ -172,7 +171,6 @@ export const actions: Actions = {
 			price: +get_product!.price,
 			qty: +amount
 		});
-
 		await db
 			.insert(presrciption)
 			.values({

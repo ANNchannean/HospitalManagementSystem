@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 	const status = url.searchParams.get('status') as
 		| 'paid'
 		| 'partial'
-		| 'due'
+		| 'debt'
 		| 'active'
 		| 'process';
 	if (start || end || patient_id || status || billing_type) p = true;
@@ -36,7 +36,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 						billing_type ? eq(billing.checkin_type, billing_type) : undefined,
 						gt(billing.total, 0)
 					)
-				: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial')),
+				: or(eq(billing.status, 'paid'), eq(billing.status, 'debt'), eq(billing.status, 'partial')),
 			with: {
 				patient: {
 					with: {
@@ -90,7 +90,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 						billing_type ? eq(billing.checkin_type, billing_type) : undefined,
 						gt(billing.total, 0)
 					)
-				: or(eq(billing.status, 'paid'), eq(billing.status, 'due'), eq(billing.status, 'partial'))
+				: or(eq(billing.status, 'paid'), eq(billing.status, 'debt'), eq(billing.status, 'partial'))
 		});
 	const _payment_types = async () => await db.query.paymentType.findMany();
 	const _patients = async () => await db.query.patient.findMany({});

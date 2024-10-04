@@ -80,7 +80,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		limit: 200
 	});
 	const get_billings = await db.query.billing.findMany({
-		where: and(eq(billing.status, 'due'), eq(billing.checkin_type, 'OPD')),
+		where: and(eq(billing.status, 'debt'), eq(billing.checkin_type, 'OPD')),
 		with: {
 			visit: {
 				with: {

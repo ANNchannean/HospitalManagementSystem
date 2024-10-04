@@ -105,6 +105,12 @@ export const load: PageServerLoad = async ({ params }) => {
 					provice: true,
 					village: true
 				}
+			},
+			service:{
+				with: {
+					operationProtocol: true,
+					product: true
+				}
 			}
 		}
 	});

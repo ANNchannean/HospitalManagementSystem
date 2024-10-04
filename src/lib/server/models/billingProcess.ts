@@ -32,7 +32,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				balance: total,
 				paid: 0,
 				tax: tax,
-				status: 'due',
+				status: 'debt',
 				note: note,
 				total_after_tax: total_after_tax,
 				created_at: now_datetime()

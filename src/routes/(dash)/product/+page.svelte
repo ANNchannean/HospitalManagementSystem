@@ -8,6 +8,7 @@
 	import Currency from '$lib/coms/Currency.svelte';
 	import Paginations from '$lib/coms/Paginations.svelte';
 	import { _ } from '$lib/translations';
+	import Select from '$lib/coms/Select.svelte';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
@@ -47,7 +48,7 @@
 {/if}
 <div class="row">
 	<div class="col-sm-6">
-		<h2>List products</h2>
+		<h2>{$_('list_products')}</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
@@ -79,12 +80,13 @@
 					<input type="hidden" name="page" value={page} />
 					<input type="hidden" name="limit" value={limit} />
 					<div class="col-sm-3">
-						<select id="group_type_id" class="form-control" name="group_type_id">
-							<option value="">ProductGroup</option>
-							{#each get_product_group_type as item}
-								<option value={item.id}>{item.group_type}</option>
-							{/each}
-						</select>
+						<Select
+							
+							name="group_type_id"
+							selectType="param"
+							displayName={$_('product_group')}
+							items={get_product_group_type.map((e) => ({ id: e.id, name: e.group_type }))}
+						/>
 					</div>
 					<div class="col-sm-3">
 						<input
@@ -92,7 +94,7 @@
 							type="search"
 							name="q"
 							class="form-control float-right"
-							placeholder="Search"
+							placeholder={$_('search')}
 						/>
 					</div>
 					<div class="col text-end">
@@ -112,17 +114,17 @@
 			</div>
 			<div style="max-height: {$inerHight};" class="card-body table-responsive p-0 m-0">
 				<table class="table table-hover table-bordered">
-					<thead class="position-sticky top-0 bg-light table-active">
+					<thead class="sticky-top top-0 bg-light table-active">
 						<tr>
-							<th style="width: 3%;" class="text-center">N</th>
+							<th style="width: 3%;" class="text-center">{$_('n')}</th>
 							<th style="width: 3%;" class="text-center">#</th>
-							<th style="width: 4%;">Picture</th>
-							<th style="width: 15%;">Product</th>
-							<th style="width: 10%;">GenericName</th>
-							<th style="width: 10%;">ProductGroup</th>
-							<th style="width: 10%;">Unit</th>
-							<th style="width: 5%;">Price</th>
-							<th style="width: 10%;">Action</th>
+							<th style="width: 4%;">{$_('picture')}</th>
+							<th style="width: 15%;">{$_('products')}</th>
+							<th style="width: 10%;">{$_('generic_name')}</th>
+							<th style="width: 10%;">{$_('product_group')}</th>
+							<th style="width: 10%;">{$_('unit')}</th>
+							<th style="width: 5%;">{$_('price')}</th>
+							<th style="width: 10%;">{$_('action')}</th>
 						</tr>
 					</thead>
 					<tbody>
