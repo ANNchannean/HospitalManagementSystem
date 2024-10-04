@@ -93,6 +93,8 @@
 	"visit_type": "Visit Type",
 	"add": "Add",
 	"update": "Update",
+	"home": "home",
+	"new_product": "New product",
 	"copy": "Copy",
 	"copied": "Copied"
 }

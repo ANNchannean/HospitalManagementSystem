@@ -7,6 +7,7 @@
 	import Toast from '$lib/coms/Toast.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	import Paginations from '$lib/coms/Paginations.svelte';
+	import { _ } from '$lib/translations';
 	export let form: ActionData;
 	export let data: PageServerData;
 	let product_id: number;
@@ -53,13 +54,13 @@
 			<li class="breadcrumb-item">
 				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-tachometer-alt"></i>
-					Home
+					{$_('home')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href="/product" class="btn btn-link p-0 text-secondary"
 					><i class="fa-solid fa-briefcase-medical"></i>
-					Product
+					{$_('products')}
 				</a>
 			</li>
 		</ol>
@@ -72,7 +73,7 @@
 			<div class="card-header">
 				<form
 					data-sveltekit-keepfocus
-					on:change={(e) => e.currentTarget.requestSubmit()}
+					on:change={({ currentTarget }) => currentTarget.requestSubmit()}
 					class="row gap-1"
 				>
 					<input type="hidden" name="page" value={page} />
@@ -104,7 +105,7 @@
 							data-bs-toggle="modal"
 							data-bs-target="#create-product"
 							><i class="fa-solid fa-square-plus"></i>
-							New product
+							{$_('new_product')}
 						</button>
 					</div>
 				</form>
