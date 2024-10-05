@@ -18,12 +18,18 @@
 				<h5 class="mb-0">{$_('confirm_yes')}</h5>
 			</div>
 			<div class="modal-footer flex-nowrap p-0">
+				<button
+					id="close_confirm_submit"
+					type="button"
+					class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"
+					data-bs-dismiss="modal">{$_('no')}</button
+				>
 				{#if action}
 					<button
 						data-bs-dismiss="modal"
 						formaction={action}
 						type="submit"
-						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
+						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0"
 					>
 						<strong>{$_('yes')}</strong>
 					</button>
@@ -33,17 +39,11 @@
 						data-bs-dismiss="modal"
 						disabled={loading}
 						type="submit"
-						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
+						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0"
 					>
 						<strong>{$_('yes')}</strong>
 					</button>
 				{/if}
-				<button
-					id="close_confirm_submit"
-					type="button"
-					class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
-					data-bs-dismiss="modal">{$_('no')}</button
-				>
 			</div>
 		</div>
 	</div>

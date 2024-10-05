@@ -28,12 +28,6 @@
 				<h3 class="modal-title">{$_('confirm_yes')}</h3>
 			</div>
 			<div class="modal-footer justify-content-between">
-				<button
-					id="close_confirme_modal"
-					type="button"
-					class="btn btn-secondary"
-					data-bs-dismiss="modal"><i class="fa-solid fa-rectangle-xmark"></i> {$_('no')}</button
-				>
 				<button type="submit" class="btn btn-danger">
 					{#if loading}
 						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -41,6 +35,12 @@
 						<i class="fa-solid fa-square-check"></i>
 					{/if}
 					{$_('yes')}</button
+				>
+				<button
+					id="close_confirme_modal"
+					type="button"
+					class="btn btn-secondary"
+					data-bs-dismiss="modal"><i class="fa-solid fa-rectangle-xmark"></i> {$_('no')}</button
 				>
 			</div>
 		</div>

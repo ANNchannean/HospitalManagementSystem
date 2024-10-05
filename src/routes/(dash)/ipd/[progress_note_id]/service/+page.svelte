@@ -791,7 +791,7 @@
 			billing_id={get_progress_note?.billing?.id}
 			class="btn btn-danger"
 		>
-			Discharge
+			Paying
 		</SendToPayment>
 	</div>
 

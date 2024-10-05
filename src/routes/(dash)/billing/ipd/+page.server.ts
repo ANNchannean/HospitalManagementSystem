@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { and, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 import { billing } from '$lib/server/schemas';
 
@@ -25,7 +25,8 @@ export const load: PageServerLoad = async ({ parent }) => {
 				}
 			},
 			patient: true
-		}
+		},
+		orderBy:desc(billing.created_at)
 	});
 
 	return {

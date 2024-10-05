@@ -44,6 +44,7 @@ export const load = (async ({ params }) => {
 			}
 		}
 	});
+
 	const charge_on_service = get_progress_note?.billing?.charge.find(
 		(e) => e.charge_on === 'service'
 	);

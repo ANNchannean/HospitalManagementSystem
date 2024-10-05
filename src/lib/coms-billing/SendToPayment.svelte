@@ -51,20 +51,19 @@
 				</div>
 				<div class="modal-footer flex-nowrap p-0">
 					<button
+						id="close_confirm_submit"
+						type="button"
+						class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"
+						data-bs-dismiss="modal">{$_('no')}</button
+					>
+					<button
 						data-bs-dismiss="modal"
 						disabled={loading}
 						type="submit"
-						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0 border-end"
+						class="btn btn-lg btn-link fs-6 text-decoration-none text-danger col-6 py-3 m-0 rounded-0"
 					>
 						<strong>{$_('yes')}</strong>
 					</button>
-
-					<button
-						id="close_confirm_submit"
-						type="button"
-						class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
-						data-bs-dismiss="modal">{$_('no')}</button
-					>
 				</div>
 			</form>
 		</div>
