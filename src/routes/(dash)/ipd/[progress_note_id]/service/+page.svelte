@@ -794,18 +794,26 @@
 			Paying
 		</SendToPayment>
 	</div>
-
 	<div class="col-auto">
 		<button type="button" class="btn btn-warning">Total Service</button>
 	</div>
-	<div class="col-auto">
-		<CurrencyInput
-			name="total_service"
-			symbol={get_currency?.currency_symbol}
-			amount={total_service}
-		/>
-	</div>
-	<div class="col-auto">
-		<SubmitButton {loading} />
-	</div>
+	<fieldset
+		disabled={get_progress_note?.billing?.status === 'paid' ||
+			get_progress_note?.billing?.status === 'debt' ||
+			get_progress_note?.billing?.status === 'partial'}
+		class="col-auto"
+	>
+		<div class="row">
+			<div class="col-auto">
+				<CurrencyInput
+					name="total_service"
+					symbol={get_currency?.currency_symbol}
+					amount={total_service}
+				/>
+			</div>
+			<div class="col-auto">
+				<SubmitButton {loading} />
+			</div>
+		</div>
+	</fieldset>
 </form>

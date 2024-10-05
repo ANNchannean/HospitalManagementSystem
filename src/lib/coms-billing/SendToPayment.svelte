@@ -10,6 +10,7 @@
 </script>
 
 <button
+	disabled={status === 'paid' || status === 'partial' || status === 'debt'}
 	type="button"
 	data-bs-toggle="modal"
 	data-bs-target={'#'.concat(id?.toString() ?? '')}

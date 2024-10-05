@@ -28,8 +28,8 @@ export const load = (async ({ params }) => {
 		where: eq(progressNote.id, +progress_note_id),
 		with: {
 			visit: {
-				with:{
-					billing:true
+				with: {
+					billing: true
 				}
 			},
 			billing: {
@@ -49,9 +49,6 @@ export const load = (async ({ params }) => {
 			}
 		}
 	});
-	console.log(get_progress_note?.billing);
-	console.log(get_progress_note?.visit[0].billing);
-
 	const charge_on_service = get_progress_note?.billing?.charge.find(
 		(e) => e.charge_on === 'service'
 	);
