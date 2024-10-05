@@ -106,7 +106,7 @@ export const load: PageServerLoad = async ({ params }) => {
 					village: true
 				}
 			},
-			service:{
+			service: {
 				with: {
 					operationProtocol: true,
 					product: true
@@ -128,6 +128,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			physical: true
 		}
 	});
+
 	return {
 		get_progress_note,
 		get_staffs,

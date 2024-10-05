@@ -99,7 +99,7 @@ export const load = (async ({ url, parent }) => {
 			ward: true
 		}
 	});
-	const get_words = await db.query.words.findMany();
+	const get_words = await db.query.words.findMany();	
 	return {
 		get_patient,
 		get_staffs,
@@ -185,13 +185,13 @@ export const actions: Actions = {
 					logErrorMessage(e);
 					return [];
 				});
-			// Check is visit from OPD
+			// Check is visit transwer form OPD
 			if (visit_id) {
 				await db
 					.update(visit)
 					.set({
 						transfer: true,
-						checkin_type: 'IPD',
+						checkin_type: 'CHECKING',
 						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(visit.id, +visit_id))
@@ -201,8 +201,8 @@ export const actions: Actions = {
 				await db
 					.update(billing)
 					.set({
-						status: 'checkup',
-						billing_type: 'IPD',
+						status: 'checking',
+						billing_type: 'CHECKING',
 						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(billing.id, +billing_id))
@@ -220,7 +220,7 @@ export const actions: Actions = {
 				const id: { id: number }[] = await db
 					.insert(visit)
 					.values({
-						checkin_type: 'IPD',
+						checkin_type: 'CHECKING',
 						patient_id: Number(patient_id),
 						date_checkup: created_at,
 						staff_id: Number(staff_id),
@@ -236,8 +236,8 @@ export const actions: Actions = {
 				if (id[0].id) {
 					await preBilling({
 						visit_id: id[0].id,
-						progress_id: progress_note_id[0].id,
-						billing_type: 'IPD',
+						progress_id: null,
+						billing_type: 'CHECKING',
 						patient_id: +patient_id
 					});
 					await AddBedToCharge({
@@ -253,7 +253,6 @@ export const actions: Actions = {
 				billing_type: 'IPD',
 				patient_id: +patient_id
 			});
-
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);
 		}
 	}

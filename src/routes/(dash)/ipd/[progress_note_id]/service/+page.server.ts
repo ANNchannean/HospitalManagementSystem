@@ -27,6 +27,11 @@ export const load = (async ({ params }) => {
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, +progress_note_id),
 		with: {
+			visit: {
+				with:{
+					billing:true
+				}
+			},
 			billing: {
 				with: {
 					charge: {
@@ -44,6 +49,8 @@ export const load = (async ({ params }) => {
 			}
 		}
 	});
+	console.log(get_progress_note?.billing);
+	console.log(get_progress_note?.visit[0].billing);
 
 	const charge_on_service = get_progress_note?.billing?.charge.find(
 		(e) => e.charge_on === 'service'

@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 		| 'paid'
 		| 'partial'
 		| 'debt'
-		| 'checkup'
+		| 'checking'
 		| 'paying';
 	if (start || end || patient_id || status || billing_type) p = true;
 

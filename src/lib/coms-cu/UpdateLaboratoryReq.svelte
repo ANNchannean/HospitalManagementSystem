@@ -27,7 +27,7 @@
 				>
 				</button>
 			</div>
-			<fieldset disabled={find_visit?.billing?.status !== 'checkup'}>
+			<fieldset disabled={find_visit?.billing?.status !== 'checking'}>
 				<form
 					use:enhance={() => {
 						loading = true;

@@ -98,7 +98,7 @@
 							<select name="status" id="status" class="form-control">
 								<option value="">All</option>
 								<option value="paid">Paid</option>
-								<option value="due">Due</option>
+								<option value="debt">Debt</option>
 								<option value="partial">Partial</option>
 							</select>
 						</div>

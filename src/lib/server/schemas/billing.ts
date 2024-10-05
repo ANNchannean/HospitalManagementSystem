@@ -44,10 +44,10 @@ export const billing = mysqlTable('billing', {
 	vat: float('vat').default(0).notNull(),
 	balance: decimal('balance', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 10 })
-		.$type<'paid' | 'partial' | 'debt' | 'checkup' | 'paying'>()
-		.default('checkup')
+		.$type<'paid' | 'partial' | 'debt' | 'checking' | 'paying'>()
+		.default('checking')
 		.notNull(),
-	billing_type: varchar('billing_type', { length: 5 }).$type<'IPD' | 'OPD' | 'POS' | 'CHECKING' >(),
+	billing_type: varchar('billing_type', { length: 10 }).$type<'IPD' | 'OPD' | 'POS' | 'CHECKING'>(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	hold: boolean('hold').default(false).notNull(),
 	note: text('note')

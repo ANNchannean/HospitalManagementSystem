@@ -21,7 +21,7 @@
 	action="?/create_imagerie_request"
 	method="post"
 >
-	<fieldset disabled={get_visit?.billing?.status !== 'checkup'}>
+	<fieldset disabled={get_visit?.billing?.status !== 'checking'}>
 		{#each get_imageerie_groups as item}
 			{@const products = item.product}
 			<div class="card">

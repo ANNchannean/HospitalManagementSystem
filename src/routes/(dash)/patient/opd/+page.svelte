@@ -292,7 +292,7 @@
 								</td>
 
 								<td>
-									{#if item.billing?.status === 'checkup'}
+									{#if item.billing?.status === 'checking'}
 										<button
 											disabled={item.transfer}
 											type="button"
