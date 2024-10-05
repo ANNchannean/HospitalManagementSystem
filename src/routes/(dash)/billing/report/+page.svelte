@@ -155,7 +155,7 @@
 									<DateTimeFormat dateStyle={false} date={item.created_at} />
 								</td>
 								<td>
-									{item?.checkin_type || ''}
+									{item?.billing_type || ''}
 								</td>
 								<td>
 									{#if !item.patient}
@@ -248,7 +248,7 @@
 											data-bs-target="#add_pay_billing"
 											class="btn btn-success"><i class="fa-solid fa-money-check-dollar"></i></button
 										>
-										{#if item.checkin_type === 'POS'}
+										{#if item.billing_type === 'POS'}
 											<a href="/billing/pos/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>

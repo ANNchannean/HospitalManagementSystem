@@ -7,10 +7,10 @@ type TPreBilling = {
 	visit_id: number | null;
 	progress_id: number | null;
 	patient_id: number;
-	checkin_type: 'OPD' | 'IPD' | 'POS';
+	billing_type: 'OPD' | 'IPD' | 'POS';
 };
 export const preBilling = async ({
-	checkin_type,
+	billing_type,
 	progress_id,
 	visit_id,
 	patient_id
@@ -24,7 +24,7 @@ export const preBilling = async ({
 			created_at: created_at,
 			visit_id: visit_id,
 			progress_note_id: progress_id,
-			checkin_type: checkin_type,
+			billing_type: billing_type,
 			patient_id: patient_id,
 			status: 'checkup',
 			tax: get_tax?.value || 0,

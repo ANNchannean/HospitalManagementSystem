@@ -184,7 +184,7 @@
 								</td>
 								<td> : </td>
 								<td>
-									{#if item.checkin_type === 'IPD'}
+									{#if item.billing_type === 'IPD'}
 										<a href="/billing/multiple/{item.id}">
 											<Currency
 												class=""
@@ -192,7 +192,7 @@
 												symbol={get_currency?.currency_symbol}
 											/></a
 										>
-									{:else if item.checkin_type === 'OPD'}
+									{:else if item.billing_type === 'OPD'}
 										<a href="/billing/single/{item.id}"
 											><Currency
 												class=""

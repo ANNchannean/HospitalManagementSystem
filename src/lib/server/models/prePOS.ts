@@ -15,7 +15,7 @@ export const prePOS = async (): Promise<number> => {
 			tax: get_tax?.value || 0,
 			sub_total: 0,
 			total: 0,
-			checkin_type: 'POS'
+			billing_type: 'POS'
 		})
 		.$returningId()
 		.catch((e) => {

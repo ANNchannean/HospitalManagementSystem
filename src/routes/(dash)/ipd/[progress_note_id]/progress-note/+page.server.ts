@@ -169,7 +169,7 @@ export const actions: Actions = {
 			await preBilling({
 				visit_id: visit_id,
 				progress_id: null,
-				checkin_type: 'IPD',
+				billing_type: 'IPD',
 				patient_id: Number(get_pregress_note?.patient_id)
 			});
 		}

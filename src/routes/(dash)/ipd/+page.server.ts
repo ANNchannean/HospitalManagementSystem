@@ -202,7 +202,7 @@ export const actions: Actions = {
 					.update(billing)
 					.set({
 						status: 'checkup',
-						checkin_type: 'IPD',
+						billing_type: 'IPD',
 						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(billing.id, +billing_id))
@@ -237,7 +237,7 @@ export const actions: Actions = {
 					await preBilling({
 						visit_id: id[0].id,
 						progress_id: progress_note_id[0].id,
-						checkin_type: 'IPD',
+						billing_type: 'IPD',
 						patient_id: +patient_id
 					});
 					await AddBedToCharge({
@@ -250,7 +250,7 @@ export const actions: Actions = {
 			await preBilling({
 				visit_id: null,
 				progress_id: progress_note_id[0].id,
-				checkin_type: 'IPD',
+				billing_type: 'IPD',
 				patient_id: +patient_id
 			});
 

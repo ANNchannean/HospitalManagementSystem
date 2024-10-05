@@ -43,6 +43,13 @@
       "when": 1727419081588,
       "tag": "0005_aspiring_leech",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1728101992828,
+      "tag": "0006_closed_namorita",
+      "breakpoints": true
     }
   ]
 }

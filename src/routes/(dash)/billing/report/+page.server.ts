@@ -33,7 +33,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 						status ? eq(billing.status, status) : undefined,
 						patient_id ? eq(billing.patient_id, patient_id) : undefined,
 						start && end ? between(billing.created_at, start, end) : undefined,
-						billing_type ? eq(billing.checkin_type, billing_type) : undefined,
+						billing_type ? eq(billing.billing_type, billing_type) : undefined,
 						gt(billing.total, 0)
 					)
 				: or(eq(billing.status, 'paid'), eq(billing.status, 'debt'), eq(billing.status, 'partial')),
@@ -87,7 +87,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 						status ? eq(billing.status, status) : undefined,
 						patient_id ? eq(billing.patient_id, patient_id) : undefined,
 						start && end ? between(billing.created_at, start, end) : undefined,
-						billing_type ? eq(billing.checkin_type, billing_type) : undefined,
+						billing_type ? eq(billing.billing_type, billing_type) : undefined,
 						gt(billing.total, 0)
 					)
 				: or(eq(billing.status, 'paid'), eq(billing.status, 'debt'), eq(billing.status, 'partial'))

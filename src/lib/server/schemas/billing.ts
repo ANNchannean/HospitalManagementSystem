@@ -47,7 +47,7 @@ export const billing = mysqlTable('billing', {
 		.$type<'paid' | 'partial' | 'debt' | 'checkup' | 'paying'>()
 		.default('checkup')
 		.notNull(),
-	checkin_type: varchar('checkin_type', { length: 5 }).$type<'IPD' | 'OPD' | 'POS'>(),
+	billing_type: varchar('billing_type', { length: 5 }).$type<'IPD' | 'OPD' | 'POS' | 'CHECKING' >(),
 	created_at: datetime('created_at', { mode: 'string' }),
 	hold: boolean('hold').default(false).notNull(),
 	note: text('note')

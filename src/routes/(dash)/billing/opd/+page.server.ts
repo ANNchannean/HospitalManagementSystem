@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 			eq(billing.status, 'paying'),
 			isNotNull(billing.visit_id),
 			isNull(visit.progress_note_id),
-			eq(billing.checkin_type, 'OPD')
+			eq(billing.billing_type, 'OPD')
 		),
 		with: {
 			visit: {
