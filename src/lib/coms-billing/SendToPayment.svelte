@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { _ } from '$lib/translations';
 	export let billing_id: number | undefined;
-	export let status = 'active' as 'paid' | 'partial' | 'debt' | 'active' | 'process';
+	export let status = 'active' as 'paid' | 'partial' | 'debt' | 'checkup' | 'paying';
 	let loading = false;
 	let className = 'btn btn-primary';
 	export { className as class };
@@ -15,15 +15,15 @@
 	data-bs-target={'#'.concat(id?.toString() ?? '')}
 	class={className}
 >
-	{#if status === 'active'}
+	{#if status === 'checkup'}
 		<slot />
 	{/if}
-	{#if status === 'process'}
+	{#if status === 'paying'}
 		<span>
 			Process <i class="fa-solid fa-spinner fa-spin-pulse"></i>
 		</span>
 	{/if}
-	{#if status !== 'active' && status !== 'process'}
+	{#if status !== 'checkup' && status !== 'paying'}
 		Paid
 	{/if}
 </button>

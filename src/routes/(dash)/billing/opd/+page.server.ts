@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
 	const get_billings = await db.query.billing.findMany({
 		where: and(
-			eq(billing.status, 'process'),
+			eq(billing.status, 'paying'),
 			isNotNull(billing.visit_id),
 			isNull(visit.progress_note_id),
 			eq(billing.checkin_type, 'OPD')

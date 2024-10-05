@@ -11,7 +11,7 @@ export const prePOS = async (): Promise<number> => {
 		.insert(billing)
 		.values({
 			created_at: created_at,
-			status: 'process',
+			status: 'paying',
 			tax: get_tax?.value || 0,
 			sub_total: 0,
 			total: 0,

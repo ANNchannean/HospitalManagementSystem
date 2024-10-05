@@ -54,7 +54,7 @@
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
 								<td>
-									<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+									<fieldset disabled={get_visit?.billing?.status !== 'checkup'}>
 										<form
 											data-sveltekit-keepfocus
 											on:change={(e) => e.currentTarget.requestSubmit()}
@@ -383,7 +383,7 @@
 <!-- @_Modal  Service -->
 <div class="modal fade" id="create_service_operation" data-bs-backdrop="static">
 	<div class="modal-dialog modal-dialog-scrollabl modal-xl">
-		<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+		<fieldset disabled={get_visit?.billing?.status !== 'checkup'}>
 			<form
 				action="?/create_service_operation"
 				method="post"
@@ -432,7 +432,7 @@
 		</fieldset>
 	</div>
 </div>
-<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+<fieldset disabled={get_visit?.billing?.status !== 'checkup'}>
 	<form
 		method="post"
 		use:enhance={() => {

@@ -151,7 +151,7 @@
 										#<DateTimeFormat date={item.date_checkup} />
 									</span>
 									<span class="text-danger">
-										{#if item.billing?.status !== 'active'}
+										{#if item.billing?.status !== 'checkup'}
 											#{$_('already_charged')}
 										{/if}
 									</span>

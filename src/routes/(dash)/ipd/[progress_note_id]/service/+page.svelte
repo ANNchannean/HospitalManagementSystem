@@ -59,7 +59,7 @@
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
 								<td>
-									<fieldset disabled={get_progress_note?.billing?.status !== 'active'}>
+									<fieldset disabled={get_progress_note?.billing?.status !== 'checkup'}>
 										<form
 											data-sveltekit-keepfocus
 											on:change={(e) => e.currentTarget.requestSubmit()}

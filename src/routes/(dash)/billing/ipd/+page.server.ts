@@ -6,7 +6,7 @@ import { billing } from '$lib/server/schemas';
 export const load: PageServerLoad = async ({ parent }) => {
 	await parent();
 	const get_billings = await db.query.billing.findMany({
-		where: and(eq(billing.status, 'process'), eq(billing.checkin_type, 'IPD')),
+		where: and(eq(billing.status, 'paying'), eq(billing.checkin_type, 'IPD')),
 		with: {
 			visit: {
 				with: {

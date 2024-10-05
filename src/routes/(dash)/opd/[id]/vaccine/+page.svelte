@@ -12,7 +12,7 @@
 	let loading = false;
 </script>
 
-<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+<fieldset disabled={get_visit?.billing?.status !== 'checkup'}>
 	<div class="card">
 		<div class="card-header fs-5">
 			<span>Vaccine</span>

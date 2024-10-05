@@ -83,7 +83,7 @@ export const actions: Actions = {
 		const get_billing = await db.query.billing.findFirst({
 			where: eq(billing.id, +billing_id)
 		});
-		const status = get_billing?.status === 'active' ? 'process' : 'active';
+		const status = get_billing?.status === 'checkup' ? 'paying' : 'checkup';
 		await db
 			.update(billing)
 			.set({

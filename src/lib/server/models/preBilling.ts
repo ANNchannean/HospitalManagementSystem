@@ -26,7 +26,7 @@ export const preBilling = async ({
 			progress_note_id: progress_id,
 			checkin_type: checkin_type,
 			patient_id: patient_id,
-			status: 'active',
+			status: 'checkup',
 			tax: get_tax?.value || 0,
 			sub_total: 0,
 			total: 0

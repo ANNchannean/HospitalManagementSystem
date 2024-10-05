@@ -21,8 +21,8 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 		| 'paid'
 		| 'partial'
 		| 'debt'
-		| 'active'
-		| 'process';
+		| 'checkup'
+		| 'paying';
 	if (start || end || patient_id || status || billing_type) p = true;
 
 	const _currency = async () => await db.query.currency.findFirst({});

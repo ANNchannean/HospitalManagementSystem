@@ -201,7 +201,7 @@ export const actions: Actions = {
 				await db
 					.update(billing)
 					.set({
-						status: 'active',
+						status: 'checkup',
 						checkin_type: 'IPD',
 						progress_note_id: progress_note_id[0].id
 					})

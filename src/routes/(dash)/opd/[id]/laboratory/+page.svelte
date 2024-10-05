@@ -12,7 +12,7 @@
 	let loading = false;
 </script>
 
-<fieldset disabled={get_visit?.billing?.status !== 'active'}>
+<fieldset disabled={get_visit?.billing?.status !== 'checkup'}>
 	<form
 		on:change={(e) => e.currentTarget.requestSubmit()}
 		use:enhance={() => {

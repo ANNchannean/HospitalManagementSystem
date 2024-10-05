@@ -80,7 +80,7 @@
 											</a>
 											<button
 												type="button"
-												disabled={item.billing?.status !== 'active'}
+												disabled={item.billing?.status !== 'checkup'}
 												on:click={() => (visit_id = item.id)}
 												class="btn btn-outline-danger btn-sm w-100 mb-2"
 												data-bs-toggle="modal"
@@ -123,7 +123,7 @@
 													>Edit <i class="fa-solid fa-file-pen"></i></a
 												>
 											{/if}
-											<fieldset disabled={item.billing?.status !== 'active'}>
+											<fieldset disabled={item.billing?.status !== 'checkup'}>
 												<Treatment {get_currency} {find_old_visit} />
 											</fieldset>
 										</td>
