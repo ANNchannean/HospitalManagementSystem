@@ -16,28 +16,29 @@ export const preBilling = async ({
 	patient_id
 }: TPreBilling) => {
 	const created_at = now_datetime();
-	const get_tax = await db.query.tax.findFirst();
-	// doing billing
-	const billing_id: { id: number }[] = await db
-		.insert(billing)
-		.values({
-			created_at: created_at,
-			visit_id: visit_id,
-			progress_note_id: progress_id,
-			billing_type: billing_type,
-			patient_id: patient_id,
-			status: 'checking',
-			tax: get_tax?.value || 0,
-			sub_total: 0,
-			total: 0
-		})
-		.$returningId()
-		.catch((e) => {
-			logErrorMessage(e);
-			return [];
-		});
-	await Promise.all([
-		db
+	await db.transaction(async (tx) => {
+		const get_tax = await tx.query.tax.findFirst();
+		// doing billing
+		const billing_id: { id: number }[] = await tx
+			.insert(billing)
+			.values({
+				created_at: created_at,
+				visit_id: visit_id,
+				progress_note_id: progress_id,
+				billing_type: billing_type,
+				patient_id: patient_id,
+				status: 'checking',
+				tax: get_tax?.value || 0,
+				sub_total: 0,
+				total: 0
+			})
+			.$returningId()
+			.catch((e) => {
+				logErrorMessage(e);
+				return [];
+			});
+
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -46,8 +47,8 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			}),
-		db
+			});
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -56,8 +57,8 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			}),
-		db
+			});
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -66,8 +67,8 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			}),
-		db
+			});
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -76,8 +77,8 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			}),
-		db
+			});
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -86,8 +87,8 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			}),
-		db
+			});
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -96,8 +97,8 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			}),
-		db
+			});
+		await tx
 			.insert(charge)
 			.values({
 				billing_id: billing_id[0].id,
@@ -106,6 +107,6 @@ export const preBilling = async ({
 			})
 			.catch((e) => {
 				logErrorMessage(e);
-			})
-	]);
+			});
+	});
 };

@@ -771,49 +771,51 @@
 	</div>
 </div>
 
-<form
-	method="post"
-	use:enhance={() => {
-		loading = true;
-		$globalLoading = true;
-		return async ({ update }) => {
-			await update({ invalidateAll: true, reset: false });
-			loading = false;
-			$globalLoading = false;
-		};
-	}}
-	action="?/update_total_service"
-	class="card-footer row p-2 bg-light"
->
-	<div class="col text-end">
-		<SendToPayment
-			status={get_progress_note?.billing?.status}
-			billing_id={get_progress_note?.billing?.id}
-			class="btn btn-danger"
-		>
-			Paying
-		</SendToPayment>
-	</div>
-	<div class="col-auto">
-		<button type="button" class="btn btn-warning">Total Service</button>
-	</div>
-	<fieldset
-		disabled={get_progress_note?.billing?.status === 'paid' ||
-			get_progress_note?.billing?.status === 'debt' ||
-			get_progress_note?.billing?.status === 'partial'}
-		class="col-auto"
+{#if get_progress_note?.service.length}
+	<form
+		method="post"
+		use:enhance={() => {
+			loading = true;
+			$globalLoading = true;
+			return async ({ update }) => {
+				await update({ invalidateAll: true, reset: false });
+				loading = false;
+				$globalLoading = false;
+			};
+		}}
+		action="?/update_total_service"
+		class="card-footer row p-2 bg-light"
 	>
-		<div class="row">
-			<div class="col-auto">
-				<CurrencyInput
-					name="total_service"
-					symbol={get_currency?.currency_symbol}
-					amount={total_service}
-				/>
-			</div>
-			<div class="col-auto">
-				<SubmitButton {loading} />
-			</div>
+		<div class="col text-end">
+			<SendToPayment
+				status={get_progress_note?.billing?.status}
+				billing_id={get_progress_note?.billing?.id}
+				class="btn btn-danger"
+			>
+				Paying
+			</SendToPayment>
 		</div>
-	</fieldset>
-</form>
+		<div class="col-auto">
+			<button type="button" class="btn btn-warning">Total Service</button>
+		</div>
+		<fieldset
+			disabled={get_progress_note?.billing?.status === 'paid' ||
+				get_progress_note?.billing?.status === 'debt' ||
+				get_progress_note?.billing?.status === 'partial'}
+			class="col-auto"
+		>
+			<div class="row">
+				<div class="col-auto">
+					<CurrencyInput
+						name="total_service"
+						symbol={get_currency?.currency_symbol}
+						amount={total_service}
+					/>
+				</div>
+				<div class="col-auto">
+					<SubmitButton {loading} />
+				</div>
+			</div>
+		</fieldset>
+	</form>
+{/if}
