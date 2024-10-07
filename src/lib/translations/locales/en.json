@@ -117,5 +117,13 @@
 	"goods": "Goods",
 	"items_goods": "Items",
 	"previous_debt": "Previous debt",
+	"send_to_payment": "Send to payment",
+	"processing": "Processing",
+	"paid": "Paid",
+	"charge_on_service": "Charge on service",
+	"discharge_and_go_home": "Discharge and go home",
+	"date_checkin": "Date checkin",
+	"date_checkout": "Date checkout",
+	"day_stay": "Stay",
 	"copied": "Copied"
 }

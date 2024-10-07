@@ -117,5 +117,12 @@
 	"goods": "ទំនិញ",
 	"items_goods": "ចំនួនទំនិញ",
 	"previous_debt": "ប្រាក់ជំពាក់លើកមុន",
+	"send_to_payment": "បញ្ជួនទៅគិតប្រាក់",
+	"processing": "កំពុងដំណើរការ",
+	"paid": "បានបង់ប្រាក់",
+	"charge_on_service": "គិតប្រាក់ផ្នែកសេវាកម្ម",
+	"discharge_and_go_home": "គិតប្រាក់ត្រលប់ទៅផ្ទះ",
+	"date_checkin": "កាលបរិច្ឆេទ-ចូល",
+	"date_checkout": "កាលបរិច្ឆេទ-ចេញ",
 	"copied": "បានចម្លង"
 }

@@ -12,6 +12,8 @@
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import PrintModal from '$lib/coms-report/PrintModal.svelte';
 	import SendToPayment from '$lib/coms-billing/SendToPayment.svelte';
+	import ServiceToPayment from '$lib/coms-billing/ServiceToPayment.svelte';
+	import { _ } from '$lib/translations';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
@@ -787,13 +789,9 @@
 		class="card-footer row p-2 bg-light"
 	>
 		<div class="col text-end">
-			<SendToPayment
-				status={get_progress_note?.billing?.status}
-				billing_id={get_progress_note?.billing?.id}
-				class="btn btn-danger"
-			>
-				Paying
-			</SendToPayment>
+			<ServiceToPayment data={{ get_progress_note: get_progress_note }} class="btn btn-danger">
+				{$_('send_to_payment')}
+			</ServiceToPayment>
 		</div>
 		<div class="col-auto">
 			<button type="button" class="btn btn-warning">Total Service</button>

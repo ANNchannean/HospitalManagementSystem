@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import { _ } from '$lib/translations';
-	import type { PageServerData } from '../../routes/(dash)/ipd/[progress_note_id]/progress-note/$types';
-	type Data = Pick<PageServerData, 'get_progress_note'>;
+	import type { LayoutServerData } from '../../routes/(dash)/ipd/[progress_note_id]/$types';
+	type Data = Pick<LayoutServerData, 'get_progress_note'>;
 	export let data: Data;
 	$: ({ get_progress_note } = data);
 	let loading = false;
@@ -42,12 +43,54 @@
 				method="post"
 			>
 				<input value={get_progress_note?.billing?.id} type="hidden" name="billing_id" />
+				<div class="modal-header">
+					<span class="fs-3">
+						{$_('discharge_and_go_home')}
+					</span>
+				</div>
 				<div class="modal-body">
-					<h5 class="mb-0">{$_('confirm_yes')}</h5>
-					<hr />
-					{#each get_progress_note?.service || [] as item}
-						<div class="alert alert-primary" role="alert">{item.product?.products}</div>
-					{/each}
+					<ol class="list-group list-group-numbered">
+						{#each get_progress_note?.service || [] as item}
+							<li class="list-group-item">
+								{item.product?.products}
+								<span class="float-end btn btn-sm btn-warning rounded py-0"
+									>{get_progress_note?.billing?.status}</span
+								>
+							</li>
+						{/each}
+					</ol>
+					<ul class="list-group pt-2">
+						<li class="list-group-item">
+							<input
+								class="form-check-input me-1"
+								type="checkbox"
+								value=""
+								id="firstCheckboxStretched"
+							/>
+							<label class="form-check-label stretched-link" for="firstCheckboxStretched"
+								>គិតប្រាក់សរុប រូបទាំងថ្លៃថ្នាំលេបនៅផ្ទះ</label
+							>
+						</li>
+						<li class="list-group-item">
+							<input
+								class="form-check-input me-1"
+								type="checkbox"
+								value=""
+								id="secondCheckboxStretched"
+							/>
+							<label class="form-check-label stretched-link" for="secondCheckboxStretched"
+								>គិតប្រាក់សរុប រូបទាំងថ្លៃព្យាបាល</label
+							>
+						</li>
+					</ul>
+					<div class="alert alert-primary py-1 mt-2">
+						<span>{$_('date')}</span>
+						<DateTimeFormat date={get_progress_note?.date_checkup} /> -
+						<DateTimeFormat date={new Date().toJSON()} />
+					</div>
+					<div class="alert alert-danger py-1 mt-2">
+						<span>{$_('date_checkout')}</span>
+					</div>
 				</div>
 
 				<div class="modal-footer flex-nowrap p-0">

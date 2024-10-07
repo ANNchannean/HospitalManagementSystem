@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import CheckOut from '$lib/coms-ipd/CheckOut.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import { dobToAge } from '$lib/helper';
 	import type { LayoutServerData } from './$types';
@@ -91,8 +92,8 @@
 		</div>
 	</div>
 </div>
-<br />
-<div class="row">
+
+<div class="row pt-2">
 	<div data-sveltekit-noscroll class="col-sm-12">
 		<a
 			href="/ipd/{progress_note_id}/progress-note "
@@ -142,7 +143,10 @@
 				? 'btn btn-dark mb-2'
 				: 'btn btn-outline-dark mb-2'}>Appointment</a
 		>
+
+		<CheckOut class="btn btn-danger mb-2 float-end" data={{ get_progress_note: get_progress_note }}
+			>Discharge</CheckOut
+		>
 	</div>
 </div>
-
 <slot />

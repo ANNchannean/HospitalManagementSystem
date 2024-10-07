@@ -99,7 +99,7 @@ export const load = (async ({ url, parent }) => {
 			ward: true
 		}
 	});
-	const get_words = await db.query.words.findMany();	
+	const get_words = await db.query.words.findMany();
 	return {
 		get_patient,
 		get_staffs,
@@ -191,7 +191,7 @@ export const actions: Actions = {
 					.update(visit)
 					.set({
 						transfer: true,
-						checkin_type: 'CHECKING',
+						checkin_type: 'IPD',
 						progress_note_id: progress_note_id[0].id
 					})
 					.where(eq(visit.id, +visit_id))
@@ -220,7 +220,7 @@ export const actions: Actions = {
 				const id: { id: number }[] = await db
 					.insert(visit)
 					.values({
-						checkin_type: 'CHECKING',
+						checkin_type: 'IPD',
 						patient_id: Number(patient_id),
 						date_checkup: created_at,
 						staff_id: Number(staff_id),

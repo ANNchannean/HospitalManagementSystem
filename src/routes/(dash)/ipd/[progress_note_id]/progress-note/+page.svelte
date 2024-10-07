@@ -20,26 +20,21 @@
 		get_staffs: get_staffs
 	}}
 />
-<div class="card-header">
-	<div class="d-grid gap-2 d-md-flex justify-content-between">
-		<button
-			on:click={() => {}}
-			type="button"
-			class="btn btn-success"
-			data-bs-toggle="modal"
-			data-bs-target="#create_visit_ipd"
-			><i class="fa-solid fa-square-plus"></i>
-			New Progress note
-		</button>
-		<CheckOut class="btn btn-danger" data={{ get_progress_note: get_progress_note }}
-			>Discharge</CheckOut
-		>
-	</div>
-</div>
-<br />
+
 <div class="row">
 	<div class="col-12">
 		<div class="card">
+			<div class="card-header">
+				<button
+					on:click={() => {}}
+					type="button"
+					class="btn btn-success"
+					data-bs-toggle="modal"
+					data-bs-target="#create_visit_ipd"
+					><i class="fa-solid fa-square-plus"></i>
+					New Progress note
+				</button>
+			</div>
 			<div class="card-body table-responsive p-0">
 				{#each removeDuplicateDate || [] as { date_checkup, id }}
 					{@const f_date = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short' }).format(

@@ -30,6 +30,13 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 					room: true,
 					ward: true
 				}
+			},
+			billing: true,
+			service: {
+				with: {
+					operationProtocol: true,
+					product: true
+				}
 			}
 		}
 	});

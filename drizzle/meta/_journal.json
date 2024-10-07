@@ -64,6 +64,20 @@
       "when": 1728108951727,
       "tag": "0008_minor_magus",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1728267509330,
+      "tag": "0009_living_raza",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1728293249332,
+      "tag": "0010_slippery_hellion",
+      "breakpoints": true
     }
   ]
 }
