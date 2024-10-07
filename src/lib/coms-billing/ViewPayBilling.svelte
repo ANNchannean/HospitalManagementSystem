@@ -5,9 +5,8 @@
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	type Data = Pick<PageServerData, 'get_billings' | 'get_currency'>;
 	export let data: Data;
-	export let billing_id: number;
 	$: ({ get_billings, get_currency } = data);
-	$: find_billing = get_billings.find((e) => e.id === billing_id);
+	$: find_billing = get_billings[0];
 	let payment_id: number;
 </script>
 
@@ -18,7 +17,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title">
 					Invoice# {find_billing?.id}
-					{find_billing?.visit?.patient?.name_khmer}
+					{find_billing?.patient?.name_khmer}
 				</h4>
 				<button
 					id="close-view_pay_billing"

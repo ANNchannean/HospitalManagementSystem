@@ -4,8 +4,6 @@
 	import type { PageServerData, ActionData } from '../../routes/(dash)/billing/report/$types';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import Toast from '$lib/coms/Toast.svelte';
-	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import Currency from '$lib/coms/Currency.svelte';
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	type Data = Pick<PageServerData, 'get_billings' | 'get_currency' | 'get_payment_types'>;
 	export let data: Data;

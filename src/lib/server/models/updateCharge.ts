@@ -29,7 +29,8 @@ export const updateCharge = async (charge_id: number) => {
 		.update(billing)
 		.set({
 			total: calulator_disc,
-			sub_total: sub_total
+			sub_total: sub_total,
+			status:'checking'
 		})
 		.where(eq(billing.id, Number(get_billing?.id)))
 		.catch((e) => console.log(e));

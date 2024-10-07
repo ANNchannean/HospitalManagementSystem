@@ -27,8 +27,7 @@
 	$: n = page === 1 ? 1 : limit * page - limit + 1;
 	let patient_id: number;
 </script>
-
-<ViewPayBilling data={{ get_billings: get_billings, get_currency: get_currency }} {billing_id} />
+<ViewPayBilling data={{ get_billings: find_billing, get_currency: get_currency }}  />
 <AddPayBilling
 	balance={find_billing[0]?.balance}
 	data={{ get_billings: find_billing, get_currency, get_payment_types }}

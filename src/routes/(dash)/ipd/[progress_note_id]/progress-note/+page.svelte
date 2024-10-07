@@ -7,7 +7,6 @@
 	import ParaClinic from '$lib/coms-ipd/ParaClinic.svelte';
 	import Treatment from '$lib/coms-ipd/Treatment.svelte';
 	import CopyPrescription from '$lib/coms-ipd/CopyPrescription.svelte';
-	import CheckOut from '$lib/coms-ipd/CheckOut.svelte';
 	export let data: PageServerData;
 	let visit_id: number;
 	$: ({ get_progress_note, removeDuplicateDate, get_exams, get_currency, get_staffs } = data);
@@ -26,9 +25,8 @@
 		<div class="card">
 			<div class="card-header">
 				<button
-					on:click={() => {}}
 					type="button"
-					class="btn btn-success"
+					class="btn btn-link py-0 fs-5"
 					data-bs-toggle="modal"
 					data-bs-target="#create_visit_ipd"
 					><i class="fa-solid fa-square-plus"></i>

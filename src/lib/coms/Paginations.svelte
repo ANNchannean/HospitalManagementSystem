@@ -17,86 +17,88 @@
 	}
 </script>
 
-<div class="row">
-	<div class="col-6 d-flex">
-		<div class="align-content-center">
-			<span>{$_('view_per_page')}</span>
-		</div>
-		<div class="align-content-center mx-2">
-			<select
-				on:change={(e) => {
-					limit = Number(e.currentTarget.value);
-					pushPage();
-				}}
-				class="form-control form-control-sm px-4"
-				name="limit"
-				id="limit"
-			>
-				<option selected value="10">10</option>
-				<option value="15">15</option>
-				<option value="25">25</option>
-				<option value="35">35</option>
-				<option value="50">50</option>
-				<option value="100">100</option>
-				<option value="200">200</option>
-				<option value={items}>All</option>
-			</select>
-		</div>
-		<div class="align-content-center">
-			<span> {items} {$_('items')}</span>
-		</div>
-	</div>
-
-	<div class="col-6 d-flex justify-content-end">
-		<div class="">
-			<button
-				on:click={() => {
-					page = page - 2;
-					pushPage();
-				}}
-				class="btn btn-light btn-sm align-items-center"
-				><i class="fa-solid fa-angles-left"></i></button
-			>
-			<button
-				on:click={() => {
-					page = page - 1;
-					pushPage();
-				}}
-				class="btn btn-light btn-sm align-items-center"
-				><i class="fa-solid fa-angle-left"></i></button
-			>
+{#if items > limit}
+	<div class="row">
+		<div class="col-6 d-flex">
+			<div class="align-content-center">
+				<span>{$_('view_per_page')}</span>
+			</div>
+			<div class="align-content-center mx-2">
+				<select
+					on:change={(e) => {
+						limit = Number(e.currentTarget.value);
+						pushPage();
+					}}
+					class="form-control form-control-sm px-4"
+					name="limit"
+					id="limit"
+				>
+					<option selected value="10">10</option>
+					<option value="15">15</option>
+					<option value="25">25</option>
+					<option value="35">35</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
+					<option value="200">200</option>
+					<option value={items}>All</option>
+				</select>
+			</div>
+			<div class="align-content-center">
+				<span> {items} {$_('items')}</span>
+			</div>
 		</div>
 
-		<div class="mx-2">
-			<input
-				on:input={(e) => {
-					page = Number(e.currentTarget.value);
-					pushPage();
-				}}
-				value={page}
-				style="width: 70px;"
-				type="number"
-				class="form-control form-control-sm text-center"
-			/>
-		</div>
-		<div class="align-content-center">
-			<span>{$_('of')} / {total_page} {$_('page')} </span>
-		</div>
-		<div class="">
-			<button
-				on:click={() => {
-					page = page + 1;
-					pushPage();
-				}}
-				class="btn btn-light btn-sm"><i class="fa-solid fa-angle-right"></i></button
-			>
-			<button
-				on:click={() => {
-					page = page + 2;
-					pushPage();
-				}}
-				class="btn btn-light btn-sm"><i class="fa-solid fa-angles-right"></i></button
-			>
+		<div class="col-6 d-flex justify-content-end">
+			<div class="">
+				<button
+					on:click={() => {
+						page = page - 2;
+						pushPage();
+					}}
+					class="btn btn-light btn-sm align-items-center"
+					><i class="fa-solid fa-angles-left"></i></button
+				>
+				<button
+					on:click={() => {
+						page = page - 1;
+						pushPage();
+					}}
+					class="btn btn-light btn-sm align-items-center"
+					><i class="fa-solid fa-angle-left"></i></button
+				>
+			</div>
+
+			<div class="mx-2">
+				<input
+					on:input={(e) => {
+						page = Number(e.currentTarget.value);
+						pushPage();
+					}}
+					value={page}
+					style="width: 70px;"
+					type="number"
+					class="form-control form-control-sm text-center"
+				/>
+			</div>
+			<div class="align-content-center">
+				<span>{$_('of')} / {total_page} {$_('page')} </span>
+			</div>
+			<div class="">
+				<button
+					on:click={() => {
+						page = page + 1;
+						pushPage();
+					}}
+					class="btn btn-light btn-sm"><i class="fa-solid fa-angle-right"></i></button
+				>
+				<button
+					on:click={() => {
+						page = page + 2;
+						pushPage();
+					}}
+					class="btn btn-light btn-sm"><i class="fa-solid fa-angles-right"></i></button
+				>
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
