@@ -1,5 +1,5 @@
-export function dobToAge({ dob, date }: { dob: string; date: string }) {
-	if (dob.length < 10) {
+export function dobToAge({ dob, date }: { dob: string | undefined; date: string | undefined }) {
+	if (!dob || !date || dob.length < 10) {
 		return {
 			d: 'd',
 			m: 'm',

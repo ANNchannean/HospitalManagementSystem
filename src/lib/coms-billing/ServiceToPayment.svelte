@@ -36,7 +36,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content rounded-3 shadow">
 			<form
-				action="/patient/opd/?/process_billing"
+				action="/ipd/checkout/?/process_billing"
 				use:enhance={() => {
 					loading = true;
 					return async ({ update, result }) => {

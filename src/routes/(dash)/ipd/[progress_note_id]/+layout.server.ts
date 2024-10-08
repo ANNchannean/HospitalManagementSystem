@@ -8,6 +8,7 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, Number(progress_note_id)),
 		with: {
+			presrciption:true,
 			visit: {
 				with: {
 					department: true,
@@ -45,3 +46,4 @@ export const load: LayoutServerLoad = async ({ params, parent }) => {
 		get_progress_note
 	};
 };
+
