@@ -91,7 +91,7 @@
 									{item.status ?? ''}
 								</td>
 								<td>
-									<a class="btn btn-link" href="/billing/single/{item.id}">{$_('go_to_payment')}</a>
+									<a class="btn btn-link" href="/billing/opd/{item.id}">{$_('go_to_payment')}</a>
 								</td>
 							</tr>
 						{/each}

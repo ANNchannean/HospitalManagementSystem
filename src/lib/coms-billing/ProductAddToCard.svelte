@@ -5,7 +5,7 @@
 	import SelectRef from '$lib/coms/SelectRef.svelte';
 	import { globalLoading } from '$lib/store';
 	import type { EventHandler } from 'svelte/elements';
-	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
+	import type { PageServerData } from '../../routes/(dash)/billing/opd/[id]/$types';
 	import { browser } from '$app/environment';
 	import { onDestroy, onMount } from 'svelte';
 	type Data = Pick<PageServerData, 'get_product_group_type' | 'get_products' | 'get_currency'>;

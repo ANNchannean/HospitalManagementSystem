@@ -27,7 +27,8 @@
 	$: n = page === 1 ? 1 : limit * page - limit + 1;
 	let patient_id: number;
 </script>
-<ViewPayBilling data={{ get_billings: find_billing, get_currency: get_currency }}  />
+
+<ViewPayBilling data={{ get_billings: find_billing, get_currency: get_currency }} />
 <AddPayBilling
 	balance={find_billing[0]?.balance}
 	data={{ get_billings: find_billing, get_currency, get_payment_types }}
@@ -251,8 +252,12 @@
 											<a href="/billing/pos/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
+										{:else if item.billing_type === 'CHECKING'}
+											<a href="/billing/checking/{billing_id}" class="btn btn-primary"
+												><i class="fa-solid fa-file-pen"></i></a
+											>
 										{:else}
-											<a href="/billing/single/{billing_id}" class="btn btn-primary"
+											<a href="/billing/ipd/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
 										{/if}

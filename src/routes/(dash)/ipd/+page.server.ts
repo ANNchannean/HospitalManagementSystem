@@ -5,7 +5,12 @@ import { asc, eq, isNull } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { fail, redirect } from '@sveltejs/kit';
-import { AddBedToCharge, createProductOrder, preBilling } from '$lib/server/models';
+import {
+	AddBedToCharge,
+	createProductOrder,
+	billingIPD,
+	billingCHECKING
+} from '$lib/server/models';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -202,8 +207,7 @@ export const actions: Actions = {
 					.update(billing)
 					.set({
 						status: 'checking',
-						billing_type: 'CHECKING',
-						progress_note_id: progress_note_id[0].id
+						billing_type: 'CHECKING'
 					})
 					.where(eq(billing.id, +billing_id))
 					.catch((e) => {
@@ -234,10 +238,8 @@ export const actions: Actions = {
 						return [];
 					});
 				if (id[0].id) {
-					await preBilling({
+					await billingCHECKING({
 						visit_id: id[0].id,
-						progress_id: null,
-						billing_type: 'CHECKING',
 						patient_id: +patient_id
 					});
 					await AddBedToCharge({
@@ -247,10 +249,8 @@ export const actions: Actions = {
 					});
 				}
 			}
-			await preBilling({
-				visit_id: null,
+			await billingIPD({
 				progress_id: progress_note_id[0].id,
-				billing_type: 'IPD',
 				patient_id: +patient_id
 			});
 			redirect(303, `/ipd/${progress_note_id[0].id}/progress-note`);

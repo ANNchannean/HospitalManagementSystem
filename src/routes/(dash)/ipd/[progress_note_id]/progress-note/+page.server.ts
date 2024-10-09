@@ -15,7 +15,7 @@ import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import {
 	createProductOrder,
 	deleteProductOrder,
-	preBilling,
+	billingCHECKING,
 	updateProductOrder
 } from '$lib/server/models';
 import { fail } from '@sveltejs/kit';
@@ -30,7 +30,6 @@ export const load: PageServerLoad = async ({ params }) => {
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, +progress_note_id),
 		with: {
-			
 			billing: true,
 			visit: {
 				with: {
@@ -168,10 +167,8 @@ export const actions: Actions = {
 			logErrorMessage(String(error));
 		}
 		if (visit_id > 0) {
-			await preBilling({
+			await billingCHECKING({
 				visit_id: visit_id,
-				progress_id: null,
-				billing_type: 'IPD',
 				patient_id: Number(get_pregress_note?.patient_id)
 			});
 		}

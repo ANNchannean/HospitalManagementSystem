@@ -4,7 +4,7 @@
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
 	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import { globalLoading } from '$lib/store';
-	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
+	import type { PageServerData } from '../../routes/(dash)/billing/opd/[id]/$types';
 	type Data = Pick<PageServerData, 'get_billing' | 'get_payment_types' | 'get_currency'>;
 	export let data: Data;
 	$: ({ get_billing, get_payment_types, get_currency } = data);

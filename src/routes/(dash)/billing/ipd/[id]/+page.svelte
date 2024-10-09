@@ -1,24 +1,14 @@
 <script lang="ts">
 	import type { EventHandler } from 'svelte/elements';
 	import type { ActionData, PageServerData } from './$types';
-	import { page } from '$app/stores';
-	import { onDestroy, onMount } from 'svelte';
-	import SelectRef from '$lib/coms/SelectRef.svelte';
 	import { enhance } from '$app/forms';
 	import Toast from '$lib/coms/Toast.svelte';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
-	import SubmitButton from '$lib/coms/SubmitButton.svelte';
-	import { browser } from '$app/environment';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import ChargeOn from '$lib/coms-billing/ChargeOn.svelte';
-	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
-	import ChargeLaboratory from '$lib/coms-billing/ChargeLaboratory.svelte';
-	import ChargeImagerie from '$lib/coms-billing/ChargeImagerie.svelte';
 	import ChargePrescription from '$lib/coms-billing/ChargePrescription.svelte';
 	import ChargeService from '$lib/coms-billing/ChargeService.svelte';
-	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
 	import ChargeBed from '$lib/coms-billing/ChargeBed.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	import { _ } from '$lib/translations';
@@ -127,12 +117,6 @@
 						</thead>
 						<tbody>
 							{#each get_progress_note?.visit || [] as item}
-								{@const charge_on_imagerie = item.billing?.charge.find(
-									(e) => e.charge_on === 'imagerie'
-								)}
-								{@const charge_on_laboratory = item.billing?.charge.find(
-									(e) => e.charge_on === 'laboratory'
-								)}
 								{@const charge_on_general = item.billing?.charge.find(
 									(e) => e.charge_on === 'general'
 								)}
@@ -141,9 +125,6 @@
 								)}
 								{@const charge_on_prescription = item.billing?.charge.find(
 									(e) => e.charge_on === 'prescription'
-								)}
-								{@const charge_on_vaccine = item.billing?.charge.find(
-									(e) => e.charge_on === 'vaccine'
 								)}
 								{@const charge_on_bed = item.billing?.charge.find((e) => e.charge_on === 'bed')}
 								<tr>
@@ -156,18 +137,7 @@
 										{/if}
 									</span>
 								</tr>
-								<ChargeLaboratory
-									data={{
-										charge_on_laboratory: charge_on_laboratory,
-										get_currency: get_currency
-									}}
-								/>
-								<ChargeImagerie
-									data={{
-										charge_on_imagerie: charge_on_imagerie,
-										get_currency: get_currency
-									}}
-								/>
+
 								<ChargePrescription
 									data={{
 										charge_on_prescription: charge_on_prescription,
@@ -178,12 +148,6 @@
 								<ChargeService
 									data={{
 										charge_on_service: charge_on_service,
-										get_currency: get_currency
-									}}
-								/>
-								<ChargeVaccine
-									data={{
-										charge_on_vaccine: charge_on_vaccine,
 										get_currency: get_currency
 									}}
 								/>
@@ -199,19 +163,6 @@
 										get_currency: get_currency
 									}}
 								/>
-								<!-- <ChargeOn
-									data={{
-										charge_on_general: charge_on_general,
-										charge_on_imagerie: charge_on_imagerie,
-										charge_on_laboratory: charge_on_laboratory,
-										charge_on_service: charge_on_service,
-										charge_on_prescription: charge_on_prescription,
-										charge_on_vaccine: charge_on_vaccine,
-										get_billing: item?.billing ?? undefined,
-										get_currency: get_currency,
-										charge_on_bed: charge_on_bed
-									}}
-								/> -->
 								<br />
 							{/each}
 						</tbody>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Currency from '$lib/coms/Currency.svelte';
 	import CurrencyInput from '$lib/coms/CurrencyInput.svelte';
-	import type { PageServerData } from '../../routes/(dash)/billing/single/[id]/$types';
+	import type { PageServerData } from '../../routes/(dash)/billing/opd/[id]/$types';
 	type Data = Pick<PageServerData, 'charge_on_prescription' | 'get_billing' | 'get_currency'>;
 	export let data: Data;
 	$: ({ charge_on_prescription, get_billing, get_currency } = data);

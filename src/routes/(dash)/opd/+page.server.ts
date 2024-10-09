@@ -5,7 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
-import { preBilling } from '$lib/server/models';
+import { billingOPD } from '$lib/server/models';
 
 export const load = (async ({ url, parent }) => {
 	await parent();
@@ -93,10 +93,8 @@ export const actions: Actions = {
 		if (!visit_id[0].id) return fail(400, { visit_id: true });
 		if (visit_id[0].id) {
 			// doing billing
-			await preBilling({
+			await billingOPD({
 				visit_id: visit_id[0].id,
-				progress_id: null,
-				billing_type: 'OPD',
 				patient_id: +patient_id
 			});
 			// creae vital sign

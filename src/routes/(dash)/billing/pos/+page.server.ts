@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 import { billing } from '$lib/server/schemas';
-import { prePOS } from '$lib/server/models';
+import { BillingPOS } from '$lib/server/models';
 import { now_datetime } from '$lib/server/utils';
 import { redirect } from '@sveltejs/kit';
 import { and, eq, isNull } from 'drizzle-orm';
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async () => {
 
 		return redirect(303, `/billing/pos/${old_billing.id}`);
 	} else {
-		const billing_id = await prePOS();
+		const billing_id = await BillingPOS();
 		if (billing_id) {
 			return redirect(303, `/billing/pos/${billing_id}`);
 		} else {
