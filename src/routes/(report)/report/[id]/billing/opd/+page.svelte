@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageServerData } from './$types';
-	import { dobToAge } from '$lib/helper';
-	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import ClinichInfo from '$lib/coms-report/ClinichInfo.svelte';
 	import { page } from '$app/stores';
-	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import InvoiceBody from '$lib/coms-report/InvoiceBody.svelte';
 	import InvoiceHeader from '$lib/coms-report/InvoiceHeader.svelte';
-	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	export let data: PageServerData;
 	$: ({ get_billing, get_clinic_info, get_currency, previous_due } = data);

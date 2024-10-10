@@ -14,6 +14,7 @@
 	import SendToPayment from '$lib/coms-billing/SendToPayment.svelte';
 	import ServiceToPayment from '$lib/coms-billing/ServiceToPayment.svelte';
 	import { _ } from '$lib/translations';
+	import Currency from '$lib/coms/Currency.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
@@ -21,6 +22,8 @@
 	$: find_service = get_progress_note?.service.find((e) => e.id === service_id);
 	$: total_service =
 		get_progress_note?.billing?.charge?.find((e) => e.charge_on === 'service')?.price || 0;
+	$: total_paid_product_order =
+		charge_on_service?.productOrder.reduce((s, e) => s + e.paid, 0) || 0;
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
@@ -793,6 +796,15 @@
 				{$_('send_to_payment')}
 			</ServiceToPayment>
 		</div>
+		<div class="col-auto">
+			<Currency
+				class="btn btn-primary"
+				amount={total_paid_product_order}
+				symbol={get_currency?.currency_symbol}
+				rate={get_currency?.currency_rate}
+			/>
+		</div>
+		{#if total_paid_product_order > 0}{/if}
 		<div class="col-auto">
 			<button type="button" class="btn btn-warning">Total Service</button>
 		</div>
