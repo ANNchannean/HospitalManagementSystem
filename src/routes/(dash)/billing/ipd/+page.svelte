@@ -90,12 +90,16 @@
 									{item.status ?? ''}
 								</td>
 								<td>
-									{#if item.billing_type === 'IPD'}
+									{#if item.billing_type === 'IPD' && item.progressNote?.date_checkout}
 										<a class="btn btn-link" href="/billing/ipd/{item.progress_note_id}"
 											>{$_('go_to_payment')}</a
 										>
-									{:else}
+									{:else if item.billing_type === 'CHECKING'}
 										<a class="btn btn-link" href="/billing/checking/{item.id}"
+											>{$_('go_to_payment')}</a
+										>
+									{:else}
+										<a class="btn btn-link" href="/billing/service/{item.id}"
 											>{$_('go_to_payment')}</a
 										>
 									{/if}

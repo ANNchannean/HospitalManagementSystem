@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Currency from '$lib/coms/Currency.svelte';
-	import type { PageServerData } from '../../routes/(report)/report/[id]/billing/$types';
+	import type { PageServerData } from '../../routes/(report)/report/[id]/billing/ipd/$types';
 	type Data = Pick<PageServerData, 'get_billing' | 'get_currency' | 'previous_due'>;
 	export let data: Data;
 	$: ({ get_billing, get_currency, previous_due } = data);

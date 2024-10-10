@@ -15,12 +15,7 @@
 		.flatMap((e) => e.productOrder);
 	$: total_laboratory = laboratory?.reduce((s, e) => s + e, 0) || 0;
 	$: total_prescription = prescription?.reduce((s, e) => s + e.price, 0) || 0;
-	$: charge_prescription = get_billing?.charge.find((e) => e.charge_on === 'prescription') || 0;
-	$: charge_laboratory = get_billing?.charge.find((e) => e.charge_on === 'laboratory') || 0;
-	$: charge_service = get_billing?.charge.find((e) => e.charge_on === 'service') || 0;
 	$: charge_bed = get_billing?.charge.find((e) => e.charge_on === 'bed') || 0;
-	$: charge_vaccine = get_billing?.charge.find((e) => e.charge_on === 'vaccine') || 0;
-	$: charge_general = get_billing?.charge.find((e) => e.charge_on === 'general') || 0;
 </script>
 
 <div style="font-size: 110%;" class="">
@@ -63,7 +58,7 @@
 				</tr>
 			{/each}
 			{#if total_prescription > 0}
-				{#if get_billing?.progressNote?.date_checkout }
+				{#if get_billing?.progressNote?.date_checkout}
 					<tr>
 						<td class="text-center">{Number(products?.length) + 1}</td>
 						<td colspan="3"> ថ្នាំលេបព្យាបាលនៅផ្ទះ {`( ${prescription?.length} មុខ )`} </td>

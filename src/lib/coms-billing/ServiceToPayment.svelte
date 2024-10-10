@@ -10,6 +10,7 @@
 	let className = 'btn btn-primary';
 	export { className as class };
 	$: id = 'myid'.concat(crypto.randomUUID().replaceAll('-', ''));
+	$: charge_on_service = get_progress_note?.billing?.charge.find((e) => e.charge_on === 'service');
 </script>
 
 <button
@@ -36,7 +37,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content rounded-3 shadow">
 			<form
-				action="/ipd/checkout/?/process_billing"
+				action="/ipd/checkout/?/process_billing_service"
 				use:enhance={() => {
 					loading = true;
 					return async ({ update, result }) => {

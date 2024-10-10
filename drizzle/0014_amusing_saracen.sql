@@ -1,0 +1,1 @@
+ALTER TABLE `product_order` ADD `paid` decimal(18,2) DEFAULT 0 NOT NULL;

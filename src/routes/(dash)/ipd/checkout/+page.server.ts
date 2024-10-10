@@ -2,10 +2,10 @@ import { now_datetime } from '$lib/server/utils';
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { db } from '$lib/server/db';
-import { billing, charge, progressNote } from '$lib/server/schemas';
+import { billing, progressNote } from '$lib/server/schemas';
 import { eq } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
-import { updatChargeByValue } from '$lib/server/models';
+import { setChargePrice } from '$lib/server/models';
 
 export const actions: Actions = {
 	check_out: async ({ request }) => {
@@ -41,12 +41,12 @@ export const actions: Actions = {
 			for (const e1 of e.billing?.charge || []) {
 				if (!charge_prescription) {
 					if (e1.charge_on === 'prescription') {
-						updatChargeByValue(e1.id, 0);
+						setChargePrice(e1.id, 0);
 					}
 				}
 				if (!charge_trantment) {
 					if (e1.charge_on !== 'prescription') {
-						updatChargeByValue(e1.id, 0);
+						setChargePrice(e1.id, 0);
 					}
 				}
 			}
@@ -69,7 +69,7 @@ export const actions: Actions = {
 				.where(eq(billing.id, Number(get_progress_note?.billing?.id)));
 		});
 	},
-	process_billing: async ({ request }) => {
+	process_billing_service: async ({ request }) => {
 		const body = await request.formData();
 		const billing_id = body.get('id');
 		if (!billing_id || isNaN(+billing_id)) return fail(303, { idErr: true });
@@ -79,24 +79,18 @@ export const actions: Actions = {
 				charge: true
 			}
 		});
-		const charge_on_service = get_billing?.charge.find((e) => e.charge_on === 'service');
+		const charge_on_prescription = get_billing?.charge.find((e) => e.charge_on === 'prescription');
 		const status = get_billing?.status === 'checking' ? 'paying' : 'checking';
-		await db.transaction(async (tx) => {
-			await tx
-				.update(billing)
-				.set({
-					status: status
-				})
-				.where(eq(billing.id, +billing_id))
-				.catch((e) => {
-					logErrorMessage(e);
-				});
-			// await tx
-			// 	.update(charge)
-			// 	.set({
-			// 		status: charge_on_service?.status === 'payment' ? 'checking' : 'payment'
-			// 	})
-			// 	.where(eq(charge.id, Number(charge_on_service?.id)));
-		});
+		await db
+			.update(billing)
+			.set({
+				status: status
+			})
+			.where(eq(billing.id, +billing_id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
+
+		await setChargePrice(charge_on_prescription?.id, 0);
 	}
 };

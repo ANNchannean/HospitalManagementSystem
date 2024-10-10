@@ -6,7 +6,7 @@ import {
 	billingProcess,
 	createProductOrder,
 	deleteProductOrder,
-	updatChargeByValue,
+	setChargePrice,
 	updateProductOrder
 } from '$lib/server/models';
 import { fail, redirect } from '@sveltejs/kit';
@@ -178,7 +178,7 @@ export const actions: Actions = {
 			});
 		}
 		if (charge_id) {
-			await updatChargeByValue(+charge_id, +charge_on_laboratory).catch((e) => {
+			await setChargePrice(+charge_id, +charge_on_laboratory).catch((e) => {
 				logErrorMessage(e);
 			});
 		}

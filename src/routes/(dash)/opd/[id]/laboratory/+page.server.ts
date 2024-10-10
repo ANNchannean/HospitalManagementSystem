@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { laboratory, laboratoryRequest, product, visit } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { asc, eq } from 'drizzle-orm';
-import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
+import { createProductOrder, deleteProductOrder, setChargePrice } from '$lib/server/models';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 export const load = (async ({ params }) => {
 	const id = parseInt(params.id);
@@ -148,7 +148,7 @@ export const actions: Actions = {
 			(e) => e.charge_on === 'laboratory'
 		);
 		if (charge_on_laboratory) {
-			await updatChargeByValue(charge_on_laboratory.id, +total_laboratory);
+			await setChargePrice(charge_on_laboratory.id, +total_laboratory);
 		}
 	}
 };

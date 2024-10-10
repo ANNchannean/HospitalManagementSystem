@@ -6,7 +6,7 @@ import {
 	billingProcess,
 	createProductOrder,
 	deleteProductOrder,
-	updatChargeByValue,
+	setChargePrice,
 	updateProductOrder
 } from '$lib/server/models';
 import { fail, redirect } from '@sveltejs/kit';
@@ -180,7 +180,7 @@ export const actions: Actions = {
 		}
 		if (charge_id) {
 			console.log(charge_on_laboratory);
-			await updatChargeByValue(+charge_id, +charge_on_laboratory).catch((e) => {
+			await setChargePrice(+charge_id, +charge_on_laboratory).catch((e) => {
 				logErrorMessage(e);
 			});
 		}
@@ -273,7 +273,6 @@ export const actions: Actions = {
 			tax: +tax || 0,
 			note: note.toString()
 		});
-
 		redirect(303, `/report/${billing_id}/billing`);
 	},
 	hold: async ({ params }) => {

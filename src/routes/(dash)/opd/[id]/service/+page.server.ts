@@ -11,7 +11,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq, like } from 'drizzle-orm';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
-import { createProductOrder, updatChargeByValue, updateProductOrder } from '$lib/server/models';
+import { createProductOrder, setChargePrice, updateProductOrder } from '$lib/server/models';
 
 export const load = (async ({ params }) => {
 	const visit_id = params.id;
@@ -245,7 +245,7 @@ export const actions: Actions = {
 		});
 		const charge_on_service = get_visit?.billing?.charge.find((e) => e.charge_on === 'service');
 		if (charge_on_service) {
-			await updatChargeByValue(charge_on_service.id, +total_service);
+			await setChargePrice(charge_on_service.id, +total_service);
 		}
 	},
 	set_price_service: async ({ request, params }) => {

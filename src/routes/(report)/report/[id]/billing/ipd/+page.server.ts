@@ -15,7 +15,6 @@ export const load = (async ({ params }) => {
 		where: eq(billing.id, +id),
 		with: {
 			progressNote:true,
-
 			patient: {
 				with: {
 					commune: true,

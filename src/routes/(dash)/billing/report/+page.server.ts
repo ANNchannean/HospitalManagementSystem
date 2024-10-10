@@ -38,6 +38,7 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 					)
 				: or(eq(billing.status, 'paid'), eq(billing.status, 'debt'), eq(billing.status, 'partial')),
 			with: {
+				progressNote:true,
 				patient: {
 					with: {
 						commune: true,

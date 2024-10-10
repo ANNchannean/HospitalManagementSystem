@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { injection, product, productGroupType, vaccine, visit } from '$lib/server/schemas';
 import type { Actions, PageServerLoad } from './$types';
 import { and, asc, eq } from 'drizzle-orm';
-import { createProductOrder, deleteProductOrder, updatChargeByValue } from '$lib/server/models';
+import { createProductOrder, deleteProductOrder, setChargePrice } from '$lib/server/models';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 
@@ -174,7 +174,7 @@ export const actions: Actions = {
 
 		const charge_on_laboratory = get_visit?.billing?.charge.find((e) => e.charge_on === 'vaccine');
 		if (charge_on_laboratory) {
-			await updatChargeByValue(charge_on_laboratory.id, +total_vaccine);
+			await setChargePrice(charge_on_laboratory.id, +total_vaccine);
 		}
 	}
 };

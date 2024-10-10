@@ -63,7 +63,7 @@ export const charge = mysqlTable('charge', {
 	billing_id: int('billing_id')
 		.references(() => billing.id, { onDelete: 'cascade' })
 		.notNull(),
-	is_paid: boolean('is_paid').default(false).notNull()
+	paid: decimal('paid', { precision: 18, scale: 2 }).notNull().$type<number>().default(0)
 });
 
 export const productOrder = mysqlTable('product_order', {
@@ -74,11 +74,12 @@ export const productOrder = mysqlTable('product_order', {
 	qty: int('qty').default(1).notNull(),
 	discount: varchar('discount', { length: 50 }).notNull().default('0'),
 	product_id: int('product_id')
-		.references(() => product.id)
-		.notNull(),
+	.references(() => product.id)
+	.notNull(),
 	charge_id: int('charge_id')
-		.references(() => charge.id, { onDelete: 'cascade' })
-		.notNull()
+	.references(() => charge.id, { onDelete: 'cascade' })
+	.notNull(),
+	paid: decimal('paid', { precision: 18, scale: 2 }).notNull().$type<number>().default(0)
 });
 
 export const productOrderRelations = relations(productOrder, ({ one }) => ({

@@ -13,7 +13,7 @@ import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import {
 	createProductOrder,
 	deleteProductOrder,
-	updatChargeByValue,
+	setChargePrice,
 	updateProductOrder
 } from '$lib/server/models';
 export const load = (async ({ params }) => {
@@ -243,7 +243,7 @@ export const actions: Actions = {
 			(e) => e.charge_on === 'service'
 		);
 		if (charge_on_service) {
-			await updatChargeByValue(charge_on_service.id, +total_service);
+			await setChargePrice(charge_on_service.id, +total_service);
 		}
 	},
 	set_price_service: async ({ request, params }) => {

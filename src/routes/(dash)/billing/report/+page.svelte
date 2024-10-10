@@ -256,12 +256,17 @@
 											<a href="/billing/checking/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
+										{:else if item.billing_type === 'IPD' && item.progressNote?.date_checkout === null }
+											<a href="/billing/service/{billing_id}" class="btn btn-primary"
+												><i class="fa-solid fa-file-pen"></i></a
+											>
 										{:else}
 											<a href="/billing/ipd/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
 										{/if}
 										<button class="btn btn-danger"><i class="fa-solid fa-trash-alt"></i></button>
+										
 									</div>
 								</td>
 							</tr>
