@@ -1,1 +1,0 @@
-ALTER TABLE `charge` DROP COLUMN `is_paid`;

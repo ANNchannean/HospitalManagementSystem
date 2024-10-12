@@ -152,6 +152,7 @@
 								/>
 							</td>
 						</tr>
+
 						<tr>
 							<td></td>
 							<td></td>
@@ -163,6 +164,18 @@
 									rate_to={get_currency?.exchang_rate}
 									amount={get_billing?.sub_total}
 									symbol={get_currency?.exchang_to}
+								/>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>បានបង់ </td>
+							<td>:</td>
+							<td>
+								<Currency
+									class=""
+									amount={get_billing?.charge.find((e) => e.charge_on === 'service')?.paid || 0}
+									symbol={get_currency?.currency_symbol}
 								/>
 							</td>
 						</tr>

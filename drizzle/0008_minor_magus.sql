@@ -1,1 +1,0 @@
-ALTER TABLE `billing` MODIFY COLUMN `billing_type` varchar(10);

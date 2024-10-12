@@ -1,42 +1,42 @@
 CREATE TABLE `commune` (
 	`commune_id` int AUTO_INCREMENT NOT NULL,
-	`name_khmer` varchar(255) NOT NULL,
-	`name_latin` varchar(255) NOT NULL,
-	`type` varchar(255) NOT NULL,
+	`name_khmer` varchar(50) NOT NULL,
+	`name_latin` varchar(50) NOT NULL,
+	`type` varchar(20) NOT NULL,
 	`district_id` int,
 	CONSTRAINT `commune_commune_id` PRIMARY KEY(`commune_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `district` (
 	`district_id` int AUTO_INCREMENT NOT NULL,
-	`name_khmer` varchar(255) NOT NULL,
-	`name_latin` varchar(255) NOT NULL,
-	`type` varchar(255) NOT NULL,
+	`name_khmer` varchar(50) NOT NULL,
+	`name_latin` varchar(50) NOT NULL,
+	`type` varchar(20) NOT NULL,
 	`province_id` int,
 	CONSTRAINT `district_district_id` PRIMARY KEY(`district_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `provice` (
 	`provice_id` int AUTO_INCREMENT NOT NULL,
-	`name_khmer` varchar(255) NOT NULL,
-	`name_latin` varchar(255) NOT NULL,
-	`type` varchar(255) NOT NULL,
+	`name_khmer` varchar(50) NOT NULL,
+	`name_latin` varchar(50) NOT NULL,
+	`type` varchar(20) NOT NULL,
 	`contry_id` int,
 	CONSTRAINT `provice_provice_id` PRIMARY KEY(`provice_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `village` (
 	`village_id` int AUTO_INCREMENT NOT NULL,
-	`name_khmer` varchar(255) NOT NULL,
-	`name_latin` varchar(255) NOT NULL,
-	`type` varchar(255) NOT NULL,
+	`name_khmer` varchar(50) NOT NULL,
+	`name_latin` varchar(50) NOT NULL,
+	`type` varchar(20) NOT NULL,
 	`commune_id` int,
 	CONSTRAINT `village_village_id` PRIMARY KEY(`village_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `department` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`department` varchar(255) NOT NULL,
+	`department` varchar(50) NOT NULL,
 	CONSTRAINT `department_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -50,7 +50,7 @@ CREATE TABLE `diagnosis` (
 --> statement-breakpoint
 CREATE TABLE `diagnosis_type` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`diagnosis_type` varchar(255) NOT NULL,
+	`diagnosis_type` varchar(150) NOT NULL,
 	CONSTRAINT `diagnosis_type_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -107,8 +107,8 @@ CREATE TABLE `parameter` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`parameter` varchar(255),
 	`description` longtext,
-	`gender` varchar(255),
-	`sign` varchar(255) NOT NULL DEFAULT '-',
+	`gender` varchar(10),
+	`sign` varchar(10) NOT NULL DEFAULT '-',
 	`unit_id` int,
 	`mini` float,
 	`maxi` float,
@@ -118,12 +118,12 @@ CREATE TABLE `parameter` (
 --> statement-breakpoint
 CREATE TABLE `patient` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`name_khmer` varchar(255) NOT NULL,
-	`name_latin` varchar(255) NOT NULL,
-	`gender` varchar(255) NOT NULL,
+	`name_khmer` varchar(50) NOT NULL,
+	`name_latin` varchar(50) NOT NULL,
+	`gender` varchar(10) NOT NULL,
 	`dob` date NOT NULL,
 	`age` int NOT NULL,
-	`telephone` varchar(255),
+	`telephone` varchar(50),
 	`other` text,
 	`village_id` int,
 	`commune_id` int,
@@ -141,7 +141,7 @@ CREATE TABLE `exam` (
 --> statement-breakpoint
 CREATE TABLE `physical` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`physical` varchar(255),
+	`physical` varchar(150),
 	`exam_id` int,
 	CONSTRAINT `physical_id` PRIMARY KEY(`id`)
 );
@@ -192,7 +192,7 @@ CREATE TABLE `sub_unit` (
 --> statement-breakpoint
 CREATE TABLE `product_group_type` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`group_type` varchar(255) NOT NULL,
+	`group_type` varchar(100) NOT NULL,
 	CONSTRAINT `product_group_type_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -205,9 +205,9 @@ CREATE TABLE `session` (
 --> statement-breakpoint
 CREATE TABLE `staff` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`name` varchar(255) NOT NULL,
-	`staff_type` varchar(255) NOT NULL DEFAULT 'DOCTOR',
-	`gender` varchar(255) NOT NULL,
+	`name` varchar(50) NOT NULL,
+	`staff_type` varchar(20) NOT NULL DEFAULT 'DOCTOR',
+	`gender` varchar(10) NOT NULL,
 	`specific` varchar(255),
 	CONSTRAINT `staff_id` PRIMARY KEY(`id`)
 );
@@ -235,12 +235,12 @@ CREATE TABLE `template` (
 --> statement-breakpoint
 CREATE TABLE `user` (
 	`id` varchar(255) NOT NULL,
-	`username` varchar(255) NOT NULL,
+	`username` varchar(50) NOT NULL,
 	`password_hash` text,
-	`role` varchar(255) NOT NULL DEFAULT 'DOCTOR',
+	`role` varchar(20) NOT NULL DEFAULT 'DOCTOR',
 	`image` varchar(255),
 	`limit_view` int NOT NULL DEFAULT 20,
-	`lang` varchar(255) NOT NULL DEFAULT 'ko',
+	`lang` varchar(5) NOT NULL DEFAULT 'ko',
 	`staff_id` int,
 	CONSTRAINT `user_id` PRIMARY KEY(`id`),
 	CONSTRAINT `user_username_unique` UNIQUE(`username`)
@@ -283,15 +283,6 @@ CREATE TABLE `vaccine` (
 	CONSTRAINT `vaccine_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
-CREATE TABLE `bed_ipd` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`check_in` datetime NOT NULL,
-	`check_out` datetime,
-	`int` int,
-	`bed_id` int NOT NULL,
-	CONSTRAINT `bed_ipd_id` PRIMARY KEY(`id`)
-);
---> statement-breakpoint
 CREATE TABLE `nursing_process` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`datetime` datetime,
@@ -322,7 +313,7 @@ CREATE TABLE `visit` (
 	`patient_id` int NOT NULL,
 	`department_id` int NOT NULL,
 	`staff_id` int NOT NULL,
-	`checkin_type` varchar(255) NOT NULL,
+	`checkin_type` varchar(10) NOT NULL,
 	`etiology` varchar(255) NOT NULL,
 	`transfer` boolean NOT NULL DEFAULT false,
 	`progress_note_id` int,
@@ -358,7 +349,7 @@ CREATE TABLE `vital_sign` (
 --> statement-breakpoint
 CREATE TABLE `imagerie_group` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`imagerie_group` varchar(255) NOT NULL,
+	`imagerie_group` varchar(50) NOT NULL,
 	CONSTRAINT `imagerie_group_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -381,7 +372,7 @@ CREATE TABLE `advice_teaching` (
 --> statement-breakpoint
 CREATE TABLE `active_presrciption` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`active_for` varchar(255) NOT NULL,
+	`active_for` varchar(100) NOT NULL,
 	`datetime` datetime NOT NULL,
 	`presrciption_id` int,
 	`user_id` varchar(255),
@@ -391,9 +382,10 @@ CREATE TABLE `active_presrciption` (
 CREATE TABLE `presrciption` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`visit_id` int,
+	`progress_note_id` int,
 	`product_id` int,
-	`use` varchar(255),
-	`duration` varchar(255),
+	`use` varchar(150),
+	`duration` varchar(150),
 	`amount` float,
 	`morning` float,
 	`noon` float,
@@ -405,13 +397,13 @@ CREATE TABLE `presrciption` (
 --> statement-breakpoint
 CREATE TABLE `use` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`description` varchar(255),
+	`description` varchar(150),
 	CONSTRAINT `use_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `duration` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`description` varchar(255),
+	`description` varchar(50),
 	CONSTRAINT `duration_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -441,18 +433,18 @@ CREATE TABLE `service` (
 --> statement-breakpoint
 CREATE TABLE `operation_protocol` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`surgeon` varchar(256),
-	`assistant_surgeon` varchar(256),
-	`anesthetist` varchar(256),
-	`assistant_anesthetist` varchar(256),
-	`scrub_nurse` varchar(256),
-	`cirulating_nurse_block` varchar(256),
-	`midwife` varchar(256),
-	`pre_diagnosis` varchar(256),
-	`post_diagnosis` varchar(256),
-	`type_anesthesia` varchar(256),
+	`surgeon` varchar(255),
+	`assistant_surgeon` varchar(255),
+	`anesthetist` varchar(255),
+	`assistant_anesthetist` varchar(255),
+	`scrub_nurse` varchar(255),
+	`cirulating_nurse_block` varchar(255),
+	`midwife` varchar(255),
+	`pre_diagnosis` varchar(255),
+	`post_diagnosis` varchar(255),
+	`type_anesthesia` varchar(255),
 	`opertive_technique` text,
-	`blood_less` varchar(256),
+	`blood_less` varchar(255),
 	`notes` text,
 	`date` date,
 	`start_time` time,
@@ -463,7 +455,7 @@ CREATE TABLE `operation_protocol` (
 --> statement-breakpoint
 CREATE TABLE `bed` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`bed` varchar(255),
+	`bed` varchar(100),
 	`room_id` int,
 	`ward_id` int,
 	`description` text,
@@ -472,7 +464,7 @@ CREATE TABLE `bed` (
 --> statement-breakpoint
 CREATE TABLE `room` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`room` varchar(255),
+	`room` varchar(100),
 	`product_id` int,
 	`ward_id` int,
 	`description` text,
@@ -481,7 +473,7 @@ CREATE TABLE `room` (
 --> statement-breakpoint
 CREATE TABLE `ward` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`ward` varchar(255),
+	`ward` varchar(100),
 	`description` text,
 	CONSTRAINT `ward_id` PRIMARY KEY(`id`)
 );
@@ -507,8 +499,6 @@ CREATE TABLE `clinicinfo` (
 --> statement-breakpoint
 CREATE TABLE `billing` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`date` date,
-	`time` time,
 	`visit_id` int,
 	`patient_id` int,
 	`progress_note_id` int,
@@ -521,8 +511,8 @@ CREATE TABLE `billing` (
 	`tax` float NOT NULL DEFAULT 0,
 	`vat` float NOT NULL DEFAULT 0,
 	`balance` decimal(18,2) NOT NULL DEFAULT 0,
-	`status` varchar(255) NOT NULL DEFAULT 'active',
-	`checkin_type` varchar(255),
+	`status` varchar(10) NOT NULL DEFAULT 'checking',
+	`billing_type` varchar(10),
 	`created_at` datetime,
 	`hold` boolean NOT NULL DEFAULT false,
 	`note` text,
@@ -533,8 +523,7 @@ CREATE TABLE `charge` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`created_at` datetime,
 	`price` decimal(18,2) NOT NULL DEFAULT 0,
-	`status` varchar(255) DEFAULT 'active',
-	`charge_on` varchar(255),
+	`charge_on` varchar(20),
 	`billing_id` int NOT NULL,
 	CONSTRAINT `charge_id` PRIMARY KEY(`id`)
 );
@@ -577,7 +566,7 @@ CREATE TABLE `payment_type` (
 CREATE TABLE `document` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`datetime` datetime,
-	`title` varchar(255),
+	`title` varchar(150),
 	`content` text,
 	`visit_id` int NOT NULL,
 	CONSTRAINT `document_id` PRIMARY KEY(`id`)
@@ -586,7 +575,7 @@ CREATE TABLE `document` (
 CREATE TABLE `form_document` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`datetime` datetime,
-	`title` varchar(255),
+	`title` varchar(150),
 	`content` text,
 	CONSTRAINT `form_document_id` PRIMARY KEY(`id`)
 );
@@ -600,7 +589,7 @@ CREATE TABLE `test` (
 --> statement-breakpoint
 CREATE TABLE `words` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`type` varchar(255) NOT NULL,
+	`type` varchar(100) NOT NULL,
 	`text` text NOT NULL,
 	CONSTRAINT `words_id` PRIMARY KEY(`id`)
 );
@@ -668,7 +657,6 @@ ALTER TABLE `injection` ADD CONSTRAINT `injection_unit_id_unit_id_fk` FOREIGN KE
 ALTER TABLE `vaccine` ADD CONSTRAINT `vaccine_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `vaccine` ADD CONSTRAINT `vaccine_injection_id_injection_id_fk` FOREIGN KEY (`injection_id`) REFERENCES `injection`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `vaccine` ADD CONSTRAINT `vaccine_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `bed_ipd` ADD CONSTRAINT `bed_ipd_bed_id_bed_id_fk` FOREIGN KEY (`bed_id`) REFERENCES `bed`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `nursing_process` ADD CONSTRAINT `nursing_process_nursing_sign_staff_id_fk` FOREIGN KEY (`nursing_sign`) REFERENCES `staff`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `nursing_process` ADD CONSTRAINT `nursing_process_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `progress_note` ADD CONSTRAINT `progress_note_staff_id_staff_id_fk` FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -688,6 +676,7 @@ ALTER TABLE `advice_teaching` ADD CONSTRAINT `advice_teaching_visit_id_visit_id_
 ALTER TABLE `active_presrciption` ADD CONSTRAINT `active_presrciption_presrciption_id_presrciption_id_fk` FOREIGN KEY (`presrciption_id`) REFERENCES `presrciption`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `active_presrciption` ADD CONSTRAINT `active_presrciption_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `presrciption` ADD CONSTRAINT `presrciption_product_id_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `appointment` ADD CONSTRAINT `appointment_visit_id_visit_id_fk` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 ALTER TABLE `appointment` ADD CONSTRAINT `appointment_progress_note_id_progress_note_id_fk` FOREIGN KEY (`progress_note_id`) REFERENCES `progress_note`(`id`) ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint

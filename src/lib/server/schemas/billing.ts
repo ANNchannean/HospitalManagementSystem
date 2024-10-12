@@ -63,7 +63,6 @@ export const charge = mysqlTable('charge', {
 	billing_id: int('billing_id')
 		.references(() => billing.id, { onDelete: 'cascade' })
 		.notNull(),
-	paid: decimal('paid', { precision: 18, scale: 2 }).notNull().$type<number>().default(0)
 });
 
 export const productOrder = mysqlTable('product_order', {
@@ -78,8 +77,7 @@ export const productOrder = mysqlTable('product_order', {
 		.notNull(),
 	charge_id: int('charge_id')
 		.references(() => charge.id, { onDelete: 'cascade' })
-		.notNull(),
-	paid: decimal('paid', { precision: 18, scale: 2 }).notNull().$type<number>().default(0)
+		.notNull()
 });
 
 export const productOrderRelations = relations(productOrder, ({ one }) => ({

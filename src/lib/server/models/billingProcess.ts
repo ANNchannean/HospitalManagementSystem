@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
-import { billing, productOrder } from '../schemas';
+import { billing, charge } from '../schemas';
 import { now_datetime } from '../utils';
 type TBillingProcess = {
 	billing_id: number;
@@ -77,14 +77,13 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 			.where(eq(billing.id, billing_id))
 			.catch((e) => console.log(e));
 	}
+
 	for (const e of get_billing?.charge || []) {
-		for (const ee of e.productOrder) {
-			await db
-				.update(productOrder)
-				.set({
-					paid: ee.total
-				})
-				.where(eq(productOrder.id, ee.id));
-		}
+		await db
+			.update(charge)
+			.set({
+				paid: e.price
+			})
+			.where(eq(charge.id, e.id));
 	}
 };

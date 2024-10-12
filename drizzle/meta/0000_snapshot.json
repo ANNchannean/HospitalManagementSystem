@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "19b2b7a7-cff6-4d43-b4f6-be3e89e17e37",
+  "id": "b05d618c-0f3d-4aa7-8521-7d0643e7e165",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "commune": {
@@ -16,21 +16,21 @@
         },
         "name_khmer": {
           "name": "name_khmer",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "name_latin": {
           "name": "name_latin",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -81,21 +81,21 @@
         },
         "name_khmer": {
           "name": "name_khmer",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "name_latin": {
           "name": "name_latin",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -146,21 +146,21 @@
         },
         "name_khmer": {
           "name": "name_khmer",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "name_latin": {
           "name": "name_latin",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -197,21 +197,21 @@
         },
         "name_khmer": {
           "name": "name_khmer",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "name_latin": {
           "name": "name_latin",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -262,7 +262,7 @@
         },
         "department": {
           "name": "department",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -350,7 +350,7 @@
         },
         "diagnosis_type": {
           "name": "diagnosis_type",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -864,14 +864,14 @@
         },
         "gender": {
           "name": "gender",
-          "type": "varchar(255)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "sign": {
           "name": "sign",
-          "type": "varchar(255)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -957,21 +957,21 @@
         },
         "name_khmer": {
           "name": "name_khmer",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "name_latin": {
           "name": "name_latin",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "gender": {
           "name": "gender",
-          "type": "varchar(255)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -992,7 +992,7 @@
         },
         "telephone": {
           "name": "telephone",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -1147,7 +1147,7 @@
         },
         "physical": {
           "name": "physical",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -1588,7 +1588,7 @@
         },
         "group_type": {
           "name": "group_type",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -1669,14 +1669,14 @@
         },
         "name": {
           "name": "name",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "staff_type": {
           "name": "staff_type",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -1684,7 +1684,7 @@
         },
         "gender": {
           "name": "gender",
-          "type": "varchar(255)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -1858,7 +1858,7 @@
         },
         "username": {
           "name": "username",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -1872,7 +1872,7 @@
         },
         "role": {
           "name": "role",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -1895,7 +1895,7 @@
         },
         "lang": {
           "name": "lang",
-          "type": "varchar(255)",
+          "type": "varchar(5)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -2250,71 +2250,6 @@
       },
       "uniqueConstraints": {}
     },
-    "bed_ipd": {
-      "name": "bed_ipd",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "check_in": {
-          "name": "check_in",
-          "type": "datetime",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "check_out": {
-          "name": "check_out",
-          "type": "datetime",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "int": {
-          "name": "int",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "bed_id": {
-          "name": "bed_id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "bed_ipd_bed_id_bed_id_fk": {
-          "name": "bed_ipd_bed_id_bed_id_fk",
-          "tableFrom": "bed_ipd",
-          "tableTo": "bed",
-          "columnsFrom": [
-            "bed_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "bed_ipd_id": {
-          "name": "bed_ipd_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
     "nursing_process": {
       "name": "nursing_process",
       "columns": {
@@ -2579,7 +2514,7 @@
         },
         "checkin_type": {
           "name": "checkin_type",
-          "type": "varchar(255)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -2901,7 +2836,7 @@
         },
         "imagerie_group": {
           "name": "imagerie_group",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -3068,7 +3003,7 @@
         },
         "active_for": {
           "name": "active_for",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -3151,6 +3086,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "progress_note_id": {
+          "name": "progress_note_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "product_id": {
           "name": "product_id",
           "type": "int",
@@ -3160,14 +3102,14 @@
         },
         "use": {
           "name": "use",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "duration": {
           "name": "duration",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3230,6 +3172,19 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
+        "presrciption_progress_note_id_progress_note_id_fk": {
+          "name": "presrciption_progress_note_id_progress_note_id_fk",
+          "tableFrom": "presrciption",
+          "tableTo": "progress_note",
+          "columnsFrom": [
+            "progress_note_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
         "presrciption_product_id_product_id_fk": {
           "name": "presrciption_product_id_product_id_fk",
           "tableFrom": "presrciption",
@@ -3266,7 +3221,7 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3296,7 +3251,7 @@
         },
         "description": {
           "name": "description",
-          "type": "varchar(255)",
+          "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3539,70 +3494,70 @@
         },
         "surgeon": {
           "name": "surgeon",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "assistant_surgeon": {
           "name": "assistant_surgeon",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "anesthetist": {
           "name": "anesthetist",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "assistant_anesthetist": {
           "name": "assistant_anesthetist",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "scrub_nurse": {
           "name": "scrub_nurse",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "cirulating_nurse_block": {
           "name": "cirulating_nurse_block",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "midwife": {
           "name": "midwife",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "pre_diagnosis": {
           "name": "pre_diagnosis",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "post_diagnosis": {
           "name": "post_diagnosis",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "type_anesthesia": {
           "name": "type_anesthesia",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3616,7 +3571,7 @@
         },
         "blood_less": {
           "name": "blood_less",
-          "type": "varchar(256)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3695,7 +3650,7 @@
         },
         "bed": {
           "name": "bed",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3773,7 +3728,7 @@
         },
         "room": {
           "name": "room",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -3851,7 +3806,7 @@
         },
         "ward": {
           "name": "ward",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -4022,20 +3977,6 @@
           "notNull": true,
           "autoincrement": true
         },
-        "date": {
-          "name": "date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "time": {
-          "name": "time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "visit_id": {
           "name": "visit_id",
           "type": "int",
@@ -4131,15 +4072,15 @@
         },
         "status": {
           "name": "status",
-          "type": "varchar(255)",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'active'"
+          "default": "'checking'"
         },
-        "checkin_type": {
-          "name": "checkin_type",
-          "type": "varchar(255)",
+        "billing_type": {
+          "name": "billing_type",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -4244,17 +4185,9 @@
           "autoincrement": false,
           "default": 0
         },
-        "status": {
-          "name": "status",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'active'"
-        },
         "charge_on": {
           "name": "charge_on",
-          "type": "varchar(255)",
+          "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -4569,7 +4502,7 @@
         },
         "title": {
           "name": "title",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -4634,7 +4567,7 @@
         },
         "title": {
           "name": "title",
-          "type": "varchar(255)",
+          "type": "varchar(150)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -4708,7 +4641,7 @@
         },
         "type": {
           "name": "type",
-          "type": "varchar(255)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
