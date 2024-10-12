@@ -22,6 +22,11 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +billing_id || 0),
 		with: {
+			payment: {
+				with:{
+					paymentType:true
+				}
+			},
 			patient: true,
 			visit: {
 				with: {
@@ -204,7 +209,6 @@ export const actions: Actions = {
 		if (!bank_pay && !cash_pay) validErr.payment = true;
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-
 		const get_billing = await db.query.billing
 			.findFirst({
 				where: eq(billing.id, +billing_id),

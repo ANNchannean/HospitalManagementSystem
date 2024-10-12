@@ -22,6 +22,11 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +billing_id || 0),
 		with: {
+			payment:{
+				with:{
+					paymentType:true
+				}
+			},
 			patient: true,
 			visit: {
 				with: {

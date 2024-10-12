@@ -30,11 +30,25 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_progress_note = await db.query.progressNote.findFirst({
 		where: eq(progressNote.id, +progress_node_id),
 		with: {
+			billing: {
+				with: {
+					payment: {
+						with:{
+							paymentType:true
+						}
+					}
+				}
+			},
 			patient: true,
 			visit: {
 				with: {
 					billing: {
 						with: {
+							payment:{
+								with:{
+									paymentType:true
+								}
+							},
 							patient: true,
 							visit: {
 								with: {

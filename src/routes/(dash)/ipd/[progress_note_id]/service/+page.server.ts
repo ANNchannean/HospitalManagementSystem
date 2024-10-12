@@ -34,6 +34,7 @@ export const load = (async ({ params }) => {
 			},
 			billing: {
 				with: {
+					payment:true,
 					charge: {
 						with: {
 							productOrder: true
@@ -73,6 +74,7 @@ export const actions: Actions = {
 			with: {
 				billing: {
 					with: {
+					
 						charge: {
 							with: {
 								productOrder: true

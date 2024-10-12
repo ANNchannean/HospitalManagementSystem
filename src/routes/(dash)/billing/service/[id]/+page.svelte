@@ -167,18 +167,7 @@
 								/>
 							</td>
 						</tr>
-						<tr>
-							<td></td>
-							<td>បានបង់ </td>
-							<td>:</td>
-							<td>
-								<Currency
-									class=""
-									amount={get_billing?.charge.find((e) => e.charge_on === 'service')?.paid || 0}
-									symbol={get_currency?.currency_symbol}
-								/>
-							</td>
-						</tr>
+
 						{#each get_billings_due as item (item.id)}
 							<tr>
 								<td

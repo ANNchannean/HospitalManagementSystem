@@ -126,5 +126,16 @@
 	"date_checkout": "កាលបរិច្ឆេទ-ចេញ",
 	"day_stay": "រយៈពេលសម្រាក",
 	"day": "ថ្ងៃ",
-	"copied": "បានចម្លង"
+	"amount": "ចំនួន",
+	"amount_payment": "ចំនួនទឹកប្រាក់ទូទាត់",
+	"payment_history": "ប្រវត្តិបង់ប្រាក់",
+	"amount_get": "ប្រាក់ទទូល",
+	"payment_by_bank": "បងតាមធនាគារ",
+	"debt": "ជំពាក់",
+	"return_money": "ប្រាក់អាប់",
+	"grand_total": "សរុបចុងក្រោយ",
+	"references": "ឯកសារយោង",
+	"copied": "បានចម្លង",
+	"or": "ឬ",
+	"note": "ចំណាំ"
 }

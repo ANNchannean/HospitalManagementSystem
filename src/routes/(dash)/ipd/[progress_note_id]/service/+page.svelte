@@ -22,7 +22,7 @@
 	$: find_service = get_progress_note?.service.find((e) => e.id === service_id);
 	$: total_service =
 		get_progress_note?.billing?.charge?.find((e) => e.charge_on === 'service')?.price || 0;
-	$: paid_service = get_progress_note?.billing?.charge.find((e) => e.charge_on === 'service');
+	$: payment = get_progress_note?.billing?.payment.reduce((s,e) => s + e.value,0 ) || 0
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
@@ -799,7 +799,7 @@
 		<div class="col-auto">
 			<Currency
 				class="btn btn-primary"
-				amount={paid_service?.paid || 0}
+				amount={payment}
 				symbol={get_currency?.currency_symbol}
 			/>
 		</div>

@@ -126,5 +126,16 @@
 	"date_checkout": "Date checkout",
 	"day_stay": "Stay",
 	"day": "Days",
-	"copied": "Copied"
+	"amount": "Amount",
+	"amount_payment": "Amount payment",
+	"amount_get": "Amount",
+	"payment_by_bank": "Payment by bank",
+	"debt": "debt",
+	"return_money": "Return",
+	"payment_history": "Payment history",
+	"grand_total": "Grand total",
+	"references": "References",
+	"copied": "Copied",
+	"or": "Or",
+	"note": "Note"
 }
