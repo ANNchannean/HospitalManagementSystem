@@ -205,7 +205,7 @@
 						</div>
 					</div>
 
-					<hr />
+					<hr  />
 					<div class="row">
 						<div class="col-4">
 							<span class="fs-5">{$_('payment_by_bank')} </span>

@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
-import { and, asc, eq, gt, like, ne, notLike, or } from 'drizzle-orm';
-import type { Actions, PageServerLoad } from './$types';
-import { billing, fileOrPicture, payment, paymentType, product } from '$lib/server/schemas';
+import {  eq,like,  } from 'drizzle-orm';
+import type { Actions } from './$types';
+import { billing, fileOrPicture, payment, paymentType } from '$lib/server/schemas';
 import {
 	billingProcess,
 	createProductOrder,
@@ -11,8 +11,8 @@ import {
 } from '$lib/server/models';
 import { fail, redirect } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
-import { deleteFile, uploadFile } from '$lib/server/upload/fileHandle';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
+import { uploadFile } from '$lib/server/upload/fileHandle';
 
 export const actions: Actions = {
 	create_product_order: async ({ request, params }) => {
@@ -122,7 +122,7 @@ export const actions: Actions = {
 		if (!bank_pay && !cash_pay) validErr.payment = true;
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-
+		/*
 		const get_billing = await db.query.billing
 			.findFirst({
 				where: eq(billing.id, +billing_id),
@@ -137,7 +137,7 @@ export const actions: Actions = {
 			.catch((e) => {
 				logErrorMessage(e);
 			});
-
+		*/
 		if (Number(bank_pay) > 0 && payment_type_id) {
 			const date_time = now_datetime();
 			await db
