@@ -13,7 +13,6 @@
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	import { _ } from '$lib/translations';
 	export let data: PageServerData;
-	export let form: ActionData;
 	$: ({ get_products, get_product_group_type, get_progress_note, get_currency } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
@@ -30,12 +29,6 @@
 	let bank_pay = 0;
 </script>
 
-{#if form?.disc}
-	<Toast message="ការបញ្ជុះតម្លៃត្រូវតែជា (10% ឫ 10 )" />
-{/if}
-{#if form?.errProductOrder}
-	<Toast message="សូមជ្រើសរើសឈ្មោះអ្នកជំងឺ!" />
-{/if}
 <div class="row">
 	<div class="col-sm-6">
 		<h2>{$_('billing_ipd')}</h2>

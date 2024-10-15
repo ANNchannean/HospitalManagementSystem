@@ -26,6 +26,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 		: sub_total - Number(disc);
 	const total_payment = get_billing?.payment.reduce((s, e) => s + Number(e.value), 0) || 0;
 	const total_after_tax = total - (total * tax) / 100;
+	const return_ = total_payment - total;
 	if (total_payment === 0) {
 		await db
 			.update(billing)
@@ -36,6 +37,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				paid: 0,
 				tax: tax,
 				status: 'debt',
+				return: 0,
 				note: note,
 				total_after_tax: total_after_tax,
 				created_at: now_datetime()
@@ -54,6 +56,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				tax: tax,
 				status: 'paid',
 				note: note,
+				return: return_,
 				total_after_tax: total_after_tax,
 				created_at: now_datetime()
 			})
@@ -70,6 +73,7 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 				paid: total_payment,
 				tax: tax,
 				status: 'partial',
+				return: 0,
 				total_after_tax: total_after_tax,
 				note: note,
 				created_at: now_datetime()

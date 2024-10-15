@@ -43,6 +43,7 @@ export const billing = mysqlTable('billing', {
 	tax: float('tax').default(0).notNull(),
 	vat: float('vat').default(0).notNull(),
 	balance: decimal('balance', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
+	return: decimal('return', { precision: 18, scale: 2 }).notNull().$type<number>().default(0),
 	status: varchar('status', { length: 10 })
 		.$type<'paid' | 'partial' | 'debt' | 'checking' | 'paying'>()
 		.default('checking')

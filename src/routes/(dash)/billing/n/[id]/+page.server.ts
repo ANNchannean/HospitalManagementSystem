@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import {  eq,like,  } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 import type { Actions } from './$types';
 import { billing, fileOrPicture, payment, paymentType } from '$lib/server/schemas';
 import {
@@ -103,7 +103,7 @@ export const actions: Actions = {
 			});
 		}
 	},
-	update_billing: async ({ request, params }) => {
+	process_billing: async ({ request, params }) => {
 		const { id: billing_id } = params;
 		const get_payment_type = await db.query.paymentType.findFirst({
 			where: like(paymentType.by, '%CASH%')
@@ -122,22 +122,7 @@ export const actions: Actions = {
 		if (!bank_pay && !cash_pay) validErr.payment = true;
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-		/*
-		const get_billing = await db.query.billing
-			.findFirst({
-				where: eq(billing.id, +billing_id),
-				with: {
-					payment: {
-						with: {
-							fileOrPicture: true
-						}
-					}
-				}
-			})
-			.catch((e) => {
-				logErrorMessage(e);
-			});
-		*/
+
 		if (Number(bank_pay) > 0 && payment_type_id) {
 			const date_time = now_datetime();
 			await db

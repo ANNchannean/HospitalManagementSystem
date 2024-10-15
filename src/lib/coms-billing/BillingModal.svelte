@@ -64,7 +64,7 @@
 				};
 			}}
 			method="post"
-			action={`/billing/n/${get_billing?.id}/?/update_billing`}
+			action={`/billing/n/${get_billing?.id}/?/process_billing`}
 			class="modal-content"
 		>
 			<div class="modal-header">

@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { ActionData, PageServerData } from './$types';
+	import type {  PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import Toast from '$lib/coms/Toast.svelte';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
@@ -16,7 +15,6 @@
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
 	export let data: PageServerData;
-	export let form: ActionData;
 	$: ({
 		get_products,
 		get_product_group_type,
@@ -42,12 +40,7 @@
 		Number(charge_on_service?.productOrder.length || 0);
 </script>
 
-{#if form?.disc}
-	<Toast message="ការបញ្ជុះតម្លៃត្រូវតែជា (10% ឫ 10 )" />
-{/if}
-{#if form?.errProductOrder}
-	<Toast message="សូមជ្រើសរើសឈ្មោះអ្នកជំងឺ!" />
-{/if}
+
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Billing OPD</h2>

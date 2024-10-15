@@ -8,6 +8,27 @@
       "when": 1728704065520,
       "tag": "0000_windy_zeigeist",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1728964793175,
+      "tag": "0001_modern_sumo",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1728965328355,
+      "tag": "0002_nasty_corsair",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1728965940407,
+      "tag": "0003_next_odin",
+      "breakpoints": true
     }
   ]
 }

@@ -18,7 +18,6 @@
 		"db:seed": "tsx src/lib/server/db/seed.ts ",
 		"db:drop": "tsx src/lib/server/db/drop.ts && tsx src/lib/server/db/create.ts",
 		"db:create": "tsx src/lib/server/db/create.ts "
-
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",

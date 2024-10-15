@@ -1,0 +1,1 @@
+ALTER TABLE `billing` ADD `return` decimal(18,2) DEFAULT 0 NOT NULL;

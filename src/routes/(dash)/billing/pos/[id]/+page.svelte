@@ -1,25 +1,18 @@
 <script lang="ts">
 	import type { EventHandler } from 'svelte/elements';
-	import type { ActionData, PageServerData } from './$types';
-	import { page } from '$app/stores';
-	import { onDestroy, onMount } from 'svelte';
-	import SelectRef from '$lib/coms/SelectRef.svelte';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import Toast from '$lib/coms/Toast.svelte';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
-	import { browser } from '$app/environment';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	import Currency from '$lib/coms/Currency.svelte';
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
 	import Select from '$lib/coms/Select.svelte';
-	import SubmitButton from '$lib/coms/SubmitButton.svelte';
 	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
 	import { _ } from '$lib/translations';
 	export let data: PageServerData;
-	export let form: ActionData;
 	$: ({
 		get_products,
 		get_product_group_type,
@@ -45,12 +38,6 @@
 	let patient_id = data.get_billing?.patient_id;
 </script>
 
-{#if form?.disc}
-	<Toast message="ការបញ្ជុះតម្លៃត្រូវតែជា (10% ឫ 10 )" />
-{/if}
-{#if form?.errProductOrder}
-	<Toast message="សូមជ្រើសរើសឈ្មោះអ្នកជំងឺ!" />
-{/if}
 <div class="row">
 	<div class="col-sm-6">
 		<h2>{$_('billing_opd')}</h2>
