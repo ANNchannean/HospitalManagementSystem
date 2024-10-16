@@ -101,7 +101,7 @@
 								>
 							</tr>
 							<tr>
-								<td class="fs-5">{$_('discount')}1 {get_currency?.currency_symbol} {$_('or')} %</td>
+								<td class="fs-5">{$_('discount')} {get_currency?.currency_symbol} {$_('or')} %</td>
 								<td colspan="2">
 									<input
 										name="disc"
@@ -166,22 +166,45 @@
 						symbol={get_currency?.currency_symbol}
 					/>
 					{#each get_billing?.payment || [] as item, index}
-						<div class="alert alert-warning rounded-0 py-1 my-1">
-							<div class="row">
-								<div class="col-auto">{$_('n')} {index + 1}</div>
-								<div class="col-auto">
-									{$_('amount')}
-									<Currency amount={item.value} symbol={get_currency?.currency_symbol} />
-								</div>
-								<div class="col-auto">
-									{$_('date')}
-									<DateTimeFormat date={item.datetime} />
-								</div>
-								<div class="col-auto">
-									{item.paymentType?.by}
+						<form
+							use:enhance={() => {
+								loading = true;
+								$globalLoading = true;
+								return async ({ update }) => {
+									await update({ reset: false });
+									$globalLoading = false;
+									loading = false;
+								};
+							}}
+							method="post"
+							action={`/billing/n/${item?.id}/?/delete_payment`}
+							class="row g-0"
+						>
+							<input type="hidden" name="id" value={item.id} />
+							<div class="col">
+								<div class="alert alert-warning rounded-0 py-1 my-1">
+									<div class="row">
+										<div class="col-auto">{$_('n')} {index + 1}</div>
+										<div class="col-auto">
+											{$_('amount')}
+											<Currency amount={item.value} symbol={get_currency?.currency_symbol} />
+										</div>
+										<div class="col-auto">
+											{$_('date')}
+											<DateTimeFormat date={item.datetime} />
+										</div>
+										<div class="col-auto">
+											{item.paymentType?.by}
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
+							<div class="col-auto">
+								<button type="submit" class="alert alert-danger rounded-0 py-1 my-1"
+									>{$_('delete_')}</button
+								>
+							</div>
+						</form>
 					{/each}
 				{/if}
 				<div class=" alert alert-primary rounded-0 my-1">
@@ -205,7 +228,7 @@
 						</div>
 					</div>
 
-					<hr  />
+					<hr />
 					<div class="row">
 						<div class="col-4">
 							<span class="fs-5">{$_('payment_by_bank')} </span>

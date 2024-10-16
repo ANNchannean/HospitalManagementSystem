@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {  PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
@@ -41,7 +41,6 @@
 		Number(charge_on_vaccine?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
 </script>
-
 
 <div class="row">
 	<div class="col-sm-6">
@@ -274,7 +273,8 @@
 			data={{
 				get_currency: get_currency,
 				get_product_group_type: get_product_group_type,
-				get_products: get_products
+				get_products: get_products,
+				get_billing: get_billing
 			}}
 		/>
 	</div>

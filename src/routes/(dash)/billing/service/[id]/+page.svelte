@@ -29,7 +29,6 @@
 		Number(charge_on_service?.productOrder.length || 0);
 </script>
 
-
 <div class="row">
 	<div class="col-sm-6">
 		<h2>Billing OPD</h2>
@@ -94,7 +93,7 @@
 						$globalLoading = false;
 					};
 				}}
-				action="?/update_product_order"
+				action="/billing/n/{get_billing?.id}/?/update_product_order"
 				method="post"
 			>
 				<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
@@ -216,7 +215,6 @@
 								type="button"
 								data-bs-toggle="modal"
 								data-bs-target="#billing"
-								formaction="?/update_billing"
 								class="btn btn-success btn-lg w-100"
 							>
 								<i class="fa-solid fa-comments-dollar"></i> គិតលុយ</button
@@ -233,7 +231,8 @@
 			data={{
 				get_currency: get_currency,
 				get_product_group_type: get_product_group_type,
-				get_products: get_products
+				get_products: get_products,
+				get_billing: get_billing
 			}}
 		/>
 	</div>

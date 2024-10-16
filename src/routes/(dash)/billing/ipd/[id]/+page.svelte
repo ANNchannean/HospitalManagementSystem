@@ -200,7 +200,6 @@
 								type="button"
 								data-bs-toggle="modal"
 								data-bs-target="#item.billing"
-								formaction="?/update_item.billing"
 								class="btn btn-success btn-lg w-100"
 							>
 								<i class="fa-solid fa-comments-dollar"></i> គិតលុយ</button
@@ -217,7 +216,8 @@
 			data={{
 				get_currency: get_currency,
 				get_product_group_type: get_product_group_type,
-				get_products: get_products
+				get_products: get_products,
+				get_billing: get_progress_note?.billing || undefined
 			}}
 		/>
 	</div>

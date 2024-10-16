@@ -232,9 +232,29 @@
 										}}
 										class="btn-group"
 									>
-										<a target="_blank" href="/report/{item.id}/billing" class="btn btn-success"
-											><i class="fa-solid fa-receipt"></i></a
-										>
+										{#if item.billing_type === 'IPD'}
+											<a
+												target="_blank"
+												href="/report/{item.id}/billing/ipd"
+												class="btn btn-success"><i class="fa-solid fa-receipt"></i></a
+											>
+										{:else if item.billing_type === 'OPD'}
+											<a
+												target="_blank"
+												href="/report/{item.id}/billing/opd"
+												class="btn btn-success"><i class="fa-solid fa-receipt"></i></a
+											>
+										{:else if item.billing_type === 'CHECKING'}
+											<a
+												target="_blank"
+												href="/report/{item.id}/billing/checking"
+												class="btn btn-success"><i class="fa-solid fa-receipt"></i></a
+											>
+										{:else}
+											<a target="_blank" href="/report/{item.id}/billing" class="btn btn-success"
+												><i class="fa-solid fa-receipt"></i></a
+											>
+										{/if}
 
 										<button
 											data-bs-toggle="modal"
@@ -256,7 +276,7 @@
 											<a href="/billing/checking/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
-										{:else if item.billing_type === 'IPD' && item.progressNote?.date_checkout === null }
+										{:else if item.billing_type === 'IPD' && item.progressNote?.date_checkout === null}
 											<a href="/billing/service/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
@@ -266,7 +286,6 @@
 											>
 										{/if}
 										<button class="btn btn-danger"><i class="fa-solid fa-trash-alt"></i></button>
-										
 									</div>
 								</td>
 							</tr>

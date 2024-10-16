@@ -2,6 +2,7 @@ import { db } from '$lib/server/db';
 import { billing } from '$lib/server/schemas';
 import { and, eq, gt, ne } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
+import { redirect } from '@sveltejs/kit';
 
 export const load = (async ({ params }) => {
 	const { id } = params;
@@ -14,7 +15,7 @@ export const load = (async ({ params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +id),
 		with: {
-			progressNote:true,
+			progressNote: true,
 			patient: {
 				with: {
 					commune: true,
@@ -47,6 +48,15 @@ export const load = (async ({ params }) => {
 			ne(billing.id, +id)
 		)
 	});
+	if (get_billing?.billing_type === 'IPD') {
+		return redirect(307, `/report/${id}/billing/ipd`);
+	}
+	if (get_billing?.billing_type === 'OPD') {
+		return redirect(307, `/report/${id}/billing/opd`);
+	}
+	if (get_billing?.billing_type === 'CHECKING') {
+		return redirect(307, `/report/${id}/billing/checking`);
+	}
 	const previous_due = get_billings.reduce((s: number, i) => s + +i.balance, 0);
 	return {
 		get_billing,

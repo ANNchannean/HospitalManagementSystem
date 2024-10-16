@@ -181,5 +181,14 @@ export const actions: Actions = {
 			})
 			.where(eq(billing.id, +billing_id));
 		redirect(303, '/billing/opd');
+	},
+	delete_payment: async ({ params }) => {
+		const { id } = params;
+		await db
+			.delete(payment)
+			.where(eq(payment.id, +id))
+			.catch((e) => {
+				logErrorMessage(e);
+			});
 	}
 };

@@ -8,9 +8,12 @@
 	import type { PageServerData } from '../../routes/(dash)/billing/opd/[id]/$types';
 	import { browser } from '$app/environment';
 	import { onDestroy, onMount } from 'svelte';
-	type Data = Pick<PageServerData, 'get_product_group_type' | 'get_products' | 'get_currency'>;
+	type Data = Pick<
+		PageServerData,
+		'get_product_group_type' | 'get_products' | 'get_currency' | 'get_billing'
+	>;
 	export let data: Data;
-	$: ({ get_product_group_type, get_products, get_currency } = data);
+	$: ({ get_product_group_type, get_products, get_currency, get_billing } = data);
 	let timeout: number | NodeJS.Timeout;
 	const handleQ: EventHandler<Event, HTMLInputElement> = ({ currentTarget }) => {
 		clearTimeout(timeout);
@@ -98,7 +101,7 @@
 						$globalLoading = false;
 					};
 				}}
-				action="?/create_product_order"
+				action="/billing/n/{get_billing?.id}/?/create_product_order"
 				class="col-xs-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 border m-2 p-2 btn btn-light"
 			>
 				<input type="hidden" name="product_id" value={item.id} />

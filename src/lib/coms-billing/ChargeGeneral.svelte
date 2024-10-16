@@ -57,7 +57,7 @@
 			<td>
 				<fieldset>
 					<form
-						action="?/remove_product_order"
+						action="/billing/n/{charge_on_general.billing_id}/?/remove_product_order"
 						use:enhance={() => {
 							$globalLoading = true;
 							return async ({ update }) => {

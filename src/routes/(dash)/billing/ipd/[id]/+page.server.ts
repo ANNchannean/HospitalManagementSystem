@@ -17,6 +17,25 @@ export const load: PageServerLoad = async ({ url, params }) => {
 						with: {
 							paymentType: true
 						}
+					},
+					patient: true,
+					visit: {
+						with: {
+							presrciption: {
+								with: {
+									product: true
+								}
+							}
+						}
+					},
+					charge: {
+						with: {
+							productOrder: {
+								with: {
+									product: true
+								}
+							}
+						}
 					}
 				}
 			},
@@ -77,9 +96,19 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billings = await db.query.billing.findMany({
 		where: and(eq(billing.status, 'debt'), eq(billing.billing_type, 'OPD')),
 		with: {
+			payment: {
+				with: {
+					paymentType: true
+				}
+			},
+			patient: true,
 			visit: {
 				with: {
-					patient: true
+					presrciption: {
+						with: {
+							product: true
+						}
+					}
 				}
 			},
 			charge: {
