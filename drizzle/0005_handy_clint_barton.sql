@@ -1,0 +1,1 @@
+ALTER TABLE `progress_note` MODIFY COLUMN `inclund_pay` varchar(10) NOT NULL DEFAULT 'none';

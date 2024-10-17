@@ -1,0 +1,1 @@
+ALTER TABLE `progress_note` ADD `inclund_pay` varchar(10);

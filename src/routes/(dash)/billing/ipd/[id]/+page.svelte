@@ -199,7 +199,7 @@
 							<button
 								type="button"
 								data-bs-toggle="modal"
-								data-bs-target="#item.billing"
+								data-bs-target="#item_billing"
 								class="btn btn-success btn-lg w-100"
 							>
 								<i class="fa-solid fa-comments-dollar"></i> គិតលុយ</button

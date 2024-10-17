@@ -45,6 +45,8 @@
 			>
 				<input value={get_progress_note?.id ?? ''} type="hidden" name="progress_note_id" />
 				<input value={get_progress_note?.date_checkout ?? ''} type="hidden" name="date_checkout" />
+				<input value={get_progress_note?.billing?.status} type="hidden" name="status" />
+				<input value={get_progress_note?.inclund_pay} type="hidden" name="inclund_pay" />
 				<div class="modal-header">
 					<span class="fs-3">
 						{$_('discharge_and_go_home')}
@@ -56,9 +58,9 @@
 							{#each get_progress_note?.service || [] as item}
 								<li class="list-group-item">
 									{item.product?.products}
-									<span class="float-end btn btn-sm btn-warning rounded py-0"
+									<!-- <span class="float-end btn btn-sm btn-warning rounded py-0"
 										>{get_progress_note?.billing?.status}</span
-									>
+									> -->
 								</li>
 							{/each}
 						</ol>
@@ -66,13 +68,13 @@
 							{#if get_progress_note.presrciption.length}
 								<li class="list-group-item">
 									<input
-										name="charge_prescription"
+										name="service"
 										class="form-check-input me-1"
 										type="checkbox"
-										value="charge_prescription"
-										id="charge_prescription"
+										value="service"
+										id="service"
 									/>
-									<label class="form-check-label stretched-link" for="charge_prescription"
+									<label class="form-check-label stretched-link" for="service"
 										>គិតប្រាក់សរុប រួមទាំងថ្លៃថ្នាំលេបនៅផ្ទះ</label
 									>
 								</li>
@@ -81,11 +83,11 @@
 								<input
 									class="form-check-input me-1"
 									type="checkbox"
-									value="charge_trantment"
-									id="charge_trantment"
-									name="charge_trantment"
+									value="treatment"
+									id="treatment"
+									name="treatment"
 								/>
-								<label class="form-check-label stretched-link" for="charge_trantment"
+								<label class="form-check-label stretched-link" for="treatment"
 									>គិតប្រាក់សរុប រួមទាំងថ្លៃព្យាបាល</label
 								>
 							</li>

@@ -1,4 +1,4 @@
-import { int, mysqlTable } from 'drizzle-orm/mysql-core';
+import { boolean, int, mysqlTable } from 'drizzle-orm/mysql-core';
 import { progressNote, visit } from './visit';
 import { relations } from 'drizzle-orm';
 import { product } from './product';
@@ -16,7 +16,8 @@ export const service = mysqlTable('service', {
 	}),
 	product_id: int('product_id').references(() => product.id, {
 		onDelete: 'cascade'
-	})
+	}),
+	is_paid_ipd:boolean('is_paid_ipd').default(false).notNull()
 });
 export const serviceRelations = relations(service, ({ one }) => ({
 	visit: one(visit, {

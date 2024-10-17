@@ -102,7 +102,11 @@ export const progressNote = mysqlTable('progress_note', {
 		.notNull(),
 	bed_id: int('bed_id')
 		.references(() => bed.id)
+		.notNull(),
+	inclund_pay: varchar('inclund_pay', { length: 15 })
+		.$type<'treatment' | 'prescription' | 'tre_and_pre' | 'none'>()
 		.notNull()
+		.default('none')
 });
 
 export const progressNoteRelations = relations(progressNote, ({ one, many }) => ({

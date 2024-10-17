@@ -97,7 +97,6 @@ export const actions: Actions = {
 			});
 		}
 		if (charge_id) {
-			console.log(charge_on_laboratory);
 			await setChargePrice(+charge_id, +charge_on_laboratory).catch((e) => {
 				logErrorMessage(e);
 			});
@@ -109,7 +108,6 @@ export const actions: Actions = {
 			where: like(paymentType.by, '%CASH%')
 		});
 		const body = await request.formData();
-
 		const { bank_pay, cash_pay, payment_type_id, disc, note, tax } = Object.fromEntries(
 			body
 		) as Record<string, string>;
@@ -122,7 +120,6 @@ export const actions: Actions = {
 		if (!bank_pay && !cash_pay) validErr.payment = true;
 		if (!bank_pay && !payment_type_id) validErr.payment = true;
 		if (Object.values(validErr).includes(true)) return fail(400, validErr);
-
 		if (Number(bank_pay) > 0 && payment_type_id) {
 			const date_time = now_datetime();
 			await db
@@ -169,6 +166,8 @@ export const actions: Actions = {
 			tax: +tax || 0,
 			note: note.toString()
 		});
+
+		
 
 		redirect(303, `/report/${billing_id}/billing`);
 	},

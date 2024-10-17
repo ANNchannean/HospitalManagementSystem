@@ -1,0 +1,1 @@
+ALTER TABLE `service` ADD `is_paid_ipd` boolean DEFAULT false NOT NULL;

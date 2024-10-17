@@ -10,8 +10,9 @@ import { setChargePrice } from '$lib/server/models';
 export const actions: Actions = {
 	check_out: async ({ request }) => {
 		const body = await request.formData();
-		const { charge_prescription, charge_trantment, progress_note_id, date_checkout } =
-			Object.fromEntries(body) as Record<string, string>;
+		const { prescription, treatment, progress_note_id, date_checkout } = Object.fromEntries(
+			body
+		) as Record<string, string>;
 		if (!progress_note_id) return fail(400, { progress_note_id: true });
 		const get_progress_note = await db.query.progressNote.findFirst({
 			where: eq(progressNote.id, +progress_note_id),
@@ -36,26 +37,25 @@ export const actions: Actions = {
 				}
 			}
 		});
-		const all_visit = get_progress_note?.visit || [];
-		for (const e of all_visit) {
-			for (const e1 of e.billing?.charge || []) {
-				if (!charge_prescription) {
-					if (e1.charge_on === 'prescription') {
-						setChargePrice(e1.id, 0);
-					}
-				}
-				if (!charge_trantment) {
-					if (e1.charge_on !== 'prescription') {
-						setChargePrice(e1.id, 0);
-					}
-				}
-			}
+		let inclund_pay = 'none' as 'treatment' | 'prescription' | 'tre_and_pre' | 'none';
+		if (treatment) {
+			inclund_pay = 'treatment';
+		}
+		if (prescription) {
+			inclund_pay = 'prescription';
+		}
+		if (prescription && treatment) {
+			inclund_pay = 'tre_and_pre';
+		}
+		if (!prescription && !treatment) {
+			inclund_pay = 'none';
 		}
 		await db.transaction(async (tx) => {
 			await tx
 				.update(progressNote)
 				.set({
-					date_checkout: date_checkout ? null : now_datetime()
+					date_checkout: date_checkout ? null : now_datetime(),
+					inclund_pay: inclund_pay
 				})
 				.where(eq(progressNote.id, +progress_note_id))
 				.catch((e) => {
@@ -64,7 +64,7 @@ export const actions: Actions = {
 			await tx
 				.update(billing)
 				.set({
-					status: 'paying'
+					status: 'paying' 
 				})
 				.where(eq(billing.id, Number(get_progress_note?.billing?.id)));
 		});

@@ -181,6 +181,7 @@
 							class="row g-0"
 						>
 							<input type="hidden" name="id" value={item.id} />
+							<input type="hidden" name="after_disc" value={after_disc} />
 							<div class="col">
 								<div class="alert alert-warning rounded-0 py-1 my-1">
 									<div class="row">
