@@ -3,7 +3,6 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageServerData } from './$types';
 	import DeleteModal from '$lib/coms/DeleteModal.svelte';
-	import { browser } from '$app/environment';
 	import Select from '$lib/coms/Select.svelte';
 	import TextEditor from '$lib/coms/TextEditor.svelte';
 	import { globalLoading } from '$lib/store';
@@ -11,10 +10,8 @@
 	import Athtml from '$lib/coms/Athtml.svelte';
 	import Renderhtml from '$lib/coms/Renderhtml.svelte';
 	import PrintModal from '$lib/coms-report/PrintModal.svelte';
-	import SendToPayment from '$lib/coms-billing/SendToPayment.svelte';
 	import ServiceToPayment from '$lib/coms-billing/ServiceToPayment.svelte';
 	import { _ } from '$lib/translations';
-	import Currency from '$lib/coms/Currency.svelte';
 	export let data: PageServerData;
 	let service_id = 0;
 	let loading = false;
@@ -22,7 +19,6 @@
 	$: find_service = get_progress_note?.service.find((e) => e.id === service_id);
 	$: total_service =
 		get_progress_note?.billing?.charge?.find((e) => e.charge_on === 'service')?.price || 0;
-	$: payment = get_progress_note?.billing?.payment.reduce((s,e) => s + e.value,0 ) || 0
 </script>
 
 <DeleteModal action="?/delete_service" id={find_service?.id || find_service?.id} />
@@ -52,9 +48,10 @@
 						<tr>
 							<th style="width: 5%;">N</th>
 							<th style="width: 50%;">Service Item</th>
-							<th style="width: 15%;">Price</th>
+							<th style="width: 10%;"></th>
+							<th style="width: 10%;">Price</th>
 							<th style="width: 15%;">Operative Protocol</th>
-							<th style="width: 15%;"></th>
+							<th style="width: 10%;"></th>
 						</tr>
 					</thead>
 					<tbody class="table-sm">
@@ -62,6 +59,17 @@
 							<tr class="table-active">
 								<td>{index + 1}</td>
 								<td>{item.product?.products ?? ''}</td>
+								<td>
+									{#if item.is_paid_ipd}
+										<button class="btn btn-sm btn-primary my-0 float-end">
+											{$_('already_paid')}
+										</button>
+									{:else}
+										<button class="btn btn-sm btn-warning my-0 float-end">
+											{$_('not_yet_paid')}
+										</button>
+									{/if}
+								</td>
 								<td>
 									<fieldset disabled={get_progress_note?.billing?.status !== 'checking'}>
 										<form
@@ -367,7 +375,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td colspan="5">
+								<td colspan="6">
 									<table class="table table-sm">
 										<tbody>
 											<tr>
@@ -788,23 +796,12 @@
 			};
 		}}
 		action="?/update_total_service"
-		class="card-footer row p-2 bg-light"
+		class="card-footer row py-2 bg-light float-end"
 	>
-		<div class="col text-end">
+		<div class="col-auto">
 			<ServiceToPayment data={{ get_progress_note: get_progress_note }} class="btn btn-danger">
 				{$_('send_to_payment')}
 			</ServiceToPayment>
-		</div>
-
-		<div class="col-auto">
-			<Currency
-				class="btn btn-primary"
-				amount={payment}
-				symbol={get_currency?.currency_symbol}
-			/>
-		</div>
-
-		<div class="col-auto">
 			<button type="button" class="btn btn-warning">Total Service</button>
 		</div>
 		<fieldset

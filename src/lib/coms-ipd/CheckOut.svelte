@@ -58,9 +58,9 @@
 							{#each get_progress_note?.service || [] as item}
 								<li class="list-group-item">
 									{item.product?.products}
-									<!-- <span class="float-end btn btn-sm btn-warning rounded py-0"
-										>{get_progress_note?.billing?.status}</span
-									> -->
+									{#if item.is_paid_ipd}
+										<span class="float-end btn btn-sm btn-warning rounded py-0">{$_('paid')}</span>
+									{/if}
 								</li>
 							{/each}
 						</ol>

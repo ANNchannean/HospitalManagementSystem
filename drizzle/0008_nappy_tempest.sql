@@ -1,0 +1,1 @@
+ALTER TABLE `setting` ADD `print_bill` boolean DEFAULT false NOT NULL;

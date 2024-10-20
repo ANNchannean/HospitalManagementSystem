@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { ActionData, PageServerData } from './$types';
 	import { enhance } from '$app/forms';
-	import Toast from '$lib/coms/Toast.svelte';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
@@ -10,11 +9,12 @@
 	import ConfirmeModal from '$lib/coms/ConfirmeModal.svelte';
 	import ChargeService from '$lib/coms-billing/ChargeService.svelte';
 	import ChargeGeneral from '$lib/coms-billing/ChargeGeneral.svelte';
-	import ProductAddToCard from '$lib/coms-billing/ProductAddToCard.svelte';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { _ } from '$lib/translations';
 	export let data: PageServerData;
 	$: ({
 		get_products,
-		get_product_group_type,
 		charge_on_general,
 		charge_on_service,
 		get_billing,
@@ -27,30 +27,36 @@
 	$: items =
 		Number(charge_on_general?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
+
+	onMount(() => {
+		if (browser) {
+			inerHight_1 = (window.innerHeight - (window.innerHeight * 45) / 100).toString().concat('px');
+		}
+	});
 </script>
 
 <div class="row">
 	<div class="col-sm-6">
-		<h2>Billing OPD</h2>
+		<h2>{$_('billing_ipd')}</h2>
 	</div>
 	<div class="col-sm-6">
 		<ol class="breadcrumb justify-content-end">
 			<li class="breadcrumb-item">
 				<a href="/dashboard" class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-tachometer-alt"></i>
-					Home
+					{$_('home')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-money-bills"></i>
-					Billing
+					{$_('billing')}
 				</a>
 			</li>
 			<li class="breadcrumb-item">
 				<a href={'#'} class="btn btn-link p-0 text-secondary"
 					><i class="fas fa-stethoscope"></i>
-					OPD
+					{$_('ipd')}
 				</a>
 			</li>
 		</ol>
@@ -58,14 +64,14 @@
 </div>
 
 <div class="row g-1">
-	<div class="col-md-7">
+	<div class="col-md-12">
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class="row px-2">
 					<div class="col-12 pb-2">
 						<table class="table m-0">
 							<tr>
-								<td>ឈ្មេះអ្នកជំងឺ</td>
+								<td>{$_('patient_name')}</td>
 								<td>:</td>
 								<td
 									>{get_billing?.patient?.name_khmer}
@@ -77,10 +83,6 @@
 							</tr>
 						</table>
 					</div>
-					<SubmiteSearch
-						placeholder="ស្វែករកតាមរយៈផលិតផល"
-						items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
-					/>
 				</div>
 			</div>
 			<form
@@ -100,11 +102,11 @@
 					<table class="table table-bordered table-sm text-nowrap">
 						<thead class="table-primary table-active sticky-top top-0">
 							<tr class="text-center">
-								<th style="width: 45%;">Product</th>
-								<th style="width: 15%;">Price</th>
-								<th style="width: 10%;">Qty</th>
-								<th style="width: 10%;">Disc</th>
-								<th style="width: 15%;">Subtotal </th>
+								<th style="width: 45%;">{$_('products')}</th>
+								<th style="width: 15%;">{$_('price')}</th>
+								<th style="width: 10%;">{$_('qty')}</th>
+								<th style="width: 10%;">{$_('discount')}</th>
+								<th style="width: 15%;">{$_('total')} </th>
 								<th style="width: 5%;">X</th>
 							</tr>
 						</thead>
@@ -129,13 +131,13 @@
 					<table class="table table-sm mt-2 fs-5">
 						<tr class="">
 							<td></td>
-							<td>ចំនួនទំនិញ </td>
+							<td>{$_('items_goods')} </td>
 							<td>:</td>
-							<td>{items} មុខ </td>
+							<td>{items} {$_('items')} </td>
 						</tr>
 						<tr>
 							<td></td>
-							<td>សរុប </td>
+							<td>{$_('total')} </td>
 							<td>:</td>
 							<td>
 								<Currency
@@ -217,24 +219,13 @@
 								data-bs-target="#billing"
 								class="btn btn-success btn-lg w-100"
 							>
-								<i class="fa-solid fa-comments-dollar"></i> គិតលុយ</button
+								<i class="fa-solid fa-comments-dollar"></i> {$_('payment')}</button
 							>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
-	</div>
-	<div class="col-md-5">
-		<ProductAddToCard
-			bind:inerHight_1
-			data={{
-				get_currency: get_currency,
-				get_product_group_type: get_product_group_type,
-				get_products: get_products,
-				get_billing: get_billing
-			}}
-		/>
 	</div>
 </div>
 

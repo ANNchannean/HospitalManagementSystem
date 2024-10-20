@@ -8,7 +8,7 @@
 	$: {
 		if (rate > 0) {
 			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })
-				.format(total)
+				.format(+total.toFixed(2))
 				.concat(' ' + symbol || '');
 		} else {
 			conerting = new Intl.NumberFormat('en-US', { style: 'decimal' })

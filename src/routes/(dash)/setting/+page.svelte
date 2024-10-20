@@ -4,7 +4,7 @@
 	import Toast from '$lib/coms/Toast.svelte';
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
-	$: ({ get_currency } = data);
+	$: ({ get_currency, get_setting } = data);
 	let loading = false;
 	let show_toas = false;
 </script>
@@ -102,6 +102,47 @@
 					id="exchang_rate"
 				/>
 			</div>
+		</div>
+
+		<div class="text-end pt-2">
+			<SubmitButton {loading} />
+		</div>
+	</form>
+</div>
+<br />
+<div class="card">
+	<div class="card-header">
+		<span class="fs-5">#Billing</span>
+	</div>
+	<form
+		on:change={(e) => {
+			e.currentTarget.requestSubmit();
+		}}
+		method="post"
+		use:enhance={() => {
+			loading = true;
+			return async ({ update, result }) => {
+				await update({ reset: false });
+				loading = false;
+				if (result.type !== 'failure') {
+					show_toas = true;
+				}
+			};
+		}}
+		class="card-body"
+		action="?/setting"
+	>
+		<input value={get_setting?.id ?? ''} type="hidden" name="setting_id" />
+		<div class="form-check form-switch">
+			<input
+				checked={get_setting?.print_bill}
+				class="form-check-input"
+				name="print_bill"
+				type="checkbox"
+				role="switch"
+				id="printbilling"
+			/>
+			<label class="form-check-label" for="printbilling">Print after billing</label>
 		</div>
 
 		<div class="text-end pt-2">

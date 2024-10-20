@@ -3,6 +3,7 @@
 	import CheckOut from '$lib/coms-ipd/CheckOut.svelte';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
 	import { dobToAge } from '$lib/helper';
+	import { _ } from '$lib/translations';
 	import type { LayoutServerData } from './$types';
 	let progress_note_id = $page.params.progress_note_id;
 	export let data: LayoutServerData;
@@ -21,10 +22,10 @@
 					<div class="col-auto">
 						<a href="/patient/ipd" class="text-light btn btn-primary"
 							><i class="fa-solid fa-rotate-left"></i>
-							Back
+							{$_('back')}
 						</a>
 						<span
-							># Patient Infomation, ID Patient #{get_progress_note?.patient_id} / ID Visit #{get_progress_note?.id}
+							>{$_('patient')} @{get_progress_note?.patient_id} / ID Visit #{get_progress_note?.id}
 						</span>
 					</div>
 				</div>
@@ -33,20 +34,20 @@
 				<table class="table text-nowrap table-borderless">
 					<thead class="">
 						<tr>
-							<td>Date</td>
+							<td>{$_('date')}</td>
 							<td>
 								<DateTimeFormat timeStyle={false} date={get_progress_note?.date_checkup} />
 							</td>
-							<td>Hour</td>
+							<td>{$_('hour')}</td>
 							<td>
 								<DateTimeFormat dateStyle={false} date={get_progress_note?.date_checkup} />
 							</td>
 							<td></td>
 						</tr>
 						<tr>
-							<td>Type</td>
-							<td>IPD</td>
-							<td>Ward/Room/Bed</td>
+							<td>{$_('visit_type')}</td>
+							<td>{$_('ipd')}</td>
+							<td>{$_('ward')}/{$_('room')}/{$_('bed')}</td>
 							<td
 								>{get_progress_note?.bed.ward?.ward},{get_progress_note?.bed.room
 									?.room},{get_progress_note?.bed.bed}</td
@@ -55,12 +56,12 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>Patient</td>
+							<td>{$_('patient')}</td>
 							<td
 								>{get_progress_note?.patient?.name_khmer},{get_progress_note?.patient
 									?.name_latin}</td
 							>
-							<td>Gender</td>
+							<td>{$_('gender')}/{$_('age')}</td>
 							<td>
 								{#if get_progress_note?.patient.dob}
 									{get_progress_note?.patient?.gender}, អាយុ {age_p_visit?.y ?? ''} ឆ្នាំ ,
@@ -71,9 +72,9 @@
 							<td></td>
 						</tr>
 						<tr>
-							<td>Telephone</td>
+							<td>{$_('telephone')}</td>
 							<td>{get_progress_note?.patient?.telephone}</td>
-							<td>Address</td>
+							<td>{$_('address')}</td>
 							<td>
 								{get_progress_note?.patient?.village?.type}
 								{get_progress_note?.patient?.village?.name_khmer},
@@ -145,7 +146,7 @@
 		>
 
 		<CheckOut class="btn btn-danger mb-2 float-end" data={{ get_progress_note: get_progress_note }}
-			>Discharge</CheckOut
+			>{$_('discharge')}</CheckOut
 		>
 	</div>
 </div>

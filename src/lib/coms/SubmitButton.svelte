@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { _ } from '$lib/translations';
 	export let sm = false;
 	export let icon_only = false;
 	export let text_only = false;
 	export let loading: boolean = false;
-	export let name = 'Save';
+	export let name = '';
 	export let style = '';
 </script>
 
@@ -23,15 +24,15 @@
 	{/if}
 	{#if !icon_only}
 		{#if text_only}
-			{name}
+			{name ? name : $_('save')}
 		{/if}
 		{#if !text_only}
 			{#if loading}
 				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-				{name}
+				{name ? name : $_('save')}
 			{/if}
 			{#if !loading}
-				<i class="fa-regular fa-floppy-disk"></i> {name}
+				<i class="fa-regular fa-floppy-disk"></i> {name ? name : $_('save')}
 			{/if}
 		{/if}
 	{/if}

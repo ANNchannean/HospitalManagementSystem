@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { billing } from '../schemas';
 import { now_datetime } from '../utils';
+import { isPaidService } from './isPaidService';
 type TBillingProcess = {
 	billing_id: number;
 	tax: number;
@@ -80,5 +81,8 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 			})
 			.where(eq(billing.id, billing_id))
 			.catch((e) => console.log(e));
+	}
+	if (get_billing?.billing_type === 'IPD') {
+		await isPaidService(billing_id);
 	}
 };

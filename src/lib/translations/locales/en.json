@@ -137,5 +137,13 @@
 	"references": "References",
 	"copied": "Copied",
 	"or": "Or",
+	"save": "Save",
+	"hour": "Hour",
+	"ward": "Ward",
+	"bed": "Bed",
+	"back": "Back",
+	"discharge": "Discharge",
+	"not_yet_paid": "Not yet paid",
+	"already_paid": "Already paid",
 	"note": "Note"
 }

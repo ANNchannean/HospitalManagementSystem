@@ -1,5 +1,5 @@
 import { db } from '$lib/server/db';
-import { currency } from '$lib/server/schemas';
+import { currency, setting } from '$lib/server/schemas';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
@@ -7,8 +7,10 @@ import { fail } from '@sveltejs/kit';
 
 export const load = (async () => {
 	const get_currency = await db.query.currency.findFirst({});
+	const get_setting = await db.query.setting.findFirst({});
 	return {
-		get_currency
+		get_currency,
+		get_setting
 	};
 }) satisfies PageServerLoad;
 
@@ -64,5 +66,17 @@ export const actions: Actions = {
 					logErrorMessage(e);
 				});
 		}
+	},
+	setting: async ({ request }) => {
+		const body = await request.formData();
+		const {
+			print_bill,
+			setting_id
+		} = Object.fromEntries(body) as Record<string, string>;
+		await db.update(setting)
+		.set({
+			print_bill: print_bill ? true : false
+		})
+		.where(eq(setting.id,+setting_id))
 	}
 };

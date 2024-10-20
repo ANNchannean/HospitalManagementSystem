@@ -13,7 +13,6 @@ import { fail, redirect } from '@sveltejs/kit';
 import { now_datetime } from '$lib/server/utils';
 import { logErrorMessage } from '$lib/server/telegram/logErrorMessage';
 import { uploadFile } from '$lib/server/upload/fileHandle';
-
 export const actions: Actions = {
 	create_product_order: async ({ request, params }) => {
 		const { id: billing_id } = params;
@@ -107,6 +106,7 @@ export const actions: Actions = {
 		const get_payment_type = await db.query.paymentType.findFirst({
 			where: like(paymentType.by, '%CASH%')
 		});
+		const get_setting = await db.query.setting.findFirst();
 		const body = await request.formData();
 		const { bank_pay, cash_pay, payment_type_id, disc, note, tax } = Object.fromEntries(
 			body
@@ -167,9 +167,11 @@ export const actions: Actions = {
 			note: note.toString()
 		});
 
-		
-
-		redirect(303, `/report/${billing_id}/billing`);
+		if (get_setting?.print_bill) {
+			redirect(303, `/report/${billing_id}/billing`);
+		} else {
+			redirect(303, `/billing/report`);
+		}
 	},
 	hold: async ({ params }) => {
 		const { id: billing_id } = params;

@@ -18,6 +18,7 @@ import {
 } from '$lib/server/models';
 export const load = (async ({ params }) => {
 	const { progress_note_id } = params;
+
 	const get_product_type = await db.query.productGroupType.findFirst({
 		where: like(productGroupType.group_type, 'Service')
 	});
@@ -34,7 +35,7 @@ export const load = (async ({ params }) => {
 			},
 			billing: {
 				with: {
-					payment:true,
+					payment: true,
 					charge: {
 						with: {
 							productOrder: true
@@ -74,7 +75,6 @@ export const actions: Actions = {
 			with: {
 				billing: {
 					with: {
-					
 						charge: {
 							with: {
 								productOrder: true
