@@ -77,11 +77,11 @@
 					aria-label="Close"
 				></button>
 			</div>
-			<div class="modal-body m-2">
-				<div class="">
-					<table class="table table-bordered table-success table-sm">
+			<div class="modal-body ">
+				
+					<table class="table table-bordered table-success table-sm my-0 ">
 						<tbody>
-							<tr>
+							<tr >
 								<td class="fs-5">{$_('total')}</td>
 								<td
 									><Currency
@@ -158,7 +158,7 @@
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				
 				{#if get_billing?.payment.length}
 					<span class="btn btn-sm btn-danger py-0">{$_('payment_history')}</span>
 					<Currency

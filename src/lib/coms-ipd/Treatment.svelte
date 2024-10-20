@@ -117,7 +117,7 @@
 						<span class="fs-5">invoice Daily</span>
 					</div>
 					<div class="col text-end">
-						<a href="/billing/single/{find_old_visit?.billing?.id}" class="btn btn-warning btn-sm"
+						<a href="/billing/checking/{find_old_visit?.billing?.id}" class="btn btn-warning btn-sm"
 							>Daily Payment</a
 						>
 					</div>
