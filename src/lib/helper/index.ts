@@ -60,3 +60,19 @@ export function now_datetime(date: string) {
 		.reverse()
 		.join('-');
 }
+
+export function calculateDifference(
+	start: string | undefined | Date | null,
+	end: string | undefined | Date | null
+) {
+	if (!start) return;
+	if (!end) return;
+	const startDate = new Date(start);
+	const endDate = new Date(end);
+	const difference = endDate.getTime() - startDate.getTime();
+	const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+	const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+	return { days, hours, minutes };
+}

@@ -63,7 +63,7 @@ export const charge = mysqlTable('charge', {
 	>(),
 	billing_id: int('billing_id')
 		.references(() => billing.id, { onDelete: 'cascade' })
-		.notNull(),
+		.notNull()
 });
 
 export const productOrder = mysqlTable('product_order', {

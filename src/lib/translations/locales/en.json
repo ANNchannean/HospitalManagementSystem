@@ -145,5 +145,10 @@
 	"discharge": "Discharge",
 	"not_yet_paid": "Not yet paid",
 	"already_paid": "Already paid",
+	"from_date": "From",
+	"to_date": "To",
+	"am": "am",
+	"pm": "pm",
+	"duration_of_treatment": "Duration of treatment",
 	"note": "Note"
 }

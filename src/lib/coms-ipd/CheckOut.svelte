@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import DateTimeFormat from '$lib/coms/DateTimeFormat.svelte';
-	import { dobToAge } from '$lib/helper';
+	import { calculateDifference } from '$lib/helper';
 	import { _ } from '$lib/translations';
 	import type { LayoutServerData } from '../../routes/(dash)/ipd/[progress_note_id]/$types';
 	type Data = Pick<LayoutServerData, 'get_progress_note'>;
@@ -10,6 +10,7 @@
 	let loading = false;
 	let className = 'btn btn-primary';
 	export { className as class };
+	$: getDayStay = calculateDifference(get_progress_note?.date_checkup, new Date());
 	$: id = 'myid'.concat(crypto.randomUUID().replaceAll('-', ''));
 </script>
 
@@ -68,13 +69,13 @@
 							{#if get_progress_note.presrciption.length}
 								<li class="list-group-item">
 									<input
-										name="service"
+										name="prescription"
 										class="form-check-input me-1"
 										type="checkbox"
-										value="service"
-										id="service"
+										value="prescription"
+										id="prescription"
 									/>
-									<label class="form-check-label stretched-link" for="service"
+									<label class="form-check-label stretched-link" for="prescription"
 										>គិតប្រាក់សរុប រួមទាំងថ្លៃថ្នាំលេបនៅផ្ទះ</label
 									>
 								</li>
@@ -93,15 +94,21 @@
 							</li>
 						</ul>
 					{/if}
-					<div class="alert alert-primary py-1 mt-2">
+					<div class="alert alert-primary py-1 mt-2 mb-2">
 						<span>{$_('date')}</span>
 						<DateTimeFormat date={get_progress_note?.date_checkup} /> -
 						<DateTimeFormat date={new Date().toJSON()} />
 					</div>
-					<div class="alert alert-danger py-1 mt-2">
-						<span>{$_('day_stay')}</span>
-						{dobToAge({ date: get_progress_note?.date_checkup, dob: new Date().toISOString() }).d}
-						<span>{$_('day')}</span>
+					<div class="alert alert-danger py-1 mt-0">
+						{#if getDayStay?.days}
+							<span>{$_('day_stay')}</span>
+							{getDayStay?.days}
+							<span>{$_('day')}</span>
+						{/if}
+						{#if getDayStay?.hours}
+							{getDayStay?.hours}
+							<span>{$_('hour')}</span>
+						{/if}
 					</div>
 				</div>
 

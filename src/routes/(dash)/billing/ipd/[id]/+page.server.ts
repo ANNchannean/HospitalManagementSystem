@@ -5,7 +5,6 @@ import { billing, paymentType, product, progressNote } from '$lib/server/schemas
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: progress_node_id } = params;
 	const get_currency = await db.query.currency.findFirst({});
-
 	const group_type_id = url.searchParams.get('group_type_id') || '';
 	const q = url.searchParams.get('q') || '';
 	const get_progress_note = await db.query.progressNote.findFirst({
@@ -128,6 +127,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		where: notLike(paymentType.by, '%CASH%')
 	});
 	const get_tax = await db.query.tax.findFirst();
+
 	return {
 		get_billings,
 		get_products,

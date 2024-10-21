@@ -236,7 +236,7 @@
 				get_currency: get_currency,
 				get_product_group_type: get_product_group_type,
 				get_products: get_products,
-				get_billing:get_billing
+				get_billing: get_billing
 			}}
 		/>
 	</div>

@@ -63,7 +63,7 @@
 				</tr>
 			{/each}
 			{#if total_prescription > 0}
-				{#if get_billing?.progressNote?.date_checkout }
+				{#if get_billing?.progressNote?.date_checkout}
 					<tr>
 						<td class="text-center">{Number(products?.length) + 1}</td>
 						<td colspan="3"> ថ្នាំលេបព្យាបាលនៅផ្ទះ {`( ${prescription?.length} មុខ )`} </td>

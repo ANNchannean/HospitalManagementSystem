@@ -2,7 +2,7 @@ import { boolean, float, int, mysqlTable, varchar } from 'drizzle-orm/mysql-core
 
 export const setting = mysqlTable('setting', {
 	id: int('id').primaryKey().autoincrement(),
-	print_bill:boolean('print_bill').default(false).notNull()
+	print_bill: boolean('print_bill').default(false).notNull()
 });
 
 export const currency = mysqlTable('currency', {

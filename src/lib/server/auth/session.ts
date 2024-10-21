@@ -7,6 +7,6 @@ export async function createSession(username: string) {
 	return sessionId;
 }
 
-export  function getSession(sessionId: string) {
+export function getSession(sessionId: string) {
 	return sessions.get(sessionId);
 }

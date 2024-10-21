@@ -61,12 +61,8 @@
 								<td>{item.product?.products ?? ''}</td>
 								<td>
 									{#if item.is_paid_ipd}
-										<button class="btn btn-sm btn-primary my-0 float-end">
-											{$_('already_paid')}
-										</button>
-									{:else}
-										<button class="btn btn-sm btn-warning my-0 float-end">
-											{$_('not_yet_paid')}
+										<button class="btn btn-sm btn-success my-0 float-end">
+											{$_('paid')}
 										</button>
 									{/if}
 								</td>

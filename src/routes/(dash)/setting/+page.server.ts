@@ -69,14 +69,12 @@ export const actions: Actions = {
 	},
 	setting: async ({ request }) => {
 		const body = await request.formData();
-		const {
-			print_bill,
-			setting_id
-		} = Object.fromEntries(body) as Record<string, string>;
-		await db.update(setting)
-		.set({
-			print_bill: print_bill ? true : false
-		})
-		.where(eq(setting.id,+setting_id))
+		const { print_bill, setting_id } = Object.fromEntries(body) as Record<string, string>;
+		await db
+			.update(setting)
+			.set({
+				print_bill: print_bill ? true : false
+			})
+			.where(eq(setting.id, +setting_id));
 	}
 };

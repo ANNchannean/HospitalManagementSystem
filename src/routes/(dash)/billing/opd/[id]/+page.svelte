@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type {  PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import { enhance } from '$app/forms';
 	import { globalLoading } from '$lib/store';
 	import SubmiteSearch from '$lib/coms/SubmiteSearch.svelte';
@@ -27,7 +27,7 @@
 		get_currency,
 		charge_on_vaccine,
 		get_payment_types,
-		get_billings_due,
+		get_billings_due
 	} = data);
 
 	let inerHight_1: string;
@@ -39,7 +39,6 @@
 		Number(charge_on_vaccine?.productOrder.length || 0) +
 		Number(charge_on_service?.productOrder.length || 0);
 </script>
-
 
 <div class="row">
 	<div class="col-sm-6">
@@ -249,7 +248,6 @@
 								type="button"
 								data-bs-toggle="modal"
 								data-bs-target="#billing"
-								
 								class="btn btn-success btn-lg w-100"
 							>
 								<i class="fa-solid fa-comments-dollar"></i> គិតលុយ</button
@@ -267,7 +265,7 @@
 				get_currency: get_currency,
 				get_product_group_type: get_product_group_type,
 				get_products: get_products,
-				get_billing:get_billing
+				get_billing: get_billing
 			}}
 		/>
 	</div>

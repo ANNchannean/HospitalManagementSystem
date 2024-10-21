@@ -77,88 +77,87 @@
 					aria-label="Close"
 				></button>
 			</div>
-			<div class="modal-body ">
-				
-					<table class="table table-bordered table-success table-sm my-0 ">
-						<tbody>
-							<tr >
-								<td class="fs-5">{$_('total')}</td>
-								<td
-									><Currency
-										class="fs-5"
-										amount={get_billing?.sub_total}
-										symbol={get_currency?.currency_symbol}
-									/></td
-								>
-								<td>
-									<Currency
-										class="fs-5"
-										amount={get_billing?.sub_total}
-										symbol={get_currency?.exchang_to}
-										rate={get_currency?.currency_rate}
-										rate_to={get_currency?.exchang_rate}
-									/></td
-								>
-							</tr>
-							<tr>
-								<td class="fs-5">{$_('discount')} {get_currency?.currency_symbol} {$_('or')} %</td>
-								<td colspan="2">
-									<input
-										name="disc"
-										pattern="[0-9]+%?"
-										bind:value={disc}
-										class="form-control"
-										type="text"
-									/>
-								</td>
-							</tr>
-							<tr>
-								<td class="fs-5">{$_('amount_payment')}</td>
-								<td
-									><Currency
-										class="fs-5"
-										amount={after_disc}
-										symbol={get_currency?.currency_symbol}
-									/></td
-								>
-								<td>
-									<Currency
-										class="fs-5"
-										amount={after_disc}
-										symbol={get_currency?.exchang_to}
-										rate={get_currency?.currency_rate}
-										rate_to={get_currency?.exchang_rate}
-									/>
-								</td></tr
+			<div class="modal-body">
+				<table class="table table-bordered table-success table-sm my-0">
+					<tbody>
+						<tr>
+							<td class="fs-5">{$_('total')}</td>
+							<td
+								><Currency
+									class="fs-5"
+									amount={get_billing?.sub_total}
+									symbol={get_currency?.currency_symbol}
+								/></td
 							>
-							<tr>
-								<td class="fs-5"
-									>{#if Number(return_or_credit) < 0}
-										<span class="fs-5">{$_('debt')} </span>
-									{:else}
-										<span class="fs-5">{$_('return_money')} </span>
-									{/if}</td
-								>
-								<td>
-									<Currency
-										class="fs-5"
-										amount={Number(return_or_credit)}
-										symbol={get_currency?.currency_symbol}
-									/>
-								</td>
-								<td>
-									<Currency
-										class="fs-5"
-										amount={Number(return_or_credit)}
-										rate={get_currency?.currency_rate}
-										rate_to={get_currency?.exchang_rate}
-										symbol={get_currency?.exchang_to}
-									/>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				
+							<td>
+								<Currency
+									class="fs-5"
+									amount={get_billing?.sub_total}
+									symbol={get_currency?.exchang_to}
+									rate={get_currency?.currency_rate}
+									rate_to={get_currency?.exchang_rate}
+								/></td
+							>
+						</tr>
+						<tr>
+							<td class="fs-5">{$_('discount')} {get_currency?.currency_symbol} {$_('or')} %</td>
+							<td colspan="2">
+								<input
+									name="disc"
+									pattern="[0-9]+%?"
+									bind:value={disc}
+									class="form-control"
+									type="text"
+								/>
+							</td>
+						</tr>
+						<tr>
+							<td class="fs-5">{$_('amount_payment')}</td>
+							<td
+								><Currency
+									class="fs-5"
+									amount={after_disc}
+									symbol={get_currency?.currency_symbol}
+								/></td
+							>
+							<td>
+								<Currency
+									class="fs-5"
+									amount={after_disc}
+									symbol={get_currency?.exchang_to}
+									rate={get_currency?.currency_rate}
+									rate_to={get_currency?.exchang_rate}
+								/>
+							</td></tr
+						>
+						<tr>
+							<td class="fs-5"
+								>{#if Number(return_or_credit) < 0}
+									<span class="fs-5">{$_('debt')} </span>
+								{:else}
+									<span class="fs-5">{$_('return_money')} </span>
+								{/if}</td
+							>
+							<td>
+								<Currency
+									class="fs-5"
+									amount={Number(return_or_credit)}
+									symbol={get_currency?.currency_symbol}
+								/>
+							</td>
+							<td>
+								<Currency
+									class="fs-5"
+									amount={Number(return_or_credit)}
+									rate={get_currency?.currency_rate}
+									rate_to={get_currency?.exchang_rate}
+									symbol={get_currency?.exchang_to}
+								/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
 				{#if get_billing?.payment.length}
 					<span class="btn btn-sm btn-danger py-0">{$_('payment_history')}</span>
 					<Currency

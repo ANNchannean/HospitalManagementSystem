@@ -64,7 +64,7 @@ export const actions: Actions = {
 			await tx
 				.update(billing)
 				.set({
-					status: 'paying' 
+					status: date_checkout ? 'paid' : 'paying'
 				})
 				.where(eq(billing.id, Number(get_progress_note?.billing?.id)));
 		});

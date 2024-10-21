@@ -17,7 +17,7 @@ export const service = mysqlTable('service', {
 	product_id: int('product_id').references(() => product.id, {
 		onDelete: 'cascade'
 	}),
-	is_paid_ipd:boolean('is_paid_ipd').default(false).notNull()
+	is_paid_ipd: boolean('is_paid_ipd').default(false).notNull()
 });
 export const serviceRelations = relations(service, ({ one }) => ({
 	visit: one(visit, {

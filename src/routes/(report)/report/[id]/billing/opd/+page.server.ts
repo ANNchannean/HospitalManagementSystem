@@ -14,7 +14,7 @@ export const load = (async ({ params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +id),
 		with: {
-			progressNote:true,
+			progressNote: true,
 			patient: {
 				with: {
 					commune: true,

@@ -81,7 +81,6 @@
 					<input type="hidden" name="limit" value={limit} />
 					<div class="col-sm-3">
 						<Select
-							
 							name="group_type_id"
 							selectType="param"
 							displayName={$_('product_group')}

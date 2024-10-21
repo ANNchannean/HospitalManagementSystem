@@ -25,10 +25,10 @@ export const load: PageServerLoad = async ({ parent }) => {
 				}
 			},
 			patient: true,
-			progressNote:true
+			progressNote: true
 		},
-	
-		orderBy:desc(billing.created_at)
+
+		orderBy: desc(billing.created_at)
 	});
 
 	return {

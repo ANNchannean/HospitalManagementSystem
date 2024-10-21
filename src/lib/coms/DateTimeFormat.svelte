@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { _ } from '$lib/translations';
+
 	export let date: string | null | undefined;
 	export let timeStyle: boolean = true;
 	export let dateStyle: boolean = true;
@@ -13,6 +15,8 @@
 	{#if timeStyle}
 		{new Intl.DateTimeFormat('en-GB', { timeStyle: 'short', hour12: true })
 			.format(new Date(date))
-			.replaceAll('/', '-')}
+			.replaceAll('/', '-')
+			.replace('am', $_('am'))
+			.replace('pm', $_('pm'))}
 	{/if}
 {/if}

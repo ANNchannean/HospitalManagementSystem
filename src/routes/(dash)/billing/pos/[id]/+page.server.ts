@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, asc, eq, gt, like, ne, notLike, or } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { billing,  paymentType, product } from '$lib/server/schemas';
+import { billing, paymentType, product } from '$lib/server/schemas';
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: billing_id } = params;
 	const get_currency = await db.query.currency.findFirst({});
@@ -10,9 +10,9 @@ export const load: PageServerLoad = async ({ url, params }) => {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, +billing_id || 0),
 		with: {
-			payment:{
-				with:{
-					paymentType:true
+			payment: {
+				with: {
+					paymentType: true
 				}
 			},
 			patient: true,
@@ -87,4 +87,3 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		get_billings_due
 	};
 };
-
