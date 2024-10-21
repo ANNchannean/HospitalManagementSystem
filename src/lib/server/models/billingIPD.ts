@@ -7,7 +7,7 @@ type TPreBilling = {
 	progress_id: number | null;
 	patient_id: number;
 };
-export const billingIPD = async ({ progress_id, patient_id }: TPreBilling) => {
+export async function billingIPD({ progress_id, patient_id }: TPreBilling) {
 	const created_at = now_datetime();
 	await db.transaction(async (tx) => {
 		const get_tax = await tx.query.tax.findFirst();
@@ -71,4 +71,4 @@ export const billingIPD = async ({ progress_id, patient_id }: TPreBilling) => {
 				logErrorMessage(e);
 			});
 	});
-};
+}

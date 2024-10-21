@@ -9,7 +9,7 @@ type TCProductOrder = {
 	price: number;
 	qty: number;
 };
-export const createProductOrder = async ({ charge_id, price, product_id, qty }: TCProductOrder) => {
+export async function createProductOrder({ charge_id, price, product_id, qty }: TCProductOrder) {
 	const get_charge = await db.query.charge.findFirst({
 		where: eq(charge.id, charge_id),
 		with: { productOrder: true }
@@ -41,4 +41,4 @@ export const createProductOrder = async ({ charge_id, price, product_id, qty }: 
 			.catch((e) => console.log(e));
 	}
 	await updateCharge(charge_id);
-};
+}

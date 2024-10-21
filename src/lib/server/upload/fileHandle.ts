@@ -5,7 +5,7 @@ import path from 'path';
 const location = 'files';
 import sharp from 'sharp';
 
-export const uploadFile = async (file: File) => {
+export async function uploadFile(file: File) {
 	if (file?.size) {
 		try {
 			const uid = generateId(10);
@@ -28,8 +28,8 @@ export const uploadFile = async (file: File) => {
 			console.log(error);
 		}
 	}
-};
-export const updateFile = async (file: File, fileName: string) => {
+}
+export async function updateFile(file: File, fileName: string) {
 	if (file.size) {
 		try {
 			if (fileName) await deleteFile(fileName);
@@ -53,8 +53,8 @@ export const updateFile = async (file: File, fileName: string) => {
 			console.log(error);
 		}
 	}
-};
-export const deleteFile = async (fileName: string) => {
+}
+export async function deleteFile(fileName: string) {
 	if (fileName) {
 		try {
 			await fs.unlink(`${location}/${fileName}`);
@@ -63,7 +63,7 @@ export const deleteFile = async (fileName: string) => {
 		}
 		return '';
 	}
-};
+}
 
 // const fileDelete = async (fileName: string) => {
 // 	if (!fileName) return;
@@ -74,7 +74,7 @@ export const deleteFile = async (fileName: string) => {
 // 	}
 // };
 
-export const getBuffer = async (file: File) => {
+export async function getBuffer(file: File) {
 	const arrayBuffer = await file.arrayBuffer();
 	return Buffer.from(arrayBuffer).toString('base64');
-};
+}

@@ -9,7 +9,7 @@ type TBillingProcess = {
 	disc: string;
 	note: string;
 };
-export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingProcess) => {
+export async function billingProcess({ billing_id, tax, disc, note }: TBillingProcess) {
 	const get_billing = await db.query.billing.findFirst({
 		where: eq(billing.id, billing_id),
 		with: {
@@ -85,4 +85,4 @@ export const billingProcess = async ({ billing_id, tax, disc, note }: TBillingPr
 	if (get_billing?.billing_type === 'IPD') {
 		await isPaidService(billing_id);
 	}
-};
+}

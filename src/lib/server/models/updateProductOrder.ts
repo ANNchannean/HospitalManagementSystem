@@ -9,12 +9,7 @@ type TUProductOrder = {
 	price: number;
 	disc: string;
 };
-export const updateProductOrder = async ({
-	product_order_id,
-	disc,
-	price,
-	qty
-}: TUProductOrder) => {
+export async function updateProductOrder({ product_order_id, disc, price, qty }: TUProductOrder) {
 	const get_product_order = await db.query.productOrder.findFirst({
 		where: eq(productOrder.id, product_order_id),
 		with: {
@@ -38,4 +33,4 @@ export const updateProductOrder = async ({
 			.catch((e) => console.log(e));
 	}
 	await updateCharge(Number(get_product_order?.charge_id));
-};
+}

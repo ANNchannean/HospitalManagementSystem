@@ -38,7 +38,7 @@ export function dobToAge({ dob, date }: { dob: string | undefined; date: string 
 	};
 }
 
-export const now_date = function (date: string) {
+export function now_date(date: string) {
 	// return moment().format('YYYY-M-D h:mm:ss');
 	return new Intl.DateTimeFormat('en-GB', {
 		dateStyle: 'short'
@@ -47,8 +47,8 @@ export const now_date = function (date: string) {
 		.split('/')
 		.reverse()
 		.join('-');
-};
-export const now_datetime = function (date: string) {
+}
+export function now_datetime(date: string) {
 	// return moment().format('YYYY-M-D h:mm:ss');
 	return new Intl.DateTimeFormat('en-GB', {
 		dateStyle: 'short',
@@ -59,4 +59,4 @@ export const now_datetime = function (date: string) {
 		.split('/')
 		.reverse()
 		.join('-');
-};
+}

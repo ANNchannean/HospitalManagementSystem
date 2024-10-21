@@ -1,5 +1,5 @@
 import os from 'os';
-export const loginTracker = () => {
+export function loginTracker() {
 	const version = os.version();
 	const userinfo = os.userInfo();
 	const network = os.networkInterfaces();
@@ -12,6 +12,6 @@ export const loginTracker = () => {
 		// mac_address: mac
 		network: JSON.stringify(network)
 	};
-};
+}
 
 console.log(loginTracker());

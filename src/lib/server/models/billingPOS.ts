@@ -3,7 +3,7 @@ import { billing, charge } from '../schemas';
 import { logErrorMessage } from '../telegram/logErrorMessage';
 import { now_datetime } from '../utils';
 
-export const BillingPOS = async (): Promise<number> => {
+export async function BillingPOS(): Promise<number> {
 	const get_tax = await db.query.tax.findFirst();
 	const created_at = now_datetime();
 	// doing billing
@@ -34,4 +34,4 @@ export const BillingPOS = async (): Promise<number> => {
 		});
 
 	return get_billing[0].id;
-};
+}
