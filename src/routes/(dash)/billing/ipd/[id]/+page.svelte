@@ -85,56 +85,68 @@
 				</div>
 			</div>
 			<div style="height: {inerHight_1}; " class=" overflow-y-auto table-responsive">
-				<table class="table table-bordered table-sm text-nowrap">
-					<thead class="table-primary table-active sticky-top top-0">
-						<tr class="text-center">
-							<th style="width: 45%;">{$_('products')}</th>
-							<th style="width: 15%;">{$_('price')}</th>
-							<th style="width: 10%;">{$_('qty')}</th>
-							<th style="width: 10%;">{$_('discount')}</th>
-							<th style="width: 15%;">{$_('total')} </th>
-							<th style="width: 5%;">X</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="text-bg-success">
-							<td colspan="6">
-								{$_('from_date')}
-								<DateTimeFormat date={get_progress_note?.date_checkup} />
-								{$_('to_date')}
-								<DateTimeFormat date={get_progress_note?.date_checkout} />
-								{$_('duration_of_treatment')}
-								{#if getDayStay?.days}
-									{getDayStay?.days}
-									<span>{$_('day')}</span>
-								{/if}
-								{#if getDayStay?.hours}
-									{getDayStay?.hours}
-									<span>{$_('hour')}</span>
-								{/if}
-							</td>
-						</tr>
-						<ChargeService
-							data={{
-								charge_on_service: main_charge_on_service_,
-								get_currency: get_currency
-							}}
-						/>
-						<ChargePrescription
-							data={{
-								charge_on_prescription: main_charge_on_prescription_,
-								get_currency: get_currency,
-								get_billing: main_billing || undefined
-							}}
-						/>
-						<ChargeGeneral
-							data={{
-								charge_on_general: main_charge_on_general_,
-								get_currency: get_currency
-							}}
-						/>
-					</tbody>
-					<tbody>
+				<form
+					data-sveltekit-keepfocus
+					on:change={(e) => e.currentTarget.requestSubmit()}
+					use:enhance={() => {
+						$globalLoading = true;
+						return async ({ update }) => {
+							await update({ reset: false });
+							$globalLoading = false;
+						};
+					}}
+					action="/billing/n/{main_billing?.id}/?/update_product_order"
+					method="post"
+				>
+					<table class="table table-bordered my-0 py-0 table-sm text-nowrap">
+						<thead class="table-primary table-active sticky-top top-0">
+							<tr class="text-center">
+								<th style="width: 45%;">{$_('products')}</th>
+								<th style="width: 15%;">{$_('price')}</th>
+								<th style="width: 10%;">{$_('qty')}</th>
+								<th style="width: 10%;">{$_('discount')}</th>
+								<th style="width: 15%;">{$_('total')} </th>
+								<th style="width: 5%;">X</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-bg-success">
+								<td colspan="6">
+									{$_('from_date')}
+									<DateTimeFormat date={get_progress_note?.date_checkup} />
+									{$_('to_date')}
+									<DateTimeFormat date={get_progress_note?.date_checkout} />
+									{$_('duration_of_treatment')}
+									{#if getDayStay?.days}
+										{getDayStay?.days}
+										<span>{$_('day')}</span>
+									{/if}
+									{#if getDayStay?.hours}
+										{getDayStay?.hours}
+										<span>{$_('hour')}</span>
+									{/if}
+								</td>
+							</tr>
+							<ChargeService
+								data={{
+									charge_on_service: main_charge_on_service_,
+									get_currency: get_currency
+								}}
+							/>
+							<ChargePrescription
+								data={{
+									charge_on_prescription: main_charge_on_prescription_,
+									get_currency: get_currency,
+									get_billing: main_billing || undefined
+								}}
+							/>
+							<ChargeGeneral
+								data={{
+									charge_on_general: main_charge_on_general_,
+									get_currency: get_currency
+								}}
+							/>
+						</tbody>
 						{#each get_progress_note?.visit || [] as item}
 							{@const charge_on_general = item.billing?.charge.find(
 								(e) => e.charge_on === 'general'
@@ -155,59 +167,61 @@
 							{@const charge_on_imagerie = item.billing?.charge.find(
 								(e) => e.charge_on === 'imagerie'
 							)}
-							<tr class="text-bg-secondary">
-								<td colspan="6">
-									<span class="">
-										#<DateTimeFormat date={item.date_checkup} />
-									</span>
-									<span class="text-danger">
-										{#if item.billing?.status !== 'checking'}
-											#{$_('already_charged')}
-										{/if}
-									</span>
-								</td>
-							</tr>
 
-							<ChargeService
-								data={{
-									charge_on_service: charge_on_service,
-									get_currency: get_currency
-								}}
-							/>
-							<ChargeImagerie
-								data={{
-									charge_on_imagerie: charge_on_imagerie,
-									get_currency: get_currency
-								}}
-							/>
-							<ChargeLaboratory
-								data={{
-									charge_on_laboratory: charge_on_laboratory,
-									get_currency: get_currency
-								}}
-							/>
-							<ChargeVaccine
-								data={{
-									charge_on_vaccine: charge_on_vaccine,
-									get_currency: get_currency
-								}}
-							/>
-							<ChargePrescription
-								data={{
-									charge_on_prescription: charge_on_prescription,
-									get_currency: get_currency,
-									get_billing: item.billing ?? undefined
-								}}
-							/>
-							<ChargeGeneral
-								data={{
-									charge_on_general: charge_on_general,
-									get_currency: get_currency
-								}}
-							/>
+							<tbody>
+								<tr class="text-bg-secondary">
+									<td colspan="6">
+										<span class="">
+											#<DateTimeFormat date={item.date_checkup} />
+										</span>
+										<span class="text-danger">
+											{#if item.billing?.status !== 'checking'}
+												#{$_('already_charged')}
+											{/if}
+										</span>
+									</td>
+								</tr>
+								<ChargeService
+									data={{
+										charge_on_service: charge_on_service,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeImagerie
+									data={{
+										charge_on_imagerie: charge_on_imagerie,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeLaboratory
+									data={{
+										charge_on_laboratory: charge_on_laboratory,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargeVaccine
+									data={{
+										charge_on_vaccine: charge_on_vaccine,
+										get_currency: get_currency
+									}}
+								/>
+								<ChargePrescription
+									data={{
+										charge_on_prescription: charge_on_prescription,
+										get_currency: get_currency,
+										get_billing: item.billing ?? undefined
+									}}
+								/>
+								<ChargeGeneral
+									data={{
+										charge_on_general: charge_on_general,
+										get_currency: get_currency
+									}}
+								/>
+							</tbody>
 						{/each}
-					</tbody>
-				</table>
+					</table>
+				</form>
 			</div>
 			<div class="card-header">
 				<table class="table table-sm mt-2 fs-5">
