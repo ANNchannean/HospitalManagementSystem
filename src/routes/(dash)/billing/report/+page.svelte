@@ -269,19 +269,19 @@
 											class="btn btn-success"><i class="fa-solid fa-money-check-dollar"></i></button
 										>
 										{#if item.billing_type === 'POS'}
-											<a href="/billing/pos/{billing_id}" class="btn btn-primary"
+											<a target="_blank" href="/billing/pos/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
 										{:else if item.billing_type === 'CHECKING'}
-											<a href="/billing/checking/{billing_id}" class="btn btn-primary"
+											<a target="_blank" href="/billing/checking/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
 										{:else if item.billing_type === 'IPD' && item.progressNote?.date_checkout === null}
-											<a href="/billing/service/{billing_id}" class="btn btn-primary"
+											<a target="_blank" href="/billing/service/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
 										{:else}
-											<a href="/billing/ipd/{billing_id}" class="btn btn-primary"
+											<a target="_blank" href="/billing/ipd/{billing_id}" class="btn btn-primary"
 												><i class="fa-solid fa-file-pen"></i></a
 											>
 										{/if}

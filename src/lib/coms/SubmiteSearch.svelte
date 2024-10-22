@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { globalLoading } from '$lib/store';
 	export let items: { name: any; id: any; price: any }[];
 	export let height = '300';
 	export let placeholder = '';
+	export let billing_id: number | undefined;
 	let q = '';
 	let timeout: number | NodeJS.Timeout;
 	const handleQ = () => {
@@ -60,7 +60,7 @@
 								document.getElementById('dropdown')?.focus();
 							};
 						}}
-						action="?/create_product_order"
+						action="/billing/n/{billing_id}/?/create_product_order"
 					>
 						<li>
 							<input type="hidden" value={item.id ?? ''} name="product_id" />

@@ -92,6 +92,7 @@
 					</div>
 					<div class="col-12 pt-2">
 						<SubmiteSearch
+							billing_id={get_billing?.id}
 							placeholder={$_('search')}
 							items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
 						/>

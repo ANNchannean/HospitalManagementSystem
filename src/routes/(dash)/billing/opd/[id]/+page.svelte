@@ -89,6 +89,7 @@
 						</table>
 					</div>
 					<SubmiteSearch
+						billing_id={get_billing?.id}
 						placeholder="ស្វែករកតាមរយៈផលិតផល"
 						items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
 					/>

@@ -88,6 +88,7 @@
 						</table>
 					</div>
 					<SubmiteSearch
+						billing_id={get_progress_note?.billing?.id}
 						placeholder={$_('search')}
 						items={get_products.map((e) => ({ id: e.id, name: e.products, price: e.price }))}
 					/>
@@ -142,6 +143,11 @@
 									get_currency: get_currency
 								}}
 							/>
+							<tr>
+								<td colspan="6">
+									{$_('prescription')}
+								</td>
+							</tr>
 							<ChargePrescription
 								data={{
 									charge_on_prescription: main_charge_on_prescription_,
@@ -176,7 +182,6 @@
 							{@const charge_on_imagerie = item.billing?.charge.find(
 								(e) => e.charge_on === 'imagerie'
 							)}
-
 							<tbody>
 								<tr class="text-bg-secondary">
 									<td colspan="6">

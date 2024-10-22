@@ -23,7 +23,6 @@ export const actions: Actions = {
 			billing_id: false,
 			same_product: false
 		};
-
 		const get_billing = async () =>
 			await db.query.billing.findFirst({
 				where: eq(billing.id, +billing_id || 0),

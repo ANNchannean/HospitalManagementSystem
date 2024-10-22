@@ -76,7 +76,7 @@
 									{item.progress_note_id}
 								</td>
 								<td>
-									<a href="/opd/{item.id}/subjective">
+									<a target="_blank" href="/opd/{item.id}/subjective">
 										<span class="">
 											{item?.patient?.name_khmer}
 										</span>
@@ -91,15 +91,15 @@
 								</td>
 								<td>
 									{#if item.billing_type === 'IPD' && item.progressNote?.date_checkout}
-										<a class="btn btn-link" href="/billing/ipd/{item.progress_note_id}"
+										<a target="_blank" class="btn btn-link" href="/billing/ipd/{item.progress_note_id}"
 											>{$_('go_to_payment')}</a
 										>
 									{:else if item.billing_type === 'CHECKING'}
-										<a class="btn btn-link" href="/billing/checking/{item.id}"
+										<a target="_blank" class="btn btn-link" href="/billing/checking/{item.id}"
 											>{$_('go_to_payment')}</a
 										>
 									{:else}
-										<a class="btn btn-link" href="/billing/service/{item.id}"
+										<a target="_blank" class="btn btn-link" href="/billing/service/{item.id}"
 											>{$_('go_to_payment')}</a
 										>
 									{/if}
