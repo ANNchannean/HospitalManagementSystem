@@ -12,10 +12,12 @@
 	$: ({ get_billing, get_payment_types, get_currency } = data);
 	let loading = false;
 	let disc = '';
+	export let total_daily = 0;
+	$: amount_pay = Number(get_billing?.sub_total) + total_daily;
 	$: paymented = get_billing?.payment.reduce((s, e) => s + e.value, 0) || 0;
-	$: sub_total = Number(get_billing?.sub_total) - paymented;
+	$: sub_total = amount_pay - paymented;
 	$: after_disc = disc.includes('%')
-		? Number(get_billing?.sub_total) - (Number(sub_total) * Number(disc.replace('%', ''))) / 100
+		? amount_pay - (Number(sub_total) * Number(disc.replace('%', ''))) / 100
 		: Number(sub_total) - Number(disc);
 	let bank_pay = 0;
 	let bank_pay_exhange = 0;
@@ -68,7 +70,7 @@
 			class="modal-content"
 		>
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="billing">{$_('billing')}</h1>
+				<h1 class="modal-title fs-5" id="billing">{$_('billing')} {total_daily}</h1>
 				<button
 					id="close_update_billing"
 					type="button"
@@ -85,14 +87,14 @@
 							<td
 								><Currency
 									class="fs-5"
-									amount={get_billing?.sub_total}
+									amount={amount_pay}
 									symbol={get_currency?.currency_symbol}
 								/></td
 							>
 							<td>
 								<Currency
 									class="fs-5"
-									amount={get_billing?.sub_total}
+									amount={amount_pay}
 									symbol={get_currency?.exchang_to}
 									rate={get_currency?.currency_rate}
 									rate_to={get_currency?.exchang_rate}

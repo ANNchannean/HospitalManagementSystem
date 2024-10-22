@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { and, asc, eq, like, notLike, or } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { billing, paymentType, product, progressNote } from '$lib/server/schemas';
+import { paymentType, product, progressNote } from '$lib/server/schemas';
 export const load: PageServerLoad = async ({ url, params }) => {
 	const { id: progress_node_id } = params;
 	const get_currency = await db.query.currency.findFirst({});
@@ -19,6 +19,15 @@ export const load: PageServerLoad = async ({ url, params }) => {
 					},
 					patient: true,
 					visit: {
+						with: {
+							presrciption: {
+								with: {
+									product: true
+								}
+							}
+						}
+					},
+					progressNote: {
 						with: {
 							presrciption: {
 								with: {
@@ -50,6 +59,15 @@ export const load: PageServerLoad = async ({ url, params }) => {
 							},
 							patient: true,
 							visit: {
+								with: {
+									presrciption: {
+										with: {
+											product: true
+										}
+									}
+								}
+							},
+							progressNote: {
 								with: {
 									presrciption: {
 										with: {
@@ -92,49 +110,21 @@ export const load: PageServerLoad = async ({ url, params }) => {
 		orderBy: asc(product.products),
 		limit: 200
 	});
-	const get_billings = await db.query.billing.findMany({
-		where: and(eq(billing.status, 'debt'), eq(billing.billing_type, 'OPD')),
-		with: {
-			payment: {
-				with: {
-					paymentType: true
-				}
-			},
-			patient: true,
-			visit: {
-				with: {
-					presrciption: {
-						with: {
-							product: true
-						}
-					}
-				}
-			},
-			charge: {
-				with: {
-					productOrder: {
-						with: {
-							product: true
-						}
-					}
-				}
-			}
-		}
-	});
 
 	const get_payment_types = await db.query.paymentType.findMany({
 		orderBy: asc(paymentType.by),
 		where: notLike(paymentType.by, '%CASH%')
 	});
-	const get_tax = await db.query.tax.findFirst();
-
+	const total_daily = get_progress_note?.visit.reduce(
+		(s, e) => s + (Number(e.billing?.total) - Number(e.billing?.paid)),
+		0
+	);
 	return {
-		get_billings,
 		get_products,
 		get_product_group_type,
 		get_payment_types,
-		get_tax,
 		get_progress_note,
-		get_currency
+		get_currency,
+		total_daily
 	};
 };

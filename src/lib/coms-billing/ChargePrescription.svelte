@@ -5,6 +5,9 @@
 	type Data = Pick<PageServerData, 'charge_on_prescription' | 'get_billing' | 'get_currency'>;
 	export let data: Data;
 	$: ({ charge_on_prescription, get_billing, get_currency } = data);
+	$: presrciption = get_billing?.visit_id
+		? get_billing.visit?.presrciption
+		: get_billing?.progressNote?.presrciption;
 </script>
 
 <!-- Prescription  -->
@@ -13,7 +16,7 @@
 		<tr class="text-center">
 			<td class="text-start">
 				&nbsp;{item.product?.products}
-				{#each get_billing?.visit?.presrciption || [] as item_1}
+				{#each presrciption || [] as item_1}
 					{#if item_1.product_id === item.product_id}
 						<span class="badge text-bg-primary">{item_1.product?.generic_name ?? ''}</span>
 						<br />

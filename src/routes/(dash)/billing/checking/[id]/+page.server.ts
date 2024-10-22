@@ -26,6 +26,15 @@ export const load: PageServerLoad = async ({ url, params }) => {
 					}
 				}
 			},
+			progressNote: {
+				with: {
+					presrciption: {
+						with: {
+							product: true
+						}
+					}
+				}
+			},
 			charge: {
 				with: {
 					productOrder: {

@@ -24,7 +24,6 @@ export async function updateCharge(charge_id: number) {
 	const calulator_disc = get_billing?.discount?.includes('%')
 		? sub_total - (sub_total * Number(get_billing?.discount.replace('%', ''))) / 100
 		: sub_total - Number(get_billing?.discount);
-
 	await db
 		.update(billing)
 		.set({

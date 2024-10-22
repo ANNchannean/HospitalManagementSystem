@@ -14,8 +14,16 @@
 	import ChargeLaboratory from '$lib/coms-billing/ChargeLaboratory.svelte';
 	import ChargeVaccine from '$lib/coms-billing/ChargeVaccine.svelte';
 	import { calculateDifference } from '$lib/helper';
+	import BillingModal from '$lib/coms-billing/BillingModal.svelte';
 	export let data: PageServerData;
-	$: ({ get_products, get_product_group_type, get_progress_note, get_currency } = data);
+	$: ({
+		get_products,
+		get_product_group_type,
+		get_progress_note,
+		get_currency,
+		total_daily,
+		get_payment_types
+	} = data);
 	$: main_billing = get_progress_note?.billing;
 	$: main_charge_on_bed_ = main_billing?.charge.find((e) => e.charge_on === 'bed');
 	$: main_charge_on_general_ = main_billing?.charge.find((e) => e.charge_on === 'general');
@@ -27,6 +35,7 @@
 		get_progress_note?.date_checkup,
 		get_progress_note?.date_checkout
 	);
+
 	let inerHight_1: string;
 </script>
 
@@ -224,7 +233,7 @@
 				</form>
 			</div>
 			<div class="card-header">
-				<table class="table table-sm mt-2 fs-5">
+				<table class="table table-sm mt-2 fs-6">
 					<tr class="">
 						<td></td>
 						<td>{$_('items_goods')}</td>
@@ -261,7 +270,7 @@
 						<button
 							type="button"
 							data-bs-toggle="modal"
-							data-bs-target="#item_billing"
+							data-bs-target="#billing"
 							class="btn btn-success btn-lg w-100"
 						>
 							<i class="fa-solid fa-comments-dollar"></i> {$_('payment')}</button
@@ -284,4 +293,11 @@
 	</div>
 </div>
 
-<!-- <item.BillingModal {data} /> -->
+<BillingModal
+	data={{
+		get_billing: get_progress_note?.billing || undefined,
+		get_currency: get_currency,
+		get_payment_types: get_payment_types
+	}}
+	{total_daily}
+/>
