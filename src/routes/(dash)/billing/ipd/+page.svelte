@@ -68,7 +68,6 @@
 								<td>
 									{item.id}
 								</td>
-
 								<td>
 									<DateTimeFormat date={item?.created_at} />
 								</td>

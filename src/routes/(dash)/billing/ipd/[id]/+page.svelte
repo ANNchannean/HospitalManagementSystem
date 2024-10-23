@@ -35,8 +35,8 @@
 		get_progress_note?.date_checkup,
 		get_progress_note?.date_checkout
 	);
-
 	let inerHight_1: string;
+	let full_screen = false;
 </script>
 
 <div class="row">
@@ -68,7 +68,7 @@
 </div>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class:col-md-12={full_screen} class:col-md-6={!full_screen}>
 		<div class="card bg-light">
 			<div class="card-header">
 				<div class=" row">
@@ -84,6 +84,17 @@
 								<td>
 									<DateTimeFormat date={get_progress_note?.date_checkup} />
 								</td>
+								<button
+									type="button"
+									on:click={() => (full_screen = !full_screen)}
+									class="btn btn-sm btn-link my-0 py-0"
+								>
+									{#if full_screen}
+										<i class="fa-solid fa-arrow-left"></i>
+									{:else}
+										<i class="fa-solid fa-arrow-right"></i>
+									{/if}
+								</button>
 							</tr>
 						</table>
 					</div>
@@ -143,11 +154,13 @@
 									get_currency: get_currency
 								}}
 							/>
-							<tr>
-								<td colspan="6">
-									{$_('prescription')}
-								</td>
-							</tr>
+							{#if get_progress_note?.billing?.progressNote?.presrciption.length}
+								<tr>
+									<td class="text-bg-success" colspan="6">
+										{$_('prescription')}
+									</td>
+								</tr>
+							{/if}
 							<ChargePrescription
 								data={{
 									charge_on_prescription: main_charge_on_prescription_,
@@ -285,17 +298,19 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
-		<ProductAddToCard
-			bind:inerHight_1
-			data={{
-				get_currency: get_currency,
-				get_product_group_type: get_product_group_type,
-				get_products: get_products,
-				get_billing: get_progress_note?.billing || undefined
-			}}
-		/>
-	</div>
+	{#if !full_screen}
+		<div class="col-md-6">
+			<ProductAddToCard
+				bind:inerHight_1
+				data={{
+					get_currency: get_currency,
+					get_product_group_type: get_product_group_type,
+					get_products: get_products,
+					get_billing: get_progress_note?.billing || undefined
+				}}
+			/>
+		</div>
+	{/if}
 </div>
 
 <BillingModal

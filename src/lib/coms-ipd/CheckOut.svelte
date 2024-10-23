@@ -93,6 +93,9 @@
 								>
 							</li>
 						</ul>
+					{:else}
+						<input value="true" type="hidden" name="prescription" />
+						<input value="true" type="hidden" name="treatment" />
 					{/if}
 					<div class="alert alert-primary py-1 mt-2 mb-2">
 						<span>{$_('date')}</span>

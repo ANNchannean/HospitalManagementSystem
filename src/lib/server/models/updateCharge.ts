@@ -2,7 +2,8 @@ import { eq } from 'drizzle-orm';
 import { billing, charge } from '../schemas';
 import { db } from '../db';
 
-export async function updateCharge(charge_id: number) {
+export async function updateCharge(charge_id: number | undefined) {
+	if (!charge_id) return;
 	const get_charge = await db.query.charge.findFirst({
 		where: eq(charge.id, charge_id),
 		with: { productOrder: true }

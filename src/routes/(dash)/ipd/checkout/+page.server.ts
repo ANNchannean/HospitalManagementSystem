@@ -37,7 +37,8 @@ export const actions: Actions = {
 				}
 			}
 		});
-		let inclund_pay = 'none' as 'treatment' | 'prescription' | 'tre_and_pre' | 'none';
+		
+		let inclund_pay = 'tre_and_pre' as 'treatment' | 'prescription' | 'tre_and_pre' | 'none';
 		if (treatment) {
 			inclund_pay = 'treatment';
 		}

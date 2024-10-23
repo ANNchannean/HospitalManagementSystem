@@ -80,7 +80,7 @@
 			<div class="form-group row pb-3">
 				<div class="col-sm-3">
 					<Words
-						name="Etiology"
+						name="Symptoms"
 						bind:value={etiology}
 						words={get_words.filter((e) => e.type === 'etiology')}
 						modal_name="etiology"
